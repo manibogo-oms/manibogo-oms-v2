@@ -4,8 +4,8 @@ import kr.tatine.manibogo_oms_v2.order.command.domain.OrderState;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
 import java.time.LocalDate;
 
 @Getter
@@ -22,16 +22,36 @@ public class OrderRowDto {
     private String shippingRegionName;
     private String buyerName;
     private String receiverName;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate orderPlacedOn;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dispatchDeadlineOn;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate preferShipsOn;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate purchasedOn;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dispatchedOn;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate shippedOn;
+
     private String shippingTrackingNumber;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate confirmedOn;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate canceledOn;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate refundedOn;
+
     private String buyerMemo;
     private String purchaseMemo;
     private String shippingMemo;
