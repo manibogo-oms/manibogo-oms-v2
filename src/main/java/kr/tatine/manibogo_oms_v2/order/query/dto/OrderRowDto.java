@@ -6,7 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -22,16 +22,16 @@ public class OrderRowDto {
     private String shippingRegionName;
     private String buyerName;
     private String receiverName;
-    private LocalDateTime orderPlacedAt;
-    private LocalDateTime dispatchDeadlineAt;
+    private LocalDate orderPlacedOn;
+    private LocalDate dispatchDeadlineOn;
     private LocalDate preferShipsOn;
-    private LocalDateTime purchasedAt;
-    private LocalDateTime dispatchedAt;
-    private LocalDateTime shippedAt;
+    private LocalDate purchasedOn;
+    private LocalDate dispatchedOn;
+    private LocalDate shippedOn;
     private String shippingTrackingNumber;
-    private LocalDateTime confirmedAt;
-    private LocalDateTime canceledAt;
-    private LocalDateTime refundedAt;
+    private LocalDate confirmedOn;
+    private LocalDate canceledOn;
+    private LocalDate refundedOn;
     private String buyerMemo;
     private String purchaseMemo;
     private String shippingMemo;

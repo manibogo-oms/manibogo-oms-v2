@@ -6,14 +6,20 @@ import kr.tatine.manibogo_oms_v2.order.query.dto.OrderRowsDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
 @RequestMapping("/v2/orders")
 public class OrderController {
+
+    @ModelAttribute("orderStates")
+    public OrderState[] orderStates() {
+        return OrderState.values();
+    }
 
     @GetMapping
     public String orders(Model model) {
@@ -31,11 +37,11 @@ public class OrderController {
         rowDto.setShippingRegionName("경기");
         rowDto.setBuyerName("홍길동");
         rowDto.setReceiverName("홍길동");
-        rowDto.setOrderPlacedAt(LocalDateTime.parse("2025-05-18T11:55:01"));
-        rowDto.setDispatchDeadlineAt(LocalDateTime.parse("2025-06-09T11:55:01"));
-        rowDto.setPurchasedAt(LocalDateTime.parse("2025-05-19T11:57:01"));
-        rowDto.setDispatchedAt(LocalDateTime.parse("2025-05-19T11:57:01"));
-        rowDto.setShippedAt(LocalDateTime.parse("2025-05-20T11:57:01"));
+        rowDto.setOrderPlacedOn(LocalDate.parse("2025-05-18"));
+        rowDto.setDispatchDeadlineOn(LocalDate.parse("2025-06-09"));
+        rowDto.setPurchasedOn(LocalDate.parse("2025-05-19"));
+        rowDto.setDispatchedOn(LocalDate.parse("2025-05-19"));
+        rowDto.setShippedOn(LocalDate.parse("2025-05-20"));
         rowDto.setPurchaseMemo("최대한 빨리 제작요청");
 
         orderRowsDto.setRows(List.of(rowDto));
