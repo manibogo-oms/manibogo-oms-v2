@@ -4,57 +4,50 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.24.1/dist/bootstrap-table.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.24.1/dist/bootstrap-table.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.24.1/dist/locale/bootstrap-table-zh-CN.min.js"></script>
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/reset.css">
 
 </head>
 <body>
 
 <form method="POST" th:object="${orderRows}">
 
-    <table class="table table-bordered" data-toggle="table">
-        <thead class="th-filled">
+    <table>
+        <thead>
             <tr>
                 <th scope="col">
-                    <input class="form-check-input" type="checkbox" aria-label="전체 선택">
+                    <input type="checkbox" aria-label="전체 선택">
                 </th>
-                <th class="text-center fs-7 fw-medium " scope="col">상태</th>
-                <th class="text-center fs-7 fw-medium" scope="col">상품주문번호</th>
-                <th class="text-center fs-7 fw-medium" scope="col">상품명</th>
-                <th class="text-center fs-7 fw-medium" scope="col">합배송</th>
-                <th class="text-center fs-7 fw-medium" scope="col">수량</th>
-                <th class="text-center fs-7 fw-medium" scope="col">지역</th>
-                <th class="text-center fs-7 fw-medium" scope="col">구매자</th>
-                <th class="text-center fs-7 fw-medium" scope="col">수취인</th>
-                <th class="text-center fs-7 fw-medium" scope="col">주문일자</th>
-                <th class="text-center fs-7 fw-medium" scope="col">발송기한</th>
-                <th class="text-center fs-7 fw-medium" scope="col">희망배송일자</th>
-                <th class="text-center fs-7 fw-medium" scope="col">발주일자</th>
-                <th class="text-center fs-7 fw-medium" scope="col">출고일자</th>
-                <th class="text-center fs-7 fw-medium" scope="col">배송일자</th>
-                <th class="text-center fs-7 fw-medium" scope="col">송장번호</th>
-                <th class="text-center fs-7 fw-medium" scope="col">확정일자</th>
-                <th class="text-center fs-7 fw-medium" scope="col">취소일자</th>
-                <th class="text-center fs-7 fw-medium" scope="col">반품일자</th>
+                <th scope="col">상태</th>
+                <th scope="col">상품주문번호</th>
+                <th scope="col">상품명</th>
+                <th scope="col">합배송</th>
+                <th scope="col">수량</th>
+                <th scope="col">지역</th>
+                <th scope="col">구매자</th>
+                <th scope="col">수취인</th>
+                <th scope="col">주문일자</th>
+                <th scope="col">발송기한</th>
+                <th scope="col">희망배송일자</th>
+                <th scope="col">발주일자</th>
+                <th scope="col">출고일자</th>
+                <th scope="col">배송일자</th>
+                <th scope="col">송장번호</th>
+                <th scope="col">확정일자</th>
+                <th scope="col">취소일자</th>
+                <th scope="col">반품일자</th>
             </tr>
         </thead>
 
         <tbody>
         <tr th:each="_, rowStat : *{rows}" >
-            <th scope="row" class="align-middle">
-                <input class="form-check-input"
-                       type="checkbox" 
-                       aria-label="선택" 
-                       th:field="*{rows[__${rowStat.index}__].rowSelected}">
-            </th>
+
             <td>
-                <select class="form-select form-select-sm select-word-2" aria-label="주문 상태 선택">
+                <input type="checkbox" aria-label="선택" th:field="*{rows[__${rowStat.index}__].rowSelected}">
+            </td>
+
+            <td>
+                <select aria-label="주문 상태 선택">
                     <option th:each="orderState : ${orderStates}"
                             th:value="${orderState}"
                             th:text="${orderState.description}"
@@ -62,96 +55,89 @@
                     </option>
                 </select>
             </td>
-            <td class="align-middle">
+
+            <td>
                 <a href="#" class="fs-7" th:text="*{rows[__${rowStat.index}__].orderNumber}">상품주문번호</a>
             </td>
 
-            <td class="text-center fs-7 align-middle">
-                <div class="d-inline-flex" th:text="*{rows[__${rowStat.index}__].productName}">상품명</div>
+            <td th:text="*{rows[__${rowStat.index}__].productName}">
+                상품명
            </td>
 
-            <td class="align-middle text-center">
+            <td>
                 <a href="#" class="fs-7" th:text="*{rows[__${rowStat.index}__].shippingBundleCount}">합배송수</a>
             </td>
 
-            <td class="text-center fs-7 align-middle">
-                <div class="d-inline-flex" th:text="*{rows[__${rowStat.index}__].amount}">수량</div>
+            <td>
+                <div th:text="*{rows[__${rowStat.index}__].amount}">수량</div>
             </td>
 
-            <td class="text-center fs-7 align-middle" th:text="*{rows[__${rowStat.index}__].shippingRegionName}">지역</td>
+            <td th:text="*{rows[__${rowStat.index}__].shippingRegionName}">지역</td>
 
-            <td class="align-middle text-center">
-                <a href="#" class="fs-7" th:text="*{rows[__${rowStat.index}__].buyerName}">구매자</a>
+            <td>
+                <a href="#" th:text="*{rows[__${rowStat.index}__].buyerName}">구매자</a>
             </td>
 
-            <td class="text-center fs-7 align-middle" th:text="*{rows[__${rowStat.index}__].receiverName}">수취인</td>
+            <td th:text="*{rows[__${rowStat.index}__].receiverName}">수취인</td>
 
-            <td class="align-middle">
-                <input class="form-control form-control-sm input-date"
-                       type="text"
+            <td>
+                <input
+                       type="date"
                        th:field="*{rows[__${rowStat.index}__].orderPlacedOn}"
                        aria-label="주문일자">
             </td>
 
-            <td class="align-middle">
-                <input class="form-control form-control-sm input-date"
-                       type="text"
+            <td>
+                <input
+                        type="date"
                        th:field="*{rows[__${rowStat.index}__].dispatchDeadlineOn}"
                        aria-label="발송기한">
             </td>
 
-            <td class="align-middle">
-                <input class="form-control form-control-sm input-date"
-                       type="text"
+            <td >
+                <input type="date"
                        th:value="*{rows[__${rowStat.index}__].preferShipsOn}"
                        aria-label="희망배송일자">
             </td>
 
             <td>
-                <input class="form-control form-control-sm input-date"
-                       type="text"
+                <input type="date"
                        th:field="*{rows[__${rowStat.index}__].purchasedOn}"
                        aria-label="발주일자">
             </td>
 
             <td>
-                <input class="form-control form-control-sm input-date"
-                       type="text"
+                <input type="date"
                        th:field="*{rows[__${rowStat.index}__].dispatchedOn}"
                        aria-label="출고일자">
             </td>
 
             <td>
-                <input class="form-control form-control-sm input-date"
-                       type="text"
+                <input type="date"
                        th:field="*{rows[__${rowStat.index}__].shippedOn}"
                        aria-label="배송일자">
             </td>
 
             <td>
-                <input class="form-control form-control-sm input-date"
-                       type="text"
+                <input type="text"
                        th:field="*{rows[__${rowStat.index}__].shippingTrackingNumber}"
                        aria-label="송장번호">
             </td>
 
             <td>
-                <input class="form-control form-control-sm input-date"
-                       type="text"
+                <input type="date"
                        th:field="*{rows[__${rowStat.index}__].confirmedOn}"
                        aria-label="확정일자">
             </td>
 
             <td>
-                <input class="form-control form-control-sm input-date"
-                       type="text"
+                <input type="date"
                        th:field="*{rows[__${rowStat.index}__].confirmedOn}"
                        aria-label="취소일자">
             </td>
 
             <td>
-                <input class="form-control form-control-sm input-date align-middle"
-                       type="text"
+                <input type="date"
                        th:field="*{rows[__${rowStat.index}__].confirmedOn}"
                        aria-label="반품일자">
             </td>
@@ -164,29 +150,41 @@
 </body>
 
 <style>
-    
+
+    * {
+        font-size: 12px !important;
+        box-sizing: border-box !important;
+    }
+
     .table * {
         white-space: nowrap;
     }
-    
-    .th-filled {
-        border-color: var(--bs-table-border-color);
-        --bs-table-bg: #727f98;
-        --bs-table-color: #ffffff;
-        --bs-table-border-color: #647189;
+
+    table, th, td {
+        border: 1px solid #d1d1d1;
+        border-collapse: collapse;
+        white-space: nowrap;
+        padding: 12px 8px;
     }
 
-    .form-control-sm.input-date {
-        min-width: 102px;
+    th {
+        border-color: #647189;
+        background-color: #727f98;
+        color: white;
+        font-weight: normal;
     }
 
-    .select-word-2 {
-        min-width: 72px;
+    td {
+        text-align: center;
+        min-width: 48px;
+        vertical-align: middle;
     }
 
-    .fs-7 {
-        font-size: .875rem !important;
+    input, select {
+        /* top | right | bottom | left */
+        padding: 4px 4px 2px 4px;
     }
+
 </style>
 
 <script>
