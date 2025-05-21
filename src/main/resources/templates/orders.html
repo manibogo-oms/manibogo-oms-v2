@@ -80,7 +80,7 @@
                     </div>
                 </td>
 
-                <td th:text="*{rows[__${rowStat.index}__].productName}">
+                <td class="text-left" th:text="*{rows[__${rowStat.index}__].productName}">
                     상품명
                 </td>
 
@@ -170,7 +170,7 @@
             <tr>
                 <td></td>
 
-                <td colspan="4" th:text="*{rows[__${rowStat.index}__].buyerMemo}">고객메모</td>
+                <td colspan="4" class="text-left" th:text="*{rows[__${rowStat.index}__].buyerMemo}">고객메모</td>
 
                 <td colspan="6">
                     <input class="w-100" type="text" th:field="*{rows[__${rowStat.index}__].purchaseMemo}" aria-label="발주메모">
@@ -220,6 +220,10 @@
         text-align: center;
         min-width: 48px;
         vertical-align: middle;
+    }
+
+    .text-left {
+        text-align: left;
     }
 
     input, select {
