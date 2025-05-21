@@ -9,8 +9,8 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class OrderRowsDto {
+public class OrderListDto {
 
-    private List<OrderRowDto> rows;
+    private List<OrderDto> orders;
 
 }
