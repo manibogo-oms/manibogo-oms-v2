@@ -1,0 +1,58 @@
+
+.table * {
+    white-space: nowrap;
+}
+
+.table, .th, .td {
+    border: 1px solid #d1d1d1;
+    border-collapse: collapse;
+    white-space: nowrap;
+    padding: 6px 8px;
+    height: 40px;
+    vertical-align: middle;
+}
+
+.th {
+    border-color: #647189;
+    background-color: #727f98;
+    color: white;
+    font-weight: normal;
+}
+
+.td {
+    text-align: center;
+    min-width: 48px;
+}
+
+.purchased {
+    background-color: #F1FFF0;
+}
+
+.dispatched {
+    background-color: #FFF2EA;
+}
+
+.shipped {
+    background-color: #F1F9FF;
+}
+
+.confirmed {
+    background-color: #fdfff1;
+}
+
+.canceled {
+    background-color: #FDF3FB;
+}
+
+.refunded {
+    background-color: #F6F3FE;
+}
+
+.selected {
+    background-color: #EDEFFF;
+}
+
+.img-order-location {
+    width: 24px;
+    height: 24px;
+}
