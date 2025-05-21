@@ -1,5 +1,6 @@
 package kr.tatine.manibogo_oms_v2.order.query.dto;
 
+import kr.tatine.manibogo_oms_v2.order.command.domain.OrderLocation;
 import kr.tatine.manibogo_oms_v2.order.command.domain.OrderState;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,13 +15,23 @@ import java.time.LocalDate;
 public class OrderRowDto {
 
     private boolean isRowSelected;
+
+    private OrderLocation orderLocation;
+
     private OrderState orderState;
+
     private String orderNumber;
+
     private String productName;
+
     private int shippingBundleCount;
+
     private int amount;
+
     private String shippingRegionName;
+
     private String buyerName;
+
     private String receiverName;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -53,8 +64,11 @@ public class OrderRowDto {
     private LocalDate refundedOn;
 
     private String buyerMemo;
+
     private String purchaseMemo;
+
     private String shippingMemo;
+
     private String adminMemo;
 
 }
