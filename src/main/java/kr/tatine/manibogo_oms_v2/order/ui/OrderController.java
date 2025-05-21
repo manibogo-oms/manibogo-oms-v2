@@ -32,8 +32,8 @@ public class OrderController {
         rowDto.setOrderState(OrderState.SHIPPED);
         rowDto.setOrderNumber("2025051637129311");
         rowDto.setProductName("베아투스 매트리스 [사이즈: 1500X2000]");
-        rowDto.setAmount(1);
-        rowDto.setShippingBundleCount(1);
+        rowDto.setAmount(2);
+        rowDto.setShippingBundleCount(2);
         rowDto.setShippingRegionName("경기");
         rowDto.setBuyerName("홍길동");
         rowDto.setReceiverName("홍길동");

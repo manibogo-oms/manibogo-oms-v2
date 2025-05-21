@@ -65,11 +65,16 @@
            </td>
 
             <td>
-                <a href="#" class="fs-7" th:text="*{rows[__${rowStat.index}__].shippingBundleCount}">합배송수</a>
+                <a href="#"
+                   th:classappend="*{rows[__${rowStat.index}__].shippingBundleCount > 1} ? 'accent' : ''"
+                   th:text="*{rows[__${rowStat.index}__].shippingBundleCount}">
+                    합배송수
+                </a>
             </td>
 
-            <td>
-                <div th:text="*{rows[__${rowStat.index}__].amount}">수량</div>
+            <td th:text="*{rows[__${rowStat.index}__].amount}"
+                th:classappend="*{rows[__${rowStat.index}__].amount > 1} ? 'accent' : ''">
+                수량
             </td>
 
             <td th:text="*{rows[__${rowStat.index}__].shippingRegionName}">지역</td>
@@ -186,6 +191,15 @@
         padding: 4px 4px 2px 4px;
     }
 
+    ::-webkit-calendar-picker-indicator{
+        margin-left: -6px;
+        font-size: 11px;
+    }
+
+    .accent {
+        font-weight: bold;
+        color: #EB5181FF;
+    }
 </style>
 
 <script>
