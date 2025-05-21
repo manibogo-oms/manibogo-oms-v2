@@ -40,7 +40,7 @@
         </thead>
 
         <tbody>
-        <tr th:each="_, rowStat : *{rows}" >
+        <tr th:each="row, rowStat : *{rows}" th:class="${row.orderState.name().toLowerCase()}">
 
             <td>
                 <input type="checkbox" aria-label="선택" th:field="*{rows[__${rowStat.index}__].rowSelected}">
@@ -199,6 +199,30 @@
     .accent {
         font-weight: bold;
         color: #EB5181FF;
+    }
+
+    tr.purchased {
+        background-color: #F1FFF0;
+    }
+
+    tr.dispatched {
+        background-color: #FFF2EA;
+    }
+
+    tr.shipped {
+        background-color: #F1F9FF;
+    }
+
+    tr.confirmed {
+        background-color: #fdfff1;
+    }
+
+    tr.canceled {
+        background-color: #FDF3FB;
+    }
+
+    tr.refunded {
+        background-color: #F6F3FE;
     }
 </style>
 
