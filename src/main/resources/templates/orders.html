@@ -68,7 +68,16 @@
                 </td>
 
                 <td>
-                    <a href="#" class="fs-7" th:text="*{rows[__${rowStat.index}__].orderNumber}">상품주문번호</a>
+                    <div class="row">
+                        <th:block th:switch="*{rows[__${rowStat.index}__].orderLocation.description}">
+                            <img class="img-order-location" th:case="스마트스토어" src="/image/smartstore.png" aria-label="스마트스토어"  alt="/image/fallback.jpg"/>
+                            <img class="img-order-location" th:case="매장" src="/image/local.png" aria-label="스마트스토어"  alt="/image/fallback.jpg"/>
+                        </th:block>
+
+                        <div style="width: 6px"></div>
+
+                        <a href="#" th:text="*{rows[__${rowStat.index}__].orderNumber}">상품주문번호</a>
+                    </div>
                 </td>
 
                 <td th:text="*{rows[__${rowStat.index}__].productName}">
@@ -259,6 +268,21 @@
     .selected {
         background-color: #EDEFFF;
     }
+
+    .row {
+        display: flex;
+        align-items: center;
+    }
+
+    .row.valign-start {
+        align-items: flex-start;
+    }
+
+    .img-order-location {
+        width: 24px;
+        height: 24px;
+    }
+
 </style>
 
 <script>
