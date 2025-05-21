@@ -10,7 +10,9 @@
 </head>
 <body>
 
-<form method="POST" th:object="${orderRows}">
+<form method="POST" th:action="@{/v2/orders/edit}" th:object="${orderList}">
+
+    <button type="submit">수정</button>
 
     <table>
         <thead>
@@ -47,14 +49,14 @@
             </tr>
         </thead>
 
-        <tbody th:each="row, rowStat : *{rows}"
-               th:class="|table-row ${row.orderState.name().toLowerCase()}|">
+        <tbody th:each="order : *{orders}"
+               th:class="|table-row ${order.orderState.name().toLowerCase()}|">
             <tr>
                 <td>
                     <input type="checkbox"
                            aria-label="선택"
                            class="chk-select-row"
-                           th:field="*{rows[__${rowStat.index}__].rowSelected}">
+                           th:field="*{orders[__${orderStat.index}__].rowSelected}">
                 </td>
 
                 <td>
@@ -62,125 +64,127 @@
                         <option th:each="orderState : ${orderStates}"
                                 th:value="${orderState}"
                                 th:text="${orderState.description}"
-                                th:selected="${orderState} == *{rows[__${rowStat.index}__].orderState}">
+                                th:selected="${orderState} == *{orders[__${orderStat.index}__].orderState}">
                         </option>
                     </select>
                 </td>
 
                 <td>
                     <div class="row">
-                        <th:block th:switch="*{rows[__${rowStat.index}__].orderLocation.description}">
+                        <th:block th:switch="*{orders[__${orderStat.index}__].orderLocation.description}">
                             <img class="img-order-location" th:case="스마트스토어" src="/image/smartstore.png" aria-label="스마트스토어"  alt="/image/fallback.jpg"/>
                             <img class="img-order-location" th:case="매장" src="/image/local.png" aria-label="스마트스토어"  alt="/image/fallback.jpg"/>
                         </th:block>
 
                         <div style="width: 6px"></div>
 
-                        <a href="#" th:text="*{rows[__${rowStat.index}__].orderNumber}">상품주문번호</a>
+                        <a href="#" th:text="*{orders[__${orderStat.index}__].orderNumber}">상품주문번호</a>
                     </div>
+
+                    <input type="hidden" th:field="*{orders[__${orderStat.index}__].orderNumber}">
                 </td>
 
-                <td class="text-left" th:text="*{rows[__${rowStat.index}__].productName}">
+                <td class="text-left" th:text="*{orders[__${orderStat.index}__].productName}">
                     상품명
                 </td>
 
                 <td>
                     <a href="#"
-                       th:classappend="*{rows[__${rowStat.index}__].shippingBundleCount > 1} ? 'accent' : ''"
-                       th:text="*{rows[__${rowStat.index}__].shippingBundleCount}">
+                       th:classappend="*{orders[__${orderStat.index}__].shippingBundleCount > 1} ? 'accent' : ''"
+                       th:text="*{orders[__${orderStat.index}__].shippingBundleCount}">
                         합배송수
                     </a>
                 </td>
 
-                <td th:text="*{rows[__${rowStat.index}__].amount}"
-                    th:classappend="*{rows[__${rowStat.index}__].amount > 1} ? 'accent' : ''">
+                <td th:text="*{orders[__${orderStat.index}__].amount}"
+                    th:classappend="*{orders[__${orderStat.index}__].amount > 1} ? 'accent' : ''">
                     수량
                 </td>
 
-                <td th:text="*{rows[__${rowStat.index}__].shippingRegionName}">지역</td>
+                <td th:text="*{orders[__${orderStat.index}__].shippingRegionName}">지역</td>
 
                 <td>
-                    <a href="#" th:text="*{rows[__${rowStat.index}__].buyerName}">구매자</a>
+                    <a href="#" th:text="*{orders[__${orderStat.index}__].buyerName}">구매자</a>
                 </td>
 
-                <td th:text="*{rows[__${rowStat.index}__].receiverName}">수취인</td>
+                <td th:text="*{orders[__${orderStat.index}__].receiverName}">수취인</td>
 
                 <td>
                     <input
                             type="date"
-                            th:field="*{rows[__${rowStat.index}__].orderPlacedOn}"
+                            th:field="*{orders[__${orderStat.index}__].orderPlacedOn}"
                             aria-label="주문일자">
                 </td>
 
                 <td>
                     <input
                             type="date"
-                            th:field="*{rows[__${rowStat.index}__].dispatchDeadlineOn}"
+                            th:field="*{orders[__${orderStat.index}__].dispatchDeadlineOn}"
                             aria-label="발송기한">
                 </td>
 
                 <td >
                     <input type="date"
-                           th:value="*{rows[__${rowStat.index}__].preferShipsOn}"
+                           th:value="*{orders[__${orderStat.index}__].preferShipsOn}"
                            aria-label="희망배송일자">
                 </td>
 
                 <td>
                     <input type="date"
-                           th:field="*{rows[__${rowStat.index}__].purchasedOn}"
+                           th:field="*{orders[__${orderStat.index}__].purchasedOn}"
                            aria-label="발주일자">
                 </td>
 
                 <td>
                     <input type="date"
-                           th:field="*{rows[__${rowStat.index}__].dispatchedOn}"
+                           th:field="*{orders[__${orderStat.index}__].dispatchedOn}"
                            aria-label="출고일자">
                 </td>
 
                 <td>
                     <input type="date"
-                           th:field="*{rows[__${rowStat.index}__].shippedOn}"
+                           th:field="*{orders[__${orderStat.index}__].shippedOn}"
                            aria-label="배송일자">
                 </td>
 
                 <td>
                     <input type="text"
-                           th:field="*{rows[__${rowStat.index}__].shippingTrackingNumber}"
+                           th:field="*{orders[__${orderStat.index}__].shippingTrackingNumber}"
                            aria-label="송장번호">
                 </td>
 
                 <td>
                     <input type="date"
-                           th:field="*{rows[__${rowStat.index}__].confirmedOn}"
+                           th:field="*{orders[__${orderStat.index}__].confirmedOn}"
                            aria-label="확정일자">
                 </td>
 
                 <td>
                     <input type="date"
-                           th:field="*{rows[__${rowStat.index}__].confirmedOn}"
+                           th:field="*{orders[__${orderStat.index}__].confirmedOn}"
                            aria-label="취소일자">
                 </td>
 
                 <td>
                     <input type="date"
-                           th:field="*{rows[__${rowStat.index}__].confirmedOn}"
+                           th:field="*{orders[__${orderStat.index}__].confirmedOn}"
                            aria-label="반품일자">
                 </td>
             </tr>
             <tr>
                 <td></td>
 
-                <td colspan="4" class="text-left" th:text="*{rows[__${rowStat.index}__].buyerMemo}">고객메모</td>
+                <td colspan="4" class="text-left" th:text="*{orders[__${orderStat.index}__].buyerMemo}">고객메모</td>
 
                 <td colspan="6">
-                    <input class="w-100" type="text" th:field="*{rows[__${rowStat.index}__].purchaseMemo}" aria-label="발주메모">
+                    <input class="w-100" type="text" th:field="*{orders[__${orderStat.index}__].purchaseMemo}" aria-label="발주메모">
                 </td>
 
                 <td colspan="4">
-                    <input class="w-100" type="text" th:field="*{rows[__${rowStat.index}__].shippingMemo}" aria-label="배송메모">
+                    <input class="w-100" type="text" th:field="*{orders[__${orderStat.index}__].shippingMemo}" aria-label="배송메모">
                 </td>
                 <td colspan="4">
-                    <input class="w-100" type="text" th:field="*{rows[__${rowStat.index}__].adminMemo}" aria-label="관리자메모">
+                    <input class="w-100" type="text" th:field="*{orders[__${orderStat.index}__].adminMemo}" aria-label="관리자메모">
                 </td>
             </tr>
         </tbody>

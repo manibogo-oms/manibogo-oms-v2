@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
-public class OrderRowDto {
+public class OrderDto {
 
     private boolean isRowSelected;
 
