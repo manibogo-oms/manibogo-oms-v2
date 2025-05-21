@@ -7,7 +7,9 @@
     border: 1px solid #d1d1d1;
     border-collapse: collapse;
     white-space: nowrap;
-    padding: 8px;
+    padding: 6px 8px;
+    height: 40px;
+    vertical-align: middle;
 }
 
 .th {
@@ -15,13 +17,11 @@
     background-color: #727f98;
     color: white;
     font-weight: normal;
-    padding: 10px 8px;
 }
 
 .td {
     text-align: center;
     min-width: 48px;
-    vertical-align: middle;
 }
 
 .purchased {
