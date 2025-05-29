@@ -8,22 +8,21 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.time.LocalDate;
-
 @ToString
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class StateHistory {
+public class ShippingInfo {
 
     @Enumerated(EnumType.STRING)
-    private ItemOrderState changedTo;
+    private ShippingMethod method;
 
-    private LocalDate changedOn;
+    @Enumerated(EnumType.STRING)
+    private ChargeType chargeType;
 
-    public StateHistory(ItemOrderState changedTo, LocalDate changedOn) {
-        this.changedTo = changedTo;
-        this.changedOn = changedOn;
+    public ShippingInfo(ShippingMethod method, ChargeType chargeType) {
+        this.method = method;
+        this.chargeType = chargeType;
     }
 
 }

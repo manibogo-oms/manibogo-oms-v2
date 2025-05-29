@@ -5,8 +5,8 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @ToString
@@ -20,19 +20,88 @@ public class ItemOrder {
     private ItemOrderState state;
 
     @Embedded
-    private Shipping shipping;
+    private Item item;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(
-            name = "item_order_state_history",
-            joinColumns = @JoinColumn(name = "item_order_number"))
-    @OrderColumn(name = "history_index")
-    private List<StateHistory> histories = new ArrayList<>();
+    @Embedded
+    private ShippingInfo shippingInfo;
 
-    public ItemOrder(ItemOrderNumber number, ItemOrderState state, Shipping shipping, List<StateHistory> histories) {
+    @Embedded
+    private TrackingInfo trackingInfo;
+
+    private LocalDate preferredShipsOn;
+
+    private LocalDate dispatchDeadline;
+
+    public ItemOrder(ItemOrderNumber number, ItemOrderState state, Item item, ShippingInfo shippingInfo, TrackingInfo trackingInfo, LocalDate preferredShipsOn, LocalDate dispatchDeadline) {
         this.number = number;
+        setState(state);
+        this.item = item;
+        setShippingInfo(shippingInfo);
+        setTrackingInfo(trackingInfo);
+        setPreferredShipsOn(preferredShipsOn);
+        setDispatchDeadline(dispatchDeadline);
+    }
+
+    public void changeState(ItemOrderState targetState) {
+        setState(targetState);
+    }
+
+    public void proceedState(ItemOrderState targetState) {
+        if (!this.state.canProceedTo(targetState)) {
+            throw new StateAlreadyProceededException();
+        }
+        setState(targetState);
+    }
+
+    public void changeShippingInfo(ShippingInfo shippingInfo) {
+        verifyNotDispatched();
+        setShippingInfo(shippingInfo);
+    }
+
+    public void changeTrackingInfo(TrackingInfo trackingInfo) {
+        verifyNotShipped();
+        setTrackingInfo(trackingInfo);
+    }
+
+    public void changeDispatchDeadline(LocalDate dispatchDeadline) {
+        verifyNotDispatched();
+        setDispatchDeadline(dispatchDeadline);
+    }
+
+    public void changePreferredShipsOn(LocalDate preferredShipsOn) {
+        verifyNotShipped();
+        setPreferredShipsOn(preferredShipsOn);
+    }
+
+    private void verifyNotDispatched() {
+        if (this.state.isAfter(ItemOrderState.DISPATCHED)) {
+            throw new AlreadyDispatchedException();
+        }
+    }
+
+    private void verifyNotShipped() {
+        if (this.state.isAfter(ItemOrderState.SHIPPED)) {
+            throw new AlreadyShippedException();
+        }
+    }
+
+    private void setState(ItemOrderState state) {
         this.state = state;
-        this.shipping = shipping;
-        this.histories = histories;
+    }
+
+    private void setShippingInfo(ShippingInfo shippingInfo) {
+        this.shippingInfo = shippingInfo;
+    }
+
+    private void setTrackingInfo(TrackingInfo trackingInfo) {
+        this.trackingInfo = trackingInfo;
+    }
+
+    private void setDispatchDeadline(LocalDate dispatchDeadline) {
+        this.dispatchDeadline = dispatchDeadline;
+    }
+
+    private void setPreferredShipsOn(LocalDate preferredShipsOn) {
+        this.preferredShipsOn = preferredShipsOn;
     }
 }
