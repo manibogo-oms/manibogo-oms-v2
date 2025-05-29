@@ -17,4 +17,12 @@ public enum ItemOrderState {
 
     private final String description;
 
+    public boolean canProceedTo(ItemOrderState state) {
+        return this.ordinal() < state.ordinal();
+    }
+
+    public boolean isAfter(ItemOrderState state) {
+        return this.ordinal() > state.ordinal();
+    }
+
 }
