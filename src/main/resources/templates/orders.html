@@ -12,6 +12,8 @@
 </head>
 <body>
 
+<input type="file" id="inputOrderList" />
+
 <form method="POST" th:action="@{/v2/orders/edit}" th:object="${orderList}">
 
     <button type="submit">수정</button>
@@ -191,6 +193,37 @@
 <script src="/js/table.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js" integrity="sha512-vDTLyifjBBdmGeJrJMO7w+qbbk+7uyoKsUxkhgxPtn3YShSVspezU0EXf780txBgNXzfKkEt7a3RhLs7NmInJQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js" integrity="sha512-dlPw+ytv/6JyepmelABrgeYgHI0O+frEwgfnPdXDTOIZz+eDgfW07QXG02/O8COfivBdGNINy+Vex+lYmJ5rxw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- use version 0.20.3 -->
+<script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+
+<script>
+
+    document.getElementById('inputOrderList').addEventListener('change', handleExcelFile);
+
+    function handleExcelFile(e) {
+        const file = e.target.files[0];
+
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            const arrayBuffer = reader.result;
+
+            const workbook = XLSX.read(arrayBuffer, { type: 'binary' });
+
+            const sheet = workbook.Sheets[workbook.SheetNames[0]];
+
+            const json = XLSX.utils.sheet_to_json(sheet, { range: 1 });
+
+            console.log(json)
+        };
+
+        reader.onerror = () => {
+            console.error('파일을 읽는 중 에러가 발생했습니다.');
+        }
+
+        reader.readAsArrayBuffer(file);
+    }
+
+</script>
 
 </html>
