@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.order.command.domain;
+package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum OrderLocation {
 
-    SMARTSTORE("스마트스토어"),
+    SMART_STORE("스마트스토어"),
     LOCAL("매장");
 
     private final String description;
