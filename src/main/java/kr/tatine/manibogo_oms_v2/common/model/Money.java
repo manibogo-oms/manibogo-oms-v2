@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order;
+package kr.tatine.manibogo_oms_v2.common.model;
 
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
@@ -6,18 +6,17 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.io.Serializable;
+import java.math.BigDecimal;
 
 @ToString
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class OrderNumber implements Serializable {
+public class Money {
 
-    private String orderNumber;
+    private BigDecimal value;
 
-    public OrderNumber(String number) {
-        this.orderNumber = number;
+    public Money(BigDecimal value) {
+        this.value = value;
     }
-
 }

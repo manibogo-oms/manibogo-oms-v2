@@ -17,14 +17,11 @@ public class Option {
 
     private ProductNumber productNumber;
 
-    private String key;
+    private String label;
 
-    private String name;
-
-    public Option(OptionId id, ProductNumber productNumber, String key, String name) {
+    public Option(OptionId id, ProductNumber productNumber, String label) {
         this.id = id;
         this.productNumber = productNumber;
-        this.key = key;
-        this.name = name;
+        this.label = label;
     }
 }

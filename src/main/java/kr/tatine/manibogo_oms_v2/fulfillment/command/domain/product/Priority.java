@@ -14,8 +14,14 @@ public class Priority {
 
     private Integer priority;
 
-    public Priority(Integer priority) {
+    private Priority(Integer priority) {
         this.priority = priority;
+    }
+
+    public static Priority createHighest(ProductRepository repository) {
+        return new Priority(repository.findHighestPriority()
+                .map(p -> p.priority + 1)
+                .orElse(1));
     }
 
 }

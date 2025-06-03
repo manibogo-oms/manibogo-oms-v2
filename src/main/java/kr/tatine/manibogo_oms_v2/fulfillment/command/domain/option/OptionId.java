@@ -14,6 +14,12 @@ import java.io.Serializable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OptionId implements Serializable {
 
-    private Long id;
+    private String key;
 
+    private String name;
+
+    public OptionId(String key, String name) {
+        this.key = key;
+        this.name = name;
+    }
 }
