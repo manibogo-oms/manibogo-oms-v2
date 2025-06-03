@@ -1,13 +1,10 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.command.application;
 
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.item_order.ItemOrder;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.item_order.ItemOrderRepository;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.item_order.*;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.Option;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.OptionId;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.OptionRepository;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.Order;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.OrderNumber;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.OrderRepository;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.*;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.Priority;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.Product;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.ProductNumber;
@@ -35,44 +32,65 @@ public class SyncExternalItemOrderService {
     @Transactional
     public void synchronize(SyncExternalItemOrderCommand command) {
 
-        if (itemOrderRepository.existsById(command.itemOrderNumber())) {
+        final ItemOrderNumber itemOrderNumber = new ItemOrderNumber(command.itemOrderNumber());
+
+        if (itemOrderRepository.existsById(itemOrderNumber)) {
             throw new ItemOrderAlreadyPlacedException();
         }
 
         final ItemOrder itemOrder = new ItemOrder(
-                command.itemOrderNumber(),
+                itemOrderNumber,
                 getOrderNumber(command),
                 getProductNumber(command),
                 getOptionIds(command),
                 command.amount(),
                 command.totalPrice(),
-                command.shippingInfo(),
+                new ShippingInfo(
+                        ShippingMethod.fromDescription(command.shippingMethod()),
+                        ChargeType.fromDescription(command.shippingChargeType())),
                 command.dispatchDeadline());
 
         itemOrderRepository.save(itemOrder);
     }
 
     private OrderNumber getOrderNumber(SyncExternalItemOrderCommand command) {
-        if (!orderRepository.existsById(command.orderNumber())) {
+        final OrderNumber orderNumber = new OrderNumber(command.orderNumber());
+
+        if (!orderRepository.existsById(orderNumber)) {
             orderRepository.save(createNewOrder(command));
         }
-        return command.orderNumber();
+        return orderNumber;
     }
 
     private Order createNewOrder(SyncExternalItemOrderCommand command) {
-        return new Order(command.orderNumber(), command.customer(), command.recipient(), command.salesChannel());
+        return new Order(
+                new OrderNumber(command.orderNumber()),
+                new Customer(
+                        command.customerName(),
+                        new PhoneNumber(command.customerPhoneNumber())),
+                new Recipient(
+                        command.productName(),
+                        new PhoneNumber(command.recipientPhoneNumber1()),
+                        new PhoneNumber(command.recipientPhoneNumber2()),
+                        new Address(
+                                command.recipientAddress1(),
+                                command.recipientAddress2(),
+                                command.recipientZipcode())),
+                SalesChannel.fromDescription(command.salesChannel()));
     }
 
     private ProductNumber getProductNumber(SyncExternalItemOrderCommand command) {
-        if (!productRepository.existsById(command.productNumber())) {
+        final ProductNumber productNumber = new ProductNumber(command.productNumber());
+
+        if (!productRepository.existsById(productNumber)) {
             productRepository.save(createNewProduct(command));
         }
 
-        return command.productNumber();
+        return productNumber;
     }
 
     private Product createNewProduct(SyncExternalItemOrderCommand command) {
-        return new Product(command.productNumber(), command.productName(), Priority.createHighest(productRepository));
+        return new Product(new ProductNumber(command.productNumber()), command.productName(), Priority.createHighest(productRepository));
     }
 
 
@@ -92,7 +110,7 @@ public class SyncExternalItemOrderService {
             final OptionId optionId = new OptionId(tokens[0], tokens[1]);
 
             if (!optionRepository.existsById(optionId)) {
-                optionRepository.save(new Option(optionId, command.productNumber(), tokens[1]));
+                optionRepository.save(new Option(optionId, new ProductNumber(command.productNumber()), tokens[1]));
             }
 
             optionIds.add(optionId);

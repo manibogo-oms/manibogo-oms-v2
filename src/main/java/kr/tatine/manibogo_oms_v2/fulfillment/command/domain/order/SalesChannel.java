@@ -12,4 +12,14 @@ public enum SalesChannel {
 
     private final String description;
 
+    public static SalesChannel fromDescription(String description) {
+        for (SalesChannel salesChannel : SalesChannel.values()) {
+            if (salesChannel.description.equals(description)) {
+                return salesChannel;
+            }
+        }
+
+        throw new SalesChannelNotFoundException();
+    }
+
 }

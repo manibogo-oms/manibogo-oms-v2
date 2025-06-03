@@ -26,4 +26,12 @@ public class Recipient {
             column = @Column(name = "recipient_phone_number_2"))
     private PhoneNumber phoneNumber2;
 
+    private Address address;
+
+    public Recipient(String name, PhoneNumber phoneNumber1, PhoneNumber phoneNumber2, Address address) {
+        this.name = name;
+        this.phoneNumber1 = phoneNumber1;
+        this.phoneNumber2 = phoneNumber2;
+        this.address = address;
+    }
 }
