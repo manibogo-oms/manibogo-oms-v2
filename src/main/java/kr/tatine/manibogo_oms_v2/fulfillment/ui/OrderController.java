@@ -1,11 +1,9 @@
-package kr.tatine.manibogo_oms_v2.order.ui;
+package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.OrderLocation;
-import kr.tatine.manibogo_oms_v2.order.command.domain.OrderState;
-import kr.tatine.manibogo_oms_v2.order.command.dto.EditOrderForm;
-import kr.tatine.manibogo_oms_v2.order.command.dto.EditOrderListForm;
-import kr.tatine.manibogo_oms_v2.order.query.dto.OrderDto;
-import kr.tatine.manibogo_oms_v2.order.query.dto.OrderListDto;
+import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.OrderState;
+import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.OrderDto;
+import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.OrderListDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
