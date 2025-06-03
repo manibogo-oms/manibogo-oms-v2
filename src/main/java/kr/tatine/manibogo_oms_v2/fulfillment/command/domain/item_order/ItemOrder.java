@@ -32,12 +32,11 @@ public class ItemOrder {
 
     private LocalDate dispatchDeadline;
 
-    public ItemOrder(ItemOrderNumber number, ItemOrderState state, Item item, ShippingInfo shippingInfo, TrackingInfo trackingInfo, LocalDate preferredShipsOn, LocalDate dispatchDeadline) {
+    public ItemOrder(ItemOrderNumber number, Item item, ShippingInfo shippingInfo, LocalDate dispatchDeadline) {
         this.number = number;
-        setState(state);
+        setState(ItemOrderState.PLACED);
         this.item = item;
         setShippingInfo(shippingInfo);
-        setTrackingInfo(trackingInfo);
         setPreferredShipsOn(preferredShipsOn);
         setDispatchDeadline(dispatchDeadline);
     }

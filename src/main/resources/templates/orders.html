@@ -75,7 +75,7 @@
 
                 <td class="td">
                     <div class="row">
-                        <th:block th:switch="*{orders[__${orderStat.index}__].orderLocation.description}">
+                        <th:block th:switch="*{orders[__${orderStat.index}__].salesChannel.description}">
                             <img class="img-order-location" th:case="스마트스토어" src="/image/smartstore.png" aria-label="스마트스토어"  alt="/image/fallback.jpg"/>
                             <img class="img-order-location" th:case="매장" src="/image/local.png" aria-label="스마트스토어"  alt="/image/fallback.jpg"/>
                         </th:block>

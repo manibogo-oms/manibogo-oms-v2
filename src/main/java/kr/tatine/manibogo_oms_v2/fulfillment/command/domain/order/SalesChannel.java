@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum OrderLocation {
+public enum SalesChannel {
 
     SMART_STORE("스마트스토어"),
     LOCAL("매장");

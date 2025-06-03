@@ -1,6 +1,6 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.OrderLocation;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.SalesChannel;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.OrderState;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.OrderDto;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.OrderListDto;
@@ -25,9 +25,9 @@ public class OrderController {
         return OrderState.values();
     }
 
-    @ModelAttribute("orderLocations")
-    public OrderLocation[] orderLocations() {
-        return OrderLocation.values();
+    @ModelAttribute("salesChannels")
+    public SalesChannel[] salesChannels() {
+        return SalesChannel.values();
     }
 
     @GetMapping
@@ -36,14 +36,14 @@ public class OrderController {
         OrderListDto orderListDto = new OrderListDto();
 
         orderListDto.setOrders(List.of(
-                createRowDto(OrderState.PLACED, OrderLocation.SMART_STORE),
-                createRowDto(OrderState.PURCHASED, OrderLocation.SMART_STORE),
-                createRowDto(OrderState.DISPATCHED, OrderLocation.SMART_STORE),
-                createRowDto(OrderState.SHIPPED, OrderLocation.SMART_STORE),
-                createRowDto(OrderState.CONFIRMED, OrderLocation.SMART_STORE),
-                createRowDto(OrderState.CANCELED, OrderLocation.SMART_STORE),
-                createRowDto(OrderState.REFUNDED, OrderLocation.SMART_STORE),
-                createRowDto(OrderState.PLACED, OrderLocation.LOCAL)
+                createRowDto(OrderState.PLACED, SalesChannel.SMART_STORE),
+                createRowDto(OrderState.PURCHASED, SalesChannel.SMART_STORE),
+                createRowDto(OrderState.DISPATCHED, SalesChannel.SMART_STORE),
+                createRowDto(OrderState.SHIPPED, SalesChannel.SMART_STORE),
+                createRowDto(OrderState.CONFIRMED, SalesChannel.SMART_STORE),
+                createRowDto(OrderState.CANCELED, SalesChannel.SMART_STORE),
+                createRowDto(OrderState.REFUNDED, SalesChannel.SMART_STORE),
+                createRowDto(OrderState.PLACED, SalesChannel.LOCAL)
         ));
 
         model.addAttribute("orderList", orderListDto);
@@ -60,11 +60,11 @@ public class OrderController {
         return "redirect:/v2/orders";
     }
 
-    private OrderDto createRowDto(OrderState orderState, OrderLocation orderLocation) {
+    private OrderDto createRowDto(OrderState orderState, SalesChannel salesChannel) {
         OrderDto orderDto = new OrderDto();
 
         orderDto.setRowSelected(false);
-        orderDto.setOrderLocation(orderLocation);
+        orderDto.setSalesChannel(salesChannel);
         orderDto.setOrderState(orderState);
         orderDto.setOrderNumber("2025051637129311");
         orderDto.setProductName("베아투스 매트리스 [사이즈: 1500X2000]");
