@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.order.command.dto;
+package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
 import lombok.Getter;
 import lombok.Setter;
