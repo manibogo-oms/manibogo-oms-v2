@@ -1,6 +1,6 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.query.dto;
 
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.OrderLocation;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.SalesChannel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,7 +15,7 @@ public class OrderDto {
 
     private boolean isRowSelected;
 
-    private OrderLocation orderLocation;
+    private SalesChannel salesChannel;
 
     private OrderState orderState;
 
