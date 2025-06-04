@@ -1,5 +1,6 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -14,12 +15,14 @@ import java.io.Serializable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OptionId implements Serializable {
 
+    @Column(name = "option_key")
     private String key;
 
-    private String name;
+    @Column(name = "option_value")
+    private String value;
 
-    public OptionId(String key, String name) {
+    public OptionId(String key, String value) {
         this.key = key;
-        this.name = name;
+        this.value = value;
     }
 }
