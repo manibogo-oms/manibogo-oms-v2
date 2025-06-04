@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:replace="~{fragments/layout::layoutFragment (~{::title}, ~{::section}, ~{}, ~{::script})}"
+<html th:replace="~{fragments/layout::layoutFragment (~{::title}, ~{::section}, ~{}, ~{})}"
       xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -10,7 +10,7 @@
 
 <section>
 
-    <input type="file" id="inputOrderList" />
+    <button type="button" onclick="openPopup('/v2/external-item-orders/synchronize', 480, 640)">스마트스토어 상품주문 연동</button>
 
     <form method="POST" th:action="@{/v2/orders/edit}" th:object="${fulfillmentList}">
 
@@ -188,32 +188,5 @@
 
 </section>
 </body>
-<script>
-    document.getElementById('inputOrderList').addEventListener('change', handleExcelFile);
-
-    function handleExcelFile(e) {
-        const file = e.target.files[0];
-
-        const reader = new FileReader();
-
-        reader.onload = () => {
-            const arrayBuffer = reader.result;
-
-            const workbook = XLSX.read(arrayBuffer, { type: 'binary' });
-
-            const sheet = workbook.Sheets[workbook.SheetNames[0]];
-
-            const json = XLSX.utils.sheet_to_json(sheet, { range: 1 });
-
-            console.log(json)
-        };
-
-        reader.onerror = () => {
-            console.error('파일을 읽는 중 에러가 발생했습니다.');
-        }
-
-        reader.readAsArrayBuffer(file);
-    }
-</script>
 
 </html>

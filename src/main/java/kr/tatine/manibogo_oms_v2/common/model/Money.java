@@ -19,4 +19,8 @@ public class Money {
     public Money(BigDecimal value) {
         this.value = value;
     }
+
+    public Money(long value) {
+        this(BigDecimal.valueOf(value));
+    }
 }
