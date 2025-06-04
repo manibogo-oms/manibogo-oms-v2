@@ -62,23 +62,6 @@ public class SyncExternalItemOrderService {
         return orderNumber;
     }
 
-    private Order createNewOrder(SyncExternalItemOrderCommand command) {
-        return new Order(
-                new OrderNumber(command.orderNumber()),
-                new Customer(
-                        command.customerName(),
-                        new PhoneNumber(command.customerPhoneNumber())),
-                new Recipient(
-                        command.productName(),
-                        new PhoneNumber(command.recipientPhoneNumber1()),
-                        new PhoneNumber(command.recipientPhoneNumber2()),
-                        new Address(
-                                command.recipientAddress1(),
-                                command.recipientAddress2(),
-                                command.recipientZipcode())),
-                SalesChannel.fromDescription(command.salesChannel()));
-    }
-
     private ProductNumber getProductNumber(SyncExternalItemOrderCommand command) {
         final ProductNumber productNumber = new ProductNumber(command.productNumber());
 
@@ -87,10 +70,6 @@ public class SyncExternalItemOrderService {
         }
 
         return productNumber;
-    }
-
-    private Product createNewProduct(SyncExternalItemOrderCommand command) {
-        return new Product(new ProductNumber(command.productNumber()), command.productName(), Priority.createHighest(productRepository));
     }
 
 
@@ -117,5 +96,34 @@ public class SyncExternalItemOrderService {
         }
 
         return optionIds;
+    }
+
+    private Product createNewProduct(SyncExternalItemOrderCommand command) {
+        return new Product(new ProductNumber(command.productNumber()), command.productName(), Priority.createHighest(productRepository));
+    }
+
+    private Order createNewOrder(SyncExternalItemOrderCommand command) {
+        return new Order(
+                new OrderNumber(command.orderNumber()),
+                createCustomer(command),
+                createRecipient(command),
+                SalesChannel.fromDescription(command.salesChannel()));
+    }
+
+    private Customer createCustomer(SyncExternalItemOrderCommand command) {
+        return new Customer(
+                command.customerName(),
+                new PhoneNumber(command.customerPhoneNumber()));
+    }
+
+    private Recipient createRecipient(SyncExternalItemOrderCommand command) {
+        return new Recipient(
+                command.productName(),
+                new PhoneNumber(command.recipientPhoneNumber1()),
+                new PhoneNumber(command.recipientPhoneNumber2()),
+                new Address(
+                        command.recipientAddress1(),
+                        command.recipientAddress2(),
+                        command.recipientZipcode()));
     }
 }
