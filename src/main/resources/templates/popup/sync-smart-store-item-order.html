@@ -45,13 +45,17 @@
 
             const requestBody = orders.map(serializeOrder);
 
-            const response = await fetch('/v2/external-item-orders/synchronize', {
+            const response = await fetch('/v2/synchronize/external-item-orders', {
                 method: 'POST',
                 body: JSON.stringify(requestBody),
                 headers: {
                     "Content-Type": "application/json",
                 }
             });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
         });
 
     function handleExcelFile(file, startRow) {

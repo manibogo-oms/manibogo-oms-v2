@@ -8,27 +8,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/v2/external-item-orders")
+@RequestMapping("/v2/synchronize")
 @RequiredArgsConstructor
-public class ExternalItemOrderController {
+public class SynchronizeController {
 
     private final SyncExternalItemOrderService syncExternalItemOrderService;
 
 
-    @GetMapping("/synchronize")
-    public String getSynchronizeItemOrders() {
+    @GetMapping("/external-item-orders")
+    public String getSyncExternalItemOrders() {
         return "popup/sync-smart-store-item-order";
     }
 
-    @PostMapping("/synchronize")
-    public String synchronizeItemOrders(
+    @PostMapping("/external-item-orders")
+    public String syncExternalItemOrders(
             @RequestBody List<SyncExternalItemOrderRequest> listRequest) {
 
         for (SyncExternalItemOrderRequest record : listRequest) {
             syncExternalItemOrderService.synchronize(record.toCommand());
         }
 
-        return "redirect:/v2/item-orders/synchronize";
+        return "redirect:/v2/synchronize/external-item-orders";
     }
 
 }
