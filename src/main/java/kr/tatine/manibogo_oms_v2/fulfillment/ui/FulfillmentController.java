@@ -31,7 +31,7 @@ public class FulfillmentController {
     }
 
     @GetMapping
-    public String orders(Model model) {
+    public String fulfillment(Model model) {
 
         FulfillmentListDto fulfillmentListDto = new FulfillmentListDto();
 
