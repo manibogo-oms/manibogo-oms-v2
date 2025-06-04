@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -74,6 +75,8 @@ public class SyncExternalItemOrderService {
 
 
     private List<OptionId> getOptionIds(SyncExternalItemOrderCommand command) {
+
+        if (Objects.isNull(command.productOption()) || command.productOption().isBlank()) return List.of();
 
         final String[] strings = command.productOption().trim().split("/");
 

@@ -8,12 +8,6 @@
 <body>
     <section>
         <input type="file" id="uploadExcelFile" />
-
-        <form id="formSyncSmartStoreOrders"
-              th:method="POST"
-              th:action="@{/v2/external-item-orders/synchronize}">
-            <button type="submit">전송</button>
-        </form>
     </section>
 </body>
 
@@ -34,7 +28,7 @@
             'itemOrderNumber': order['상품주문번호'],
             'productNumber': order['판매자 상품코드'],
             'productName': order['상품명'],
-            'productOption': order['상품옵션'],
+            'productOption': order['옵션정보'],
             'amount': order['수량'],
             'totalPrice': order['정산예정금액'],
             'shippingMethod': order['배송방법'],
