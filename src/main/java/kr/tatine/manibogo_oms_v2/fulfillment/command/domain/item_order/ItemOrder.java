@@ -35,6 +35,7 @@ public class ItemOrder {
 
     private Integer amount;
 
+    @AttributeOverride(name = "value", column = @Column(name = "total_price"))
     private Money totalPrice;
 
     @Embedded
