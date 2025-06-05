@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PhoneNumber {
 
-    String message() default "올바르지 않은 형식입니다.";
+    String message() default "phoneNumber";
 
     boolean nullable() default false;
 

@@ -6,20 +6,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Path;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.ExternalItemOrderRequest;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.ItemOrderAlreadyPlacedException;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.SyncExternalItemOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Controller
@@ -78,6 +77,8 @@ public class SynchronizeController {
                 response.skip(new SynchronizeResult(request.itemOrderNumber()));
             } catch (ConstraintViolationException exception) {
 
+                log.debug("[SynchronizeController.syncExternalItemOrders] Validation Error = {}", exception.getConstraintViolations());
+
                 final List<String> errorMessages = exception
                         .getConstraintViolations()
                         .stream()
@@ -93,9 +94,4 @@ public class SynchronizeController {
         return "redirect:/v2/synchronize/result";
     }
 
-    private String getParameterName(Path path) {
-        Path.Node last = null;
-        for (Path.Node node : path) last = node;
-        return last != null ? last.getName() : "";
-    }
 }

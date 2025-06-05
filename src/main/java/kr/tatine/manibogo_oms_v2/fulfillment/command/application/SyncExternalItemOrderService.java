@@ -33,9 +33,9 @@ public class SyncExternalItemOrderService {
 
 
     @Transactional
-    public void synchronize(@Valid ExternalItemOrderRequest command) {
+    public void synchronize(@Valid ExternalItemOrderRequest externalItemOrder) {
 
-        final ItemOrderNumber itemOrderNumber = new ItemOrderNumber(command.itemOrderNumber());
+        final ItemOrderNumber itemOrderNumber = new ItemOrderNumber(externalItemOrder.itemOrderNumber());
 
         if (itemOrderRepository.existsById(itemOrderNumber)) {
             throw new ItemOrderAlreadyPlacedException();
@@ -43,15 +43,15 @@ public class SyncExternalItemOrderService {
 
         final ItemOrder itemOrder = new ItemOrder(
                 itemOrderNumber,
-                getOrderNumber(command),
-                getProductNumber(command),
-                getOptionIds(command),
-                command.amount(),
-                new Money(command.totalPrice()),
+                getOrderNumber(externalItemOrder),
+                getProductNumber(externalItemOrder),
+                getOptionIds(externalItemOrder),
+                externalItemOrder.amount(),
+                new Money(externalItemOrder.totalPrice()),
                 new ShippingInfo(
-                        ShippingMethod.fromDescription(command.shippingMethod()),
-                        ChargeType.fromDescription(command.shippingChargeType())),
-                command.dispatchDeadline());
+                        ShippingMethod.fromDescription(externalItemOrder.shippingMethod()),
+                        ChargeType.fromDescription(externalItemOrder.shippingChargeType())),
+                externalItemOrder.dispatchDeadline());
 
         itemOrderRepository.save(itemOrder);
     }

@@ -1,5 +1,6 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.command.application;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,64 +10,68 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 public record ExternalItemOrderRequest (
-        @NotBlank
+        @NotBlank(message = "{notBlank.externalOrder.orderNumber}")
         String orderNumber,
 
-        @NotBlank
+        @NotBlank(message = "{notBlank.externalOrder.customerName}")
         String customerName,
 
-        @NotBlank @PhoneNumber
+        @PhoneNumber(message = "{phoneNumber.externalOrder.customerPhoneNumber}")
         String customerPhoneNumber,
 
-        @NotBlank
+        @NotBlank(message = "{notBlank.externalOrder.salesChannel}")
         String salesChannel,
 
-        @NotBlank
+        @NotBlank(message = "{notBlank.externalOrder.recipientName}")
         String recipientName,
 
-        @NotBlank @PhoneNumber
+        @PhoneNumber(message = "{phoneNumber.externalOrder.recipientPhoneNumber1}")
         String recipientPhoneNumber1,
 
-        @PhoneNumber(nullable = true)
+        @PhoneNumber(message = "{phoneNumber.externalOrder.recipientPhoneNumber2}", nullable = true)
         String recipientPhoneNumber2,
 
-        @NotBlank
+        @NotBlank(message = "{notBlank.externalOrder.recipientAddress1}")
         String recipientAddress1,
 
         String recipientAddress2,
 
-        @NotBlank
+        @NotBlank(message = "{notBlank.externalOrder.recipientAddressZipcode}")
         String recipientAddressZipcode,
 
-        @NotBlank
+        @NotBlank(message = "{notBlank.externalOrder.itemOrderNumber}")
         String itemOrderNumber,
 
-        @NotBlank
+        @NotBlank(message = "{notBlank.externalOrder.productNumber}")
         String productNumber,
 
-        @NotBlank
+        @NotBlank(message = "{notBlank.externalOrder.productName}")
         String productName,
 
-        @NotNull
+        @Valid
+        @NotNull(message = "{notNull.externalOrder.options}")
         List<ExternalItemOrderOptionRequest> options,
 
-        @NotNull @Min(1)
+        @NotNull(message = "{notNull.externalOrder.amount}")
+        @Min(value = 1, message = "{min.externalOrder.amount}")
         Integer amount,
 
-        @NotNull @Min(1)
+        @NotNull(message = "{notNull.externalOrder.totalPrice}")
+        @Min(value = 1, message = "{min.externalOrder.totalPrice}")
         Long totalPrice,
 
-        @NotBlank
+        @NotBlank(message = "{notBlank.externalOrder.shippingMethod}")
         String shippingMethod,
 
-        @NotBlank
+        @NotBlank(message = "{notBlank.externalOrder.shippingChargeType}")
         String shippingChargeType,
 
-        @NotNull
+        @NotNull(message = "{notNull.externalOrder.itemOrderPlacedAt}")
         LocalDateTime itemOrderPlacedAt,
 
-        @NotNull
+        @NotNull(message = "{notNull.externalOrder.dispatchDeadline}")
         LocalDate dispatchDeadline
 ) {
 
