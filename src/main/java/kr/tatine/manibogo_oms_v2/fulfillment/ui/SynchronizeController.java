@@ -1,5 +1,6 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
+import kr.tatine.manibogo_oms_v2.fulfillment.command.application.ExternalItemOrderRequest;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.SyncExternalItemOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,7 +15,6 @@ public class SynchronizeController {
 
     private final SyncExternalItemOrderService syncExternalItemOrderService;
 
-
     @GetMapping("/external-item-orders")
     public String getSyncExternalItemOrders() {
         return "popup/sync-smart-store-item-order";
@@ -22,10 +22,10 @@ public class SynchronizeController {
 
     @PostMapping("/external-item-orders")
     public String syncExternalItemOrders(
-            @RequestBody List<SyncExternalItemOrderRequest> listRequest) {
+            @RequestBody List<ExternalItemOrderRequest> listRequest) {
 
-        for (SyncExternalItemOrderRequest record : listRequest) {
-            syncExternalItemOrderService.synchronize(record.toCommand());
+        for (ExternalItemOrderRequest request : listRequest) {
+            syncExternalItemOrderService.synchronize(request);
         }
 
         return "redirect:/v2/synchronize/external-item-orders";

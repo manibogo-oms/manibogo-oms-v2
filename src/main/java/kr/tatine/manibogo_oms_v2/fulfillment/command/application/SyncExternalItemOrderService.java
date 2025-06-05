@@ -1,5 +1,7 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.command.application;
 
+import jakarta.validation.Valid;
+import kr.tatine.manibogo_oms_v2.common.model.Money;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.item_order.*;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.Option;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.OptionId;
@@ -12,12 +14,12 @@ import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.ProductRepos
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
+@Validated
 @RequiredArgsConstructor
 public class SyncExternalItemOrderService {
 
@@ -31,7 +33,7 @@ public class SyncExternalItemOrderService {
 
 
     @Transactional
-    public void synchronize(SyncExternalItemOrderCommand command) {
+    public void synchronize(@Valid ExternalItemOrderRequest command) {
 
         final ItemOrderNumber itemOrderNumber = new ItemOrderNumber(command.itemOrderNumber());
 
@@ -45,7 +47,7 @@ public class SyncExternalItemOrderService {
                 getProductNumber(command),
                 getOptionIds(command),
                 command.amount(),
-                command.totalPrice(),
+                new Money(command.totalPrice()),
                 new ShippingInfo(
                         ShippingMethod.fromDescription(command.shippingMethod()),
                         ChargeType.fromDescription(command.shippingChargeType())),
@@ -54,7 +56,7 @@ public class SyncExternalItemOrderService {
         itemOrderRepository.save(itemOrder);
     }
 
-    private OrderNumber getOrderNumber(SyncExternalItemOrderCommand command) {
+    private OrderNumber getOrderNumber(ExternalItemOrderRequest command) {
         final OrderNumber orderNumber = new OrderNumber(command.orderNumber());
 
         if (!orderRepository.existsById(orderNumber)) {
@@ -63,7 +65,7 @@ public class SyncExternalItemOrderService {
         return orderNumber;
     }
 
-    private ProductNumber getProductNumber(SyncExternalItemOrderCommand command) {
+    private ProductNumber getProductNumber(ExternalItemOrderRequest command) {
         final ProductNumber productNumber = new ProductNumber(command.productNumber());
 
         if (!productRepository.existsById(productNumber)) {
@@ -74,38 +76,27 @@ public class SyncExternalItemOrderService {
     }
 
 
-    private List<OptionId> getOptionIds(SyncExternalItemOrderCommand command) {
+    private List<OptionId> getOptionIds(ExternalItemOrderRequest command) {
 
-        if (Objects.isNull(command.productOption()) || command.productOption().isBlank()) return List.of();
+        return command.options()
+                .stream()
+                .map(option -> {
 
-        final String[] strings = command.productOption().trim().split("/");
+                    final OptionId optionId = new OptionId(option.key(), option.value());
 
-        final List<OptionId> optionIds = new ArrayList<>();
+                    if (!optionRepository.existsById(optionId)) {
+                        optionRepository.save(new Option(optionId, new ProductNumber(command.productNumber()), option.value()));
+                    }
 
-        for (String string : strings) {
-            final String[] tokens = string.trim().split(": ");
-
-            if (tokens.length != 2) {
-                throw new InvalidOptionFormatException();
-            }
-
-            final OptionId optionId = new OptionId(tokens[0], tokens[1]);
-
-            if (!optionRepository.existsById(optionId)) {
-                optionRepository.save(new Option(optionId, new ProductNumber(command.productNumber()), tokens[1]));
-            }
-
-            optionIds.add(optionId);
-        }
-
-        return optionIds;
+                    return optionId;
+                }).toList();
     }
 
-    private Product createNewProduct(SyncExternalItemOrderCommand command) {
+    private Product createNewProduct(ExternalItemOrderRequest command) {
         return new Product(new ProductNumber(command.productNumber()), command.productName(), Priority.createHighest(productRepository));
     }
 
-    private Order createNewOrder(SyncExternalItemOrderCommand command) {
+    private Order createNewOrder(ExternalItemOrderRequest command) {
         return new Order(
                 new OrderNumber(command.orderNumber()),
                 createCustomer(command),
@@ -113,13 +104,13 @@ public class SyncExternalItemOrderService {
                 SalesChannel.fromDescription(command.salesChannel()));
     }
 
-    private Customer createCustomer(SyncExternalItemOrderCommand command) {
+    private Customer createCustomer(ExternalItemOrderRequest command) {
         return new Customer(
                 command.customerName(),
                 new PhoneNumber(command.customerPhoneNumber()));
     }
 
-    private Recipient createRecipient(SyncExternalItemOrderCommand command) {
+    private Recipient createRecipient(ExternalItemOrderRequest command) {
         return new Recipient(
                 command.productName(),
                 new PhoneNumber(command.recipientPhoneNumber1()),
@@ -127,6 +118,6 @@ public class SyncExternalItemOrderService {
                 new Address(
                         command.recipientAddress1(),
                         command.recipientAddress2(),
-                        command.recipientZipcode()));
+                        command.recipientAddressZipcode()));
     }
 }
