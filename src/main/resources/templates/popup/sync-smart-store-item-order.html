@@ -13,7 +13,7 @@
 
 <script>
 
-    function serializeOrder(order) {
+    function parseOrder(order) {
         return {
             'orderNumber': order['주문번호'],
             'customerName': order['구매자명'],
@@ -24,11 +24,11 @@
             'recipientPhoneNumber2': order['수취인연락처2'],
             'recipientAddress1': order['기본배송지'],
             'recipientAddress2': order['상세배송지'],
-            'recipientZipCode': order['우편번호'],
+            'recipientAddressZipcode': order['우편번호'],
             'itemOrderNumber': order['상품주문번호'],
             'productNumber': order['판매자 상품코드'],
             'productName': order['상품명'],
-            'productOption': order['옵션정보'],
+            'options': parseOptionString(order['옵션정보']),
             'amount': order['수량'],
             'totalPrice': order['정산예정금액'],
             'shippingMethod': order['배송방법'],
@@ -38,12 +38,26 @@
         };
     }
 
+    function parseOptionString(optionString) {
+
+        if (!optionString) return [];
+
+        return optionString.trim().split('/')
+            .map(option => {
+                const tokens = option.trim().split(": ");
+
+                if (tokens.length !== 2) return null;
+
+                return {'key': tokens[0], 'value': tokens[1]};
+            });
+    }
+
     document
         .getElementById('uploadExcelFile')
         .addEventListener('change', async (e) => {
             const orders = await handleExcelFile(e.target.files[0], 1);
 
-            const requestBody = orders.map(serializeOrder);
+            const requestBody = orders.map(parseOrder);
 
             const response = await fetch('/v2/synchronize/external-item-orders', {
                 method: 'POST',

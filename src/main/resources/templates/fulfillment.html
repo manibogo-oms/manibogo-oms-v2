@@ -10,7 +10,7 @@
 
 <section>
 
-    <button type="button" onclick="openPopup('/v2/external-item-orders/synchronize', 480, 640)">스마트스토어 상품주문 연동</button>
+    <button type="button" onclick="openPopup('/v2/synchronize/external-item-orders', 320, 480)">스마트스토어 상품주문 연동</button>
 
     <form method="POST" th:action="@{/v2/orders/edit}" th:object="${fulfillmentList}">
 
@@ -63,11 +63,11 @@
 
                 <td class="td">
                     <select class="h-100" aria-label="주문 상태 선택">
-                        <option th:each="itemOrderState : ${itemOrderStates}"
+                        <optionRequest th:each="itemOrderState : ${itemOrderStates}"
                                 th:value="${itemOrderState}"
                                 th:text="${itemOrderState.description}"
                                 th:selected="${itemOrderState} == *{fulfillmentList[__${fulfillmentStat.index}__].orderState}">
-                        </option>
+                        </optionRequest>
                     </select>
                 </td>
 
