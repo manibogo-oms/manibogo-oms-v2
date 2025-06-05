@@ -1,13 +1,27 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Path;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.ExternalItemOrderRequest;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.application.ItemOrderAlreadyPlacedException;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.SyncExternalItemOrderService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Objects;
 
+@Slf4j
 @Controller
 @RequestMapping("/v2/synchronize")
 @RequiredArgsConstructor
@@ -15,20 +29,73 @@ public class SynchronizeController {
 
     private final SyncExternalItemOrderService syncExternalItemOrderService;
 
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    static {
+        objectMapper.registerModule(new JavaTimeModule());
+    }
+
+    @GetMapping("/result")
+    public String result(
+            Model model, @ModelAttribute("response") SynchronizeResponse response) {
+
+        model.addAttribute("successes", response.getSuccesses());
+        model.addAttribute("skips", response.getSkips());
+        model.addAttribute("errors", response.getErrors());
+
+        return "popup/sync-result";
+    }
+
     @GetMapping("/external-item-orders")
     public String getSyncExternalItemOrders() {
         return "popup/sync-smart-store-item-order";
     }
 
-    @PostMapping("/external-item-orders")
+    @PostMapping(value = "/external-item-orders")
     public String syncExternalItemOrders(
-            @RequestBody List<ExternalItemOrderRequest> listRequest) {
+            @RequestParam("externalOrders") String externalOrders,
+            RedirectAttributes redirectAttr
+    ) {
 
-        for (ExternalItemOrderRequest request : listRequest) {
-            syncExternalItemOrderService.synchronize(request);
+        final List<ExternalItemOrderRequest> listRequest;
+
+        final SynchronizeResponse response = new SynchronizeResponse();
+
+        try {
+            listRequest = objectMapper.readValue(externalOrders, new TypeReference<>() {});
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
 
-        return "redirect:/v2/synchronize/external-item-orders";
+
+        log.debug("[SynchronizeController.syncExternalItemOrders] listRequest size = {}", listRequest.size());
+
+        for (ExternalItemOrderRequest request : listRequest) {
+            try {
+                syncExternalItemOrderService.synchronize(request);
+                response.success(new SynchronizeResult(request.itemOrderNumber()));
+            } catch (ItemOrderAlreadyPlacedException exception) {
+                response.skip(new SynchronizeResult(request.itemOrderNumber()));
+            } catch (ConstraintViolationException exception) {
+
+                final List<String> errorMessages = exception
+                        .getConstraintViolations()
+                        .stream()
+                        .map(ConstraintViolation::getMessage)
+                        .toList();
+
+               response.error(new SynchronizeErrorResult(request.itemOrderNumber(), errorMessages));
+            }
+        }
+
+        redirectAttr.addFlashAttribute("response", response);
+
+        return "redirect:/v2/synchronize/result";
     }
 
+    private String getParameterName(Path path) {
+        Path.Node last = null;
+        for (Path.Node node : path) last = node;
+        return last != null ? last.getName() : "";
+    }
 }

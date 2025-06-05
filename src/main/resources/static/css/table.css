@@ -19,6 +19,15 @@
     font-weight: normal;
 }
 
+.no-border {
+    border: none;
+}
+
+.no-fill {
+    background-color: transparent;
+    color: black;
+}
+
 .td {
     text-align: center;
     min-width: 48px;
