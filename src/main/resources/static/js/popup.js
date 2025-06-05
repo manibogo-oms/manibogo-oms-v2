@@ -9,3 +9,10 @@ function openPopup(url, width, height) {
     return window.open(url, document.title,
         `width=${width},height=${height},left=${left},top=${top}`);
 }
+
+function resizeHeight() {
+
+    console.log(document.body.offsetHeight);
+
+    window.resizeTo(window.outerWidth, document.body.offsetHeight);
+}

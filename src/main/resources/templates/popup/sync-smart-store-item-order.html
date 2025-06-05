@@ -8,6 +8,12 @@
 <body>
     <section>
         <input type="file" id="uploadExcelFile" />
+
+        <form id="formSyncExternalOrders" method="POST" th:action="@{/v2/synchronize/external-item-orders}">
+            <input id="iptExternalOrders" type="hidden" name="externalOrders" />
+
+            <button type="submit">전송하기</button>
+        </form>
     </section>
 </body>
 
@@ -57,19 +63,10 @@
         .addEventListener('change', async (e) => {
             const orders = await handleExcelFile(e.target.files[0], 1);
 
-            const requestBody = orders.map(parseOrder);
+            const input = document.getElementById('iptExternalOrders');
 
-            const response = await fetch('/v2/synchronize/external-item-orders', {
-                method: 'POST',
-                body: JSON.stringify(requestBody),
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            });
+            input.value = JSON.stringify(orders.map(parseOrder));
 
-            if (response.redirected) {
-                window.location.href = response.url;
-            }
         });
 
     function handleExcelFile(file, startRow) {
