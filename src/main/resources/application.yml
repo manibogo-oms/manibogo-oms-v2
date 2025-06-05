@@ -1,6 +1,11 @@
 spring:
   profiles:
     active: local
+
+  messages:
+    basename: messages,ValidationMessages
+    encoding: UTF-8
+
 ---
 spring:
   config:
