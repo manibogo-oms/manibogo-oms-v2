@@ -1,11 +1,12 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.item_order;
 
+import kr.tatine.manibogo_oms_v2.common.model.Describable;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum ItemOrderState {
+public enum ItemOrderState implements Describable {
 
     PLACED("주문"),
     PURCHASED("발주"),

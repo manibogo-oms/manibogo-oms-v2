@@ -1,6 +1,7 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.command.application;
 
 import jakarta.validation.Valid;
+import kr.tatine.manibogo_oms_v2.common.converter.DescribableEnumConverter;
 import kr.tatine.manibogo_oms_v2.common.model.Money;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.item_order.*;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.Option;
@@ -49,8 +50,8 @@ public class SyncExternalItemOrderService {
                 externalItemOrder.amount(),
                 new Money(externalItemOrder.totalPrice()),
                 new ShippingInfo(
-                        ShippingMethod.fromDescription(externalItemOrder.shippingMethod()),
-                        ChargeType.fromDescription(externalItemOrder.shippingChargeType())),
+                        DescribableEnumConverter.fromDescription(ShippingMethod.class, externalItemOrder.shippingMethod()),
+                        DescribableEnumConverter.fromDescription(ChargeType.class, externalItemOrder.shippingChargeType())),
                 externalItemOrder.dispatchDeadline());
 
         itemOrderRepository.save(itemOrder);
@@ -101,7 +102,7 @@ public class SyncExternalItemOrderService {
                 new OrderNumber(command.orderNumber()),
                 createCustomer(command),
                 createRecipient(command),
-                SalesChannel.fromDescription(command.salesChannel()));
+                DescribableEnumConverter.fromDescription(SalesChannel.class, command.salesChannel()));
     }
 
     private Customer createCustomer(ExternalItemOrderRequest command) {
