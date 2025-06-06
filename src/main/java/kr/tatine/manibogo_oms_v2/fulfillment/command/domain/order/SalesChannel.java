@@ -1,0 +1,25 @@
+package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
+public enum SalesChannel {
+
+    SMART_STORE("스마트스토어"),
+    LOCAL("매장");
+
+    private final String description;
+
+    public static SalesChannel fromDescription(String description) {
+        for (SalesChannel salesChannel : SalesChannel.values()) {
+            if (salesChannel.description.equals(description)) {
+                return salesChannel;
+            }
+        }
+
+        throw new SalesChannelNotFoundException();
+    }
+
+}

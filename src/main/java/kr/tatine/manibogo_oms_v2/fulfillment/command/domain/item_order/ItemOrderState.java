@@ -12,7 +12,7 @@ public enum ItemOrderState {
     DISPATCHED("출고"),
     SHIPPED("배송"),
     CONFIRMED("확정"),
-    CANCEL("취소"),
+    CANCELLED("취소"),
     REFUNDED("환불");
 
     private final String description;

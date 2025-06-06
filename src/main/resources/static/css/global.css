@@ -4,7 +4,7 @@
 }
 
 .text-left {
-    text-align: left;
+    text-align: left !important;
 }
 
 input, select {
@@ -40,4 +40,20 @@ input, select {
 
 .row.valign-start {
     align-items: flex-start;
+}
+
+.row.center {
+    justify-content: center;
+}
+
+.row.end {
+    justify-content: flex-end;
+}
+
+.list {
+    list-style: square;
+}
+
+.bold {
+    font-weight: bold;
 }

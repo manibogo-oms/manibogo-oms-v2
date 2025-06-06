@@ -14,10 +14,10 @@ import java.io.Serializable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderNumber implements Serializable {
 
-    private String number;
+    private String orderNumber;
 
     public OrderNumber(String number) {
-        this.number = number;
+        this.orderNumber = number;
     }
 
 }

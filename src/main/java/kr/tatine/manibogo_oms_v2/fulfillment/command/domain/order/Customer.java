@@ -20,4 +20,9 @@ public class Customer {
             name = "phoneNumber",
             column = @Column(name = "customer_phone_number"))
     private PhoneNumber phoneNumber;
+
+    public Customer(String name, PhoneNumber phoneNumber) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+    }
 }
