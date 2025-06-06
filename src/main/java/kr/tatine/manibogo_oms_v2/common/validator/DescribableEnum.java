@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = DescribableEnumValidator.class)
 public @interface DescribableEnum {
 
-    String message() default "describableEnum";
+    String message() default "{describableEnum}";
 
     Class<?>[] groups() default { };
 

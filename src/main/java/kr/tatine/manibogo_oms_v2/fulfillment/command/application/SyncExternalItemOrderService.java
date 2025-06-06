@@ -1,7 +1,8 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.command.application;
 
 import jakarta.validation.Valid;
-import kr.tatine.manibogo_oms_v2.common.converter.DescribableEnumConverter;
+import kr.tatine.manibogo_oms_v2.common.converter.StringToDescribableEnumConverter;
+import kr.tatine.manibogo_oms_v2.common.converter.StringToOptionIdListConvertor;
 import kr.tatine.manibogo_oms_v2.common.model.Money;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.item_order.*;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.Option;
@@ -50,8 +51,8 @@ public class SyncExternalItemOrderService {
                 externalItemOrder.amount(),
                 new Money(externalItemOrder.totalPrice()),
                 new ShippingInfo(
-                        DescribableEnumConverter.fromDescription(ShippingMethod.class, externalItemOrder.shippingMethod()),
-                        DescribableEnumConverter.fromDescription(ChargeType.class, externalItemOrder.shippingChargeType())),
+                        StringToDescribableEnumConverter.convert(ShippingMethod.class, externalItemOrder.shippingMethod()),
+                        StringToDescribableEnumConverter.convert(ChargeType.class, externalItemOrder.shippingChargeType())),
                 externalItemOrder.dispatchDeadline());
 
         itemOrderRepository.save(itemOrder);
@@ -79,17 +80,13 @@ public class SyncExternalItemOrderService {
 
     private List<OptionId> getOptionIds(ExternalItemOrderRequest command) {
 
-        return command.options()
+        return StringToOptionIdListConvertor
+                .convert(command.optionInfo())
                 .stream()
-                .map(option -> {
-
-                    final OptionId optionId = new OptionId(option.key(), option.value());
-
+                .peek(optionId -> {
                     if (!optionRepository.existsById(optionId)) {
-                        optionRepository.save(new Option(optionId, new ProductNumber(command.productNumber()), option.value()));
+                        optionRepository.save(new Option(optionId, new ProductNumber(command.productNumber())));
                     }
-
-                    return optionId;
                 }).toList();
     }
 
@@ -102,7 +99,7 @@ public class SyncExternalItemOrderService {
                 new OrderNumber(command.orderNumber()),
                 createCustomer(command),
                 createRecipient(command),
-                DescribableEnumConverter.fromDescription(SalesChannel.class, command.salesChannel()));
+                StringToDescribableEnumConverter.convert(SalesChannel.class, command.salesChannel()));
     }
 
     private Customer createCustomer(ExternalItemOrderRequest command) {

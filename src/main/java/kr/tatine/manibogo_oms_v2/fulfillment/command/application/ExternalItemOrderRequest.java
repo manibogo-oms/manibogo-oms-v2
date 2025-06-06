@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import kr.tatine.manibogo_oms_v2.common.validator.DescribableEnum;
+import kr.tatine.manibogo_oms_v2.common.validator.OptionInfo;
 import kr.tatine.manibogo_oms_v2.common.validator.PhoneNumber;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.item_order.ChargeType;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.item_order.ShippingMethod;
@@ -56,9 +57,8 @@ public record ExternalItemOrderRequest (
         @NotBlank(message = "{notBlank.externalOrder.productName}")
         String productName,
 
-        @Valid
-        @NotNull(message = "{notNull.externalOrder.options}")
-        List<ExternalItemOrderOptionRequest> options,
+        @OptionInfo
+        String optionInfo,
 
         @NotNull(message = "{notNull.externalOrder.amount}")
         @Min(value = 1, message = "{min.externalOrder.amount}")
@@ -84,10 +84,5 @@ public record ExternalItemOrderRequest (
         @NotNull(message = "{notNull.externalOrder.dispatchDeadline}")
         LocalDate dispatchDeadline
 ) {
-
-    public record ExternalItemOrderOptionRequest(
-            @NotBlank String key,
-            @NotBlank String value
-    ) { }
 
 }

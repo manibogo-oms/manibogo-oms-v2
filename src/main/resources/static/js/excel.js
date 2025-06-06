@@ -14,7 +14,7 @@ function parseOrder(order) {
         'itemOrderNumber': order['상품주문번호'],
         'productNumber': order['판매자 상품코드'],
         'productName': order['상품명'],
-        'options': parseOptionString(order['옵션정보']),
+        'optionInfo': order['옵션정보'],
         'amount': order['수량'],
         'totalPrice': order['정산예정금액'],
         'shippingMethod': order['배송방법'],
@@ -22,20 +22,6 @@ function parseOrder(order) {
         'itemOrderPlacedAt': order['주문일시'],
         'dispatchDeadline': order['발송기한'],
     };
-}
-
-function parseOptionString(optionString) {
-
-    if (!optionString) return [];
-
-    return optionString.trim().split('/')
-        .map(option => {
-            const tokens = option.trim().split(": ");
-
-            if (tokens.length !== 2) return null;
-
-            return {'key': tokens[0], 'value': tokens[1]};
-        });
 }
 
 document
