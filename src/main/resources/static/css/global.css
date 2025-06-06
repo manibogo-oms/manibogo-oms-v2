@@ -7,10 +7,6 @@ html, body {
     box-sizing: border-box !important;
 }
 
-.text-left {
-    text-align: left !important;
-}
-
 input, select {
     /* top right bottom left */
     padding: 4px 4px 2px 4px;
