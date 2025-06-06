@@ -6,14 +6,35 @@
     <title>마니보고 주문관리 시스템 V2 - 스마트스토어 상품주문 연동</title>
 </head>
 <body>
-    <section>
-        <input type="file" id="uploadExcelFile" />
+    <section class="popup-bg">
+        <nav class="popup-nav h4">스마트스토어 상품주문 연동</nav>
 
-        <form id="formSyncExternalOrders" method="POST" th:action="@{/v2/synchronize/external-item-orders}">
-            <input id="iptExternalOrders" type="hidden" name="externalOrders" />
+        <section style="padding: 16px">
 
-            <button type="submit">전송하기</button>
-        </form>
+            <div style="height: 16px;"></div>
+
+            <div class="alert">
+                <input type="file" id="uploadExcelFile" />
+            </div>
+
+            <div style="height: 16px;"></div>
+
+            <form id="formSyncExternalOrders" method="POST" th:action="@{/v2/synchronize/external-item-orders}">
+
+                <input id="iptExternalOrders" type="hidden" name="externalOrders" />
+
+                <hr/>
+
+                <div style="height: 16px;"></div>
+
+                <div class="row end">
+                    <button class="button primary" type="submit">전송하기</button>
+                    <div style="width: 8px"></div>
+                    <button class="button" type="button" onclick="window.close()">창닫기</button>
+                </div>
+            </form>
+        </section>
+
     </section>
 </body>
 
