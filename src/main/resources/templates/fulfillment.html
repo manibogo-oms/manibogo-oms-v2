@@ -10,7 +10,19 @@
 
 <section>
 
-    <button type="button" onclick="openPopup('/v2/synchronize/external-item-orders', 480, 640)">스마트스토어 상품주문 연동</button>
+    <div th:replace="~{modal/sync-smart-store-item-order :: syncSmartStoreItemOrderModal}"></div>
+
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            연동하기
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalSyncSmartStoreItemOrder">스마트스토어 상품주문</a></li>
+        </ul>
+    </div>
+
+    <div th:replace="~{fragments/sync-result :: syncResult(${synchronizeResponse})}"></div>
+
 
     <form method="POST" th:action="@{/v2/orders/edit}" th:object="${fulfillmentList}">
 
