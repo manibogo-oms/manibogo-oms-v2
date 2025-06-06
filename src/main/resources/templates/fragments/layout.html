@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko"
+      th:fragment="layoutFragment (title, content, links, scripts)"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <title th:replace="${title}">레이아웃 타이틀</title>
+
+        <link rel="stylesheet" href="/css/normalize.css">
+        <link rel="stylesheet" href="/css/reset.css">
+        <link rel="stylesheet" href="/css/global.css">
+        <link rel="stylesheet" href="/css/table.css">
+
+        <th:block th:replace="${links}">레이아웃 추가 스타일시트</th:block>
+    </head>
+
+    <body>
+      <div th:replace="${content}">레이아웃 내용</div>
+    </body>
+
+    <script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+
+    <script src="/js/table.js"></script>
+    <script src="/js/popup.js"></script>
+
+    <th:block th:replace="${scripts}">레이아웃 추가 스크립트</th:block>
+
+</html>

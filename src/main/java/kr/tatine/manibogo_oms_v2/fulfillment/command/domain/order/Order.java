@@ -24,12 +24,12 @@ public class Order {
     private Recipient recipient;
 
     @Enumerated(EnumType.STRING)
-    private OrderLocation location;
+    private SalesChannel salesChannel;
 
-    public Order(OrderNumber number, Customer customer, Recipient recipient, OrderLocation location) {
+    public Order(OrderNumber number, Customer customer, Recipient recipient, SalesChannel salesChannel) {
         this.number = number;
         this.customer = customer;
         this.recipient = recipient;
-        this.location = location;
+        this.salesChannel = salesChannel;
     }
 }

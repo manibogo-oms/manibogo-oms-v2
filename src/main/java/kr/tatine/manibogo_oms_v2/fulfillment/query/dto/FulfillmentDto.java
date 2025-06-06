@@ -1,7 +1,7 @@
-package kr.tatine.manibogo_oms_v2.order.query.dto;
+package kr.tatine.manibogo_oms_v2.fulfillment.query.dto;
 
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.OrderLocation;
-import kr.tatine.manibogo_oms_v2.order.command.domain.OrderState;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.item_order.ItemOrderState;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.SalesChannel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,13 +12,13 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
-public class OrderDto {
+public class FulfillmentDto {
 
     private boolean isRowSelected;
 
-    private OrderLocation orderLocation;
+    private SalesChannel salesChannel;
 
-    private OrderState orderState;
+    private ItemOrderState orderState;
 
     private String orderNumber;
 
