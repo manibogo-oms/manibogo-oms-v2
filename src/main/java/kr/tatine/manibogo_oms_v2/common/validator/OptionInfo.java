@@ -2,20 +2,20 @@ package kr.tatine.manibogo_oms_v2.common.validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
+import kr.tatine.manibogo_oms_v2.common.model.Describable;
 
 import java.lang.annotation.*;
 
 @Documented
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = {PhoneNumberValidator.class})
-public @interface PhoneNumber {
+@Constraint(validatedBy = {OptionInfoValidator.class})
+public @interface OptionInfo {
 
-    String message() default "{phoneNumber}";
-
-    boolean nullable() default false;
+    String message() default "{optionInfo}";
 
     Class<?>[] groups() default { };
 
     Class<? extends Payload>[] payload() default { };
+
 }

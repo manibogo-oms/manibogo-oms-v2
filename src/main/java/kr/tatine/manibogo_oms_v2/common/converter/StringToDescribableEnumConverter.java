@@ -2,11 +2,11 @@ package kr.tatine.manibogo_oms_v2.common.converter;
 
 import kr.tatine.manibogo_oms_v2.common.model.Describable;
 
-public class DescribableEnumConverter {
+public class StringToDescribableEnumConverter {
 
-    private DescribableEnumConverter() {}
+    private StringToDescribableEnumConverter() {}
 
-    public static <T extends Describable> T fromDescription(
+    public static <T extends Describable> T convert(
             final Class<T> clazz, final String description) {
 
         final T[] enumConstants = clazz.getEnumConstants();
