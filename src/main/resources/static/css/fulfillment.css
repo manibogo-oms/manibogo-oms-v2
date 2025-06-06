@@ -4,6 +4,14 @@
     vertical-align: middle;
 }
 
+.col-date {
+    min-width: 96px !important;
+}
+
+.col-expand {
+    min-width: auto !important;
+}
+
 .purchased td {
     background-color: #F1FFF0;
 }
