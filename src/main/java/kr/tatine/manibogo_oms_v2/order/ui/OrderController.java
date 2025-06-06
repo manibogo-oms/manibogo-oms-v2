@@ -1,6 +1,6 @@
 package kr.tatine.manibogo_oms_v2.order.ui;
 
-import kr.tatine.manibogo_oms_v2.order.command.domain.OrderLocation;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.OrderLocation;
 import kr.tatine.manibogo_oms_v2.order.command.domain.OrderState;
 import kr.tatine.manibogo_oms_v2.order.command.dto.EditOrderForm;
 import kr.tatine.manibogo_oms_v2.order.command.dto.EditOrderListForm;
@@ -38,13 +38,13 @@ public class OrderController {
         OrderListDto orderListDto = new OrderListDto();
 
         orderListDto.setOrders(List.of(
-                createRowDto(OrderState.PLACED, OrderLocation.SMARTSTORE),
-                createRowDto(OrderState.PURCHASED, OrderLocation.SMARTSTORE),
-                createRowDto(OrderState.DISPATCHED, OrderLocation.SMARTSTORE),
-                createRowDto(OrderState.SHIPPED, OrderLocation.SMARTSTORE),
-                createRowDto(OrderState.CONFIRMED, OrderLocation.SMARTSTORE),
-                createRowDto(OrderState.CANCELED, OrderLocation.SMARTSTORE),
-                createRowDto(OrderState.REFUNDED, OrderLocation.SMARTSTORE),
+                createRowDto(OrderState.PLACED, OrderLocation.SMART_STORE),
+                createRowDto(OrderState.PURCHASED, OrderLocation.SMART_STORE),
+                createRowDto(OrderState.DISPATCHED, OrderLocation.SMART_STORE),
+                createRowDto(OrderState.SHIPPED, OrderLocation.SMART_STORE),
+                createRowDto(OrderState.CONFIRMED, OrderLocation.SMART_STORE),
+                createRowDto(OrderState.CANCELED, OrderLocation.SMART_STORE),
+                createRowDto(OrderState.REFUNDED, OrderLocation.SMART_STORE),
                 createRowDto(OrderState.PLACED, OrderLocation.LOCAL)
         ));
 

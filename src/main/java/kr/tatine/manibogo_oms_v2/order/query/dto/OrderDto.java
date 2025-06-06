@@ -1,6 +1,6 @@
 package kr.tatine.manibogo_oms_v2.order.query.dto;
 
-import kr.tatine.manibogo_oms_v2.order.command.domain.OrderLocation;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.OrderLocation;
 import kr.tatine.manibogo_oms_v2.order.command.domain.OrderState;
 import lombok.Getter;
 import lombok.Setter;
