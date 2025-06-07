@@ -1,13 +1,11 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model;
 
 import jakarta.persistence.*;
+import kr.tatine.manibogo_oms_v2.common.event.Events;
 import kr.tatine.manibogo_oms_v2.common.model.Money;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderNumber;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderState;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ShippingInfo;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.TrackingInfo;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.event.ItemOrderPlacedEvent;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.*;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.OptionId;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.OrderNumber;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.exception.AlreadyDispatchedException;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.exception.AlreadyShippedException;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.exception.StateAlreadyProceededException;
@@ -17,6 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -54,11 +53,38 @@ public class ItemOrder {
 
     private LocalDate dispatchDeadline;
 
-    public ItemOrder(ItemOrderNumber number, OrderNumber orderNumber, ProductNumber productNumber, List<OptionId> optionIds, Integer amount, Money totalPrice, ShippingInfo shippingInfo, LocalDate dispatchDeadline) {
+    public static ItemOrder place(
+            ItemOrderNumber number,
+            OrderNumber orderNumber,
+            LocalDateTime placedAt,
+            ProductNumber productNumber,
+            List<OptionId> optionIds,
+            Integer amount,
+            Money totalPrice,
+            ShippingInfo shippingInfo,
+            LocalDate dispatchDeadline
+    ) {
+
+        Events.raise(new ItemOrderPlacedEvent(number, placedAt));
+
+        return new ItemOrder(
+                number,
+                orderNumber,
+                ItemOrderState.PLACED,
+                productNumber,
+                optionIds,
+                amount,
+                totalPrice,
+                shippingInfo,
+                dispatchDeadline
+        );
+    }
+
+    private ItemOrder(ItemOrderNumber number, OrderNumber orderNumber, ItemOrderState state, ProductNumber productNumber, List<OptionId> optionIds, Integer amount, Money totalPrice, ShippingInfo shippingInfo, LocalDate dispatchDeadline) {
         this.number = number;
         this.orderNumber = orderNumber;
 
-        setState(ItemOrderState.PLACED);
+        setState(state);
 
         this.productNumber = productNumber;
         this.optionIds = optionIds;
@@ -113,8 +139,8 @@ public class ItemOrder {
         }
     }
 
-    private void setState(ItemOrderState state) {
-        this.state = state;
+    private void setState(ItemOrderState stateInfo) {
+        this.state = stateInfo;
     }
 
     private void setShippingInfo(ShippingInfo shippingInfo) {
