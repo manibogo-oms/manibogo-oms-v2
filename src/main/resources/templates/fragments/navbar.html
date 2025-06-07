@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko"
+      th:fragment="layoutFragment (title, content, links, scripts)"
+      xmlns:th="http://www.thymeleaf.org">
+
+<nav th:fragment="navbar" class="navbar bg-body-tertiary navbar-expand-lg ">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1 text-primary">
+            <i class="bi bi-box-seam-fill"></i>
+            OMS
+        </span>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div id="navbarNav" class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">주문관리</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">상품관리</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">회원관리</a>
+                </li>
+            </ul>
+            <div class="navbar-text d-flex align-items-center gap-2">
+                <div>
+                    <span class="fw-bold text-primary">홍길동</span>님 안녕하세요.
+                </div>
+
+                <div class="flex-grow-1"></div>
+
+                <button class="btn btn-sm btn-outline-primary">로그아웃</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+</html>
