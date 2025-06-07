@@ -48,9 +48,10 @@ public class SyncExternalItemOrderService {
             throw new ItemOrderAlreadyPlacedException();
         }
 
-        final ItemOrder itemOrder = new ItemOrder(
+        final ItemOrder itemOrder = ItemOrder.place(
                 itemOrderNumber,
                 getOrderNumber(externalItemOrder),
+                externalItemOrder.itemOrderPlacedAt(),
                 getProductNumber(externalItemOrder),
                 getOptionIds(externalItemOrder),
                 externalItemOrder.amount(),
