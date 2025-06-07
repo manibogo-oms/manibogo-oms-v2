@@ -1,7 +1,7 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.query.dto;
 
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.item_order.ItemOrderState;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.SalesChannel;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderState;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.SalesChannel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

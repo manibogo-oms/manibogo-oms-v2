@@ -1,7 +1,7 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.item_order.ItemOrderState;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.SalesChannel;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderState;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.SalesChannel;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.FulfillmentDto;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.FulfillmentListDto;
 import lombok.extern.slf4j.Slf4j;
