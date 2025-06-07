@@ -15,8 +15,12 @@ public class ItemOrderPlacedEvent extends Event {
 
     private LocalDateTime itemOrderPlacedAt;
 
-    public ItemOrderPlacedEvent(String itemOrderNumber, LocalDateTime itemOrderPlacedAt) {
+    private Long totalPrice;
+
+    public ItemOrderPlacedEvent(String itemOrderNumber, LocalDateTime itemOrderPlacedAt, Long totalPrice) {
         this.itemOrderNumber = itemOrderNumber;
         this.itemOrderPlacedAt = itemOrderPlacedAt;
+        this.totalPrice = totalPrice;
     }
+
 }

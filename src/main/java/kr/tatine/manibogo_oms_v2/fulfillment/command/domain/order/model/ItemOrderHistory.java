@@ -21,14 +21,21 @@ public class ItemOrderHistory {
     private ItemOrderNumber itemOrderNumber;
 
     @Enumerated(EnumType.STRING)
+    private ItemOrderState previousState;
+
+    @Enumerated(EnumType.STRING)
     private ItemOrderState newState;
 
     private LocalDateTime changedAt;
 
     public ItemOrderHistory(
-            ItemOrderNumber itemOrderNumber, ItemOrderState newState, LocalDateTime changedAt) {
+            ItemOrderNumber itemOrderNumber,
+            ItemOrderState previousState,
+            ItemOrderState newState,
+            LocalDateTime changedAt) {
 
         this.itemOrderNumber = itemOrderNumber;
+        this.previousState = previousState;
         this.newState = newState;
         this.changedAt = changedAt;
     }
