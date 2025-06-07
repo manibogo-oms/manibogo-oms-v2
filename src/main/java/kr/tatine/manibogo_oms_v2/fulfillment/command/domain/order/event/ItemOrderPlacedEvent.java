@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 @ToString
 public class ItemOrderPlacedEvent extends Event {
 
-    private ItemOrderNumber itemOrderNumber;
+    private String itemOrderNumber;
 
     private LocalDateTime itemOrderPlacedAt;
 
-    public ItemOrderPlacedEvent(ItemOrderNumber itemOrderNumber, LocalDateTime itemOrderPlacedAt) {
+    public ItemOrderPlacedEvent(String itemOrderNumber, LocalDateTime itemOrderPlacedAt) {
         this.itemOrderNumber = itemOrderNumber;
         this.itemOrderPlacedAt = itemOrderPlacedAt;
     }
