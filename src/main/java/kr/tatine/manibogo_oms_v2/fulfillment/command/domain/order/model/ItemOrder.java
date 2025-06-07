@@ -65,7 +65,8 @@ public class ItemOrder {
             LocalDate dispatchDeadline
     ) {
 
-        Events.raise(new ItemOrderPlacedEvent(number.getItemOrderNumber(), placedAt));
+        Events.raise(new ItemOrderPlacedEvent(
+                number.getItemOrderNumber(), placedAt, totalPrice.getValue()));
 
         return new ItemOrder(
                 number,

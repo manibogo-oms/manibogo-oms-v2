@@ -1,6 +1,7 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.infra;
 
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.CreateItemOrderHistoryService;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.application.ItemOrderHistoryCommand;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.event.ItemOrderPlacedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,8 +25,14 @@ public class ItemOrderPlacedHandler {
     public void handle(ItemOrderPlacedEvent event) {
         log.debug("[ItemOrderPlacedHandler.handle] event = {}", event);
 
-        createItemOrderHistoryService.create(
-                event.getItemOrderNumber(), "PLACED", event.getItemOrderPlacedAt());
+        final ItemOrderHistoryCommand command = new ItemOrderHistoryCommand(
+                event.getItemOrderNumber(),
+                null,
+                "PLACED",
+                event.getItemOrderPlacedAt()
+        );
+
+        createItemOrderHistoryService.create(command);
     }
 
 }
