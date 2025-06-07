@@ -4,7 +4,5 @@ import java.util.List;
 
 public record SynchronizeErrorResult(
         String itemOrderNumber,
-        List<String> errors) {
-
-    public record FieldError(String field, String message) {}
+        List<String> errorMessages) {
 }

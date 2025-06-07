@@ -31,7 +31,11 @@ public class FulfillmentController {
     }
 
     @GetMapping
-    public String fulfillment(Model model) {
+    public String fulfillment(
+            Model model,
+            @ModelAttribute SynchronizeResponse synchronizeResponse) {
+
+        model.addAttribute("synchronizeResponse", synchronizeResponse);
 
         FulfillmentListDto fulfillmentListDto = new FulfillmentListDto();
 

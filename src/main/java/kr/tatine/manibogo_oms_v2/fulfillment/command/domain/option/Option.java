@@ -19,9 +19,9 @@ public class Option {
 
     private String label;
 
-    public Option(OptionId id, ProductNumber productNumber, String label) {
+    public Option(OptionId id, ProductNumber productNumber) {
         this.id = id;
         this.productNumber = productNumber;
-        this.label = label;
+        this.label = id.getValue();
     }
 }
