@@ -1,0 +1,46 @@
+.table td, .table th {
+    min-width: 56px;
+    height: 48px;
+    vertical-align: middle;
+}
+
+.col-date {
+    min-width: 96px !important;
+}
+
+.col-expand {
+    min-width: auto !important;
+}
+
+.purchased td {
+    background-color: #F1FFF0;
+}
+
+.dispatched td {
+    background-color: #FFF2EA;
+}
+
+.shipped td {
+    background-color: #F1F9FF;
+}
+
+.confirmed td {
+    background-color: #fdfff1;
+}
+
+.canceled td {
+    background-color: #FDF3FB;
+}
+
+.refunded td {
+    background-color: #F6F3FE;
+}
+
+.selected td {
+    background-color: #EDEFFF;
+}
+
+.img-order-location {
+    width: 21px;
+    height: 21px;
+}

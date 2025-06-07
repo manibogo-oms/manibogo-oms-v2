@@ -25,4 +25,8 @@ public class OptionId implements Serializable {
         this.key = key;
         this.value = value;
     }
+
+    String getValue() {
+        return value;
+    }
 }

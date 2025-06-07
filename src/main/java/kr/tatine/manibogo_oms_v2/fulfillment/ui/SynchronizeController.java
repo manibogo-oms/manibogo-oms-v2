@@ -12,9 +12,6 @@ import kr.tatine.manibogo_oms_v2.fulfillment.command.application.SyncExternalIte
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -32,22 +29,6 @@ public class SynchronizeController {
 
     static {
         objectMapper.registerModule(new JavaTimeModule());
-    }
-
-    @GetMapping("/result")
-    public String result(
-            Model model, @ModelAttribute("response") SynchronizeResponse response) {
-
-        model.addAttribute("successes", response.getSuccesses());
-        model.addAttribute("skips", response.getSkips());
-        model.addAttribute("errors", response.getErrors());
-
-        return "popup/sync-result";
-    }
-
-    @GetMapping("/external-item-orders")
-    public String getSyncExternalItemOrders() {
-        return "popup/sync-smart-store-item-order";
     }
 
     @PostMapping(value = "/external-item-orders")
@@ -89,9 +70,9 @@ public class SynchronizeController {
             }
         }
 
-        redirectAttr.addFlashAttribute("response", response);
+        redirectAttr.addFlashAttribute("synchronizeResponse", response);
 
-        return "redirect:/v2/synchronize/result";
+        return "redirect:/v2/fulfillment";
     }
 
 }
