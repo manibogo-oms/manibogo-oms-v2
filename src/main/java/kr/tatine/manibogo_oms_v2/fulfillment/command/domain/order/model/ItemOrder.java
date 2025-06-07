@@ -1,16 +1,22 @@
-package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.item_order;
+package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model;
 
 import jakarta.persistence.*;
 import kr.tatine.manibogo_oms_v2.common.model.Money;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderNumber;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderState;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ShippingInfo;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.TrackingInfo;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.OptionId;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.OrderNumber;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.OrderNumber;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.exception.AlreadyDispatchedException;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.exception.AlreadyShippedException;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.exception.StateAlreadyProceededException;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.ProductNumber;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
