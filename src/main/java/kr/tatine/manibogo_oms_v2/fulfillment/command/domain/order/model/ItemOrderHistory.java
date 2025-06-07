@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ItemOrderStateHistory {
+public class ItemOrderHistory {
 
     @Id @GeneratedValue
     private Long id;
@@ -25,7 +25,7 @@ public class ItemOrderStateHistory {
 
     private LocalDateTime changedAt;
 
-    public ItemOrderStateHistory(
+    public ItemOrderHistory(
             ItemOrderNumber itemOrderNumber, ItemOrderState newState, LocalDateTime changedAt) {
 
         this.itemOrderNumber = itemOrderNumber;
