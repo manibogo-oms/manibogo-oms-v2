@@ -24,9 +24,9 @@ public class QProduct extends EntityPathBase<Product> {
 
     public final StringPath name = createString("name");
 
-    public final QPriority priority;
+    public final QProductNumber number;
 
-    public final QProductNumber productNumber;
+    public final QPriority priority;
 
     public QProduct(String variable) {
         this(Product.class, forVariable(variable), INITS);
@@ -46,8 +46,8 @@ public class QProduct extends EntityPathBase<Product> {
 
     public QProduct(Class<? extends Product> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.number = inits.isInitialized("number") ? new QProductNumber(forProperty("number")) : null;
         this.priority = inits.isInitialized("priority") ? new QPriority(forProperty("priority")) : null;
-        this.productNumber = inits.isInitialized("productNumber") ? new QProductNumber(forProperty("productNumber")) : null;
     }
 
 }
