@@ -116,7 +116,7 @@ public class SyncExternalItemOrderService {
 
     private Recipient createRecipient(ExternalItemOrderRequest command) {
         return new Recipient(
-                command.productName(),
+                command.recipientName(),
                 new PhoneNumber(command.recipientPhoneNumber1()),
                 new PhoneNumber(command.recipientPhoneNumber2()),
                 new Address(
