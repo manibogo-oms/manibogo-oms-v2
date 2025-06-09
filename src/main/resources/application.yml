@@ -13,14 +13,14 @@ spring:
       on-profile: local
 
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:smartstore_order_management;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1
-    username: sa
-    password:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/manibogo_oms_v2
+    username: root
+    password: 3520
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
 
     properties:
       hibernate:
