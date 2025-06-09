@@ -1,26 +1,21 @@
 package kr.tatine.manibogo_oms_v2.common.model;
 
 import jakarta.persistence.Embeddable;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.math.BigDecimal;
 
+@Getter
 @ToString
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Money {
 
-    private BigDecimal value;
+    private Long value;
 
-    public Money(BigDecimal value) {
+    public Money(Long value) {
         this.value = value;
     }
 
-    public Money(long value) {
-        this(BigDecimal.valueOf(value));
-    }
 }

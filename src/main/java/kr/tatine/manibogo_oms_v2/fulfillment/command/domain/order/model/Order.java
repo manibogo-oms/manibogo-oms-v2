@@ -1,6 +1,10 @@
-package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order;
+package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model;
 
 import jakarta.persistence.*;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.Customer;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.OrderNumber;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.Recipient;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.SalesChannel;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.ToString;

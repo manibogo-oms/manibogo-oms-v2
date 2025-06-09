@@ -1,19 +1,17 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.command.application;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import kr.tatine.manibogo_oms_v2.common.validator.DescribableEnum;
 import kr.tatine.manibogo_oms_v2.common.validator.OptionInfo;
 import kr.tatine.manibogo_oms_v2.common.validator.PhoneNumber;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.item_order.ChargeType;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.item_order.ShippingMethod;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.SalesChannel;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ChargeType;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ShippingMethod;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.SalesChannel;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 
 public record ExternalItemOrderRequest (
