@@ -39,17 +39,6 @@ public class FulfillmentController {
 
         FulfillmentListDto fulfillmentListDto = new FulfillmentListDto();
 
-        fulfillmentListDto.setFulfillmentList(List.of(
-                createRowDto(ItemOrderState.PLACED, SalesChannel.SMART_STORE),
-                createRowDto(ItemOrderState.PURCHASED, SalesChannel.SMART_STORE),
-                createRowDto(ItemOrderState.DISPATCHED, SalesChannel.SMART_STORE),
-                createRowDto(ItemOrderState.SHIPPED, SalesChannel.SMART_STORE),
-                createRowDto(ItemOrderState.CONFIRMED, SalesChannel.SMART_STORE),
-                createRowDto(ItemOrderState.CANCELLED, SalesChannel.SMART_STORE),
-                createRowDto(ItemOrderState.REFUNDED, SalesChannel.SMART_STORE),
-                createRowDto(ItemOrderState.PLACED, SalesChannel.LOCAL)
-        ));
-
         model.addAttribute("fulfillmentList", fulfillmentListDto);
 
         return "fulfillment";
@@ -62,28 +51,6 @@ public class FulfillmentController {
         }
 
         return "redirect:/v2/fulfillment";
-    }
-
-    private FulfillmentDto createRowDto(ItemOrderState orderState, SalesChannel salesChannel) {
-        FulfillmentDto fulfillmentDto = new FulfillmentDto();
-
-        fulfillmentDto.setRowSelected(false);
-        fulfillmentDto.setSalesChannel(salesChannel);
-        fulfillmentDto.setOrderState(orderState);
-        fulfillmentDto.setOrderNumber("2025051637129311");
-        fulfillmentDto.setProductName("베아투스 매트리스 [사이즈: 1500X2000]");
-        fulfillmentDto.setAmount(2);
-        fulfillmentDto.setShippingBundleCount(2);
-        fulfillmentDto.setShippingRegionName("경기");
-        fulfillmentDto.setBuyerName("홍길동");
-        fulfillmentDto.setReceiverName("홍길동");
-        fulfillmentDto.setOrderPlacedOn(LocalDate.parse("2025-05-18"));
-        fulfillmentDto.setDispatchDeadlineOn(LocalDate.parse("2025-06-09"));
-        fulfillmentDto.setPurchasedOn(LocalDate.parse("2025-05-19"));
-        fulfillmentDto.setDispatchedOn(LocalDate.parse("2025-05-19"));
-        fulfillmentDto.setShippedOn(LocalDate.parse("2025-05-20"));
-        fulfillmentDto.setPurchaseMemo("최대한 빨리 제작요청");
-        return fulfillmentDto;
     }
 
 }

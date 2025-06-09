@@ -3,36 +3,36 @@ package kr.tatine.manibogo_oms_v2.fulfillment.query.dto;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderState;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.SalesChannel;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
 @Getter
-@Setter
 @ToString
+@NoArgsConstructor
 public class FulfillmentDto {
 
-    private boolean isRowSelected;
-
-    private SalesChannel salesChannel;
-
-    private ItemOrderState orderState;
+    private String itemOrderNumber;
 
     private String orderNumber;
 
+    private SalesChannel salesChannel;
+
+    private ItemOrderState itemOrderState;
+
     private String productName;
 
-    private int shippingBundleCount;
+    private int shippingBundleCount = 1;
 
     private int amount;
 
-    private String shippingRegionName;
+    private String shippingRegionName = "아직";
 
-    private String buyerName;
+    private String customerName;
 
-    private String receiverName;
+    private String recipientName;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate orderPlacedOn;
