@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.item_order;
+package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo;
 
 import kr.tatine.manibogo_oms_v2.common.model.Describable;
 import lombok.Getter;

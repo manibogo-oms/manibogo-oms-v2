@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order;
+package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo;
 
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;

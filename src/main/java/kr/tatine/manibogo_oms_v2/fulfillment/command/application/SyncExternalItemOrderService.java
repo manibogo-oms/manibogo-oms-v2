@@ -3,12 +3,17 @@ package kr.tatine.manibogo_oms_v2.fulfillment.command.application;
 import jakarta.validation.Valid;
 import kr.tatine.manibogo_oms_v2.common.converter.StringToDescribableEnumConverter;
 import kr.tatine.manibogo_oms_v2.common.converter.StringToOptionIdListConvertor;
+import kr.tatine.manibogo_oms_v2.common.model.Address;
 import kr.tatine.manibogo_oms_v2.common.model.Money;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.item_order.*;
+import kr.tatine.manibogo_oms_v2.common.model.PhoneNumber;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.Option;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.OptionId;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.OptionRepository;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.*;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.ItemOrder;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.Order;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.*;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.repository.ItemOrderRepository;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.repository.OrderRepository;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.Priority;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.Product;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.ProductNumber;
@@ -43,9 +48,10 @@ public class SyncExternalItemOrderService {
             throw new ItemOrderAlreadyPlacedException();
         }
 
-        final ItemOrder itemOrder = new ItemOrder(
+        final ItemOrder itemOrder = ItemOrder.place(
                 itemOrderNumber,
                 getOrderNumber(externalItemOrder),
+                externalItemOrder.itemOrderPlacedAt(),
                 getProductNumber(externalItemOrder),
                 getOptionIds(externalItemOrder),
                 externalItemOrder.amount(),

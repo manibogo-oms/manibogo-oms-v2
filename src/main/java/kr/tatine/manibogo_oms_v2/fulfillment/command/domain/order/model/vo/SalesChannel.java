@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.item_order;
+package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo;
 
 import kr.tatine.manibogo_oms_v2.common.model.Describable;
 import lombok.Getter;
@@ -6,9 +6,10 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum ShippingMethod implements Describable {
+public enum SalesChannel implements Describable {
 
-    DIRECT("직접전달"), PARCEL("택배,등기,소포");
+    SMART_STORE("스마트스토어"),
+    LOCAL("매장");
 
     private final String description;
 }
