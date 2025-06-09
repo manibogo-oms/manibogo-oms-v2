@@ -13,15 +13,15 @@ import lombok.ToString;
 public class Product {
 
     @EmbeddedId
-    private ProductNumber productNumber;
+    private ProductNumber number;
 
     private String name;
 
     @Embedded
     private Priority priority;
 
-    public Product(ProductNumber productNumber, String name, Priority priority) {
-        this.productNumber = productNumber;
+    public Product(ProductNumber number, String name, Priority priority) {
+        this.number = number;
         this.name = name;
         this.priority = priority;
     }
