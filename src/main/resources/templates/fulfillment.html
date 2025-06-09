@@ -106,8 +106,8 @@
 
                 <td class="td">
                     <a href="#"
-                       th:classappend="*{fulfillmentList[__${fulfillmentStat.index}__].shippingBundleCount > 1} ? 'accent' : ''"
-                       th:text="*{fulfillmentList[__${fulfillmentStat.index}__].shippingBundleCount}">
+                       th:classappend="*{fulfillmentList[__${fulfillmentStat.index}__].itemOrderBundleCount > 1} ? 'accent' : ''"
+                       th:text="*{fulfillmentList[__${fulfillmentStat.index}__].itemOrderBundleCount}">
                         합배송수
                     </a>
                 </td>
@@ -126,16 +126,16 @@
 
                 <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].recipientName}">수취인</td>
 
-                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].orderPlacedOn}">주문일자</td>
+                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].getPlacedOn}">주문일자</td>
 
                 <td class="td">
                     <input class="form-control form-control-sm" type="date" aria-label="발송기한"
-                           th:field="*{fulfillmentList[__${fulfillmentStat.index}__].dispatchDeadlineOn}">
+                           th:field="*{fulfillmentList[__${fulfillmentStat.index}__].dispatchDeadline}">
                 </td>
 
                 <td class="td">
                     <input class="form-control form-control-sm" type="date" aria-label="희망배송일자"
-                           th:value="*{fulfillmentList[__${fulfillmentStat.index}__].preferShipsOn}">
+                           th:value="*{fulfillmentList[__${fulfillmentStat.index}__].preferredShipsOn}">
                 </td>
 
                 <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].purchasedOn}">발주일자</td>
@@ -152,14 +152,14 @@
 
                 <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].confirmedOn}">확정일자</td>
 
-                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].canceledOn}">취소일자</td>
+                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].cancelledOn}">취소일자</td>
 
                 <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].refundedOn}">반품일자</td>
             </tr>
             <tr>
                 <td class="td"></td>
 
-                <td colspan="4" class="td text-left" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].buyerMemo}">고객메모</td>
+                <td colspan="4" class="td text-left" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].customerMemo}">고객메모</td>
 
                 <td class="td" colspan="6">
                     <input class="form-control form-control-sm" type="text"
