@@ -67,8 +67,10 @@
             </thead>
 
             <tbody th:each="fulfillment : *{getFulfillmentList}"
-                   th:class="|table-row ${fulfillment.getItemOrderState.name().toLowerCase()}|">
-            <tr>
+                   th:class="|table-row ${fulfillment.getItemOrderState.name().toLowerCase()}|"
+                    th:classappend="${fulfillmentStat.even ? 'table-light' : ''}"
+            >
+            <tr >
                 <td class="td">
                     <input type="checkbox"
                            aria-label="선택"
