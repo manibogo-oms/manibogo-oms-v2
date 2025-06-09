@@ -67,13 +67,14 @@
             </thead>
 
             <tbody th:each="fulfillment : *{getFulfillmentList}"
-                   th:class="|table-row ${fulfillment.orderState.name().toLowerCase()}|">
-            <tr>
+                   th:class="|table-row ${fulfillment.getItemOrderState.name().toLowerCase()}|"
+                    th:classappend="${fulfillmentStat.even ? 'table-light' : ''}"
+            >
+            <tr >
                 <td class="td">
                     <input type="checkbox"
                            aria-label="선택"
-                           class="form-check-input chk-select-row"
-                           th:field="*{fulfillmentList[__${fulfillmentStat.index}__].rowSelected}">
+                           class="form-check-input chk-select-row">
                 </td>
 
                 <td class="td">
@@ -81,7 +82,7 @@
                         <option th:each="itemOrderState : ${itemOrderStates}"
                                 th:value="${itemOrderState}"
                                 th:text="${itemOrderState.description}"
-                                th:selected="${itemOrderState} == *{fulfillmentList[__${fulfillmentStat.index}__].orderState}">
+                                th:selected="${itemOrderState} == *{fulfillmentList[__${fulfillmentStat.index}__].getItemOrderState}">
                         </option>
                     </select>
                 </td>
@@ -107,8 +108,8 @@
 
                 <td class="td">
                     <a href="#"
-                       th:classappend="*{fulfillmentList[__${fulfillmentStat.index}__].shippingBundleCount > 1} ? 'accent' : ''"
-                       th:text="*{fulfillmentList[__${fulfillmentStat.index}__].shippingBundleCount}">
+                       th:classappend="*{fulfillmentList[__${fulfillmentStat.index}__].itemOrderBundleCount > 1} ? 'accent' : ''"
+                       th:text="*{fulfillmentList[__${fulfillmentStat.index}__].itemOrderBundleCount}">
                         합배송수
                     </a>
                 </td>
@@ -122,21 +123,21 @@
                 <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].shippingRegionName}">지역</td>
 
                 <td class="td">
-                    <a href="#" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].buyerName}">구매자</a>
+                    <a href="#" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].customerName}">구매자</a>
                 </td>
 
-                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].receiverName}">수취인</td>
+                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].recipientName}">수취인</td>
 
-                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].orderPlacedOn}">주문일자</td>
+                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].getPlacedOn}">주문일자</td>
 
                 <td class="td">
                     <input class="form-control form-control-sm" type="date" aria-label="발송기한"
-                           th:field="*{fulfillmentList[__${fulfillmentStat.index}__].dispatchDeadlineOn}">
+                           th:field="*{fulfillmentList[__${fulfillmentStat.index}__].dispatchDeadline}">
                 </td>
 
                 <td class="td">
                     <input class="form-control form-control-sm" type="date" aria-label="희망배송일자"
-                           th:value="*{fulfillmentList[__${fulfillmentStat.index}__].preferShipsOn}">
+                           th:value="*{fulfillmentList[__${fulfillmentStat.index}__].preferredShipsOn}">
                 </td>
 
                 <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].purchasedOn}">발주일자</td>
@@ -153,14 +154,14 @@
 
                 <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].confirmedOn}">확정일자</td>
 
-                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].canceledOn}">취소일자</td>
+                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].cancelledOn}">취소일자</td>
 
                 <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].refundedOn}">반품일자</td>
             </tr>
             <tr>
                 <td class="td"></td>
 
-                <td colspan="4" class="td text-left" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].buyerMemo}">고객메모</td>
+                <td colspan="4" class="td text-left" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].customerMemo}">고객메모</td>
 
                 <td class="td" colspan="6">
                     <input class="form-control form-control-sm" type="text"
@@ -179,9 +180,46 @@
             </tr>
             </tbody>
         </table>
-
     </form>
 
+    <nav aria-label="Page navigation" th:with="sort=${#strings.listJoin(page.pageable.sort.toString().split(': '), ',')}">
+        <ul class="pagination justify-content-center">
+
+            <li class="page-item" th:classappend="${page.first ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{/v2/fulfillment(page=${page.number - 1}, size=${pageSize}, sort=${sort})}" aria-label="이전 페이지로">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            <li class="page-item" th:classappend="${1 == currentPage ? 'active' : ''}">
+                <a class="page-link" th:href="@{/v2/fulfillment(page=0, size=${pageSize}, sort=${sort})}" th:text="1" th:aria-label="|1번 페이지로|"></a>
+            </li>
+
+            <li class="page-item disabled" th:if="${showLeftDots}">
+                <a class="page-link" href="#">...</a>
+            </li>
+
+            <li class="page-item" th:each="i : ${pageNumbers}"
+                th:if="${i != 1 and i != totalPage}"
+                th:classappend="${i == currentPage ? 'active' : ''}">
+                <a class="page-link" th:href="@{/v2/fulfillment(page=${i - 1}, size=${pageSize}, sort=${sort})}" th:text="${i}" th:aria-label="|${i}번 페이지로|"></a>
+            </li>
+
+            <li class="page-item disabled" th:if="${showRightDots}">
+                <a class="page-link" href="#">...</a>
+            </li>
+
+            <li class="page-item" th:if="${totalPage > 1}" th:classappend="${totalPage == currentPage ? 'active' : ''}">
+                <a class="page-link" th:href="@{/v2/fulfillment(page=${totalPage - 1}, size=${pageSize}, sort=${sort})}" th:text="${totalPage}" th:aria-label="|${totalPage}번 페이지로|"></a>
+            </li>
+
+            <li class="page-item" th:classappend="${page.last ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{/v2/fulfillment(page=${page.number + 1}, size=${pageSize}, sort=${sort})}" aria-label="다음 페이지로">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </section>
 </body>
 

@@ -16,6 +16,7 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Recipient {
 
+    @Column(name = "recipient_name")
     private String name;
 
     @AttributeOverride(
