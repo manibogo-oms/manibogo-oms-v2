@@ -67,13 +67,12 @@
             </thead>
 
             <tbody th:each="fulfillment : *{getFulfillmentList}"
-                   th:class="|table-row ${fulfillment.orderState.name().toLowerCase()}|">
+                   th:class="|table-row ${fulfillment.getItemOrderState.name().toLowerCase()}|">
             <tr>
                 <td class="td">
                     <input type="checkbox"
                            aria-label="선택"
-                           class="form-check-input chk-select-row"
-                           th:field="*{fulfillmentList[__${fulfillmentStat.index}__].rowSelected}">
+                           class="form-check-input chk-select-row">
                 </td>
 
                 <td class="td">
@@ -81,7 +80,7 @@
                         <option th:each="itemOrderState : ${itemOrderStates}"
                                 th:value="${itemOrderState}"
                                 th:text="${itemOrderState.description}"
-                                th:selected="${itemOrderState} == *{fulfillmentList[__${fulfillmentStat.index}__].orderState}">
+                                th:selected="${itemOrderState} == *{fulfillmentList[__${fulfillmentStat.index}__].getItemOrderState}">
                         </option>
                     </select>
                 </td>
@@ -122,10 +121,10 @@
                 <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].shippingRegionName}">지역</td>
 
                 <td class="td">
-                    <a href="#" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].buyerName}">구매자</a>
+                    <a href="#" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].customerName}">구매자</a>
                 </td>
 
-                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].receiverName}">수취인</td>
+                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].recipientName}">수취인</td>
 
                 <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].orderPlacedOn}">주문일자</td>
 
