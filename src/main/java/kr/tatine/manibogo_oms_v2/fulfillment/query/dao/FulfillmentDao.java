@@ -1,10 +1,11 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.query.dao;
 
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.FulfillmentDto;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+public interface FulfillmentDao {
 
-public interface FulfillmentDao extends JpaRepository<FulfillmentDto, String> {
+    Page<FulfillmentDto> findAll(Pageable pageable);
 
 }
