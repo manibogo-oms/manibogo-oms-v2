@@ -5,6 +5,7 @@ import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.Sales
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.FulfillmentDao;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.FulfillmentDto;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.FulfillmentListDto;
+import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.FulfillmentSortParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.time.LocalDate;
 import java.util.*;
 
 @Slf4j
@@ -43,7 +43,7 @@ public class FulfillmentController {
     @GetMapping
     @Transactional(readOnly = true)
     public String fulfillment(
-            @PageableDefault(sort = "item_order_number", direction = Sort.Direction.DESC) Pageable pageable,
+            @PageableDefault Pageable pageable,
             Model model,
             @ModelAttribute SynchronizeResponse synchronizeResponse) {
 
@@ -58,7 +58,40 @@ public class FulfillmentController {
         fulfillmentListDto.setFulfillmentList(page.getContent());
         model.addAttribute("fulfillmentList", fulfillmentListDto);
 
+        model.addAttribute("nextSortParams", getNextSortParams(pageable.getSort()));
+
         return "fulfillment";
+    }
+
+    private Map<String, String> getNextSortParams(Sort currentSort) {
+
+        Map<String , String> nextSortParams = new HashMap<>();
+
+        for (FulfillmentSortParam sortField : FulfillmentSortParam.values()) {
+
+            final Optional<Sort.Order> optionalOrder = currentSort.stream()
+                    .filter(order -> order.getProperty().equals(sortField.name()))
+                    .findFirst();
+
+            // 현재 정렬 없음 -> 다음은 내림차순 (DESC)
+            if (optionalOrder.isEmpty()) {
+                nextSortParams.put(sortField.name(), sortField.name() + ",DESC");
+                continue;
+            }
+
+            final Sort.Order order = optionalOrder.get();
+
+            // 현재 오름차순(ASC) -> 정렬 해제(UNSORTED)
+            if (order.getDirection() == Sort.Direction.ASC) {
+                nextSortParams.put(sortField.name(), "UNSORTED");
+                continue;
+            }
+
+            // 현재 내림차순(DESC) -> 다음은 오름차순(ASC)
+            nextSortParams.put(sortField.name(), sortField.name() + ",ASC");
+        }
+
+        return nextSortParams;
     }
 
     private void calculatePageAttribute(Model model, Page<FulfillmentDto> page) {
