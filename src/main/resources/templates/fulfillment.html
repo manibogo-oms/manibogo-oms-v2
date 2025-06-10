@@ -8,7 +8,7 @@
 
 <body>
 
-<section>
+<section class="p-xl-5 p-md-4 p-sm-3">
 
     <div th:replace="~{modal/sync-smart-store-item-order :: syncSmartStoreItemOrderModal}"></div>
 
@@ -21,166 +21,200 @@
         </ul>
     </div>
 
+    <div style="height: 16px;"></div>
+
     <div th:replace="~{fragments/sync-result :: syncResult(${synchronizeResponse})}"></div>
 
 
-    <form method="POST" th:action="@{/v2/orders/edit}" th:object="${fulfillmentList}">
 
-        <button type="submit">수정</button>
+        <div class="d-flex align-items-end">
+                <div>
+                    총 <span th:text="${page.getTotalElements()}" class="text-primary fw-bold">0</span>건
+                </div>
 
-        <table class="table text-nowrap text-center small align-middle w-100" style="display: block">
+            <div class="flex-grow-1"></div>
 
+            <form method="GET" th:action="@{/v2/fulfillment}">
 
+                <input type="hidden" th:field="${page.pageable.pageNumber}" />
+                <input type="hidden" th:field="${page.pageable.sort}" />
 
-            <thead class="table-light">
-            <tr>
-                <th scope="col">
-                    <input class="form-check-input chk-select-all-rows" type="checkbox" aria-label="전체 선택">
-                </th>
-                <th scope="col">상태</th>
-                <th scope="col">상품주문번호</th>
-                <th class="w-100" scope="col">상품명</th>
-                <th scope="col">합배송</th>
-                <th scope="col">수량</th>
-                <th scope="col">지역</th>
-                <th scope="col">구매자</th>
-                <th scope="col">수취인</th>
-                <th class="col-date" scope="col">주문일자</th>
-                <th scope="col">발송기한</th>
-                <th scope="col">희망배송일자</th>
-                <th class="col-date" scope="col">발주일자</th>
-                <th class="col-date" scope="col">출고일자</th>
-                <th class="col-date" scope="col">배송일자</th>
-                <th scope="col">송장번호</th>
-                <th class="col-date" scope="col">확정일자</th>
-                <th class="col-date" scope="col">취소일자</th>
-                <th class="col-date" scope="col">반품일자</th>
-            </tr>
+                <div class="d-flex align-items-center gap-2">
 
-            <tr>
-                <th scope="col"></th>
-                <th scope="col" colspan="4">고객메모</th>
-                <th scope="col" colspan="6">발주메모</th>
-                <th scope="col" colspan="4">배송메모</th>
-                <th scope="col" colspan="4">관리자메모</th>
-            </tr>
-            </thead>
-
-            <tbody th:each="fulfillment : *{getFulfillmentList}"
-                   th:class="|table-row ${fulfillment.getItemOrderState.name().toLowerCase()}|"
-                    th:classappend="${fulfillmentStat.even ? 'table-light' : ''}"
-            >
-            <tr >
-                <td class="td">
-                    <input type="checkbox"
-                           aria-label="선택"
-                           class="form-check-input chk-select-row">
-                </td>
-
-                <td class="td">
-                    <select class="form-select form-select-sm" aria-label="주문 상태 선택" style="min-width: 72px">
-                        <option th:each="itemOrderState : ${itemOrderStates}"
-                                th:value="${itemOrderState}"
-                                th:text="${itemOrderState.description}"
-                                th:selected="${itemOrderState} == *{fulfillmentList[__${fulfillmentStat.index}__].getItemOrderState}">
-                        </option>
-                    </select>
-                </td>
-
-                <td class="td">
-                    <div class="d-flex">
-                        <th:block th:switch="*{fulfillmentList[__${fulfillmentStat.index}__].salesChannel.description}">
-                            <img class="img-order-location" th:case="스마트스토어" src="/image/smartstore.png" aria-label="스마트스토어"  alt="/image/fallback.jpg"/>
-                            <img class="img-order-location" th:case="매장" src="/image/local.png" aria-label="스마트스토어"  alt="/image/fallback.jpg"/>
-                        </th:block>
-
-                        <div style="width: 6px"></div>
-
-                        <a href="#" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].orderNumber}">상품주문번호</a>
+                    <div class="col-auto">
+                        <select id="selectPageSize" class="form-select" aria-label="페이지 크기 선택" name="size">
+                            <option th:selected="${pageSize} == 5" value="5">5개</option>
+                            <option th:selected="${pageSize} == 10" value="10">10개</option>
+                            <option th:selected="${pageSize} == 25" value="25">25개</option>
+                            <option th:selected="${pageSize} == 50" value="50">50개</option>
+                        </select>
                     </div>
 
-                    <input type="hidden" th:field="*{fulfillmentList[__${fulfillmentStat.index}__].orderNumber}">
-                </td>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-secondary">변경</button>
+                    </div>
+                </div>
 
-                <td class="col-expand text-start" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].productName}">
-                    상품명
-                </td>
+            </form>
+        </div>
 
-                <td class="td">
-                    <a href="#"
-                       th:classappend="*{fulfillmentList[__${fulfillmentStat.index}__].itemOrderBundleCount > 1} ? 'accent' : ''"
-                       th:text="*{fulfillmentList[__${fulfillmentStat.index}__].itemOrderBundleCount}">
-                        합배송수
-                    </a>
-                </td>
+        <div style="height: 16px;"></div>
 
-                <td class="td"
-                    th:text="*{fulfillmentList[__${fulfillmentStat.index}__].amount}"
-                    th:classappend="*{fulfillmentList[__${fulfillmentStat.index}__].amount > 1} ? 'accent' : ''">
-                    수량
-                </td>
+        <div class="table-responsive" th:object="${fulfillmentList}">
 
-                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].shippingRegionName}">지역</td>
+            <table class="table text-nowrap text-center small align-middle w-100" style="display: block">
 
-                <td class="td">
-                    <a href="#" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].customerName}">구매자</a>
-                </td>
+                <thead class="table-light">
+                <tr>
+                    <th scope="col">
+                        <input class="form-check-input chk-select-all-rows" type="checkbox" aria-label="전체 선택">
+                    </th>
+                    <th scope="col">상태</th>
+                    <th scope="col">상품주문번호</th>
+                    <th class="w-100" scope="col">상품명</th>
+                    <th scope="col">합배송</th>
+                    <th scope="col">수량</th>
+                    <th scope="col">지역</th>
+                    <th scope="col">구매자</th>
+                    <th scope="col">수취인</th>
+                    <th class="col-date" scope="col">주문일자</th>
+                    <th scope="col">발송기한</th>
+                    <th scope="col">희망배송일자</th>
+                    <th class="col-date" scope="col">발주일자</th>
+                    <th class="col-date" scope="col">출고일자</th>
+                    <th class="col-date" scope="col">배송일자</th>
+                    <th scope="col">송장번호</th>
+                    <th class="col-date" scope="col">확정일자</th>
+                    <th class="col-date" scope="col">취소일자</th>
+                    <th class="col-date" scope="col">반품일자</th>
+                </tr>
 
-                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].recipientName}">수취인</td>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col" colspan="4">고객메모</th>
+                    <th scope="col" colspan="6">발주메모</th>
+                    <th scope="col" colspan="4">배송메모</th>
+                    <th scope="col" colspan="4">관리자메모</th>
+                </tr>
+                </thead>
 
-                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].getPlacedOn}">주문일자</td>
+                <tbody th:each="fulfillment : *{fulfillmentList}"
+                       th:class="|table-row ${fulfillment.getItemOrderState.name().toLowerCase()}|"
+                       th:classappend="${fulfillmentStat.even ? 'table-light' : ''}">
 
-                <td class="td">
-                    <input class="form-control form-control-sm" type="date" aria-label="발송기한"
-                           th:field="*{fulfillmentList[__${fulfillmentStat.index}__].dispatchDeadline}">
-                </td>
+                <tr >
+                    <td class="td">
+                        <input type="checkbox"
+                               aria-label="선택"
+                               class="form-check-input chk-select-row">
+                    </td>
 
-                <td class="td">
-                    <input class="form-control form-control-sm" type="date" aria-label="희망배송일자"
-                           th:value="*{fulfillmentList[__${fulfillmentStat.index}__].preferredShipsOn}">
-                </td>
+                    <td class="td">
+                        <select class="form-select form-select-sm" aria-label="주문 상태 선택" style="min-width: 72px">
+                            <option th:each="itemOrderState : ${itemOrderStates}"
+                                    th:value="${itemOrderState}"
+                                    th:text="${itemOrderState.description}"
+                                    th:selected="${itemOrderState} == *{fulfillmentList[__${fulfillmentStat.index}__].getItemOrderState}">
+                            </option>
+                        </select>
+                    </td>
 
-                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].purchasedOn}">발주일자</td>
+                    <td class="td">
+                        <div class="d-flex">
+                            <th:block th:switch="*{fulfillmentList[__${fulfillmentStat.index}__].salesChannel.description}">
+                                <img class="img-order-location" th:case="스마트스토어" src="/image/smartstore.png" aria-label="스마트스토어"  alt="/image/fallback.jpg"/>
+                                <img class="img-order-location" th:case="매장" src="/image/local.png" aria-label="스마트스토어"  alt="/image/fallback.jpg"/>
+                            </th:block>
 
-                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].dispatchedOn}">출고일자</td>
+                            <div style="width: 6px"></div>
 
-                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].shippedOn}">배송일자</td>
+                            <a href="#" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].orderNumber}">상품주문번호</a>
+                        </div>
 
-                <td class="td">
-                    <input class="form-control form-control-sm" type="text" aria-label="송장번호"
-                           style="width: 144px"
-                           th:field="*{fulfillmentList[__${fulfillmentStat.index}__].shippingTrackingNumber}">
-                </td>
+                        <input type="hidden" th:field="*{fulfillmentList[__${fulfillmentStat.index}__].orderNumber}">
+                    </td>
 
-                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].confirmedOn}">확정일자</td>
+                    <td class="col-expand text-start" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].productName}">
+                        상품명
+                    </td>
 
-                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].cancelledOn}">취소일자</td>
+                    <td class="td">
+                        <a href="#"
+                           th:classappend="*{fulfillmentList[__${fulfillmentStat.index}__].itemOrderBundleCount > 1} ? 'accent' : ''"
+                           th:text="*{fulfillmentList[__${fulfillmentStat.index}__].itemOrderBundleCount}">
+                            합배송수
+                        </a>
+                    </td>
 
-                <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].refundedOn}">반품일자</td>
-            </tr>
-            <tr>
-                <td class="td"></td>
+                    <td class="td"
+                        th:text="*{fulfillmentList[__${fulfillmentStat.index}__].amount}"
+                        th:classappend="*{fulfillmentList[__${fulfillmentStat.index}__].amount > 1} ? 'accent' : ''">
+                        수량
+                    </td>
 
-                <td colspan="4" class="td text-left" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].customerMemo}">고객메모</td>
+                    <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].shippingRegionName}">지역</td>
 
-                <td class="td" colspan="6">
-                    <input class="form-control form-control-sm" type="text"
-                           th:field="*{fulfillmentList[__${fulfillmentStat.index}__].purchaseMemo}" aria-label="발주메모">
-                </td>
+                    <td class="td">
+                        <a href="#" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].customerName}">구매자</a>
+                    </td>
 
-                <td class="td" colspan="4">
-                    <input class="form-control form-control-sm" type="text"
-                           th:field="*{fulfillmentList[__${fulfillmentStat.index}__].shippingMemo}" aria-label="배송메모">
-                </td>
+                    <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].recipientName}">수취인</td>
 
-                <td class="td" colspan="4">
-                    <input class="form-control form-control-sm" type="text"
-                           th:field="*{fulfillmentList[__${fulfillmentStat.index}__].adminMemo}" aria-label="관리자메모">
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </form>
+                    <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].getPlacedOn}">주문일자</td>
+
+                    <td class="td">
+                        <input class="form-control form-control-sm" type="date" aria-label="발송기한"
+                               th:field="*{fulfillmentList[__${fulfillmentStat.index}__].dispatchDeadline}">
+                    </td>
+
+                    <td class="td">
+                        <input class="form-control form-control-sm" type="date" aria-label="희망배송일자"
+                               th:value="*{fulfillmentList[__${fulfillmentStat.index}__].preferredShipsOn}">
+                    </td>
+
+                    <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].purchasedOn}">발주일자</td>
+
+                    <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].dispatchedOn}">출고일자</td>
+
+                    <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].shippedOn}">배송일자</td>
+
+                    <td class="td">
+                        <input class="form-control form-control-sm" type="text" aria-label="송장번호"
+                               style="width: 144px"
+                               th:field="*{fulfillmentList[__${fulfillmentStat.index}__].shippingTrackingNumber}">
+                    </td>
+
+                    <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].confirmedOn}">확정일자</td>
+
+                    <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].cancelledOn}">취소일자</td>
+
+                    <td class="td" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].refundedOn}">반품일자</td>
+                </tr>
+                <tr>
+                    <td class="td"></td>
+
+                    <td colspan="4" class="td text-left" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].customerMemo}">고객메모</td>
+
+                    <td class="td" colspan="6">
+                        <input class="form-control form-control-sm" type="text"
+                               th:field="*{fulfillmentList[__${fulfillmentStat.index}__].purchaseMemo}" aria-label="발주메모">
+                    </td>
+
+                    <td class="td" colspan="4">
+                        <input class="form-control form-control-sm" type="text"
+                               th:field="*{fulfillmentList[__${fulfillmentStat.index}__].shippingMemo}" aria-label="배송메모">
+                    </td>
+
+                    <td class="td" colspan="4">
+                        <input class="form-control form-control-sm" type="text"
+                               th:field="*{fulfillmentList[__${fulfillmentStat.index}__].adminMemo}" aria-label="관리자메모">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    <div style="height: 32px;"></div>
 
     <nav aria-label="Page navigation" th:with="sort=${#strings.listJoin(page.pageable.sort.toString().split(': '), ',')}">
         <ul class="pagination justify-content-center">
