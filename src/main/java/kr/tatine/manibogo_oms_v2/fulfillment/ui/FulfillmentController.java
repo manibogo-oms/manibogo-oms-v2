@@ -43,7 +43,7 @@ public class FulfillmentController {
     @GetMapping
     @Transactional(readOnly = true)
     public String fulfillment(
-            @PageableDefault(sort = "item_order_number", direction = Sort.Direction.DESC) Pageable pageable,
+            @PageableDefault Pageable pageable,
             Model model,
             @ModelAttribute SynchronizeResponse synchronizeResponse) {
 
