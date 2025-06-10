@@ -77,37 +77,37 @@
                     <th scope="col">합배송</th>
                     <th scope="col">수량</th>
                     <th scope="col">
-                        <div th:replace="fragments/pagenation :: sortHeader('SHIPPING_REGION_NAME', '지역', ${nextSortParams})"></div>
+                        <div th:replace="~{fragments/pagenation :: sortHeader('SHIPPING_REGION_NAME', '지역', ${nextSortParams})}"></div>
                     </th>
                     <th scope="col">구매자</th>
                     <th scope="col">수취인</th>
                     <th class="col-date" scope="col">
-                        <div th:replace="fragments/pagenation :: sortHeader('PLACED_ON', '주문일자', ${nextSortParams})"></div>
+                        <div th:replace="~{fragments/pagenation :: sortHeader('PLACED_ON', '주문일자', ${nextSortParams})}"></div>
                     </th>
                     <th scope="col">
-                        <div th:replace="fragments/pagenation :: sortHeader('DISPATCH_DEADLINE', '발송기한', ${nextSortParams})"></div>
+                        <div th:replace="~{fragments/pagenation :: sortHeader('DISPATCH_DEADLINE', '발송기한', ${nextSortParams})}"></div>
                     </th>
                     <th scope="col">
-                        <div th:replace="fragments/pagenation :: sortHeader('PREFERRED_SHIPS_ON', '희망배송일자', ${nextSortParams})"></div>
+                        <div th:replace="~{fragments/pagenation :: sortHeader('PREFERRED_SHIPS_ON', '희망배송일자', ${nextSortParams})}"></div>
                     </th>
                     <th class="col-date" scope="col">
-                        <div th:replace="fragments/pagenation :: sortHeader('PURCHASED_ON', '발주일자', ${nextSortParams})"></div>
+                        <div th:replace="~{fragments/pagenation :: sortHeader('PURCHASED_ON', '발주일자', ${nextSortParams})}"></div>
                     </th>
                     <th class="col-date" scope="col">
-                        <div th:replace="fragments/pagenation :: sortHeader('DISPATCHED_ON', '출고일자', ${nextSortParams})"></div>
+                        <div th:replace="~{fragments/pagenation :: sortHeader('DISPATCHED_ON', '출고일자', ${nextSortParams})}"></div>
                     </th>
                     <th class="col-date" scope="col">
-                        <div th:replace="fragments/pagenation :: sortHeader('SHIPPED_ON', '출고일자', ${nextSortParams})"></div>
+                        <div th:replace="~{fragments/pagenation :: sortHeader('SHIPPED_ON', '배송일자', ${nextSortParams})}"></div>
                     </th>
                     <th scope="col">송장번호</th>
                     <th class="col-date" scope="col">
-                        <div th:replace="fragments/pagenation :: sortHeader('CONFIRMED_ON', '확정일자', ${nextSortParams})"></div>
+                        <div th:replace="~{fragments/pagenation :: sortHeader('CONFIRMED_ON', '확정일자', ${nextSortParams})}"></div>
                     </th>
                     <th class="col-date" scope="col">
-                        <div th:replace="fragments/pagenation :: sortHeader('CANCELLED_ON', '취소일자', ${nextSortParams})"></div>
+                        <div th:replace="~{fragments/pagenation :: sortHeader('CANCELLED_ON', '취소일자', ${nextSortParams})}"></div>
                     </th>
                     <th class="col-date" scope="col">
-                        <div th:replace="fragments/pagenation :: sortHeader('REFUNDED_ON', '반품일자', ${nextSortParams})"></div>
+                        <div th:replace="~{fragments/pagenation :: sortHeader('REFUNDED_ON', '반품일자', ${nextSortParams})}"></div>
                     </th>
                 </tr>
 
