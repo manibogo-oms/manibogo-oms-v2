@@ -21,7 +21,9 @@
         </ul>
     </div>
 
-    <div style="height: 16px;"></div>
+    <hr/>
+
+    <div style="height: 8px;"></div>
 
     <div th:replace="~{fragments/sync-result :: syncResult(${synchronizeResponse})}"></div>
 
@@ -236,17 +238,17 @@
 
     <div style="height: 32px;"></div>
 
-    <nav aria-label="Page navigation" th:with="sort=${#strings.listJoin(page.pageable.sort.toString().split(': '), ',')}">
+    <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
 
             <li class="page-item" th:classappend="${page.first ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{/v2/fulfillment(page=${page.number - 1}, size=${pageSize}, sort=${sort})}" aria-label="이전 페이지로">
+                <a class="page-link" th:href="${@replaceOrAddParam.apply('page', #strings.toString(page.number - 1))}" aria-label="이전 페이지로">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
 
             <li class="page-item" th:classappend="${1 == currentPage ? 'active' : ''}">
-                <a class="page-link" th:href="@{/v2/fulfillment(page=0, size=${pageSize}, sort=${sort})}" th:text="1" th:aria-label="|1번 페이지로|"></a>
+                <a class="page-link"  th:href="${@replaceOrAddParam.apply('page',  #strings.toString(0))}" th:text="1" th:aria-label="|1번 페이지로|"></a>
             </li>
 
             <li class="page-item disabled" th:if="${showLeftDots}">
@@ -256,7 +258,7 @@
             <li class="page-item" th:each="i : ${pageNumbers}"
                 th:if="${i != 1 and i != totalPage}"
                 th:classappend="${i == currentPage ? 'active' : ''}">
-                <a class="page-link" th:href="@{/v2/fulfillment(page=${i - 1}, size=${pageSize}, sort=${sort})}" th:text="${i}" th:aria-label="|${i}번 페이지로|"></a>
+                <a class="page-link" th:href="${@replaceOrAddParam.apply('page', #strings.toString(i - 1))}" th:text="${i}" th:aria-label="|${i}번 페이지로|"></a>
             </li>
 
             <li class="page-item disabled" th:if="${showRightDots}">
@@ -264,11 +266,11 @@
             </li>
 
             <li class="page-item" th:if="${totalPage > 1}" th:classappend="${totalPage == currentPage ? 'active' : ''}">
-                <a class="page-link" th:href="@{/v2/fulfillment(page=${totalPage - 1}, size=${pageSize}, sort=${sort})}" th:text="${totalPage}" th:aria-label="|${totalPage}번 페이지로|"></a>
+                <a class="page-link" th:href="${@replaceOrAddParam.apply('page',  #strings.toString(totalPage - 1))}" th:text="${totalPage}" th:aria-label="|${totalPage}번 페이지로|"></a>
             </li>
 
             <li class="page-item" th:classappend="${page.last ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{/v2/fulfillment(page=${page.number + 1}, size=${pageSize}, sort=${sort})}" aria-label="다음 페이지로">
+                <a class="page-link" th:href="${@replaceOrAddParam.apply('page',  #strings.toString(page.number + 1))}" aria-label="다음 페이지로">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
