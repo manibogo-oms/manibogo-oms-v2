@@ -53,6 +53,9 @@ public class ItemOrder {
 
     private LocalDate dispatchDeadline;
 
+    @Embedded
+    private ItemOrderNote note;
+
     public static ItemOrder place(
             ItemOrderNumber number,
             OrderNumber orderNumber,
@@ -126,6 +129,10 @@ public class ItemOrder {
     public void changePreferredShipsOn(LocalDate preferredShipsOn) {
         verifyNotShipped();
         setPreferredShipsOn(preferredShipsOn);
+    }
+
+    public void changeNote(ItemOrderNote itemOrderNote) {
+        this.note = itemOrderNote;
     }
 
     private void verifyNotDispatched() {
