@@ -6,6 +6,11 @@ spring:
     basename: messages,ValidationMessages
     encoding: UTF-8
 
+  data:
+    web:
+      pageable:
+        max-page-size: 50
+
 ---
 spring:
   config:
