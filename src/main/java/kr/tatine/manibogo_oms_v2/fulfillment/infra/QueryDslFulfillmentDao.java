@@ -7,6 +7,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.FulfillmentDao;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.FulfillmentDto;
+import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.FulfillmentSortParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -66,19 +67,23 @@ public class QueryDslFulfillmentDao implements FulfillmentDao {
     }
 
     private Path<?> getPropertyPath(String property) {
-        return switch (property) {
-            case "shippingRegionName" -> fulfillmentDto.shippingRegionName;
-            case "placedOn" -> fulfillmentDto.placedOn;
-            case "dispatchDeadline" -> fulfillmentDto.dispatchDeadline;
-            case "preferredShipsOn" -> fulfillmentDto.preferredShipsOn;
-            case "purchasedOn" -> fulfillmentDto.purchasedOn;
-            case "dispatchedOn" -> fulfillmentDto.dispatchedOn;
-            case "shippedOn" -> fulfillmentDto.shippedOn;
-            case "confirmedOn" -> fulfillmentDto.confirmedOn;
-            case "cancelledOn" -> fulfillmentDto.cancelledOn;
-            case "refundedOn" -> fulfillmentDto.refundedOn;
-            default -> null;
-        };
+        try {
+            return switch (FulfillmentSortParam.valueOf(property)) {
+                case SHIPPING_REGION_NAME -> fulfillmentDto.shippingRegionName;
+                case PLACED_ON -> fulfillmentDto.placedOn;
+                case DISPATCH_DEADLINE -> fulfillmentDto.dispatchDeadline;
+                case PREFERRED_SHIPS_ON -> fulfillmentDto.preferredShipsOn;
+                case PURCHASED_ON -> fulfillmentDto.purchasedOn;
+                case DISPATCHED_ON -> fulfillmentDto.dispatchedOn;
+                case SHIPPED_ON -> fulfillmentDto.shippedOn;
+                case CANCELLED_ON -> fulfillmentDto.confirmedOn;
+                case CONFIRMED_ON -> fulfillmentDto.cancelledOn;
+                case REFUNDED_ON -> fulfillmentDto.refundedOn;
+            };
+
+        } catch (IllegalArgumentException ex) {
+            return null;
+        }
     }
 
 }

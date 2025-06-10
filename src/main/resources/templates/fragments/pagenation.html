@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/*@thymesVar id="nextSortParams" type="java.util.Map<java.lang.String, java.lang.String>"*/-->
+<div th:fragment="sortHeader(paramName, label, nextSortParams)"
+     th:with="nextSortParam = ${nextSortParams.getOrDefault(paramName, 'UNSORTED')}">
+
+    <a th:href="${@replaceOrAddParam.apply('sort', nextSortParam)}">
+
+        <span th:text="${label}">헤더 레이블</span>
+
+        <i class="bi bi-caret-down-fill primary" th:if="${nextSortParam.endsWith('ASC')}"></i>
+        <i class="bi bi-caret-up-fill" th:if="${nextSortParam.equals('UNSORTED')}"></i>
+    </a>
+</div>
+
+</html>
