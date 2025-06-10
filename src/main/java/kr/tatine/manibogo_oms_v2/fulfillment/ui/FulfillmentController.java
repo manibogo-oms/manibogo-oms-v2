@@ -4,7 +4,6 @@ import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemO
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.SalesChannel;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.FulfillmentDao;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.FulfillmentDto;
-import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.FulfillmentListDto;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.FulfillmentSortParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,10 +52,6 @@ public class FulfillmentController {
         model.addAttribute("page", page);
 
         calculatePageAttribute(model, page);
-
-        FulfillmentListDto fulfillmentListDto = new FulfillmentListDto();
-        fulfillmentListDto.setFulfillmentList(page.getContent());
-        model.addAttribute("fulfillmentList", fulfillmentListDto);
 
         model.addAttribute("nextSortParams", getNextSortParams(pageable.getSort()));
 
@@ -152,15 +147,6 @@ public class FulfillmentController {
         model.addAttribute("showLeftDots", startMiddlePage > 2);
         model.addAttribute("showRightDots", endMiddlePage < totalPages1Based - 1);
 
-    }
-
-    @PostMapping("/edit")
-    public String editOrders(@ModelAttribute("orders") EditOrderListForm editOrderListForm) {
-        for (EditOrderForm order : editOrderListForm.getOrders()) {
-            log.info("order = {}", order);
-        }
-
-        return "redirect:/v2/fulfillment";
     }
 
 }
