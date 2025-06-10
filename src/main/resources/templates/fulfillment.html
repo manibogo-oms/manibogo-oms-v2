@@ -156,7 +156,7 @@
                         <input type="hidden" th:field="*{fulfillmentList[__${fulfillmentStat.index}__].orderNumber}">
                     </td>
 
-                    <td class="col-expand text-start" th:text="*{fulfillmentList[__${fulfillmentStat.index}__].productName}">
+                    <td class="col-expand text-start" th:text="|${fulfillment.productName} [${fulfillment.optionInfo}]|">
                         상품명
                     </td>
 
