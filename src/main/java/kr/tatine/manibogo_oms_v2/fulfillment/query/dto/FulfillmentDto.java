@@ -54,7 +54,7 @@ FROM
         SELECT
             io_opt.item_order_number,
             GROUP_CONCAT(
-                CONCAT(opt.option_key, ': ', opt.`label`)
+                opt.`label`
                 ORDER BY
                     opt.option_key,
                     opt.option_value SEPARATOR ', '
@@ -66,7 +66,7 @@ FROM
         GROUP BY
             io_opt.item_order_number
     ) AS option_agg ON io.item_order_number = option_agg.item_order_number
-    -- 주문별 아이템 개수 미리 집계 View
+    -- 주문별 아이템 개수 집계 View
     LEFT JOIN (
         SELECT
             item_order.order_number,

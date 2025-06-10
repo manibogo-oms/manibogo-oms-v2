@@ -1,11 +1,11 @@
 .table td, .table th {
-    min-width: 56px;
+    min-width: 64px;
     height: 48px;
     vertical-align: middle;
 }
 
 .col-date {
-    min-width: 96px !important;
+    min-width: 112px !important;
 }
 
 .col-expand {
