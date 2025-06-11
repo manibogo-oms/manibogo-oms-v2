@@ -24,25 +24,25 @@ public class ItemOrderController {
 
     @PostMapping("/edit-summaries")
     public String editSummaries(
-            @ModelAttribute("editForm") EditItemOrderSummariesForm editForm,
+            @ModelAttribute("rowsForm") ItemOrderRowsForm rowsForm,
             RedirectAttributes redirectAttributes,
             BindingResult bindingResult
     ) {
 
-        log.debug("[ItemOrderController.editSummaries] editForm = {}", editForm);
+        log.debug("[ItemOrderController.editSummaries] rowsForm = {}", rowsForm);
 
         final AtomicInteger indexHolder = new AtomicInteger();
 
         final AtomicInteger selectedRowCount = new AtomicInteger();
 
-        editForm.getRows().forEach(row -> {
+        rowsForm.getRows().forEach(row -> {
             final int index = indexHolder.getAndIncrement();
 
             if (!row.getIsSelected()) return;
             selectedRowCount.incrementAndGet();
 
             try {
-                editItemOrderSummaryService.edit(row.toCommand());
+                editItemOrderSummaryService.edit(row.toEditSummaryCommand());
             } catch (AlreadyDispatchedException alreadyDispatchedException) {
 
                 bindingResult.rejectValue(
@@ -61,8 +61,8 @@ public class ItemOrderController {
         }
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editForm", bindingResult);
-            redirectAttributes.addFlashAttribute("editForm", editForm);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.rowsForm", bindingResult);
+            redirectAttributes.addFlashAttribute("rowsForm", rowsForm);
         } else {
             redirectAttributes.addFlashAttribute("successMessage", "상품 주문이 성공적으로 수정되었습니다.");
         }
@@ -70,9 +70,17 @@ public class ItemOrderController {
         return "redirect:/v2/fulfillment";
     }
 
+    @PostMapping("/proceed-state")
+    public String proceedState(
+
+            @ModelAttribute("rowsForm") ItemOrderRowsForm rowsForm
+    ) {
+
+        return "redirect:/v2/fulfillment";
+    }
+
 
     private String getIndexedFieldName(int index, String fieldName) {
-
         return "%s[%d].%s".formatted("rows", index, fieldName);
     }
 

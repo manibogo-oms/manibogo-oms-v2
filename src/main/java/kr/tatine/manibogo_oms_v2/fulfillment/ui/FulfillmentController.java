@@ -14,10 +14,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.*;
@@ -56,8 +54,8 @@ public class FulfillmentController {
         model.addAttribute("page", page);
         model.addAttribute("fulfillmentList", fulfillmentList);
 
-        if (!model.containsAttribute("editForm")) {
-            model.addAttribute("editForm", initEditForm(fulfillmentList));
+        if (!model.containsAttribute("rowsForm")) {
+            model.addAttribute("rowsForm", initEditForm(fulfillmentList));
         }
         calculatePageAttribute(model, page);
 
@@ -66,17 +64,17 @@ public class FulfillmentController {
         return "fulfillment";
     }
 
-    private EditItemOrderSummariesForm initEditForm(List<FulfillmentDto> fulfillmentList) {
+    private ItemOrderRowsForm initEditForm(List<FulfillmentDto> fulfillmentList) {
 
-        final EditItemOrderSummariesForm editForm = new EditItemOrderSummariesForm();
+        final ItemOrderRowsForm editForm = new ItemOrderRowsForm();
 
         editForm.setRows(fulfillmentList.stream().map(this::toEditFormRow).toList());
 
         return editForm;
     }
 
-    private EditItemOrderSummariesForm.Row toEditFormRow(FulfillmentDto fulfillmentDto) {
-        final EditItemOrderSummariesForm.Row row = new EditItemOrderSummariesForm.Row();
+    private ItemOrderRowsForm.Row toEditFormRow(FulfillmentDto fulfillmentDto) {
+        final ItemOrderRowsForm.Row row = new ItemOrderRowsForm.Row();
 
         row.setIsSelected(false);
         row.setItemOrderNumber(fulfillmentDto.getItemOrderNumber());
