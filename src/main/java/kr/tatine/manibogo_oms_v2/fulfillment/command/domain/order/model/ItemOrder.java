@@ -152,13 +152,13 @@ public class ItemOrder {
     }
 
     private void verifyNotDispatched() {
-        if (this.state.isAfter(ItemOrderState.DISPATCHED)) {
+        if (this.state.isAfterOrSame(ItemOrderState.DISPATCHED)) {
             throw new AlreadyDispatchedException();
         }
     }
 
     private void verifyNotShipped() {
-        if (this.state.isAfter(ItemOrderState.SHIPPED)) {
+        if (this.state.isAfterOrSame(ItemOrderState.SHIPPED)) {
             throw new AlreadyShippedException();
         }
     }
