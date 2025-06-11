@@ -63,6 +63,8 @@ public class ItemOrderController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editForm", bindingResult);
             redirectAttributes.addFlashAttribute("editForm", editForm);
+        } else {
+            redirectAttributes.addFlashAttribute("successMessage", "상품 주문이 성공적으로 수정되었습니다.");
         }
 
         return "redirect:/v2/fulfillment";

@@ -36,44 +36,49 @@
 
     <div th:replace="~{fragments/sync-result :: syncResult(${synchronizeResponse})}"></div>
 
-        <div class="d-flex align-items-end">
-                <div>
-                    총 <span th:text="${page.getTotalElements()}" class="text-primary fw-bold">0</span>건
+    <div class="d-flex align-items-end">
+            <div>
+                총 <span th:text="${page.getTotalElements()}" class="text-primary fw-bold">0</span>건
+            </div>
+
+        <div class="flex-grow-1"></div>
+
+        <form method="GET" th:action="@{/v2/fulfillment}">
+
+            <input type="hidden" th:value="${page.pageable.pageNumber}" />
+            <input type="hidden" th:value="${page.pageable.sort}" />
+
+            <div class="d-flex align-items-center gap-2">
+
+                <div class="col-auto">
+                    <select id="selectPageSize" class="form-select" aria-label="페이지 크기 선택" name="size">
+                        <option th:selected="${pageSize} == 5" value="5">5개</option>
+                        <option th:selected="${pageSize} == 10" value="10">10개</option>
+                        <option th:selected="${pageSize} == 25" value="25">25개</option>
+                        <option th:selected="${pageSize} == 50" value="50">50개</option>
+                    </select>
                 </div>
 
-            <div class="flex-grow-1"></div>
-
-            <form method="GET" th:action="@{/v2/fulfillment}">
-
-                <input type="hidden" th:value="${page.pageable.pageNumber}" />
-                <input type="hidden" th:value="${page.pageable.sort}" />
-
-                <div class="d-flex align-items-center gap-2">
-
-                    <div class="col-auto">
-                        <select id="selectPageSize" class="form-select" aria-label="페이지 크기 선택" name="size">
-                            <option th:selected="${pageSize} == 5" value="5">5개</option>
-                            <option th:selected="${pageSize} == 10" value="10">10개</option>
-                            <option th:selected="${pageSize} == 25" value="25">25개</option>
-                            <option th:selected="${pageSize} == 50" value="50">50개</option>
-                        </select>
-                    </div>
-
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-secondary">변경</button>
-                    </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-secondary">변경</button>
                 </div>
+            </div>
 
-            </form>
+        </form>
+    </div>
+
+    <div style="height: 16px;"></div>
+    <form id="formEditSummaries" th:action="@{/v2/item-orders/edit-summaries}" method="POST" th:object="${editForm}">
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <div class="alert alert-danger" role="alert" th:each="err : ${#fields.globalErrors()}" th:text="${err}">
+                에러 메세지
+            </div>
         </div>
-
-        <div style="height: 16px;"></div>
+        <div th:if="${successMessage}" class="alert alert-success" role="alert" th:text="${successMessage}">성공 메세지</div>
 
         <div class="table-responsive">
-
-            <form id="formEditSummaries" th:action="@{/v2/item-orders/edit-summaries}" method="POST" th:object="${editForm}">
-
-                <table class="table text-center small align-middle w-100" style="display: block; margin-bottom: 0 !important;">
+            <table class="table text-center small align-middle w-100" style="display: block; margin-bottom: 0 !important;">
 
                     <thead class="table-light">
                     <tr>
@@ -259,9 +264,8 @@
                     </tr>
                     </tbody>
                 </table>
-            </form>
         </div>
-
+    </form>
     <div style="height: 32px;"></div>
 
     <nav aria-label="Page navigation">
