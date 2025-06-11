@@ -71,9 +71,9 @@
 
         <div class="table-responsive">
 
-            <form id="formEditSummaries" th:action="@{/v2/item-orders/edit-summaries}" method="POST" th:object="${editFrom}">
+            <form id="formEditSummaries" th:action="@{/v2/item-orders/edit-summaries}" method="POST" th:object="${editForm}">
 
-                <table class="table text-nowrap text-center small align-middle w-100" style="display: block; margin-bottom: 0 !important;">
+                <table class="table text-center small align-middle w-100" style="display: block; margin-bottom: 0 !important;">
 
                     <thead class="table-light">
                     <tr>
@@ -171,7 +171,7 @@
 
                         </td>
 
-                        <td class="col-expand text-start" th:text="|${fulfillment.productName} [${fulfillment.optionInfo}]|">
+                        <td class="text-nowrap col-expand text-start" th:text="|${fulfillment.productName} [${fulfillment.optionInfo}]|">
                             상품명
                         </td>
 
@@ -199,14 +199,25 @@
 
                         <td class="td" th:text="${fulfillment.getPlacedOn}">주문일자</td>
 
-                        <td class="td">
+                        <td class="td position-relative">
                             <input class="form-control form-control-sm" type="date" aria-label="발송기한"
-                                   th:field="*{rows[__${rowStat.index}__].dispatchDeadline}">
+                                   th:field="*{rows[__${rowStat.index}__].dispatchDeadline}"
+                                   th:errorclass="is-invalid">
+
+                            <div class="invalid-tooltip" th:errors="*{rows[__${rowStat.index}__].dispatchDeadline}">
+                                에러 메세지
+                            </div>
                         </td>
 
-                        <td class="td">
+                        <td class="td position-relative">
                             <input class="form-control form-control-sm" type="date" aria-label="희망배송일자"
+                                   th:errorclass="is-invalid"
                                    th:field="*{rows[__${rowStat.index}__].preferredShipsOn}">
+
+
+                            <div class="invalid-tooltip" th:errors="*{rows[__${rowStat.index}__].preferredShipsOn}">
+                                에러 메세지
+                            </div>
                         </td>
 
                         <td class="td" th:text="${fulfillment.purchasedOn}">발주일자</td>
