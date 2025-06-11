@@ -14,6 +14,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +47,7 @@ public class FulfillmentController {
             Model model,
             @ModelAttribute SynchronizeResponse synchronizeResponse) {
 
+
         model.addAttribute("synchronizeResponse", synchronizeResponse);
 
         final Page<FulfillmentDto> page = fulfillmentDao.findAll(pageable);
@@ -54,17 +56,23 @@ public class FulfillmentController {
         model.addAttribute("page", page);
         model.addAttribute("fulfillmentList", fulfillmentList);
 
-        final EditItemOrderSummariesForm editForm = new EditItemOrderSummariesForm();
-
-        editForm.setRows(fulfillmentList.stream().map(this::toEditFormRow).toList());
-
-        model.addAttribute("editFrom", editForm);
-
+        if (!model.containsAttribute("editForm")) {
+            model.addAttribute("editForm", initEditForm(fulfillmentList));
+        }
         calculatePageAttribute(model, page);
 
         model.addAttribute("nextSortParams", getNextSortParams(pageable.getSort()));
 
         return "fulfillment";
+    }
+
+    private EditItemOrderSummariesForm initEditForm(List<FulfillmentDto> fulfillmentList) {
+
+        final EditItemOrderSummariesForm editForm = new EditItemOrderSummariesForm();
+
+        editForm.setRows(fulfillmentList.stream().map(this::toEditFormRow).toList());
+
+        return editForm;
     }
 
     private EditItemOrderSummariesForm.Row toEditFormRow(FulfillmentDto fulfillmentDto) {
