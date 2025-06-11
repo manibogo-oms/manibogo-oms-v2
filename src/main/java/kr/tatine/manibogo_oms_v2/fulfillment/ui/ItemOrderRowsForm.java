@@ -1,6 +1,7 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.EditItemOrderSummaryCommand;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.application.ProceedItemOrderStateCommand;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderState;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -54,6 +55,11 @@ public class ItemOrderRowsForm {
                 getShippingMemo(),
                 getAdminMemo()
             );
+        }
+
+        public ProceedItemOrderStateCommand toProceedStateCommand(ItemOrderState targetState) {
+            return new ProceedItemOrderStateCommand(
+                    getItemOrderNumber(), targetState);
         }
 
     }

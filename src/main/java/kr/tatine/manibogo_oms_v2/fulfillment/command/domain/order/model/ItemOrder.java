@@ -5,6 +5,7 @@ import kr.tatine.manibogo_oms_v2.common.event.Events;
 import kr.tatine.manibogo_oms_v2.common.model.Money;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.event.ItemOrderPlacedEvent;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.event.ItemOrderStateChangedEvent;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.exception.CannotProceedToTargetStateException;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.*;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.OptionId;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.exception.AlreadyDispatchedException;
@@ -117,9 +118,16 @@ public class ItemOrder {
     }
 
     public void proceedState(ItemOrderState targetState, LocalDateTime changedAt) {
-       if (!this.state.canProceedTo(targetState)) {
-            throw new StateAlreadyProceededException();
+
+        if (targetState.isAfter(ItemOrderState.PURCHASED)
+                && targetState.isAfter(ItemOrderState.SHIPPED)) {
+            throw new CannotProceedToTargetStateException();
         }
+
+
+        if (!this.state.canProceedTo(targetState)) {
+            throw new StateAlreadyProceededException();
+       }
        changeState(targetState, changedAt);
     }
 
