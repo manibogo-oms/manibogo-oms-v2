@@ -49,13 +49,37 @@ public class FulfillmentController {
         model.addAttribute("synchronizeResponse", synchronizeResponse);
 
         final Page<FulfillmentDto> page = fulfillmentDao.findAll(pageable);
+        final List<FulfillmentDto> fulfillmentList = page.getContent();
+
         model.addAttribute("page", page);
+        model.addAttribute("fulfillmentList", fulfillmentList);
+
+        final EditItemOrderSummariesForm editForm = new EditItemOrderSummariesForm();
+
+        editForm.setRows(fulfillmentList.stream().map(this::toEditFormRow).toList());
+
+        model.addAttribute("editFrom", editForm);
 
         calculatePageAttribute(model, page);
 
         model.addAttribute("nextSortParams", getNextSortParams(pageable.getSort()));
 
         return "fulfillment";
+    }
+
+    private EditItemOrderSummariesForm.Row toEditFormRow(FulfillmentDto fulfillmentDto) {
+        final EditItemOrderSummariesForm.Row row = new EditItemOrderSummariesForm.Row();
+
+        row.setIsSelected(false);
+        row.setItemOrderNumber(fulfillmentDto.getItemOrderNumber());
+        row.setItemOrderState(fulfillmentDto.getItemOrderState());
+        row.setDispatchDeadline(fulfillmentDto.getDispatchDeadline());
+        row.setPreferredShipsOn(fulfillmentDto.getPreferredShipsOn());
+        row.setPurchaseMemo(fulfillmentDto.getPurchaseMemo());
+        row.setShippingMemo(fulfillmentDto.getShippingMemo());
+        row.setAdminMemo(fulfillmentDto.getAdminMemo());
+
+        return row;
     }
 
     private Map<String, String> getNextSortParams(Sort currentSort) {

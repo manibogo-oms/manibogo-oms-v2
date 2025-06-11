@@ -29,10 +29,7 @@ public class EditItemOrderSummaryService {
                 .findById(itemOrderNumber)
                 .orElseThrow(ItemOrderNotFoundException::new);
 
-        final ItemOrderState itemOrderState = StringToDescribableEnumConverter
-                .convert(ItemOrderState.class, command.itemOrderState());
-
-        itemOrder.changeState(itemOrderState);
+        itemOrder.changeState(command.itemOrderState());
 
         itemOrder.changeDispatchDeadline(command.dispatchDeadline());
         itemOrder.changePreferredShipsOn(command.preferredShipsOn());

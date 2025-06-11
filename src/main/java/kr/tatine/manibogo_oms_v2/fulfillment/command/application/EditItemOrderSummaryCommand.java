@@ -10,10 +10,9 @@ import java.time.LocalDate;
 public record EditItemOrderSummaryCommand(
         @NotNull String itemOrderNumber,
 
-        @DescribableEnum(enumClazz = ItemOrderState.class)
-        String itemOrderState,
+        ItemOrderState itemOrderState,
 
-        @NotNull @Future
+        @NotNull
         LocalDate dispatchDeadline,
 
         LocalDate preferredShipsOn,
