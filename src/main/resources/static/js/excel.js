@@ -4,6 +4,7 @@ function parseOrder(order) {
         'orderNumber': order['주문번호'],
         'customerName': order['구매자명'],
         'customerPhoneNumber': order['구매자연락처'],
+        'customerMessage': order['배송메세지'],
         'salesChannel': '스마트스토어',
         'recipientName': order['수취인명'],
         'recipientPhoneNumber1': order['수취인연락처1'],

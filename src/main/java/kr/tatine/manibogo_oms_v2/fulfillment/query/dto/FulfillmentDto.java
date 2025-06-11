@@ -42,9 +42,10 @@ SELECT
     ioh_agg.cancelled_on,
     ioh_agg.refunded_on,
     '' AS 'customer_memo',
-    '' AS 'purchase_memo',
-    '' AS 'shipping_memo',
-    '' AS 'admin_memo'
+    io.purchase_memo,
+    io.shipping_memo,
+    io.admin_memo,
+    o.customer_message
 FROM
     item_order AS io
     JOIN orders AS o ON io.order_number = o.order_number
@@ -149,7 +150,7 @@ public class FulfillmentDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate refundedOn;
 
-    private String customerMemo;
+    private String customerMessage;
 
     private String purchaseMemo;
 
