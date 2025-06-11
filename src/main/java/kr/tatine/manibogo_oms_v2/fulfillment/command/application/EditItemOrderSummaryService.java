@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import java.time.LocalDateTime;
+
 @Service
 @Validated
 @RequiredArgsConstructor
@@ -29,7 +31,7 @@ public class EditItemOrderSummaryService {
                 .findById(itemOrderNumber)
                 .orElseThrow(ItemOrderNotFoundException::new);
 
-        itemOrder.changeState(command.itemOrderState());
+        itemOrder.changeState(command.itemOrderState(), LocalDateTime.now());
 
         itemOrder.changeDispatchDeadline(command.dispatchDeadline());
         itemOrder.changePreferredShipsOn(command.preferredShipsOn());
