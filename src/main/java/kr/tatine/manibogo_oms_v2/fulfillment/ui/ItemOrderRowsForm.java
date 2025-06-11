@@ -14,7 +14,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class EditItemOrderSummariesForm {
+public class ItemOrderRowsForm {
 
     private List<Row> rows = new ArrayList<>();
 
@@ -44,7 +44,7 @@ public class EditItemOrderSummariesForm {
         private String adminMemo;
 
 
-        public EditItemOrderSummaryCommand toCommand() {
+        public EditItemOrderSummaryCommand toEditSummaryCommand() {
             return new EditItemOrderSummaryCommand(
                 getItemOrderNumber(),
                 getItemOrderState(),
