@@ -24,6 +24,8 @@ public record ExternalItemOrderRequest (
         @PhoneNumber(message = "{phoneNumber.externalOrder.customerPhoneNumber}")
         String customerPhoneNumber,
 
+        String customerMessage,
+
         @DescribableEnum(
                 message = "{describableEnum.externalOrder.salesChannel}",
                 enumClazz = SalesChannel.class)

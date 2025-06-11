@@ -22,6 +22,8 @@ public class QCustomer extends BeanPath<Customer> {
 
     public static final QCustomer customer = new QCustomer("customer");
 
+    public final StringPath message = createString("message");
+
     public final StringPath name = createString("name");
 
     public final kr.tatine.manibogo_oms_v2.common.model.QPhoneNumber phoneNumber;

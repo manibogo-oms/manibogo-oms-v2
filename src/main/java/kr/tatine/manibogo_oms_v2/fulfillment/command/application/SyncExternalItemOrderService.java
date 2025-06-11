@@ -111,7 +111,9 @@ public class SyncExternalItemOrderService {
     private Customer createCustomer(ExternalItemOrderRequest command) {
         return new Customer(
                 command.customerName(),
-                new PhoneNumber(command.customerPhoneNumber()));
+                new PhoneNumber(command.customerPhoneNumber()),
+                command.customerMessage()
+        );
     }
 
     private Recipient createRecipient(ExternalItemOrderRequest command) {
