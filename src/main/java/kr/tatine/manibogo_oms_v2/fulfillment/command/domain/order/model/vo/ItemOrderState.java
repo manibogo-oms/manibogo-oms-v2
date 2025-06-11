@@ -30,4 +30,8 @@ public enum ItemOrderState implements Describable {
         return this.ordinal() >= state.ordinal();
     }
 
+    public boolean isBefore(ItemOrderState state) {
+        return this.ordinal() < state.ordinal();
+    }
+    
 }
