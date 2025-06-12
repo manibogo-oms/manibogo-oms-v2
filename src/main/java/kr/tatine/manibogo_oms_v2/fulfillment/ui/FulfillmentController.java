@@ -1,5 +1,6 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
+import kr.tatine.manibogo_oms_v2.common.model.ErrorResult;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderState;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.SalesChannel;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.FulfillmentDao;
@@ -43,10 +44,13 @@ public class FulfillmentController {
     public String fulfillment(
             @PageableDefault Pageable pageable,
             Model model,
-            @ModelAttribute SynchronizeResponse synchronizeResponse) {
+            @ModelAttribute SynchronizeResponse synchronizeResponse,
+            @ModelAttribute ErrorResult errorResult) {
 
 
         model.addAttribute("synchronizeResponse", synchronizeResponse);
+        model.addAttribute("errorResult", errorResult);
+
 
         final Page<FulfillmentDto> page = fulfillmentDao.findAll(pageable);
         final List<FulfillmentDto> fulfillmentList = page.getContent();
@@ -54,9 +58,7 @@ public class FulfillmentController {
         model.addAttribute("page", page);
         model.addAttribute("fulfillmentList", fulfillmentList);
 
-        if (!model.containsAttribute("rowsForm")) {
-            model.addAttribute("rowsForm", initEditForm(fulfillmentList));
-        }
+        model.addAttribute("rowsForm", initEditForm(fulfillmentList));
         calculatePageAttribute(model, page);
 
         model.addAttribute("nextSortParams", getNextSortParams(pageable.getSort()));
@@ -68,24 +70,9 @@ public class FulfillmentController {
 
         final ItemOrderRowsForm editForm = new ItemOrderRowsForm();
 
-        editForm.setRows(fulfillmentList.stream().map(this::toEditFormRow).toList());
+        editForm.setRows(fulfillmentList.stream().map(FulfillmentDto::toEditFormRow).toList());
 
         return editForm;
-    }
-
-    private ItemOrderRowsForm.Row toEditFormRow(FulfillmentDto fulfillmentDto) {
-        final ItemOrderRowsForm.Row row = new ItemOrderRowsForm.Row();
-
-        row.setIsSelected(false);
-        row.setItemOrderNumber(fulfillmentDto.getItemOrderNumber());
-        row.setItemOrderState(fulfillmentDto.getItemOrderState());
-        row.setDispatchDeadline(fulfillmentDto.getDispatchDeadline());
-        row.setPreferredShipsOn(fulfillmentDto.getPreferredShipsOn());
-        row.setPurchaseMemo(fulfillmentDto.getPurchaseMemo());
-        row.setShippingMemo(fulfillmentDto.getShippingMemo());
-        row.setAdminMemo(fulfillmentDto.getAdminMemo());
-
-        return row;
     }
 
     private Map<String, String> getNextSortParams(Sort currentSort) {

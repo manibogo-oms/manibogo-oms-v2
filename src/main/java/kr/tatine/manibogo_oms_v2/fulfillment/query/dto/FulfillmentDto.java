@@ -6,6 +6,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderState;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.SalesChannel;
+import kr.tatine.manibogo_oms_v2.fulfillment.ui.ItemOrderRowsForm;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -157,5 +158,21 @@ public class FulfillmentDto {
     private String shippingMemo;
 
     private String adminMemo;
+
+
+    public ItemOrderRowsForm.Row toEditFormRow() {
+        final ItemOrderRowsForm.Row row = new ItemOrderRowsForm.Row();
+
+        row.setIsSelected(false);
+        row.setItemOrderNumber(getItemOrderNumber());
+        row.setItemOrderState(getItemOrderState());
+        row.setDispatchDeadline(getDispatchDeadline());
+        row.setPreferredShipsOn(getPreferredShipsOn());
+        row.setPurchaseMemo(getPurchaseMemo());
+        row.setShippingMemo(getShippingMemo());
+        row.setAdminMemo(getAdminMemo());
+
+        return row;
+    }
 
 }
