@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.function.BiConsumer;
+
 @Slf4j
 @Controller
 @RequestMapping("/v2/item-orders")
@@ -39,17 +41,7 @@ public class ItemOrderController {
 
         final ErrorResult errorResult = new ErrorResult();
 
-        int selectedRowCount = 0;
-
-        for (int i = 0; i < rowsForm.getRows().size(); i ++) {
-            final ItemOrderRowsForm.Row row = rowsForm.getRows().get(i);
-
-            if (!row.getIsSelected()) continue;
-
-            selectedRowCount ++;
-
-            final String itemOrderNumber = row.getItemOrderNumber();
-
+        handleRowsForm(rowsForm, errorResult, (i, row) -> {
             try {
                 editItemOrderSummaryService.edit(row.toEditSummaryCommand());
 
@@ -58,15 +50,8 @@ public class ItemOrderController {
 
             } catch (AlreadyShippedException alreadyShippedException) {
                 errorResult.rejectValue(getRowsField(i, "preferredShipsOn"), "alreadyShipped.editItemOrder.preferredShipsOn");
-
-            } catch (ItemOrderNotFoundException notFoundException) {
-                errorResult.reject("notFound.itemOrder", new Object[]{itemOrderNumber});
             }
-        }
-
-        if (selectedRowCount == 0) {
-            errorResult.reject("requireSelect");
-        }
+        });
 
         redirectAttributes.addFlashAttribute(
                 "response",
@@ -87,26 +72,9 @@ public class ItemOrderController {
 
         final ErrorResult errorResult = new ErrorResult();
 
-        int selectedRowCount = 0;
-
-        for (int i = 0; i < rowsForm.getRows().size(); i ++) {
-            final ItemOrderRowsForm.Row row = rowsForm.getRows().get(i);
-
-            if (!row.getIsSelected()) continue;
-
-            selectedRowCount ++;
-
+        handleRowsForm(rowsForm, errorResult, (i, row) -> {
             try {
                 proceedItemOrderStateService.proceed(row.toProceedStateCommand(targetState));
-
-            } catch (AlreadyDispatchedException ex) {
-                errorResult.rejectValue(getRowsField(i, "dispatchDeadline"), "alreadyDispatched.editItemOrder.dispatchDeadline");
-
-            } catch (AlreadyShippedException ex) {
-                errorResult.rejectValue(getRowsField(i, "preferredShipsOn"), "alreadyShipped.editItemOrder.preferredShipsOn");
-
-            } catch (ItemOrderNotFoundException ex) {
-                errorResult.reject("notFound.itemOrder", new Object[]{ row.getItemOrderNumber() });
 
             } catch (StateAlreadyProceededException ex) {
                 errorResult.rejectValue(
@@ -121,12 +89,7 @@ public class ItemOrderController {
                         new Object[] { targetState.getDescription() });
 
             }
-
-        }
-
-        if (selectedRowCount == 0) {
-            errorResult.reject("requireSelect");
-        }
+        });
 
         redirectAttributes.addFlashAttribute(
                 "response",
@@ -138,6 +101,35 @@ public class ItemOrderController {
 
     private String getRowsField(int index, String fieldName) {
         return "%s[%d].%s".formatted("rows", index, fieldName);
+    }
+
+
+    private void handleRowsForm(
+            ItemOrderRowsForm rowsForm,
+            ErrorResult errorResult,
+            BiConsumer<Integer, ItemOrderRowsForm.Row> process) {
+
+        int selectedRowCount = 0;
+
+        for (int i = 0; i < rowsForm.getRows().size(); i ++) {
+            final ItemOrderRowsForm.Row row = rowsForm.getRows().get(i);
+
+            if (!row.getIsSelected()) continue;
+
+            selectedRowCount ++;
+
+            try {
+                process.accept(i, row);
+
+            } catch (ItemOrderNotFoundException ex) {
+                errorResult.reject("notFound.itemOrder", new Object[]{ row.getItemOrderNumber() });
+
+            }
+        }
+
+        if (selectedRowCount == 0) {
+            errorResult.reject("requireSelect");
+        }
     }
 
 
