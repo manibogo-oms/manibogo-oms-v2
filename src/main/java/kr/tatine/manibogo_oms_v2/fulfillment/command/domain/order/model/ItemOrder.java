@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import kr.tatine.manibogo_oms_v2.common.event.Events;
 import kr.tatine.manibogo_oms_v2.common.model.Money;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.event.ItemOrderPlacedEvent;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.event.ItemOrderStateChangedEvent;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.exception.CannotProceedToTargetStateException;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.*;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.OptionId;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.exception.AlreadyDispatchedException;
@@ -17,6 +19,7 @@ import lombok.ToString;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @ToString
@@ -52,6 +55,9 @@ public class ItemOrder {
     private LocalDate preferredShipsOn;
 
     private LocalDate dispatchDeadline;
+
+    @Embedded
+    private ItemOrderNote note;
 
     public static ItemOrder place(
             ItemOrderNumber number,
@@ -97,15 +103,32 @@ public class ItemOrder {
         setDispatchDeadline(dispatchDeadline);
     }
 
-    public void changeState(ItemOrderState targetState) {
+    public void changeState(ItemOrderState targetState, LocalDateTime changedAt) {
+        final ItemOrderState prevState = this.state;
+
         setState(targetState);
+
+        if (prevState.equals(this.state)) return;
+
+        Events.raise(new ItemOrderStateChangedEvent(
+                number.getItemOrderNumber(),
+                prevState.name(),
+                this.state.name(),
+                changedAt));
     }
 
-    public void proceedState(ItemOrderState targetState) {
+    public void proceedState(ItemOrderState targetState, LocalDateTime changedAt) {
+
+        if (targetState.isAfter(ItemOrderState.PURCHASED)
+                && targetState.isAfter(ItemOrderState.SHIPPED)) {
+            throw new CannotProceedToTargetStateException();
+        }
+
+
         if (!this.state.canProceedTo(targetState)) {
             throw new StateAlreadyProceededException();
-        }
-        setState(targetState);
+       }
+       changeState(targetState, changedAt);
     }
 
     public void changeShippingInfo(ShippingInfo shippingInfo) {
@@ -119,29 +142,37 @@ public class ItemOrder {
     }
 
     public void changeDispatchDeadline(LocalDate dispatchDeadline) {
+        if (Objects.equals(this.dispatchDeadline, dispatchDeadline)) return;
+
         verifyNotDispatched();
         setDispatchDeadline(dispatchDeadline);
     }
 
     public void changePreferredShipsOn(LocalDate preferredShipsOn) {
+        if (Objects.equals(this.preferredShipsOn, preferredShipsOn)) return;
+
         verifyNotShipped();
         setPreferredShipsOn(preferredShipsOn);
     }
 
+    public void changeNote(ItemOrderNote itemOrderNote) {
+        this.note = itemOrderNote;
+    }
+
     private void verifyNotDispatched() {
-        if (this.state.isAfter(ItemOrderState.DISPATCHED)) {
+        if (this.state.isAfterOrSame(ItemOrderState.DISPATCHED)) {
             throw new AlreadyDispatchedException();
         }
     }
 
     private void verifyNotShipped() {
-        if (this.state.isAfter(ItemOrderState.SHIPPED)) {
+        if (this.state.isAfterOrSame(ItemOrderState.SHIPPED)) {
             throw new AlreadyShippedException();
         }
     }
 
-    private void setState(ItemOrderState stateInfo) {
-        this.state = stateInfo;
+    private void setState(ItemOrderState state) {
+        this.state = state;
     }
 
     private void setShippingInfo(ShippingInfo shippingInfo) {

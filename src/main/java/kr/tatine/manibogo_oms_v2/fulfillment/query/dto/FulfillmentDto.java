@@ -6,6 +6,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderState;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.SalesChannel;
+import kr.tatine.manibogo_oms_v2.fulfillment.ui.ItemOrderRowsForm;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -42,9 +43,10 @@ SELECT
     ioh_agg.cancelled_on,
     ioh_agg.refunded_on,
     '' AS 'customer_memo',
-    '' AS 'purchase_memo',
-    '' AS 'shipping_memo',
-    '' AS 'admin_memo'
+    io.purchase_memo,
+    io.shipping_memo,
+    io.admin_memo,
+    o.customer_message
 FROM
     item_order AS io
     JOIN orders AS o ON io.order_number = o.order_number
@@ -149,12 +151,28 @@ public class FulfillmentDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate refundedOn;
 
-    private String customerMemo;
+    private String customerMessage;
 
     private String purchaseMemo;
 
     private String shippingMemo;
 
     private String adminMemo;
+
+
+    public ItemOrderRowsForm.Row toEditFormRow() {
+        final ItemOrderRowsForm.Row row = new ItemOrderRowsForm.Row();
+
+        row.setIsSelected(false);
+        row.setItemOrderNumber(getItemOrderNumber());
+        row.setItemOrderState(getItemOrderState());
+        row.setDispatchDeadline(getDispatchDeadline());
+        row.setPreferredShipsOn(getPreferredShipsOn());
+        row.setPurchaseMemo(getPurchaseMemo());
+        row.setShippingMemo(getShippingMemo());
+        row.setAdminMemo(getAdminMemo());
+
+        return row;
+    }
 
 }

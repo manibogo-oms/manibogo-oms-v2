@@ -27,7 +27,7 @@ public class QFulfillmentDto extends EntityPathBase<FulfillmentDto> {
 
     public final DatePath<java.time.LocalDate> confirmedOn = createDate("confirmedOn", java.time.LocalDate.class);
 
-    public final StringPath customerMemo = createString("customerMemo");
+    public final StringPath customerMessage = createString("customerMessage");
 
     public final StringPath customerName = createString("customerName");
 

@@ -26,6 +26,8 @@ public class QItemOrder extends EntityPathBase<ItemOrder> {
 
     public final DatePath<java.time.LocalDate> dispatchDeadline = createDate("dispatchDeadline", java.time.LocalDate.class);
 
+    public final kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.QItemOrderNote note;
+
     public final kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.QItemOrderNumber number;
 
     public final ListPath<kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.OptionId, kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.QOptionId> optionIds = this.<kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.OptionId, kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.QOptionId>createList("optionIds", kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.OptionId.class, kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.QOptionId.class, PathInits.DIRECT2);
@@ -62,6 +64,7 @@ public class QItemOrder extends EntityPathBase<ItemOrder> {
 
     public QItemOrder(Class<? extends ItemOrder> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.note = inits.isInitialized("note") ? new kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.QItemOrderNote(forProperty("note")) : null;
         this.number = inits.isInitialized("number") ? new kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.QItemOrderNumber(forProperty("number")) : null;
         this.orderNumber = inits.isInitialized("orderNumber") ? new kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.QOrderNumber(forProperty("orderNumber")) : null;
         this.productNumber = inits.isInitialized("productNumber") ? new kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.QProductNumber(forProperty("productNumber")) : null;

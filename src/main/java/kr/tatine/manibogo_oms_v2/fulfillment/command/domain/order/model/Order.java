@@ -18,10 +18,6 @@ public class Order {
     @EmbeddedId
     private OrderNumber number;
 
-    @Embedded
-    @AttributeOverride(
-            name = "name",
-            column = @Column(name = "customer_name"))
     private Customer customer;
 
     @Embedded

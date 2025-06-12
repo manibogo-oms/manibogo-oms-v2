@@ -15,6 +15,7 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Customer {
 
+    @Column(name = "customer_name")
     private String name;
 
     @AttributeOverride(
@@ -22,8 +23,12 @@ public class Customer {
             column = @Column(name = "customer_phone_number"))
     private PhoneNumber phoneNumber;
 
-    public Customer(String name, PhoneNumber phoneNumber) {
+    @Column(name = "customer_message")
+    private String message;
+
+    public Customer(String name, PhoneNumber phoneNumber, String message) {
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.message = message;
     }
 }
