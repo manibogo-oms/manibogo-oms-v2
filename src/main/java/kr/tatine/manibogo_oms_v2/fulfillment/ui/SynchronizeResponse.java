@@ -16,6 +16,8 @@ public class SynchronizeResponse {
     private List<SynchronizeResult> skips = new ArrayList<>();
     private List<SynchronizeErrorResult> errors = new ArrayList<>();
 
+    private List<String> globalErrors = new ArrayList<>();
+
     public void success(SynchronizeResult result) {
         this.successes.add(result);
     }
@@ -26,6 +28,10 @@ public class SynchronizeResponse {
 
     public void error(SynchronizeErrorResult result) {
         this.errors.add(result);
+    }
+
+    public void globalError(String message) {
+        this.globalErrors.add(message);
     }
 
 }
