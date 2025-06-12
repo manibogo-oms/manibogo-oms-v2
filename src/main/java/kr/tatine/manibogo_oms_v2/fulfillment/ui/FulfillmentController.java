@@ -1,5 +1,6 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
+import kr.tatine.manibogo_oms_v2.common.model.CommonResponse;
 import kr.tatine.manibogo_oms_v2.common.model.ErrorResult;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderState;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.SalesChannel;
@@ -45,11 +46,10 @@ public class FulfillmentController {
             @PageableDefault Pageable pageable,
             Model model,
             @ModelAttribute SynchronizeResponse synchronizeResponse,
-            @ModelAttribute ErrorResult errorResult) {
-
+            @ModelAttribute("response") CommonResponse response) {
 
         model.addAttribute("synchronizeResponse", synchronizeResponse);
-        model.addAttribute("errorResult", errorResult);
+        model.addAttribute("response", response);
 
 
         final Page<FulfillmentDto> page = fulfillmentDao.findAll(pageable);
