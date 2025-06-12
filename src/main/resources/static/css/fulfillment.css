@@ -8,35 +8,50 @@
     min-width: 112px !important;
 }
 
+.col-state {
+    min-width: 88px !important;
+}
+
 .col-expand {
     min-width: auto !important;
 }
 
-.purchased td {
+.table-row.is-invalid {
+    outline: 1px solid var(--bs-danger);
+    outline-offset: -2px;
+}
+
+.purchased, .purchased:focus {
     background-color: #F1FFF0;
+    border-color: #57bb4e;
 }
 
-.dispatched td {
+.dispatched, .dispatched:focus {
     background-color: #FFF2EA;
+    border-color: #da7740;
 }
 
-.shipped td {
+.shipped, .shipped:focus {
     background-color: #F1F9FF;
+    border-color: #4cb4ef;
 }
 
-.confirmed td {
-    background-color: #fdfff1;
+.confirmed, .confirmed:focus {
+    background-color: #fbffdf;
+    border-color: #aac233;
 }
 
-.canceled td {
+.cancelled, .cancelled:focus {
     background-color: #FDF3FB;
+    border-color: #ff4cdd;
 }
 
-.refunded td {
+.refunded, .refunded:focus {
     background-color: #F6F3FE;
+    border-color: #815fff;
 }
 
-.selected td {
+.selected {
     background-color: #EDEFFF;
 }
 

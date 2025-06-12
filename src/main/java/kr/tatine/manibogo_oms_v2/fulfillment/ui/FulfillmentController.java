@@ -1,10 +1,11 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
+import kr.tatine.manibogo_oms_v2.common.model.CommonResponse;
+import kr.tatine.manibogo_oms_v2.common.model.ErrorResult;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderState;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.SalesChannel;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.FulfillmentDao;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.FulfillmentDto;
-import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.FulfillmentListDto;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.FulfillmentSortParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.*;
@@ -45,22 +45,34 @@ public class FulfillmentController {
     public String fulfillment(
             @PageableDefault Pageable pageable,
             Model model,
-            @ModelAttribute SynchronizeResponse synchronizeResponse) {
+            @ModelAttribute SynchronizeResponse synchronizeResponse,
+            @ModelAttribute("response") CommonResponse response) {
 
         model.addAttribute("synchronizeResponse", synchronizeResponse);
+        model.addAttribute("response", response);
+
 
         final Page<FulfillmentDto> page = fulfillmentDao.findAll(pageable);
+        final List<FulfillmentDto> fulfillmentList = page.getContent();
+
         model.addAttribute("page", page);
+        model.addAttribute("fulfillmentList", fulfillmentList);
 
+        model.addAttribute("rowsForm", initEditForm(fulfillmentList));
         calculatePageAttribute(model, page);
-
-        FulfillmentListDto fulfillmentListDto = new FulfillmentListDto();
-        fulfillmentListDto.setFulfillmentList(page.getContent());
-        model.addAttribute("fulfillmentList", fulfillmentListDto);
 
         model.addAttribute("nextSortParams", getNextSortParams(pageable.getSort()));
 
         return "fulfillment";
+    }
+
+    private ItemOrderRowsForm initEditForm(List<FulfillmentDto> fulfillmentList) {
+
+        final ItemOrderRowsForm editForm = new ItemOrderRowsForm();
+
+        editForm.setRows(fulfillmentList.stream().map(FulfillmentDto::toEditFormRow).toList());
+
+        return editForm;
     }
 
     private Map<String, String> getNextSortParams(Sort currentSort) {
@@ -152,15 +164,6 @@ public class FulfillmentController {
         model.addAttribute("showLeftDots", startMiddlePage > 2);
         model.addAttribute("showRightDots", endMiddlePage < totalPages1Based - 1);
 
-    }
-
-    @PostMapping("/edit")
-    public String editOrders(@ModelAttribute("orders") EditOrderListForm editOrderListForm) {
-        for (EditOrderForm order : editOrderListForm.getOrders()) {
-            log.info("order = {}", order);
-        }
-
-        return "redirect:/v2/fulfillment";
     }
 
 }
