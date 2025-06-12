@@ -8,6 +8,13 @@
     min-width: 112px !important;
 }
 
+.col-state {
+    min-width: 88px !important;
+}
+
+
+
+
 .col-expand {
     min-width: auto !important;
 }
