@@ -111,7 +111,7 @@
                         <th scope="col">
                             <input class="form-check-input chk-select-all-rows" type="checkbox" aria-label="전체 선택">
                         </th>
-                        <th scope="col">상태</th>
+                        <th scope="col" class="col-state">상태</th>
                         <th scope="col">상품주문번호</th>
                         <th class="w-100" scope="col">상품명</th>
                         <th scope="col">합배송</th>
@@ -173,17 +173,21 @@
                                     th:field="*{rows[__${rowStat.index}__].isSelected}">
                         </td>
 
-                        <td class="td">
-                            <select class="form-select form-select-sm"
+                        <td class="d-flex td position-relative">
+                            <select class="form-control form-select form-select-sm pe-0"
                                     aria-label="주문 상태 선택"
-                                    style="min-width: 72px"
-                                    th:field="*{rows[__${rowStat.index}__].itemOrderState}">
+                                    th:field="*{rows[__${rowStat.index}__].itemOrderState}"
+                                    th:errorclass="is-invalid">
                                 <option th:each="itemOrderState : ${itemOrderStates}"
                                         th:value="${itemOrderState}"
                                         th:text="${itemOrderState.description}"
                                         th:selected="${itemOrderState} == ${fulfillment.itemOrderState}">
                                 </option>
                             </select>
+
+                            <div class="invalid-tooltip" th:errors="*{rows[__${rowStat.index}__].itemOrderState}">
+                                에러 메세지
+                            </div>
                         </td>
 
                         <td class="td">

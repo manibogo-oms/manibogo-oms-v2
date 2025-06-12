@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 @Slf4j
 @Controller
 @RequestMapping("/v2/item-orders")
@@ -54,12 +52,12 @@ public class ItemOrderController {
             } catch (AlreadyDispatchedException alreadyDispatchedException) {
 
                 bindingResult.rejectValue(
-                        getIndexedFieldName(i, "dispatchDeadline"), "alreadyDispatched.editItemOrder.dispatchDeadline");
+                        getRowsField(i, "dispatchDeadline"), "alreadyDispatched.editItemOrder.dispatchDeadline");
 
             } catch (AlreadyShippedException alreadyShippedException) {
 
                 bindingResult.rejectValue(
-                        getIndexedFieldName(i, "preferredShipsOn"), "alreadyShipped.editItemOrder.preferredShipsOn");
+                        getRowsField(i, "preferredShipsOn"), "alreadyShipped.editItemOrder.preferredShipsOn");
             } catch (ItemOrderNotFoundException notFoundException) {
                 bindingResult.reject("notFound.itemOrder", new Object[]{ row.getItemOrderNumber() }, "notFound");
             }
@@ -106,18 +104,27 @@ public class ItemOrderController {
 
             } catch (AlreadyDispatchedException ex) {
                 bindingResult.rejectValue(
-                        getIndexedFieldName(i, "dispatchDeadline"), "alreadyDispatched.editItemOrder.dispatchDeadline");
+                        getRowsField(i, "dispatchDeadline"), "alreadyDispatched.editItemOrder.dispatchDeadline");
             } catch (AlreadyShippedException ex) {
                 bindingResult.rejectValue(
-                        getIndexedFieldName(i, "preferredShipsOn"), "alreadyShipped.editItemOrder.preferredShipsOn");
+                        getRowsField(i, "preferredShipsOn"), "alreadyShipped.editItemOrder.preferredShipsOn");
             } catch (ItemOrderNotFoundException ex) {
                 bindingResult.reject("notFound.itemOrder", new Object[]{ row.getItemOrderNumber() }, "notFound");
             } catch (StateAlreadyProceededException ex) {
-                bindingResult.addError(
-                        new ObjectError("rows[%d]".formatted(i), "stateAlreadyProceed"));
+                bindingResult.rejectValue(
+                        getRowsField(i, "itemOrderState"),
+                        "stateAlreadyProceed",
+                        new Object[] { targetState.getDescription() },
+                        "stateAlreadyProceed");
             } catch (CannotProceedToTargetStateException ex) {
-                bindingResult.addError(
-                        new ObjectError("rows[%d]".formatted(i), new String[] { "cannotProceedState" }, new Object[] { targetState.name() }, "cannotProceedState"));
+
+                bindingResult.rejectValue(
+                        getRowsField(i, "itemOrderState"),
+                        "cannotProceedState",
+                        new Object[] { targetState.getDescription() },
+                        "cannotProceedState"
+                );
+
             }
 
         }
@@ -138,7 +145,7 @@ public class ItemOrderController {
     }
 
 
-    private String getIndexedFieldName(int index, String fieldName) {
+    private String getRowsField(int index, String fieldName) {
         return "%s[%d].%s".formatted("rows", index, fieldName);
     }
 
