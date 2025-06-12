@@ -1,5 +1,6 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
+import kr.tatine.manibogo_oms_v2.common.model.CommonResponse;
 import kr.tatine.manibogo_oms_v2.common.model.ErrorResult;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.EditItemOrderSummaryService;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.ItemOrderNotFoundException;
@@ -9,13 +10,9 @@ import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.exception.Alre
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.exception.CannotProceedToTargetStateException;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.exception.StateAlreadyProceededException;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderState;
-import kr.tatine.manibogo_oms_v2.fulfillment.ui.FulfillmentRowResult.RowState;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -71,7 +68,9 @@ public class ItemOrderController {
             errorResult.reject("requireSelect");
         }
 
-        redirectAttributes.addFlashAttribute("errorResult", errorResult);
+        redirectAttributes.addFlashAttribute(
+                "response",
+                new CommonResponse("complete.editSummaries", errorResult));
 
         return "redirect:/v2/fulfillment";
     }
@@ -129,7 +128,9 @@ public class ItemOrderController {
             errorResult.reject("requireSelect");
         }
 
-        redirectAttributes.addFlashAttribute("errorResult", errorResult);
+        redirectAttributes.addFlashAttribute(
+                "response",
+                new CommonResponse("complete.proceedState", new Object[]{targetState.getDescription()}, errorResult));
 
         return "redirect:/v2/fulfillment";
     }
