@@ -8,7 +8,7 @@
 
 <body>
 
-<section class="p-xl-5 p-md-4 p-sm-3">
+<section class="p-xl-5 p-md-4 p-sm-3 p-2">
 
     <div th:replace="~{modal/sync-smart-store-item-order :: syncSmartStoreItemOrderModal}"></div>
 
@@ -59,16 +59,16 @@
 
     <div style="height: 8px;"></div>
 
-    <div class="bg-primary-subtle rounded">
+    <div class="bg-primary-subtle rounded  px-4">
         <div style="height: 16px;"></div>
 
-        <div class="d-flex position-relative px-3 gap-4">
+        <div class="d-flex gap-4 gap-lg-5 mb-3 mb-sm-0">
             <div class="fw-semibold">
                 <label class="col-form-label text-nowrap">상세검색</label>
             </div>
 
             <div class="row flex-grow-1">
-                <div class="col-sm-4 col-lg-2">
+                <div class="col-12 col-sm-auto col-lg-auto">
                     <select class="form-select mb-3" id="selectDetailSearchType" aria-label="Floating label select example">
                         <option selected>대상 선택</option>
                         <option value="1">One</option>
@@ -76,13 +76,103 @@
                         <option value="3">Three</option>
                     </select>
                 </div>
-                <div class="col-sm-6 col-lg-3 mb-3">
+                <div class="col-sm-auto col-lg-auto mb-3">
                     <input class="form-control" type="text" placeholder="검색내용" aria-label="상세 검색내용 입력">
                 </div>
             </div>
         </div>
 
-        <div style="height: 8px;"></div>
+
+        <div class="d-flex gap-4 gap-lg-5 mb-3 mb-sm-0">
+            <div class="fw-semibold">
+                <label class="col-form-label text-nowrap">날짜검색</label>
+            </div>
+
+            <div class="row flex-grow-1">
+                <div class="col-12 col-sm-auto">
+                    <select class="form-select mb-3" id="selectDateSearchType" aria-label="Floating label select example">
+                        <option selected>대상 선택</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+                <div class="col-6 col-sm-4 col-md-auto mb-3">
+                    <input class="form-control" type="date" placeholder="시작일" aria-label="상세 검색내용 입력">
+                </div>
+                <div class="col-6 col-sm-4 col-md-auto mb-3">
+                    <input class="form-control" type="date" placeholder="종료일" aria-label="상세 검색내용 입력">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="d-flex gap-4 gap-lg-5 mb-3 mb-sm-0">
+            <div class="fw-semibold">
+                <label class="col-form-label text-nowrap">지역검색</label>
+            </div>
+
+            <div class="row flex-grow-1">
+                <div class="col-6 col-sm-auto">
+                    <select class="form-select mb-3 mb-sm-0" id="selectProvince" aria-label="Floating label select example">
+                        <option selected>시/도 선택</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+                <div class="col-6 col-sm-auto">
+                    <select class="form-select mb-3 mb-sm-0" id="selectCity" aria-label="Floating label select example">
+                        <option selected>시/군/구 선택</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <hr/>
+
+        <div class="d-md-flex align-items-md-end gap-md-2">
+
+            <div class="row">
+                <div class="col-4 col-sm-3 col-md-auto">
+                    <label for="filterItemOrderState" class="form-label" style="min-width: 88px;">주문상태</label>
+                    <select class="form-select mb-3 mb-md-0" id="filterItemOrderState" aria-label="Floating label select example">
+                        <option value="1">주문</option>
+                    </select>
+                </div>
+
+                <div class="col-8 col-sm-4 col-md-auto">
+                    <label for="filterOrderLocation" class="form-label" style="min-width: 140px;">주문위치</label>
+                    <select class="form-select mb-3 mb-md-0" id="filterOrderLocation" aria-label="Floating label select example">
+                        <option value="1">스마트스토어</option>
+                    </select>
+                </div>
+
+                <div class="col-12 col-sm-5 col-md-auto">
+                    <label for="filterProductNumber" class="form-label" style="min-width: 160px;">상품종류</label>
+                    <select class="form-select mb-3 mb-md-0" id="filterProductNumber" aria-label="Floating label select example">
+                        <option value="1">누베블랑카 매트리스</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="flex-md-grow-1"></div>
+
+            <div class="d-flex justify-content-end gap-2">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i>검색</button>
+                <button type="reset" class="btn btn-secondary">초기화</button>
+            </div>
+
+        </div>
+
+        <hr/>
+
+        <div></div>
+
     </div>
 
     <div style="height: 16px;"></div>
