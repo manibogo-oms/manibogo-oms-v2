@@ -31,6 +31,8 @@ public class QFulfillmentDto extends EntityPathBase<FulfillmentDto> {
 
     public final StringPath customerName = createString("customerName");
 
+    public final StringPath customerPhoneNumber = createString("customerPhoneNumber");
+
     public final DatePath<java.time.LocalDate> dispatchDeadline = createDate("dispatchDeadline", java.time.LocalDate.class);
 
     public final DatePath<java.time.LocalDate> dispatchedOn = createDate("dispatchedOn", java.time.LocalDate.class);
@@ -51,11 +53,19 @@ public class QFulfillmentDto extends EntityPathBase<FulfillmentDto> {
 
     public final StringPath productName = createString("productName");
 
+    public final StringPath productNumber = createString("productNumber");
+
     public final DatePath<java.time.LocalDate> purchasedOn = createDate("purchasedOn", java.time.LocalDate.class);
 
     public final StringPath purchaseMemo = createString("purchaseMemo");
 
+    public final StringPath recipientAddress = createString("recipientAddress");
+
     public final StringPath recipientName = createString("recipientName");
+
+    public final StringPath recipientPhoneNumber1 = createString("recipientPhoneNumber1");
+
+    public final StringPath recipientPhoneNumber2 = createString("recipientPhoneNumber2");
 
     public final DatePath<java.time.LocalDate> refundedOn = createDate("refundedOn", java.time.LocalDate.class);
 
