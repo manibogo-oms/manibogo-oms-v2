@@ -59,118 +59,130 @@
 
     <div style="height: 8px;"></div>
 
-    <div class="bg-primary-subtle rounded p-4">
+    <form method="GET" th:action="@{/v2/fulfillment}" th:object="${queryParams}">
+        <div class="bg-primary-subtle rounded p-4">
 
-        <div class="d-flex gap-4 gap-lg-5 mb-3 mb-sm-0">
-            <div class="fw-semibold">
-                <label class="col-form-label text-nowrap">상세검색</label>
+            <div class="d-flex gap-4 gap-lg-5 mb-3 mb-sm-0">
+                <div class="fw-semibold">
+                    <label class="col-form-label text-nowrap">상세검색</label>
+                </div>
+
+                <div class="row flex-grow-1">
+                    <div class="col-12 col-sm-auto col-lg-auto">
+                        <select th:field="*{detailSearchParam}" class="form-select mb-3" aria-label="Floating label select example">
+                            <option selected="selected" th:value="null">대상 선택</option>
+
+                            <option th:each="detailParam : ${detailSearchParams}" th:value="${detailParam}" th:text="${detailParam.description}">검색 대상</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-auto col-lg-auto mb-3">
+                        <input th:field="*{detailSearch}" style="min-width: 240px;" class="form-control" type="text" placeholder="검색내용" aria-label="상세 검색내용 입력">
+                    </div>
+                </div>
             </div>
 
-            <div class="row flex-grow-1">
-                <div class="col-12 col-sm-auto col-lg-auto">
-                    <select class="form-select mb-3" id="selectDetailSearchType" aria-label="Floating label select example">
-                        <option selected>대상 선택</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
+
+            <div class="d-flex gap-4 gap-lg-5 mb-3 mb-sm-0">
+                <div class="fw-semibold">
+                    <label class="col-form-label text-nowrap">날짜검색</label>
                 </div>
-                <div class="col-sm-auto col-lg-auto mb-3">
-                    <input style="min-width: 240px;" class="form-control" type="text" placeholder="검색내용" aria-label="상세 검색내용 입력">
+
+                <div class="row flex-grow-1">
+                    <div class="col-12 col-sm-auto col-lg-auto">
+                        <select th:field="*{dateSearchParam}" class="form-select mb-3" aria-label="Floating label select example">
+                            <option selected="selected" th:value="null">대상 선택</option>
+
+                            <option th:each="dateParam : ${dateSearchParams}"
+                                    th:value="${dateParam}"
+                                    th:text="${dateParam.description}">검색 대상</option>
+                        </select>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-auto mb-3">
+                        <input th:field="*{startDate}" class="form-control" type="date" placeholder="시작일" aria-label="상세 검색내용 입력">
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-auto mb-3">
+                        <input th:field="*{endDate}" class="form-control" type="date" placeholder="종료일" aria-label="상세 검색내용 입력">
+                    </div>
                 </div>
+            </div>
+
+
+            <div class="d-flex gap-4 gap-lg-5 mb-3 mb-sm-0">
+                <div class="fw-semibold">
+                    <label class="col-form-label text-nowrap">지역검색</label>
+                </div>
+
+                <div class="row flex-grow-1">
+                    <div class="col-6 col-sm-auto">
+                        <select style="min-width: 160px;" class="form-select mb-3 mb-sm-0" id="selectProvince" aria-label="Floating label select example">
+                            <option selected="selected" th:value="null">시/도 선택</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                    <div class="col-6 col-sm-auto">
+                        <select style="min-width: 160px;" class="form-select mb-3 mb-sm-0" id="selectCity" aria-label="Floating label select example">
+                            <option selected="selected" th:value="null">시/군/구 선택</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <hr/>
+
+            <div class="d-lg-flex align-items-md-end gap-md-2">
+
+                <div class="row">
+                    <div class="col-4 col-sm-3 col-md-auto">
+                        <label th:for="itemOrderStates" class="form-label">주문상태</label>
+                        <select class="form-select mb-3 mb-lg-0" th:field="*{itemOrderState}" aria-label="Floating label select example">
+                            <option selected="selected" th:value="null">선택</option>
+
+                            <option th:each="itemOrderState : ${itemOrderStates}"
+                                    th:value="${itemOrderState}"
+                                    th:text="${itemOrderState.description}">주문상태 목록</option>
+                        </select>
+                    </div>
+
+                    <div class="col-8 col-sm-4 col-md-auto">
+                        <label th:for="salesChannel" class="form-label">판매채널</label>
+                        <select class="form-select mb-3 mb-lg-0" th:field="*{salesChannel}" aria-label="Floating label select example">
+                            <option selected="selected" th:value="null">선택</option>
+
+                            <option th:each="salesChannel : ${salesChannels}"
+                                    th:value="${salesChannel}"
+                                    th:text="${salesChannel.description}">판매채널 목록</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-sm-5 col-md-auto">
+                        <label th:for="productNumber" class="form-label">상품종류</label>
+                        <select class="form-select mb-3 mb-lg-0" th:field="*{productNumber}" aria-label="Floating label select example">
+                            <option selected="selected" th:value="null">선택</option>
+
+
+                            <option th:each="product : ${products}"
+                                    th:value="${product.number}"
+                                    th:text="${product.name}">판매채널 목록</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="flex-md-grow-1"></div>
+
+                <div class="d-flex justify-content-end gap-2">
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> 검색</button>
+                    <a th:href="@{/v2/fulfillment}" class="btn btn-secondary">초기화</a>
+                </div>
+
             </div>
         </div>
-
-
-        <div class="d-flex gap-4 gap-lg-5 mb-3 mb-sm-0">
-            <div class="fw-semibold">
-                <label class="col-form-label text-nowrap">날짜검색</label>
-            </div>
-
-            <div class="row flex-grow-1">
-                <div class="col-12 col-sm-auto">
-                    <select class="form-select mb-3" id="selectDateSearchType" aria-label="Floating label select example">
-                        <option selected>대상 선택</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                </div>
-                <div class="col-6 col-sm-4 col-md-auto mb-3">
-                    <input class="form-control" type="date" placeholder="시작일" aria-label="상세 검색내용 입력">
-                </div>
-                <div class="col-6 col-sm-4 col-md-auto mb-3">
-                    <input class="form-control" type="date" placeholder="종료일" aria-label="상세 검색내용 입력">
-                </div>
-            </div>
-        </div>
-
-
-        <div class="d-flex gap-4 gap-lg-5 mb-3 mb-sm-0">
-            <div class="fw-semibold">
-                <label class="col-form-label text-nowrap">지역검색</label>
-            </div>
-
-            <div class="row flex-grow-1">
-                <div class="col-6 col-sm-auto">
-                    <select style="min-width: 160px;" class="form-select mb-3 mb-sm-0" id="selectProvince" aria-label="Floating label select example">
-                        <option selected>시/도 선택</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                </div>
-                <div class="col-6 col-sm-auto">
-                    <select style="min-width: 160px;" class="form-select mb-3 mb-sm-0" id="selectCity" aria-label="Floating label select example">
-                        <option selected>시/군/구 선택</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <hr/>
-
-        <div class="d-md-flex align-items-md-end gap-md-2">
-
-            <div class="row">
-                <div class="col-4 col-sm-3 col-md-auto">
-                    <label for="filterItemOrderState" class="form-label" style="min-width: 88px;">주문상태</label>
-                    <select class="form-select mb-3 mb-md-0" id="filterItemOrderState" aria-label="Floating label select example">
-                        <option value="1">주문</option>
-                    </select>
-                </div>
-
-                <div class="col-8 col-sm-4 col-md-auto">
-                    <label for="filterOrderLocation" class="form-label" style="min-width: 140px;">주문위치</label>
-                    <select class="form-select mb-3 mb-md-0" id="filterOrderLocation" aria-label="Floating label select example">
-                        <option value="1">스마트스토어</option>
-                    </select>
-                </div>
-
-                <div class="col-12 col-sm-5 col-md-auto">
-                    <label for="filterProductNumber" class="form-label" style="min-width: 160px;">상품종류</label>
-                    <select class="form-select mb-3 mb-md-0" id="filterProductNumber" aria-label="Floating label select example">
-                        <option value="1">누베블랑카 매트리스</option>
-                    </select>
-                </div>
-
-            </div>
-
-            <div class="flex-md-grow-1"></div>
-
-            <div class="d-flex justify-content-end gap-2">
-                <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i>검색</button>
-                <button type="reset" class="btn btn-secondary">초기화</button>
-            </div>
-
-        </div>
-
-        <div></div>
-
-    </div>
+    </form>
 
     <div style="height: 16px;"></div>
 
