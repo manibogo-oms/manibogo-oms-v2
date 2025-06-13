@@ -342,7 +342,7 @@
                     </td>
 
                     <td class="td">
-                        <a href="#"
+                        <a th:href="@{/v2/fulfillment(detailSearchParam='ORDER_NUMBER', detailSearch=${fulfillment.orderNumber})}"
                            th:classappend="${fulfillment.itemOrderBundleCount > 1} ? 'accent' : ''"
                            th:text="${fulfillment.itemOrderBundleCount}">
                             합배송수
@@ -358,7 +358,10 @@
                     <td class="td" th:text="${fulfillment.shippingRegionName}">지역</td>
 
                     <td class="td">
-                        <a href="#" th:text="${fulfillment.customerName}">구매자</a>
+                        <a th:href="@{/v2/fulfillment(detailSearchParam='CUSTOMER_NAME', detailSearch=${fulfillment.customerName})}"
+                           th:text="${fulfillment.customerName}">
+                            구매자
+                        </a>
                     </td>
 
                     <td class="td" th:text="${fulfillment.recipientName}">수취인</td>
