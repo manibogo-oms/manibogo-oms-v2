@@ -70,7 +70,7 @@ public class FulfillmentController {
         model.addAttribute("synchronizeResponse", synchronizeResponse);
         model.addAttribute("response", response);
 
-        final Page<FulfillmentDto> page = fulfillmentDao.findAll(pageable);
+        final Page<FulfillmentDto> page = fulfillmentDao.findAll(pageable, queryParams);
         final List<FulfillmentDto> fulfillmentList = page.getContent();
 
         model.addAttribute("page", page);

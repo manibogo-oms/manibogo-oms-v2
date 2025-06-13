@@ -8,15 +8,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum DateSearchParam implements Describable {
 
-    SALES_STARTED_AT("주문일자"),
-    DELIVERY_DEADLINE_AT("발송기한"),
-    DELIVERY_PREFERRED_AT("희망배송일자"),
-    SALES_PURCHASED_AT("발주일자"),
-    SALES_DISPATCHED_AT("출고일자"),
-    SALES_DELIVERED_AT("배송일자"),
-    SALES_COMPLETED_AT("완료일자"),
-    SALES_CANCELED_AT("취소일자"),
-    SALES_REFUNDED_AT("반품일자");
+    PLACED_AT("주문일자"),
+    DISPATCH_DEADLINE("발송기한"),
+    PREFERRED_SHIPS_ON("희망배송일자"),
+    PURCHASED_ON("발주일자"),
+    DISPATCHED_ON("출고일자"),
+    SHIPPED_ON("배송일자"),
+    CONFIRMED_ON("완료일자"),
+    CANCELLED_ON("취소일자"),
+    REFUNDED_ON("반품일자");
 
     private final String description;
 
