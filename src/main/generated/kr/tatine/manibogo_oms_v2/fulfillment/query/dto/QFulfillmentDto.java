@@ -61,6 +61,8 @@ public class QFulfillmentDto extends EntityPathBase<FulfillmentDto> {
 
     public final StringPath recipientAddress = createString("recipientAddress");
 
+    public final StringPath recipientDetailAddress = createString("recipientDetailAddress");
+
     public final StringPath recipientName = createString("recipientName");
 
     public final StringPath recipientPhoneNumber1 = createString("recipientPhoneNumber1");
@@ -73,7 +75,13 @@ public class QFulfillmentDto extends EntityPathBase<FulfillmentDto> {
 
     public final DatePath<java.time.LocalDate> shippedOn = createDate("shippedOn", java.time.LocalDate.class);
 
+    public final EnumPath<kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ChargeType> shippingChargeType = createEnum("shippingChargeType", kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ChargeType.class);
+
+    public final StringPath shippingCompany = createString("shippingCompany");
+
     public final StringPath shippingMemo = createString("shippingMemo");
+
+    public final EnumPath<kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ShippingMethod> shippingMethod = createEnum("shippingMethod", kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ShippingMethod.class);
 
     public final StringPath shippingRegionName = createString("shippingRegionName");
 

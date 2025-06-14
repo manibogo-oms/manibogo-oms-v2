@@ -58,10 +58,10 @@ function handleExcelFile(file, startRow) {
     });
 }
 
-function downloadExcelFile(name, rows, widths) {
+function downloadExcelFile(name, rows, widths, headers) {
 
     const workbook = XLSX.utils.book_new();
-    const worksheet = XLSX.utils.json_to_sheet(rows);
+    const worksheet = XLSX.utils.json_to_sheet(rows, { raw: false, header: headers });
 
     if (widths) {
         worksheet["!cols"] = widths.map(e => ({ 'wch': e }));
@@ -81,7 +81,6 @@ function downloadExcelFile(name, rows, widths) {
             font: { name: 'arial', sz: '12' },
             alignment: {
                 vertical: "center",
-                horizontal: "center",
                 wrapText: true,
             },
             border: {
@@ -94,6 +93,7 @@ function downloadExcelFile(name, rows, widths) {
 
         if (cell.r === 0) {
             worksheet[i].s.font['bold'] = true;
+            worksheet[i].s.alignment['horizontal'] = 'center';
             worksheet[i].s.fill = {
                 patternType: 'solid',
                 fgColor: { rgb: 'C2FFC0' },
@@ -105,4 +105,23 @@ function downloadExcelFile(name, rows, widths) {
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
 
     XLSX.writeFile(workbook, `${new Date().toLocaleDateString()} ${name}.xlsx`, { compression: true });
+}
+
+async function downloadPurchasedItemOrders(elm) {
+
+    const productNumber = elm.dataset.productNumber;
+
+    const response = await fetch(`/v2/purchase-order?productNumber=${productNumber}`);
+
+    const rows = await response.json();
+
+    downloadExcelFile('발주건', nullSafe(rows),
+        [ 6, 21, 12, 18, 12, 15, 15, 42, 30, 30, 30, 9, 9, 9, 60, 12, 12, 12, 12, 12, 15, 9, 15, 24, 42, 42, 9 ],
+        [ "번호", "상품주문번호", "구매자명", "구매자연락처", "수취인명", "수취인연락처1", "수취인연락처2", "상품명", "옵션1", "옵션2", "옵션3", "합배송수", "수량", "지역", "주소", "발송기한", "희망배송일", "발주일", "출고일", "배송일", "배송방법", "배송비", "택배사", "송장번호", "고객메모", "발주메모", "상태" ]
+    );
+
+}
+
+function nullSafe(rows) {
+    return rows.map((e) => Object.fromEntries(Object.entries(e).map(([k, v]) => [k, v ? v : ''])));
 }
