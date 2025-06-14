@@ -217,6 +217,8 @@
         </form>
     </div>
 
+    <button type="button" onclick="downloadExcelFile('테스트', [ {'헤더1' : '이건한글로만된헤더임', '헤더2': '값2'}, {'헤더1' : '값3', '헤더2': '이건 중간 정도 길이?의 12345 값임'} ], [ 28, 39 ])">테스트 엑셀 다운</button>
+
     <div style="height: 16px;"></div>
     <form id="formEditRows" method="POST" th:object="${rowsForm}">
 

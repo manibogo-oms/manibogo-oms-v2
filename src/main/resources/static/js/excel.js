@@ -57,3 +57,52 @@ function handleExcelFile(file, startRow) {
         reader.readAsArrayBuffer(file);
     });
 }
+
+function downloadExcelFile(name, rows, widths) {
+
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(rows);
+
+    if (widths) {
+        worksheet["!cols"] = widths.map(e => ({ 'wch': e }));
+    }
+
+    worksheet["!rows"] = [ 24, ...Array(rows.length).fill(36) ].map(e => ({ 'hpx': e }));
+
+    for (let i in worksheet) {
+        if (typeof(worksheet[i]) != "object") continue;
+        let cell = XLSX.utils.decode_cell(i);
+
+        const borderStyle = {
+            style: "thin", color: "000000"
+        };
+
+        worksheet[i].s = {
+            font: { name: 'arial', sz: '12' },
+            alignment: {
+                vertical: "center",
+                horizontal: "center",
+                wrapText: true,
+            },
+            border: {
+                right: borderStyle,
+                left: borderStyle,
+                top: borderStyle,
+                bottom: borderStyle,
+            }
+        };
+
+        if (cell.r === 0) {
+            worksheet[i].s.font['bold'] = true;
+            worksheet[i].s.fill = {
+                patternType: 'solid',
+                fgColor: { rgb: 'C2FFC0' },
+                bgColor: { rgb: 'C2FFC0' },
+            };
+        }
+    }
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    XLSX.writeFile(workbook, `${new Date().toLocaleDateString()} ${name}.xlsx`, { compression: true });
+}
