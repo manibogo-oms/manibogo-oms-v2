@@ -176,29 +176,42 @@
                 <div class="flex-md-grow-1"></div>
 
                 <div class="d-flex justify-content-end gap-2">
-                    <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> 검색</button>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i> 검색
+                    </button>
+
                     <a th:href="@{/v2/fulfillment}" class="btn btn-secondary">초기화</a>
+
                 </div>
 
             </div>
         </div>
     </form>
 
-    <div style="height: 16px;"></div>
+    <div style="height: 32px;"></div>
 
     <div th:replace="~{fragments/response :: syncResponse(${synchronizeResponse})}"></div>
 
-    <div class="d-flex align-items-end">
+    <div class="d-flex align-items-end gap-3">
         <div>총 <span th:text="${page.getTotalElements()}" class="text-primary fw-bold">0</span>건</div>
 
         <div class="flex-grow-1"></div>
+
+        <!--발주서 다운로드 버튼-->
+        <button class="btn btn-primary"
+                onclick="downloadPurchasedItemOrders(this)"
+                th:data-product-number="${queryParams.productNumber}"
+                th:if="${#strings.equals(queryParams.itemOrderState, 'PURCHASED') && !#strings.isEmpty(queryParams?.productNumber)}">
+            <i class="bi bi-download"></i>&nbsp;&nbsp;발주 목록 다운로드
+        </button>
 
         <form method="GET" th:action="@{/v2/fulfillment}">
 
             <input type="hidden" th:value="${page.pageable.pageNumber}" />
             <input type="hidden" th:value="${page.pageable.sort}" />
 
-            <div class="d-flex align-items-center gap-2">
+            <div class="d-flex gap-2">
 
                 <div class="col-auto">
                     <select id="selectPageSize" class="form-select" aria-label="페이지 크기 선택" name="size">
@@ -216,8 +229,6 @@
 
         </form>
     </div>
-
-    <button type="button" onclick="downloadExcelFile('테스트', [ {'헤더1' : '이건한글로만된헤더임', '헤더2': '값2'}, {'헤더1' : '값3', '헤더2': '이건 중간 정도 길이?의 12345 값임'} ], [ 28, 39 ])">테스트 엑셀 다운</button>
 
     <div style="height: 16px;"></div>
     <form id="formEditRows" method="POST" th:object="${rowsForm}">

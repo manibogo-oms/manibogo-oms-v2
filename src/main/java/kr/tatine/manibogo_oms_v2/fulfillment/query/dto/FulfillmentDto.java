@@ -4,8 +4,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ChargeType;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderState;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.SalesChannel;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ShippingMethod;
 import kr.tatine.manibogo_oms_v2.fulfillment.ui.ItemOrderRowsForm;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,6 +39,7 @@ SELECT
     o.recipient_phone_number_1 as 'recipient_phone_number1',
     o.recipient_phone_number_2 as 'recipient_phone_number2',
     o.address1 as 'recipient_address',
+    o.address2 as 'recipient_detail_address',
     ioh_agg.placed_on,
     io.dispatch_deadline,
     io.preferred_ships_on,
@@ -51,7 +54,10 @@ SELECT
     io.purchase_memo,
     io.shipping_memo,
     io.admin_memo,
-    o.customer_message
+    o.customer_message,
+    io.method as 'shipping_method',
+    io.charge_type as 'shipping_charge_type',
+    io.company_name as 'shipping_company'
 FROM
     item_order AS io
     JOIN orders AS o ON io.order_number = o.order_number
@@ -137,6 +143,8 @@ public class FulfillmentDto {
 
     private String recipientAddress;
 
+    private String recipientDetailAddress;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate placedOn;
 
@@ -173,6 +181,14 @@ public class FulfillmentDto {
     private String shippingMemo;
 
     private String adminMemo;
+
+    @Enumerated(EnumType.STRING)
+    private ShippingMethod shippingMethod;
+
+    @Enumerated(EnumType.STRING)
+    private ChargeType shippingChargeType;
+
+    private String shippingCompany;
 
 
     public ItemOrderRowsForm.Row toEditFormRow() {
