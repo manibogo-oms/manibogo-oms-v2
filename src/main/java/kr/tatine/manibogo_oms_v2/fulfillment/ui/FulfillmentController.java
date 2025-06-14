@@ -1,12 +1,11 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
 import kr.tatine.manibogo_oms_v2.common.model.CommonResponse;
-import kr.tatine.manibogo_oms_v2.common.model.ErrorResult;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderState;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.SalesChannel;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.FulfillmentDao;
-import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.FulfillmentDto;
-import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.FulfillmentSortParam;
+import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.ProductDao;
+import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -30,6 +29,8 @@ public class FulfillmentController {
 
     private final FulfillmentDao fulfillmentDao;
 
+    private final ProductDao productDao;
+
     @ModelAttribute("itemOrderStates")
     public ItemOrderState[] orderStates() {
         return ItemOrderState.values();
@@ -40,19 +41,36 @@ public class FulfillmentController {
         return SalesChannel.values();
     }
 
+    @ModelAttribute("detailSearchParams")
+    public DetailSearchParam[] detailSearchParams() {
+        return DetailSearchParam.values();
+    }
+
+    @ModelAttribute("dateSearchParams")
+    public DateSearchParam[] dateSearchParams() {
+        return DateSearchParam.values();
+    }
+
+    @ModelAttribute("products")
+    public List<ProductDto> productNumbers() {
+        return productDao.findAll();
+    }
+
     @GetMapping
     @Transactional(readOnly = true)
     public String fulfillment(
             @PageableDefault Pageable pageable,
             Model model,
+            @ModelAttribute FulfillmentQueryParams queryParams,
             @ModelAttribute SynchronizeResponse synchronizeResponse,
             @ModelAttribute("response") CommonResponse response) {
+
+        model.addAttribute("queryParams", queryParams);
 
         model.addAttribute("synchronizeResponse", synchronizeResponse);
         model.addAttribute("response", response);
 
-
-        final Page<FulfillmentDto> page = fulfillmentDao.findAll(pageable);
+        final Page<FulfillmentDto> page = fulfillmentDao.findAll(pageable, queryParams);
         final List<FulfillmentDto> fulfillmentList = page.getContent();
 
         model.addAttribute("page", page);

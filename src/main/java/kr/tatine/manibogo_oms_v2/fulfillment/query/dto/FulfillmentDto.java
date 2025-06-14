@@ -25,13 +25,18 @@ SELECT
     o.order_number,
     o.sales_channel,
     io.`state` AS 'item_order_state',
+    p.product_number,
     p.`name` AS 'product_name',
     option_agg.option_info,
     item_order_cnt.item_order_count AS 'item_order_bundle_count',
     io.amount,
     '아직' AS 'shipping_region_name',
     o.customer_name,
+    o.customer_phone_number,
     o.recipient_name,
+    o.recipient_phone_number_1 as 'recipient_phone_number1',
+    o.recipient_phone_number_2 as 'recipient_phone_number2',
+    o.address1 as 'recipient_address',
     ioh_agg.placed_on,
     io.dispatch_deadline,
     io.preferred_ships_on,
@@ -108,6 +113,8 @@ public class FulfillmentDto {
     @Enumerated(EnumType.STRING)
     private ItemOrderState itemOrderState;
 
+    private String productNumber;
+
     private String productName;
 
     private String optionInfo;
@@ -120,7 +127,15 @@ public class FulfillmentDto {
 
     private String customerName;
 
+    private String customerPhoneNumber;
+
     private String recipientName;
+
+    private String recipientPhoneNumber1;
+
+    private String recipientPhoneNumber2;
+
+    private String recipientAddress;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate placedOn;
