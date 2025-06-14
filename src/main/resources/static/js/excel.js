@@ -108,14 +108,11 @@ function downloadExcelFile(name, rows, widths, headers) {
 }
 
 async function downloadPurchasedItemOrders(elm) {
-
-    const productNumber = elm.dataset.productNumber;
-
-    const response = await fetch(`/v2/purchase-order?productNumber=${productNumber}`);
+    const productName = elm.dataset.productName;
+    const response = await fetch(`/v2/purchase-order` + window.location.search);
 
     const rows = await response.json();
-
-    downloadExcelFile('발주건', nullSafe(rows),
+    downloadExcelFile(`${productName} 발주건`, nullSafe(rows),
         [ 6, 21, 12, 18, 12, 15, 15, 42, 30, 30, 30, 9, 9, 9, 60, 12, 12, 12, 12, 12, 15, 9, 15, 24, 42, 42, 9 ],
         [ "번호", "상품주문번호", "구매자명", "구매자연락처", "수취인명", "수취인연락처1", "수취인연락처2", "상품명", "옵션1", "옵션2", "옵션3", "합배송수", "수량", "지역", "주소", "발송기한", "희망배송일", "발주일", "출고일", "배송일", "배송방법", "배송비", "택배사", "송장번호", "고객메모", "발주메모", "상태" ]
     );

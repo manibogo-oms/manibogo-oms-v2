@@ -5,10 +5,7 @@ import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.FulfillmentDao;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.FulfillmentQueryParams;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.PurchaseOrderDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,12 +20,10 @@ public class PurchaseOrderController {
     private final FulfillmentDao fulfillmentDao;
 
     @GetMapping
-    public List<PurchaseOrderDto> getPurchaseOrder(@RequestParam String productNumber) {
-
-        FulfillmentQueryParams queryParams = new FulfillmentQueryParams();
+    public List<PurchaseOrderDto> getPurchaseOrder(
+            @ModelAttribute FulfillmentQueryParams queryParams) {
 
         queryParams.setItemOrderState(ItemOrderState.PURCHASED);
-        queryParams.setProductNumber(productNumber);
 
         return PurchaseOrderDto.FromFulfillmentDtoList(fulfillmentDao.findAll(queryParams));
 
