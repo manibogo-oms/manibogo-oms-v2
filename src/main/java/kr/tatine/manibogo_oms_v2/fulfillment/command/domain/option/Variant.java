@@ -2,6 +2,7 @@ package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import kr.tatine.manibogo_oms_v2.common.model.Option;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.ProductNumber;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -10,18 +11,19 @@ import lombok.ToString;
 @Entity
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Option {
+public class Variant {
 
     @EmbeddedId
-    private OptionId id;
-
-    private ProductNumber productNumber;
+    private VariantId variantId;
 
     private String label;
 
-    public Option(OptionId id, ProductNumber productNumber) {
-        this.id = id;
-        this.productNumber = productNumber;
-        this.label = id.getValue();
+    public Variant(VariantId variantId, String label) {
+        this.variantId = variantId;
+        this.label = label;
+    }
+
+    public Variant(VariantId variantId) {
+        this(variantId, variantId.getInitLabel());
     }
 }
