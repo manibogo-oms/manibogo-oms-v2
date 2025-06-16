@@ -73,9 +73,10 @@ FROM
                     opt.option_value SEPARATOR ', '
             ) AS option_info
         FROM
-            item_order_option AS io_opt
-            JOIN `option` AS opt ON io_opt.option_key = opt.option_key
-            AND io_opt.option_value = opt.option_value
+            item_order_variant AS io_opt
+            JOIN variant AS opt ON io_opt.option_key = opt.option_key
+                AND io_opt.option_value = opt.option_value
+                AND io_opt.product_number = opt.product_number
         GROUP BY
             io_opt.item_order_number
     ) AS option_agg ON io.item_order_number = option_agg.item_order_number

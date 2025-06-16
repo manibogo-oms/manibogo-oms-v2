@@ -3,11 +3,12 @@ package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model;
 import jakarta.persistence.*;
 import kr.tatine.manibogo_oms_v2.common.event.Events;
 import kr.tatine.manibogo_oms_v2.common.model.Money;
+import kr.tatine.manibogo_oms_v2.common.model.Option;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.VariantId;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.event.ItemOrderPlacedEvent;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.event.ItemOrderStateChangedEvent;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.exception.CannotProceedToTargetStateException;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.*;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.OptionId;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.exception.AlreadyDispatchedException;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.exception.AlreadyShippedException;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.exception.StateAlreadyProceededException;
@@ -38,8 +39,9 @@ public class ItemOrder {
     private ProductNumber productNumber;
 
     @ElementCollection
-    @CollectionTable(name = "item_order_option", joinColumns = @JoinColumn(name = "item_order_number"))
-    private List<OptionId> optionIds;
+    @OrderColumn(name = "option_seq")
+    @CollectionTable(name = "item_order_variant", joinColumns = @JoinColumn(name = "item_order_number"))
+    private List<VariantId> variants;
 
     private Integer amount;
 
@@ -64,7 +66,7 @@ public class ItemOrder {
             OrderNumber orderNumber,
             LocalDateTime placedAt,
             ProductNumber productNumber,
-            List<OptionId> optionIds,
+            List<VariantId> variantIds,
             Integer amount,
             Money totalPrice,
             ShippingInfo shippingInfo,
@@ -79,7 +81,7 @@ public class ItemOrder {
                 orderNumber,
                 ItemOrderState.PLACED,
                 productNumber,
-                optionIds,
+                variantIds,
                 amount,
                 totalPrice,
                 shippingInfo,
@@ -87,14 +89,14 @@ public class ItemOrder {
         );
     }
 
-    private ItemOrder(ItemOrderNumber number, OrderNumber orderNumber, ItemOrderState state, ProductNumber productNumber, List<OptionId> optionIds, Integer amount, Money totalPrice, ShippingInfo shippingInfo, LocalDate dispatchDeadline) {
+    private ItemOrder(ItemOrderNumber number, OrderNumber orderNumber, ItemOrderState state, ProductNumber productNumber, List<VariantId> variantIds, Integer amount, Money totalPrice, ShippingInfo shippingInfo, LocalDate dispatchDeadline) {
         this.number = number;
         this.orderNumber = orderNumber;
 
         setState(state);
 
         this.productNumber = productNumber;
-        this.optionIds = optionIds;
+        this.variants = variantIds;
         this.amount = amount;
         this.totalPrice = totalPrice;
 

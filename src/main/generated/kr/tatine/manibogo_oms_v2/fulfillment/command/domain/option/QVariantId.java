@@ -11,42 +11,40 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QOption is a Querydsl query type for Option
+ * QVariantId is a Querydsl query type for VariantId
  */
-@Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QOption extends EntityPathBase<Option> {
+@Generated("com.querydsl.codegen.DefaultEmbeddableSerializer")
+public class QVariantId extends BeanPath<VariantId> {
 
-    private static final long serialVersionUID = 387454226L;
+    private static final long serialVersionUID = 144268995L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QOption option = new QOption("option");
+    public static final QVariantId variantId = new QVariantId("variantId");
 
-    public final QOptionId id;
-
-    public final StringPath label = createString("label");
+    public final kr.tatine.manibogo_oms_v2.common.model.QOption option;
 
     public final kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.QProductNumber productNumber;
 
-    public QOption(String variable) {
-        this(Option.class, forVariable(variable), INITS);
+    public QVariantId(String variable) {
+        this(VariantId.class, forVariable(variable), INITS);
     }
 
-    public QOption(Path<? extends Option> path) {
+    public QVariantId(Path<? extends VariantId> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QOption(PathMetadata metadata) {
+    public QVariantId(PathMetadata metadata) {
         this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QOption(PathMetadata metadata, PathInits inits) {
-        this(Option.class, metadata, inits);
+    public QVariantId(PathMetadata metadata, PathInits inits) {
+        this(VariantId.class, metadata, inits);
     }
 
-    public QOption(Class<? extends Option> type, PathMetadata metadata, PathInits inits) {
+    public QVariantId(Class<? extends VariantId> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.id = inits.isInitialized("id") ? new QOptionId(forProperty("id")) : null;
+        this.option = inits.isInitialized("option") ? new kr.tatine.manibogo_oms_v2.common.model.QOption(forProperty("option")) : null;
         this.productNumber = inits.isInitialized("productNumber") ? new kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.QProductNumber(forProperty("productNumber")) : null;
     }
 
