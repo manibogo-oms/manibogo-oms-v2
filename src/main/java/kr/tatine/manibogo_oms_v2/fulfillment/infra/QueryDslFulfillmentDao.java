@@ -32,13 +32,7 @@ public class QueryDslFulfillmentDao implements FulfillmentDao {
     @Override
     public Page<FulfillmentDto> findAll(Pageable pageable, FulfillmentQueryParams queryParams) {
 
-        final Predicate[] predicates = {
-                eqItemOrderStatus(queryParams),
-                eqSalesChannel(queryParams),
-                eqProductNumber(queryParams),
-                eqDetailSearch(queryParams),
-                eqDateSearch(queryParams)
-        };
+        final Predicate[] predicates = getPredicates(queryParams);
 
         final List<FulfillmentDto> content = queryFactory
                 .selectFrom(fulfillmentDto)
@@ -54,6 +48,24 @@ public class QueryDslFulfillmentDao implements FulfillmentDao {
                 .where(predicates);
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
+
+    @Override
+    public List<FulfillmentDto> findAll(FulfillmentQueryParams queryParams) {
+        return queryFactory
+                .selectFrom(fulfillmentDto)
+                .where(getPredicates(queryParams))
+                .fetch();
+    }
+
+    private Predicate[] getPredicates(FulfillmentQueryParams queryParams) {
+        return new Predicate[]{
+                eqItemOrderStatus(queryParams),
+                eqSalesChannel(queryParams),
+                eqProductNumber(queryParams),
+                eqDetailSearch(queryParams),
+                eqDateSearch(queryParams)
+        };
     }
 
     private BooleanExpression eqDetailSearch(FulfillmentQueryParams queryParams) {

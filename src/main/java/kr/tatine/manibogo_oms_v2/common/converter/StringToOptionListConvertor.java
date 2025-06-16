@@ -1,22 +1,22 @@
 package kr.tatine.manibogo_oms_v2.common.converter;
 
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.OptionId;
+import kr.tatine.manibogo_oms_v2.common.model.Option;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class StringToOptionIdListConvertor {
+public class StringToOptionListConvertor {
 
-    private StringToOptionIdListConvertor() {}
+    private StringToOptionListConvertor() {}
 
-    public static List<OptionId> convert(String string) {
+    public static List<Option> convert(String string) {
 
         if (Objects.isNull(string) || string.isBlank()) return List.of();
 
         final String[] optionStrings = string.trim().split("/");
 
-        final List<OptionId> optionIds = new ArrayList<>();
+        final List<Option> options = new ArrayList<>();
 
         for (String optionString : optionStrings) {
             final String[] tokens = optionString.trim().split(": ");
@@ -25,12 +25,12 @@ public class StringToOptionIdListConvertor {
                 throw new InvalidOptionFormatException();
             }
 
-            final OptionId optionId = new OptionId(tokens[0], tokens[1]);
+            final Option option = new Option(tokens[0], tokens[1]);
 
-            optionIds.add(optionId);
+            options.add(option);
         }
 
-        return optionIds;
+        return options;
     }
 
 }

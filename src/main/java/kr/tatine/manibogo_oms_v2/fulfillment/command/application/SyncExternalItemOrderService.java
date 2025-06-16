@@ -2,13 +2,13 @@ package kr.tatine.manibogo_oms_v2.fulfillment.command.application;
 
 import jakarta.validation.Valid;
 import kr.tatine.manibogo_oms_v2.common.converter.StringToDescribableEnumConverter;
-import kr.tatine.manibogo_oms_v2.common.converter.StringToOptionIdListConvertor;
+import kr.tatine.manibogo_oms_v2.common.converter.StringToOptionListConvertor;
 import kr.tatine.manibogo_oms_v2.common.model.Address;
 import kr.tatine.manibogo_oms_v2.common.model.Money;
 import kr.tatine.manibogo_oms_v2.common.model.PhoneNumber;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.Option;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.OptionId;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.OptionRepository;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.Variant;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.VariantId;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.VariantRepository;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.ItemOrder;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.Order;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.*;
@@ -36,7 +36,7 @@ public class SyncExternalItemOrderService {
 
     private final ProductRepository productRepository;
 
-    private final OptionRepository optionRepository;
+    private final VariantRepository variantRepository;
 
 
     @Transactional
@@ -53,7 +53,7 @@ public class SyncExternalItemOrderService {
                 getOrderNumber(externalItemOrder),
                 externalItemOrder.itemOrderPlacedAt(),
                 getProductNumber(externalItemOrder),
-                getOptionIds(externalItemOrder),
+                getVariantIds(externalItemOrder),
                 externalItemOrder.amount(),
                 new Money(externalItemOrder.totalPrice()),
                 new ShippingInfo(
@@ -84,15 +84,21 @@ public class SyncExternalItemOrderService {
     }
 
 
-    private List<OptionId> getOptionIds(ExternalItemOrderRequest command) {
+    private List<VariantId> getVariantIds(ExternalItemOrderRequest command) {
 
-        return StringToOptionIdListConvertor
+        return StringToOptionListConvertor
                 .convert(command.optionInfo())
                 .stream()
-                .peek(optionId -> {
-                    if (!optionRepository.existsById(optionId)) {
-                        optionRepository.save(new Option(optionId, new ProductNumber(command.productNumber())));
+                .map(option -> {
+
+                    final VariantId variantId = new VariantId(option, new ProductNumber(command.productNumber()));
+
+                    if (!variantRepository.existsById(variantId)) {
+                        variantRepository.save(new Variant(variantId));
                     }
+
+                    return variantId;
+
                 }).toList();
     }
 

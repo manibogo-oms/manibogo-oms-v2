@@ -52,7 +52,7 @@ public class FulfillmentController {
     }
 
     @ModelAttribute("products")
-    public List<ProductDto> productNumbers() {
+    public List<ProductDto> products() {
         return productDao.findAll();
     }
 
@@ -66,6 +66,15 @@ public class FulfillmentController {
             @ModelAttribute("response") CommonResponse response) {
 
         model.addAttribute("queryParams", queryParams);
+
+        if (queryParams.getProductNumber() != null && !queryParams.getProductNumber().isBlank()) {
+            final Optional<ProductDto> productOptional = products().stream()
+                    .filter(e -> e.getNumber().equals(queryParams.getProductNumber()))
+                    .findFirst();
+
+            productOptional.ifPresent(p ->
+                    model.addAttribute("queryProductName", p.getName()));
+        }
 
         model.addAttribute("synchronizeResponse", synchronizeResponse);
         model.addAttribute("response", response);
