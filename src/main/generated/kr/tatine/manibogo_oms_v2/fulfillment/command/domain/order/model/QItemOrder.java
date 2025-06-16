@@ -30,8 +30,6 @@ public class QItemOrder extends EntityPathBase<ItemOrder> {
 
     public final kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.QItemOrderNumber number;
 
-    public final ListPath<kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.OptionId, kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.QOptionId> optionIds = this.<kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.OptionId, kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.QOptionId>createList("optionIds", kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.OptionId.class, kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.QOptionId.class, PathInits.DIRECT2);
-
     public final kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.QOrderNumber orderNumber;
 
     public final DatePath<java.time.LocalDate> preferredShipsOn = createDate("preferredShipsOn", java.time.LocalDate.class);
@@ -45,6 +43,8 @@ public class QItemOrder extends EntityPathBase<ItemOrder> {
     public final kr.tatine.manibogo_oms_v2.common.model.QMoney totalPrice;
 
     public final kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.QTrackingInfo trackingInfo;
+
+    public final ListPath<kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.VariantId, kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.QVariantId> variants = this.<kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.VariantId, kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.QVariantId>createList("variants", kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.VariantId.class, kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.QVariantId.class, PathInits.DIRECT2);
 
     public QItemOrder(String variable) {
         this(ItemOrder.class, forVariable(variable), INITS);
