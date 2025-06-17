@@ -40,6 +40,7 @@ SELECT
     o.recipient_phone_number_2 as 'recipient_phone_number2',
     o.address1 as 'recipient_address',
     o.address2 as 'recipient_detail_address',
+    o.zip_code as 'recipient_zip_code',
     ioh_agg.placed_on,
     io.dispatch_deadline,
     io.preferred_ships_on,
@@ -145,6 +146,8 @@ public class FulfillmentDto {
     private String recipientAddress;
 
     private String recipientDetailAddress;
+
+    private String recipientZipCode;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate placedOn;

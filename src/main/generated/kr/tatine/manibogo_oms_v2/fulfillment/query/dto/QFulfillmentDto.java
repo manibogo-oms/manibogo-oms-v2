@@ -69,6 +69,8 @@ public class QFulfillmentDto extends EntityPathBase<FulfillmentDto> {
 
     public final StringPath recipientPhoneNumber2 = createString("recipientPhoneNumber2");
 
+    public final StringPath recipientZipCode = createString("recipientZipCode");
+
     public final DatePath<java.time.LocalDate> refundedOn = createDate("refundedOn", java.time.LocalDate.class);
 
     public final EnumPath<kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.SalesChannel> salesChannel = createEnum("salesChannel", kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.SalesChannel.class);
