@@ -415,7 +415,7 @@
                     <td class="td" th:text="${fulfillment.shippedOn}">배송일자</td>
 
                     <td class="td">
-                        <input class="form-control form-control-sm" type="text" aria-label="송장번호" style="width: 144px">
+                        <input th:if="${fulfillment.shippingMethod.name()} == 'PARCEL'" class="form-control form-control-sm" type="text" aria-label="송장번호" style="width: 144px">
                     </td>
 
                     <td class="td" th:text="${fulfillment.confirmedOn}">확정일자</td>
