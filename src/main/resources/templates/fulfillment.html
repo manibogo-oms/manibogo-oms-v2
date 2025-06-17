@@ -238,8 +238,12 @@
         <!--<input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}"/>-->
 
         <div th:if="${response?.errorResult?.hasGlobalError()}">
-            <div class="alert alert-danger" role="alert" th:each="err : ${response?.errorResult?.getGlobalErrors()}"
-                 th:text="${#messages.msgWithParams(err.messageCode(), err.arguments())}">
+            <div role="alert"
+                 th:class="alert"
+                 th:with="errorLevel = ${err.level().name().toLowerCase()}"
+                 th:classappend="(${errorLevel == 'error'} ? 'alert-danger' : '') + (${errorLevel == 'warn'} ? 'alert-warning' : '')"
+                 th:each="err : ${response?.errorResult?.getGlobalErrors()}"
+                 th:text="${#messages.msgWithParams(err.message().messageCode(), err.message().arguments())}">
                 에러 메세지
             </div>
         </div>
@@ -304,8 +308,8 @@
 
             <tbody class="table-row"
                  th:each="fulfillment, rowStat : ${fulfillmentList}"
-                 th:with="objectName = 'rows[' + ${rowStat.index} + ']'"
-                 th:classappend="${rowStat.even ? 'table-light ' : ''} + ${response?.errorResult?.hasObjectError(objectName) ? 'is-invalid' : ''}">
+                 th:with="objectName = 'rows[' + ${rowStat.index} + ']', errorLevel = ${response?.errorResult?.getHighestErrorLevelInObject(objectName).name().toLowerCase()}"
+                 th:classappend="${rowStat.even ? 'table-light ' : ''} + ${errorLevel != 'none' ? 'is-invalid ' + errorLevel : ''}">
                 <tr>
                     <td class="td">
                         <input type="checkbox"
@@ -315,11 +319,11 @@
                     </td>
 
                     <td class="td position-relative"
-                        th:with="fieldName = ${objectName} + '.itemOrderState'">
+                        th:with="fieldName = ${objectName} + '.itemOrderState', errorLevel = ${response.errorResult.getHighestErrorLevel(fieldName).name().toLowerCase()}">
                         <select th:class="|form-control form-select form-select-sm pe-0 ${fulfillment.itemOrderState.name().toLowerCase()}|"
                                 aria-label="주문 상태 선택"
                                 th:field="*{rows[__${rowStat.index}__].itemOrderState}"
-                                th:classappend="${!response?.errorResult?.getFieldErrors(fieldName).isEmpty() ? 'is-invalid' : ''}">
+                                th:classappend="${errorLevel != 'none' ? 'is-invalid ' + errorLevel : ''}">
                             <option th:each="itemOrderState : ${itemOrderStates}"
                                     th:value="${itemOrderState}"
                                     th:text="${itemOrderState.description}"
@@ -328,12 +332,13 @@
                         </select>
 
                         <div class="invalid-tooltip"
+                             th:classappend="${errorLevel != 'none' ? errorLevel : ''}"
                              th:each="error : ${response?.errorResult?.getFieldErrors(fieldName)}"
-                             th:text="${#messages.msgWithParams(error.messageCode(), error.arguments())}">
+                             th:text="${#messages.msgWithParams(error.message().messageCode(), error.message().arguments())}">
                             에러 메세지
                         </div>
-                    </td>
 
+                    </td>
                     <td class="td">
                         <div class="d-flex">
                             <th:block th:switch="${fulfillment.salesChannel.description}">
@@ -384,27 +389,29 @@
                     <td class="td" th:text="${fulfillment.getPlacedOn}">주문일자</td>
 
                     <td class="td position-relative"
-                        th:with="fieldName = 'rows[' + ${rowStat.index} + '].dispatchDeadline'">
+                        th:with="fieldName = 'rows[' + ${rowStat.index} + '].dispatchDeadline', errorLevel = ${response.errorResult.getHighestErrorLevel(fieldName).name().toLowerCase()}">
                         <input class="form-control form-control-sm" type="date" aria-label="발송기한"
                                th:field="*{rows[__${rowStat.index}__].dispatchDeadline}"
-                               th:classappend="${!response?.errorResult?.getFieldErrors(fieldName).isEmpty() ? 'is-invalid' : ''}">
+                               th:classappend="${errorLevel != 'none' ? 'is-invalid ' + errorLevel : ''}">
 
                         <div class="invalid-tooltip"
+                             th:classappend="${errorLevel != 'none' ? errorLevel : ''}"
                              th:each="error : ${response?.errorResult?.getFieldErrors(fieldName)}"
-                             th:text="${#messages.msgWithParams(error.messageCode(), error.arguments())}">
+                             th:text="${#messages.msgWithParams(error.message().messageCode(), error.message().arguments())}">
                             에러 메세지
                         </div>
                     </td>
 
                     <td class="td position-relative"
-                        th:with="fieldName = 'rows[' + ${rowStat.index} + '].preferredShipsOn'">
+                        th:with="fieldName = 'rows[' + ${rowStat.index} + '].preferredShipsOn', errorLevel = ${response.errorResult.getHighestErrorLevel(fieldName).name().toLowerCase()}">">
                         <input class="form-control form-control-sm" type="date" aria-label="희망배송일자"
-                               th:classappend="${!response?.errorResult?.getFieldErrors(fieldName).isEmpty() ? 'is-invalid' : ''}"
+                               th:classappend="${errorLevel != 'none' ? 'is-invalid ' + errorLevel : ''}"
                                th:field="*{rows[__${rowStat.index}__].preferredShipsOn}">
 
                         <div class="invalid-tooltip"
+                             th:classappend="${errorLevel != 'none' ? errorLevel : ''}"
                              th:each="error : ${response?.errorResult?.getFieldErrors(fieldName)}"
-                             th:text="${#messages.msgWithParams(error.messageCode(), error.arguments())}">
+                             th:text="${#messages.msgWithParams(error.message().messageCode(), error.message().arguments())}">
                             에러 메세지
                         </div>
                     </td>
