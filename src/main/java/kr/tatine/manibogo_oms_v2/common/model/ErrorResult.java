@@ -1,46 +1,61 @@
 package kr.tatine.manibogo_oms_v2.common.model;
 
 import lombok.Getter;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Getter
 public class ErrorResult {
 
-    private final MultiValueMap<String, Message> fieldErrors = new LinkedMultiValueMap<>();
+    private final Map<String, FieldError> fieldErrors = new HashMap<>();
 
-    private final List<Message> globalErrors = new ArrayList<>();
+    private final List<GlobalError> globalErrors = new ArrayList<>();
 
-    public void rejectValue(String fieldName, String errorCode, Object[] arguments) {
-        fieldErrors.add(fieldName, new Message(errorCode, arguments));
+    public void rejectValue(String fieldName, ErrorLevel errorLevel, String errorCode, Object[] arguments) {
+
+        if (fieldErrors.containsKey(fieldName)) {
+            fieldErrors.put(fieldName, fieldErrors.get(fieldName).addError(errorLevel, new Message(errorCode, arguments)));
+            return;
+        }
+
+        fieldErrors.put(fieldName, new FieldError(
+                errorLevel, Collections.singletonList(new Message(errorCode, arguments))));
+    }
+
+    public void rejectValue(String fieldName, ErrorLevel errorLevel, String errorCode) {
+        rejectValue(fieldName, errorLevel, errorCode, new Object[0]);
+    }
+
+    public void rejectValue(String fieldName, String errorCode,  Object[] arguments) {
+        rejectValue(fieldName, ErrorLevel.ERROR, errorCode, arguments);
     }
 
     public void rejectValue(String fieldName, String errorCode) {
-        rejectValue(fieldName, errorCode, new Object[0]);
+        rejectValue(fieldName, ErrorLevel.ERROR, errorCode, new Object[0]);
+    }
+
+    public void reject(ErrorLevel errorLevel, String errorCode, Object[] arguments) {
+        globalErrors.add(new GlobalError(errorLevel, new Message(errorCode, arguments)));
     }
 
     public void reject(String errorCode, Object[] arguments) {
-        globalErrors.add(new Message(errorCode, arguments));
+        reject(ErrorLevel.ERROR, errorCode, new Object[0]);
+    }
+
+    public void reject(ErrorLevel errorLevel, String errorCode) {
+        reject(errorLevel, errorCode, new Object[0]);
     }
 
     public void reject(String errorCode) {
-        reject(errorCode, new Object[0]);
+        reject(ErrorLevel.ERROR, errorCode, new Object[0]);
     }
 
     public boolean hasGlobalError() {
         return !globalErrors.isEmpty();
     }
 
-    public List<Message> getFieldErrors(String fieldName) {
-        return fieldErrors.getOrDefault(fieldName, List.of());
-    }
-
-    public boolean hasObjectError(String objectName) {
-        return fieldErrors.keySet().stream()
-                .anyMatch(key -> key.startsWith(objectName));
+    public FieldError getFieldError(String fieldName) {
+        return fieldErrors.get(fieldName);
     }
 
 }

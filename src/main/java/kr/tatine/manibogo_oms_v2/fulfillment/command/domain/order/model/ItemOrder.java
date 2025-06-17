@@ -120,12 +120,9 @@ public class ItemOrder {
     }
 
     public void proceedState(ItemOrderState targetState, LocalDateTime changedAt) {
-
-        if (targetState.isAfter(ItemOrderState.PURCHASED)
-                && targetState.isAfter(ItemOrderState.SHIPPED)) {
+        if (targetState.isBefore(ItemOrderState.PURCHASED)) {
             throw new CannotProceedToTargetStateException();
         }
-
 
         if (!this.state.canProceedTo(targetState)) {
             throw new StateAlreadyProceededException();
