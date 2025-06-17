@@ -21,6 +21,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import static kr.tatine.manibogo_oms_v2.common.model.QRegion.region;
 import static kr.tatine.manibogo_oms_v2.fulfillment.query.dto.QFulfillmentDto.fulfillmentDto;
 
 @Repository
@@ -59,13 +60,38 @@ public class QueryDslFulfillmentDao implements FulfillmentDao {
     }
 
     private Predicate[] getPredicates(FulfillmentQueryParams queryParams) {
+
         return new Predicate[]{
                 eqItemOrderStatus(queryParams),
                 eqSalesChannel(queryParams),
                 eqProductNumber(queryParams),
                 eqDetailSearch(queryParams),
-                eqDateSearch(queryParams)
+                eqDateSearch(queryParams),
+                eqSidoAndSigungu(queryParams)
         };
+    }
+
+    private BooleanExpression eqSidoAndSigungu(FulfillmentQueryParams queryParams) {
+
+        final String sido = queryParams.getSido();
+        final String sigungu = queryParams.getSigungu();
+
+        if (sido == null || sido.isBlank()) return null;
+
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(region.sido.eq(sido));
+
+        if (sigungu != null && !sigungu.isBlank()) {
+            predicates.add(region.sigungu.eq(sigungu));
+        }
+
+        final List<String> zipCodesList = queryFactory
+                .select(region.zipCode)
+                .from(region)
+                .where(predicates.toArray(new Predicate[0]))
+                .fetch();
+
+        return fulfillmentDto.recipientZipCode.in(zipCodesList);
     }
 
     private BooleanExpression eqDetailSearch(FulfillmentQueryParams queryParams) {
