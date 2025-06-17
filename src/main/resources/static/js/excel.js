@@ -36,6 +36,25 @@ document
 
     });
 
+function parseParcel(parcel) {
+
+    if (!parcel['번호']) return null;
+
+    return {
+        'itemOrderNumber': parcel['주문번호'],
+        'shippingTrackingNumber': parcel['운송장번호'],
+        'shippingCompanyName': '로젠택배'
+    };
+}
+
+document.getElementById('uploadParcel')
+    .addEventListener('change', async (e) => {
+        const rows = await handleExcelFile(e.target.files[0], 1);
+
+        document.getElementById('iptParcel').value =
+            JSON.stringify(rows.map(parseParcel).filter(row => row != null));
+    })
+
 function handleExcelFile(file, startRow) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -47,6 +66,7 @@ function handleExcelFile(file, startRow) {
             const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
             const json = XLSX.utils.sheet_to_json(sheet, { range: startRow });
+
             resolve(json);
         };
 

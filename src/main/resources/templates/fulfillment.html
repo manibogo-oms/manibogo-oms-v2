@@ -10,16 +10,18 @@
 
 <section class="p-4">
 
-    <div th:replace="~{modal/sync-smart-store-item-order :: syncSmartStoreItemOrderModal}"></div>
+    <div th:replace="~{fragments/modal :: syncSmartStoreItemOrderModal}"></div>
+    <div th:replace="~{fragments/modal :: syncParcelModal}"></div>
 
     <nav class="d-flex gap-2">
 
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                연동하기
+                업로드
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalSyncSmartStoreItemOrder">스마트스토어 상품주문</a></li>
+                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalSyncSmartStoreItemOrder">스마트스토어 상품주문 업로드</a></li>
+                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalSyncParcel">택배 송장 목록 업로드</a></li>
             </ul>
         </div>
 
