@@ -21,6 +21,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import static kr.tatine.manibogo_oms_v2.common.model.QRegion.region;
 import static kr.tatine.manibogo_oms_v2.fulfillment.query.dto.QFulfillmentDto.fulfillmentDto;
 
 @Repository
@@ -59,13 +60,29 @@ public class QueryDslFulfillmentDao implements FulfillmentDao {
     }
 
     private Predicate[] getPredicates(FulfillmentQueryParams queryParams) {
+
         return new Predicate[]{
                 eqItemOrderStatus(queryParams),
                 eqSalesChannel(queryParams),
                 eqProductNumber(queryParams),
                 eqDetailSearch(queryParams),
-                eqDateSearch(queryParams)
+                eqDateSearch(queryParams),
+                eqSidoAndSigungu(queryParams)
         };
+    }
+
+    private BooleanExpression eqSidoAndSigungu(FulfillmentQueryParams queryParams) {
+
+        final String sido = queryParams.getSido();
+        final String sigungu = queryParams.getSigungu();
+
+        if (sido == null || sido.isBlank()) return null;
+
+        if (sigungu == null || sigungu.isBlank()) {
+            return fulfillmentDto.sido.eq(sido);
+        }
+
+        return fulfillmentDto.sido.eq(sido).and(fulfillmentDto.sigungu.eq(sigungu));
     }
 
     private BooleanExpression eqDetailSearch(FulfillmentQueryParams queryParams) {
@@ -152,7 +169,6 @@ public class QueryDslFulfillmentDao implements FulfillmentDao {
     private Path<?> getPropertyPath(String property) {
         try {
             return switch (FulfillmentSortParam.valueOf(property)) {
-                case SHIPPING_REGION_NAME -> fulfillmentDto.shippingRegionName;
                 case PLACED_ON -> fulfillmentDto.placedOn;
                 case DISPATCH_DEADLINE -> fulfillmentDto.dispatchDeadline;
                 case PREFERRED_SHIPS_ON -> fulfillmentDto.preferredShipsOn;

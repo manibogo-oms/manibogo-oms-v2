@@ -32,4 +32,8 @@ public class FulfillmentQueryParams {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
+    private String sido;
+
+    private String sigungu;
+
 }

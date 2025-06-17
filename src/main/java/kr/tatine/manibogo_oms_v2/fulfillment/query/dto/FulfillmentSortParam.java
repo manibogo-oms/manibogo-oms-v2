@@ -2,7 +2,6 @@ package kr.tatine.manibogo_oms_v2.fulfillment.query.dto;
 
 public enum FulfillmentSortParam {
 
-    SHIPPING_REGION_NAME,
     PLACED_ON,
     DISPATCH_DEADLINE,
     PREFERRED_SHIPS_ON,

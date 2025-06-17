@@ -133,7 +133,7 @@ public class PurchaseOrderDto {
 
         purchaseOrderDto.setItemOrderBundleCount(fulfillmentDto.getItemOrderBundleCount());
         purchaseOrderDto.setAmount(fulfillmentDto.getAmount());
-        purchaseOrderDto.setShippingRegionName(fulfillmentDto.getShippingRegionName());
+        purchaseOrderDto.setShippingRegionName(fulfillmentDto.getSido());
         purchaseOrderDto.setRecipientFullAddress("%s %s".formatted(fulfillmentDto.getRecipientAddress(), fulfillmentDto.getRecipientDetailAddress()));
         purchaseOrderDto.setDispatchDeadline(fulfillmentDto.getDispatchDeadline());
         purchaseOrderDto.setPreferredShipsOn(fulfillmentDto.getPreferredShipsOn());

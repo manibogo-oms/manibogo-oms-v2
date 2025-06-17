@@ -14,7 +14,7 @@ public class QueryUtilsConfiguration {
         return (paramName, newValue) -> ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .replaceQueryParam(paramName, newValue)
-                .toUriString();
+                .build().toUriString();
     }
 
 }
