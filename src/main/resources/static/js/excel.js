@@ -55,6 +55,24 @@ document.getElementById('uploadParcel')
             JSON.stringify(rows.map(parseParcel).filter(row => row != null));
     })
 
+function parseItemOrderState(itemOrderState) {
+    return {
+        'itemOrderNumber': itemOrderState['상품주문번호'],
+        'targetState': itemOrderState['주문상태'],
+        'changedAt': itemOrderState['구매확정일'] || itemOrderState['취소승인일']
+    };
+}
+
+document.getElementById('uploadItemOrderState')
+    .addEventListener('change', async (e) => {
+        const rows = await handleExcelFile(e.target.files[0], 0);
+
+        console.log(rows);
+
+        document.getElementById('iptItemOrderState').value =
+            JSON.stringify(rows.map(parseItemOrderState).filter(row => row != null));
+    })
+
 function handleExcelFile(file, startRow) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
