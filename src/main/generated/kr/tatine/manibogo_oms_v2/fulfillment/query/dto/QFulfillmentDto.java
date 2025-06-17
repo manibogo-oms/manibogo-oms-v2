@@ -85,9 +85,11 @@ public class QFulfillmentDto extends EntityPathBase<FulfillmentDto> {
 
     public final EnumPath<kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ShippingMethod> shippingMethod = createEnum("shippingMethod", kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ShippingMethod.class);
 
-    public final StringPath shippingRegionName = createString("shippingRegionName");
-
     public final StringPath shippingTrackingNumber = createString("shippingTrackingNumber");
+
+    public final StringPath sido = createString("sido");
+
+    public final StringPath sigungu = createString("sigungu");
 
     public QFulfillmentDto(String variable) {
         super(FulfillmentDto.class, forVariable(variable));

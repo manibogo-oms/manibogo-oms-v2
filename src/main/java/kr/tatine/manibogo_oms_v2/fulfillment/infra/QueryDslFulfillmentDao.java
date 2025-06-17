@@ -78,20 +78,11 @@ public class QueryDslFulfillmentDao implements FulfillmentDao {
 
         if (sido == null || sido.isBlank()) return null;
 
-        List<Predicate> predicates = new ArrayList<>();
-        predicates.add(region.sido.eq(sido));
-
-        if (sigungu != null && !sigungu.isBlank()) {
-            predicates.add(region.sigungu.eq(sigungu));
+        if (sigungu == null || sigungu.isBlank()) {
+            return fulfillmentDto.sido.eq(sido);
         }
 
-        final List<String> zipCodesList = queryFactory
-                .select(region.zipCode)
-                .from(region)
-                .where(predicates.toArray(new Predicate[0]))
-                .fetch();
-
-        return fulfillmentDto.recipientZipCode.in(zipCodesList);
+        return fulfillmentDto.sido.eq(sido).and(fulfillmentDto.sigungu.eq(sigungu));
     }
 
     private BooleanExpression eqDetailSearch(FulfillmentQueryParams queryParams) {
@@ -178,7 +169,6 @@ public class QueryDslFulfillmentDao implements FulfillmentDao {
     private Path<?> getPropertyPath(String property) {
         try {
             return switch (FulfillmentSortParam.valueOf(property)) {
-                case SHIPPING_REGION_NAME -> fulfillmentDto.shippingRegionName;
                 case PLACED_ON -> fulfillmentDto.placedOn;
                 case DISPATCH_DEADLINE -> fulfillmentDto.dispatchDeadline;
                 case PREFERRED_SHIPS_ON -> fulfillmentDto.preferredShipsOn;

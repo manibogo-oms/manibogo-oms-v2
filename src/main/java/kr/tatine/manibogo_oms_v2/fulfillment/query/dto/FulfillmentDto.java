@@ -22,6 +22,7 @@ import java.time.LocalDate;
 @ToString
 @NoArgsConstructor
 @Subselect("""
+
 SELECT
     io.item_order_number,
     o.order_number,
@@ -32,7 +33,8 @@ SELECT
     option_agg.option_info,
     item_order_cnt.item_order_count AS 'item_order_bundle_count',
     io.amount,
-    '아직' AS 'shipping_region_name',
+    r.sido,
+    r.sigungu,
     o.customer_name,
     o.customer_phone_number,
     o.recipient_name,
@@ -63,6 +65,7 @@ FROM
     item_order AS io
     JOIN orders AS o ON io.order_number = o.order_number
     JOIN product AS p ON io.product_number = p.product_number
+    JOIN region AS r ON o.zip_code = r.zip_code
      -- 상품 옵션 정보 집계 View
     LEFT JOIN (
         SELECT
@@ -131,7 +134,9 @@ public class FulfillmentDto {
 
     private int amount;
 
-    private String shippingRegionName;
+    private String sido;
+
+    private String sigungu;
 
     private String customerName;
 

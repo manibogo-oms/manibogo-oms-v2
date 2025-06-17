@@ -256,9 +256,8 @@
                     <th class="w-100" scope="col">상품명</th>
                     <th scope="col">합배송</th>
                     <th scope="col">수량</th>
-                    <th scope="col">
-                        <div th:replace="~{fragments/pagenation :: sortHeader('SHIPPING_REGION_NAME', '지역', ${nextSortParams})}"></div>
-                    </th>
+                    <th scope="col">시/도</th>
+                    <th scope="col">시/군/구</th>
                     <th scope="col">구매자</th>
                     <th scope="col">수취인</th>
                     <th class="col-date" scope="col">
@@ -367,7 +366,9 @@
                         수량
                     </td>
 
-                    <td class="td" th:text="${fulfillment.shippingRegionName}">지역</td>
+                    <td class="td text-nowrap" th:text="${fulfillment.sido}">시/도</td>
+
+                    <td class="td text-nowrap" th:text="${fulfillment.sigungu}">시/군/구</td>
 
                     <td class="td">
                         <a th:href="@{/v2/fulfillment(detailSearchParam='CUSTOMER_NAME', detailSearch=${fulfillment.customerName})}"
@@ -496,7 +497,7 @@
     document.getElementById('sido')
         .addEventListener('change', (e) => {
             const select = document.getElementById('sigungu');
-            select.innerHTML = '<option selected="selected">시/군/구 선택</option>';
+            select.innerHTML = '<option selected="selected" value>시/군/구 선택</option>';
 
            if (!e.target.value) return;
 
