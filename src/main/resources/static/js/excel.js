@@ -127,17 +127,60 @@ function downloadExcelFile(name, rows, widths, headers) {
     XLSX.writeFile(workbook, `${new Date().toLocaleDateString()} ${name}.xlsx`, { compression: true });
 }
 
+const headerWidth = {
+    "번호": 6,
+    "상품주문번호": 21,
+    "구매자명": 12,
+    "구매자연락처": 18,
+    "수취인명": 12,
+    "수취인연락처1": 15,
+    "수취인연락처2": 15,
+    "상품명": 42,
+    "옵션1": 30,
+    "옵션2": 30,
+    "옵션3": 30,
+    "합배송수": 9,
+    "수량": 9,
+    "지역": 9,
+    "주소": 60,
+    "발송기한": 12,
+    "희망배송일": 12,
+    "발주일": 12,
+    "출고일": 12,
+    "배송일": 12,
+    "배송방법": 15,
+    "배송비": 9,
+    "택배사": 15,
+    "송장번호": 24,
+    "고객메모": 42,
+    "발주메모": 42,
+    "상태": 9
+};
+
 async function downloadPurchasedItemOrders(elm) {
     const productName = elm.dataset.productName;
     const response = await fetch(`/v2/purchase-order` + window.location.search);
 
     const rows = await response.json();
+    const headers = [ "번호", "상품주문번호", "구매자명", "구매자연락처", "수취인명", "수취인연락처1", "수취인연락처2", "상품명", "옵션1", "옵션2", "옵션3", "합배송수", "수량", "지역", "주소", "발송기한", "희망배송일", "발주일", "출고일", "배송일", "배송방법", "배송비", "택배사", "송장번호", "고객메모", "발주메모", "상태" ];
     downloadExcelFile(`${productName} 발주건`, nullSafe(rows),
-        [ 6, 21, 12, 18, 12, 15, 15, 42, 30, 30, 30, 9, 9, 9, 60, 12, 12, 12, 12, 12, 15, 9, 15, 24, 42, 42, 9 ],
-        [ "번호", "상품주문번호", "구매자명", "구매자연락처", "수취인명", "수취인연락처1", "수취인연락처2", "상품명", "옵션1", "옵션2", "옵션3", "합배송수", "수량", "지역", "주소", "발송기한", "희망배송일", "발주일", "출고일", "배송일", "배송방법", "배송비", "택배사", "송장번호", "고객메모", "발주메모", "상태" ]
+        headers.map(e => headerWidth[e]),
+        headers
     );
-
 }
+
+async function downloadSmartStoreParcelList(elm) {
+    const response = await fetch(`/v2/smart-store-parcel` + window.location.search);
+
+    const rows = await response.json();
+    const headers = ['상품주문번호', '배송방법', '택배사', '송장번호',  "구매자명", "구매자연락처", ];
+    downloadExcelFile(`발송처리`, nullSafe(rows),
+        headers.map(e => headerWidth[e]),
+        headers
+    );
+}
+
+
 
 function nullSafe(rows) {
     return rows.map((e) => Object.fromEntries(Object.entries(e).map(([k, v]) => [k, v ? v : ''])));
