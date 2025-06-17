@@ -10,6 +10,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(indexes = @Index(name = "IDX_ZIP_CODE", columnList = "zip_code"))
 public class Region {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
