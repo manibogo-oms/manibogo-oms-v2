@@ -1,6 +1,7 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
 import kr.tatine.manibogo_oms_v2.common.model.CommonResponse;
+import kr.tatine.manibogo_oms_v2.common.model.ErrorLevel;
 import kr.tatine.manibogo_oms_v2.common.model.ErrorResult;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.EditItemOrderSummaryService;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.ItemOrderNotFoundException;
@@ -79,6 +80,7 @@ public class ItemOrderController {
             } catch (StateAlreadyProceededException ex) {
                 errorResult.rejectValue(
                         getRowsField(i, "itemOrderState"),
+                        ErrorLevel.WARN,
                         "stateAlreadyProceed",
                         new Object[] { targetState.getDescription() });
             } catch (CannotProceedToTargetStateException ex) {
@@ -128,7 +130,7 @@ public class ItemOrderController {
         }
 
         if (selectedRowCount == 0) {
-            errorResult.reject("requireSelect");
+            errorResult.reject(ErrorLevel.WARN,"requireSelect");
         }
     }
 
