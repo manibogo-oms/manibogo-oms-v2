@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:replace="~{fragments/layout::layoutFragment (~{::title}, ~{::section}, ~{}, ~{})}"
+<html th:replace="~{fragments/layout::layoutFragment (~{::title}, ~{::section}, ~{}, ~{::script})}"
       xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -114,19 +114,18 @@
 
                 <div class="row flex-grow-1">
                     <div class="col-6 col-sm-auto">
-                        <select style="min-width: 160px;" class="form-select mb-3 mb-sm-0" id="selectProvince" aria-label="Floating label select example">
+                        <select th:field="*{sido}" style="min-width: 160px;" class="form-select mb-3 mb-sm-0" aria-label="시/도 선택">
                             <option selected="selected" th:value="null">시/도 선택</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                            <option th:each="sido : ${regions.keySet().toArray()}" th:value="${sido}" th:text="${sido}"></option>
                         </select>
                     </div>
                     <div class="col-6 col-sm-auto">
-                        <select style="min-width: 160px;" class="form-select mb-3 mb-sm-0" id="selectCity" aria-label="Floating label select example">
+                        <select th:field="*{sigungu}" style="min-width: 160px;" class="form-select mb-3 mb-sm-0" aria-label="시/군/구 선택">
                             <option selected="selected" th:value="null">시/군/구 선택</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+
+                            <th:block th:if="*{!#strings.isEmpty(sido)}">
+                                <option th:each="sigungu : ${regions.get(queryParams.sido)}" th:value="${sigungu}" th:text="${sigungu}"></option>
+                            </th:block>
                         </select>
                     </div>
                 </div>
@@ -492,5 +491,19 @@
     </nav>
 </section>
 </body>
+
+<script th:inline="javascript">
+    document.getElementById('sido')
+        .addEventListener('change', (e) => {
+            const select = document.getElementById('sigungu');
+            select.innerHTML = '<option selected="selected">시/군/구 선택</option>';
+
+           if (!e.target.value) return;
+
+           for (const sigungu of [[${regions}]][e.target.value]) {
+               select.innerHTML += `\n<option name="sigungu" value="${sigungu}">${sigungu}</option>`
+           }
+        });
+</script>
 
 </html>

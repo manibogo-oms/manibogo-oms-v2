@@ -5,6 +5,7 @@ import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemO
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.SalesChannel;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.FulfillmentDao;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.ProductDao;
+import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.RegionDao;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -30,6 +32,8 @@ public class FulfillmentController {
     private final FulfillmentDao fulfillmentDao;
 
     private final ProductDao productDao;
+
+    private final RegionDao regionDao;
 
     @ModelAttribute("itemOrderStates")
     public ItemOrderState[] orderStates() {
@@ -54,6 +58,12 @@ public class FulfillmentController {
     @ModelAttribute("products")
     public List<ProductDto> products() {
         return productDao.findAll();
+    }
+
+    @ModelAttribute("regions")
+    public Map<String, List<String>> regions() {
+        return regionDao.findDistinctAll().stream()
+                .collect(Collectors.groupingBy(RegionDto::getSido, Collectors.mapping(RegionDto::getSigungu, Collectors.toList())));
     }
 
     @GetMapping
