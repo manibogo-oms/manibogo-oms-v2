@@ -60,7 +60,7 @@
     <div style="height: 8px;"></div>
 
     <form method="GET" th:action="@{/v2/fulfillment}" th:object="${queryParams}">
-        <div class="bg-primary-subtle rounded p-4">
+        <div class="bg-body-secondary rounded p-4">
 
             <div class="d-flex gap-4 gap-lg-5 mb-3 mb-sm-0">
                 <div class="fw-semibold">
@@ -292,10 +292,10 @@
 
                 <tr>
                     <th scope="col"></th>
-                    <th scope="col" colspan="4">고객메모</th>
-                    <th scope="col" colspan="6">발주메모</th>
+                    <th scope="col" colspan="3">고객메모</th>
+                    <th scope="col" colspan="7">발주메모</th>
                     <th scope="col" colspan="4">배송메모</th>
-                    <th scope="col" colspan="4">관리자메모</th>
+                    <th scope="col" colspan="5">관리자메모</th>
                 </tr>
 
             </thead>
@@ -427,10 +427,10 @@
                 <tr>
                     <td class="td"></td>
 
-                    <td colspan="4" class="td text-start"
+                    <td colspan="3" class="td text-start"
                         th:text="${fulfillment.customerMessage}">고객메세지</td>
 
-                    <td class="td" colspan="6">
+                    <td class="td" colspan="7">
                         <input class="form-control form-control-sm" type="text"
                                th:field="*{rows[__${rowStat.index}__].purchaseMemo}" aria-label="발주메모">
                     </td>
@@ -440,7 +440,7 @@
                                th:field="*{rows[__${rowStat.index}__].shippingMemo}" aria-label="배송메모">
                     </td>
 
-                    <td class="td" colspan="4">
+                    <td class="td" colspan="5">
                         <input class="form-control form-control-sm" type="text"
                                th:field="*{rows[__${rowStat.index}__].adminMemo}" aria-label="관리자메모">
                     </td>
