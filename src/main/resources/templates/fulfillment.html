@@ -12,6 +12,7 @@
 
     <div th:replace="~{fragments/modal :: syncSmartStoreItemOrderModal}"></div>
     <div th:replace="~{fragments/modal :: syncParcelModal}"></div>
+    <div th:replace="~{fragments/modal :: syncItemOrderStateModal}"></div>
 
     <nav class="d-flex gap-2">
 
@@ -22,6 +23,7 @@
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalSyncSmartStoreItemOrder">스마트스토어 상품주문 업로드</a></li>
                 <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalSyncParcel">택배 송장 목록 업로드</a></li>
+                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalSyncItemOrderState">구매 확정/취소/교환 목록 업로드</a></li>
             </ul>
         </div>
 

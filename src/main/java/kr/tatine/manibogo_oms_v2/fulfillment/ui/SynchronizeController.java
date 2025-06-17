@@ -8,6 +8,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.*;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.exception.AlreadyShippedException;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.exception.StateAlreadyProceededException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,8 @@ public class SynchronizeController {
     private final SyncExternalItemOrderService syncExternalItemOrderService;
 
     private final SyncExternalParcelService syncExternalParcelService;
+
+    private final SyncExternalItemOrderStateService syncExternalItemOrderStateService;
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -113,4 +116,40 @@ public class SynchronizeController {
         return "redirect:/v2/fulfillment";
     }
 
+    @PostMapping("/external-item-order-state")
+    public String syncItemOrderState(@RequestParam("externalItemOrderState") String externalItemOrderState, RedirectAttributes redirectAttr) {
+
+        List<SyncExternalItemOrderStateCommand> listCommand = List.of();
+
+        final SynchronizeResponse response = new SynchronizeResponse();
+
+        try {
+            listCommand = objectMapper.readValue(externalItemOrderState, new TypeReference<>() {});
+        } catch (JsonProcessingException e) {
+            log.error("[SynchronizeController.syncItemOrderState JSON 파싱 에러 = {}", e.getMessage());
+            response.globalError("유효하지 않은 요청 형식입니다. 올바른 엑셀 파일을 업로드했는지 확인해주세요.");
+        }
+
+        for (final SyncExternalItemOrderStateCommand command : listCommand) {
+            try {
+                syncExternalItemOrderStateService.synchronize(command);
+                response.success(new SynchronizeResult(command.itemOrderNumber()));
+            } catch (StateAlreadyProceededException | ItemOrderNotFoundException exception) {
+                response.skip(new SynchronizeResult(command.itemOrderNumber()));
+            } catch (ConstraintViolationException exception) {
+
+                final List<String> errorMessages = exception
+                        .getConstraintViolations()
+                        .stream()
+                        .map(ConstraintViolation::getMessage)
+                        .toList();
+
+                response.error(new SynchronizeErrorResult(command.itemOrderNumber(), errorMessages));
+            }
+        }
+
+        redirectAttr.addFlashAttribute("synchronizeResponse", response);
+
+        return "redirect:/v2/fulfillment";
+    }
 }

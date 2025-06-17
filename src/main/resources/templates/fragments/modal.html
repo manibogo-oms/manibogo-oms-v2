@@ -57,3 +57,34 @@
         </div>
     </div>
 </div>
+
+
+<div th:fragment="syncItemOrderStateModal" id="modalSyncItemOrderState" class="modal" tabindex="-1">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form id="formSyncItemOrderState" method="POST" th:action="@{/v2/synchronize/external-item-order-state}">
+
+                <input id="iptItemOrderState" type="hidden" name="externalItemOrderState" />
+
+                <div class="modal-header">
+                    <h5 class="modal-title">구매 확정/취소/교환 목록 업로드</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <input type="file" id="uploadItemOrderState" class="form-control" aria-describedby="excelFileHelpBlock">
+                        <div class="form-text">
+                            Excel 통합 문서(.xlsx) 혹은 Excel 97-2004 통합 문서(.xls) 지원
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button type="submit" class="btn btn-primary">전송하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
