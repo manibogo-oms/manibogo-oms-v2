@@ -1,6 +1,6 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
-import jakarta.validation.ConstraintViolationException;
+import kr.tatine.manibogo_oms_v2.ValidationErrorException;
 import kr.tatine.manibogo_oms_v2.common.model.*;
 import kr.tatine.manibogo_oms_v2.common.utils.SelectableRowsFormUtils;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.EditProductService;
@@ -56,8 +56,9 @@ public class ProductController {
         SelectableRowsFormUtils.handle(rowsForm, errorResult, ((i, row) -> {
             try {
                 editProductService.editProduct(row.toEditCommand());
-            } catch (ConstraintViolationException ex) {
-
+            } catch (ValidationErrorException ex) {
+                ex.getValidationErrors().forEach(error ->
+                        errorResult.rejectValue(getRowsFieldName(i, error.getName()), error.getErrorCode()));
 
             } catch (ProductNotFoundException ex) {
                 errorResult.reject("notFound.product", new Object[]{ row.getNumber() });

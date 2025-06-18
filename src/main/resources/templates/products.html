@@ -68,17 +68,25 @@
                        th:classappend="${fieldError != null ? 'is-invalid' : ''}"
                        th:field="*{rows[__${productStat.index}__].name}" />
 
-                <div class="invalid-tooltip"
+                <div class="invalid-feedback"
                      th:each="message : ${fieldError?.messages()}"
                      th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
                     에러 메세지
                 </div>
             </td>
-            <td>
+            <td
+                th:with="fieldName = |rows[${productStat.index}].priority|, fieldError = ${response?.errorResult?.getFieldError(fieldName)}">
                 <input type="number"
                        aria-label="우선순위"
                        class="form-control form-control-sm"
+                       th:classappend="${fieldError != null ? 'is-invalid' : ''}"
                        th:field="*{rows[__${productStat.index}__].priority}" />
+
+                <div class="invalid-feedback"
+                     th:each="message : ${fieldError?.messages()}"
+                     th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
+                    에러 메세지
+                </div>
             </td>
             <td>
                 <input type="checkbox"
