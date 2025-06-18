@@ -4,6 +4,10 @@
     vertical-align: middle;
 }
 
+.table-row.selected td {
+    background-color: var(--bs-primary-bg-subtle);
+}
+
 .col-date {
     min-width: 112px !important;
 }

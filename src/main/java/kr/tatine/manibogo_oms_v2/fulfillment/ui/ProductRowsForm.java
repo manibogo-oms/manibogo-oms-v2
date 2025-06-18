@@ -2,6 +2,7 @@ package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
 import kr.tatine.manibogo_oms_v2.common.model.SelectableRow;
 import kr.tatine.manibogo_oms_v2.common.model.SelectableRowsForm;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.application.EditProductCommand;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,13 +26,18 @@ public class ProductRowsForm implements SelectableRowsForm<ProductRowsForm.Row> 
 
         private Boolean isSelected;
 
-        private String productNumber;
+        private String number;
 
-        private String productName;
+        private String name;
 
         private Integer priority;
 
         private Boolean isEnabled;
+
+        public EditProductCommand toEditCommand() {
+            return new EditProductCommand(
+                    number, name, priority, isEnabled);
+        }
 
     }
 
