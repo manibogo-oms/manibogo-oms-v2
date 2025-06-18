@@ -1,5 +1,7 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
+import kr.tatine.manibogo_oms_v2.common.model.*;
+import kr.tatine.manibogo_oms_v2.common.utils.SelectableRowsFormUtils;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.ProductDao;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
@@ -7,9 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+
 
 @Controller
 @RequestMapping("/v2/products")
@@ -29,6 +35,24 @@ public class ProductController {
         initRowsForm(model, products);
 
         return "products";
+    }
+
+    @PostMapping("/edit")
+    public String editProducts(
+            @ModelAttribute ProductRowsForm rowsForm,
+            RedirectAttributes redirectAttributes
+    ) {
+
+        final ErrorResult errorResult = new ErrorResult();
+
+        SelectableRowsFormUtils.handle(rowsForm, errorResult, ((integer, row) -> {
+
+        }));
+
+
+        redirectAttributes.addFlashAttribute("response", new CommonResponse("complete.editProducts", errorResult));
+
+        return "redirect:/v2/products";
     }
 
     private void initRowsForm(Model model, List<ProductDto> products) {
@@ -51,5 +75,8 @@ public class ProductController {
 
         return row;
     }
+
+
+
 
 }

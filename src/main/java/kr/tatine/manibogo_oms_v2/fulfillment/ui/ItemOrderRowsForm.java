@@ -1,5 +1,7 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
+import kr.tatine.manibogo_oms_v2.common.model.SelectableRow;
+import kr.tatine.manibogo_oms_v2.common.model.SelectableRowsForm;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.EditItemOrderSummaryCommand;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.ProceedItemOrderStateCommand;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderState;
@@ -15,7 +17,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ItemOrderRowsForm {
+public class ItemOrderRowsForm implements SelectableRowsForm<ItemOrderRowsForm.Row> {
 
     private List<Row> rows = new ArrayList<>();
 
@@ -24,7 +26,7 @@ public class ItemOrderRowsForm {
     @ToString
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class Row {
+    public static class Row implements SelectableRow {
 
         private Boolean isSelected;
 
