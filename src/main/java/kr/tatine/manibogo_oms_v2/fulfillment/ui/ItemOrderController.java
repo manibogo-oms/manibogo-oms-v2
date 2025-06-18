@@ -14,11 +14,11 @@ import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemO
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.function.BiConsumer;
 
@@ -35,8 +35,7 @@ public class ItemOrderController {
     @PostMapping("/edit-summaries")
     public String editSummaries(
             @ModelAttribute("rowsForm") ItemOrderRowsForm rowsForm,
-            RedirectAttributes redirectAttributes
-    ) {
+            RedirectAttributes redirectAttributes) {
 
         log.debug("[ItemOrderController.editSummaries] rowsForm = {}", rowsForm);
 
@@ -58,16 +57,32 @@ public class ItemOrderController {
                 "response",
                 new CommonResponse("complete.editSummaries", errorResult));
 
-        return "redirect:/v2/fulfillment";
+        return redirectWithQueryParams("/v2/fulfillment");
     }
 
-    @PostMapping("/proceed-state")
-    public String proceedState(
-            @RequestParam("targetState") ItemOrderState targetState,
+    @PostMapping("/proceed-state/purchased")
+    public String proceedToPurchased(
             @ModelAttribute("rowsForm") ItemOrderRowsForm rowsForm,
-            RedirectAttributes redirectAttributes
-    ) {
+            RedirectAttributes redirectAttributes) {
+        return proceedState(ItemOrderState.PURCHASED, rowsForm, redirectAttributes);
+    }
 
+    @PostMapping("/proceed-state/dispatched")
+    public String proceedToDispatched(
+            @ModelAttribute("rowsForm") ItemOrderRowsForm rowsForm,
+            RedirectAttributes redirectAttributes) {
+        return proceedState(ItemOrderState.DISPATCHED, rowsForm, redirectAttributes);
+    }
+
+    @PostMapping("/proceed-state/shipped")
+    public String proceedToShipped(
+            @ModelAttribute("rowsForm") ItemOrderRowsForm rowsForm,
+            RedirectAttributes redirectAttributes) {
+        return proceedState(ItemOrderState.SHIPPED, rowsForm, redirectAttributes);
+    }
+
+
+    private String proceedState(ItemOrderState targetState, ItemOrderRowsForm rowsForm, RedirectAttributes redirectAttributes) {
         log.debug("[ItemOrderController.proceedState] rowsForm = {}", rowsForm);
         log.debug("[ItemOrderController.proceedState] targetState = {}", targetState);
 
@@ -97,7 +112,19 @@ public class ItemOrderController {
                 "response",
                 new CommonResponse("complete.proceedState", new Object[]{targetState.getDescription()}, errorResult));
 
-        return "redirect:/v2/fulfillment";
+        return redirectWithQueryParams("/v2/fulfillment");
+    }
+
+    private String redirectWithQueryParams(String redirectPath) {
+        final String queryString = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getQueryString();
+
+        final UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromPath(redirectPath);
+
+        if (queryString != null && !queryString.isEmpty()) {
+            uriBuilder.query(queryString);
+        }
+
+        return "redirect:" + uriBuilder.toUriString();
     }
 
 
