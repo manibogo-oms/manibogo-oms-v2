@@ -2,14 +2,24 @@ package kr.tatine.manibogo_oms_v2.common.utils;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 @Configuration
-public class QueryUtilsConfiguration {
+public class UriUtilsConfiguration {
+
+    @Bean
+    public Supplier<String> getCurrentPath() {
+        return () -> ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest()
+                .getServletPath();
+    }
 
     @Bean
     public BiFunction<String, String, String> replaceOrAddParam() {
