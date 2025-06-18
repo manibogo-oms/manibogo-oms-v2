@@ -8,6 +8,23 @@
 
 <body>
 
+<div id="pageHeaderContent" th:remove="tag">
+    <!--발주서 다운로드 버튼-->
+    <button class="btn btn-primary"
+            onclick="downloadPurchasedItemOrders(this)"
+            th:data-product-name="${queryProductName}"
+            th:if="${#strings.equals(queryParams.itemOrderState, 'PURCHASED') && !#strings.isEmpty(queryParams?.productNumber)}">
+        <i class="bi bi-download"></i>&nbsp;&nbsp;발주 목록 다운로드
+    </button>
+
+    <!--스마트스토어 택배발송 목록 버튼-->
+    <button class="btn btn-primary"
+            onclick="downloadSmartStoreParcelList(this)"
+            th:if="${#strings.equals(queryParams.itemOrderState, 'SHIPPED') && #strings.equals(queryParams.salesChannel, 'SMART_STORE')}">
+        <i class="bi bi-download"></i>&nbsp;&nbsp;스마트스토어 택배발송 목록 다운로드
+    </button>
+</div>
+
 <section class="p-4">
 
     <div th:replace="~{fragments/modal :: syncSmartStoreItemOrderModal}"></div>
@@ -195,47 +212,9 @@
 
     <div th:replace="~{fragments/response :: syncResponse(${synchronizeResponse})}"></div>
 
-    <div class="d-flex align-items-end gap-3">
-        <div>총 <span th:text="${page.totalElements}" class="text-primary fw-bold">0</span>건</div>
 
-        <div class="flex-grow-1"></div>
+    <div th:replace="~{fragments/pagenation :: pageHeader('/v2/fulfillment', ${page}, ~{::div#pageHeaderContent})}"></div>
 
-        <!--발주서 다운로드 버튼-->
-        <button class="btn btn-primary"
-                onclick="downloadPurchasedItemOrders(this)"
-                th:data-product-name="${queryProductName}"
-                th:if="${#strings.equals(queryParams.itemOrderState, 'PURCHASED') && !#strings.isEmpty(queryParams?.productNumber)}">
-            <i class="bi bi-download"></i>&nbsp;&nbsp;발주 목록 다운로드
-        </button>
-
-        <!--스마트스토어 택배발송 목록 버튼-->
-        <button class="btn btn-primary"
-                onclick="downloadSmartStoreParcelList(this)"
-                th:if="${#strings.equals(queryParams.itemOrderState, 'SHIPPED') && #strings.equals(queryParams.salesChannel, 'SMART_STORE')}">
-            <i class="bi bi-download"></i>&nbsp;&nbsp;스마트스토어 택배발송 목록 다운로드
-        </button>
-
-        <form method="GET" th:action="@{/v2/fulfillment}">
-            <input type="hidden" name="page" th:value="0" />
-            <input type="hidden" th:value="${page.pageable.sort}" />
-
-            <div class="d-flex gap-2">
-
-                <div class="col-auto">
-                    <select id="selectPageSize" class="form-select" aria-label="페이지 크기 선택" name="size">
-                        <option th:selected="${page.size} == 5" value="5">5개</option>
-                        <option th:selected="${page.size} == 10" value="10">10개</option>
-                        <option th:selected="${page.size} == 25" value="25">25개</option>
-                        <option th:selected="${page.size} == 50" value="50">50개</option>
-                    </select>
-                </div>
-
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-secondary">변경</button>
-                </div>
-            </div>
-        </form>
-    </div>
 
     <div style="height: 16px;"></div>
     <form id="formEditRows" method="POST" th:object="${rowsForm}">

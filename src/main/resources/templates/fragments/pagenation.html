@@ -61,4 +61,32 @@
     </ul>
 </nav>
 
+<!--/*@thymesVar
+id="page" type="org.springframework.data.domain.Page<?>"
+id="baseUrl" type="java.lang.String"
+*/-->
+<div th:fragment="pageHeader(baseUrl, page, content)" class="d-flex align-items-end gap-3">
+    <div>총 <span th:text="${page.totalElements}" class="text-primary fw-bold">0</span>건</div>
+
+    <div class="flex-grow-1"></div>
+
+    <div th:replace="${content}"></div>
+
+    <div class="d-flex gap-2">
+        <div class="col-auto">
+            <select id="selectPageSize" class="form-select" aria-label="페이지 크기 선택" name="size">
+                <option th:selected="${page.size} == 5" th:value="${@replaceUri.apply(baseUrl + '?page=0&size=5')}">5개</option>
+                <option th:selected="${page.size} == 10" th:value="${@replaceUri.apply(baseUrl + '?page=0&size=10')}">10개</option>
+                <option th:selected="${page.size} == 25" th:value="${@replaceUri.apply(baseUrl + '?page=0&size=25')}">25개</option>
+                <option th:selected="${page.size} == 50" th:value="${@replaceUri.apply(baseUrl + '?page=0&size=50')}">50개</option>
+            </select>
+        </div>
+
+        <div class="col-auto">
+            <a id="btnChangePageSize" class="btn btn-secondary" th:href="${@replaceUri.apply(baseUrl + '?page=0&size=' + #strings.toString(page.size))}">
+                변경
+            </a>
+        </div>
+    </div>
+</div>
 </html>

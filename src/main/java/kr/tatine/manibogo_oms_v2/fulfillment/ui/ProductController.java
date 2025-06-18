@@ -11,6 +11,7 @@ import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -37,19 +38,15 @@ public class ProductController {
 
     @GetMapping
     @Transactional(readOnly = true)
-    public String products(Model model, Pageable pageable) {
+    public String products(Model model,
+                           @PageableDefault(size = 25) Pageable pageable) {
 
-        final Page<ProductDto> products = productDao.findAll(pageable);
+        final Page<ProductDto> page = productDao.findAll(pageable);
 
-        model.addAttribute("products", products.getContent());
+        model.addAttribute("products", page.getContent());
+        model.addAttribute("page", page);
 
-        initRowsForm(model, products.getContent());
-
-        final Pageable nextPageable = products.getPageable();
-
-        final int pageNumber = nextPageable.getPageNumber();
-
-        final int totalPages = products.getTotalPages();
+        initRowsForm(model, page.getContent());
 
         return "products";
     }
