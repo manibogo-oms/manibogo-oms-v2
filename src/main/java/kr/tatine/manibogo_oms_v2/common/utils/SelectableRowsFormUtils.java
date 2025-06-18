@@ -35,4 +35,8 @@ public class SelectableRowsFormUtils {
         }
     }
 
+    public static String getRowsFieldName(Integer index, String fieldName) {
+            return "%s[%d].%s".formatted("rows", index, fieldName);
+    }
+
 }

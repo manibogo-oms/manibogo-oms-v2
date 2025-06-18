@@ -7,6 +7,8 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.Objects;
+
 @Entity
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,7 +31,13 @@ public class Product {
         this.isEnabled = true;
     }
 
-    public void changeName(String name) {
+    public void changeName(ProductRepository repository, String name) {
+        if (Objects.equals(this.name, name)) return;
+
+        if (repository.countByName(name) > 0) {
+            throw new ProductNameDuplicatedException();
+        }
+
         this.name = name;
     }
 

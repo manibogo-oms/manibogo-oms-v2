@@ -1,7 +1,11 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
+import jakarta.validation.ConstraintViolationException;
 import kr.tatine.manibogo_oms_v2.common.model.*;
 import kr.tatine.manibogo_oms_v2.common.utils.SelectableRowsFormUtils;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.application.EditProductService;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.application.ProductNotFoundException;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.ProductNameDuplicatedException;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.ProductDao;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +20,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
+import static kr.tatine.manibogo_oms_v2.common.utils.SelectableRowsFormUtils.getRowsFieldName;
+
 
 @Controller
 @RequestMapping("/v2/products")
@@ -23,6 +29,8 @@ import java.util.List;
 public class ProductController {
 
     private final ProductDao productDao;
+
+    private final EditProductService editProductService;
 
     @GetMapping
     @Transactional(readOnly = true)
@@ -45,8 +53,17 @@ public class ProductController {
 
         final ErrorResult errorResult = new ErrorResult();
 
-        SelectableRowsFormUtils.handle(rowsForm, errorResult, ((integer, row) -> {
+        SelectableRowsFormUtils.handle(rowsForm, errorResult, ((i, row) -> {
+            try {
+                editProductService.editProduct(row.toEditCommand());
+            } catch (ConstraintViolationException ex) {
 
+
+            } catch (ProductNotFoundException ex) {
+                errorResult.reject("notFound.product", new Object[]{ row.getNumber() });
+            } catch (ProductNameDuplicatedException ex) {
+                errorResult.rejectValue(getRowsFieldName(i, "name"), "duplicate.product.name");
+            }
         }));
 
 
@@ -68,8 +85,8 @@ public class ProductController {
         final ProductRowsForm.Row row = new ProductRowsForm.Row();
 
         row.setIsSelected(false);
-        row.setProductNumber(productDto.getNumber());
-        row.setProductName(productDto.getName());
+        row.setNumber(productDto.getNumber());
+        row.setName(productDto.getName());
         row.setPriority(productDto.getPriority());
         row.setIsEnabled(productDto.getIsEnabled());
 
