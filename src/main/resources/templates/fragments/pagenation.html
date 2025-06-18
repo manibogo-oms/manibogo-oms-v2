@@ -14,4 +14,51 @@
     </a>
 </div>
 
+<!--/*@thymesVar id="page" type="org.springframework.data.domain.Page<?>"*/-->
+<nav th:fragment="pageControl(page)"
+        aria-label="Page navigation"
+     th:with="currentPage = ${page?.number},
+                  totalPages = ${page?.totalPages},
+                  startPage=${(currentPage < 2 ? 0 : (T(java.lang.Math).min(currentPage - 2, totalPages - 5)))}"
+>
+    <ul class="pagination justify-content-center">
+
+        <li class="page-item" th:classappend="${page.isFirst() == true ? 'disabled' : ''}">
+            <a class="page-link" th:href="${@replaceOrAddParam.apply('page', #strings.toString(currentPage - 1))}" aria-label="이전 페이지로">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+
+        <li class="page-item" th:if="${currentPage > 2}">
+            <a class="page-link" th:href="${@replaceOrAddParam.apply('page', #strings.toString(0))}" th:text="1" th:aria-label="|1번 페이지로|"></a>
+        </li>
+
+        <li class="page-item disabled" th:if="${currentPage > 3}">
+            <a class="page-link" href="#">...</a>
+        </li>
+
+        <li class="page-item"
+            th:classappend="${i == currentPage ? 'active' : ''}"
+            th:each="i : ${#numbers.sequence(startPage, T(java.lang.Math).min(startPage + 4, totalPages - 1))}">
+            <a class="page-link"
+               th:href="${@replaceOrAddParam.apply('page', #strings.toString(i))}"
+               th:text="${i + 1}">페이지 번호</a>
+        </li>
+
+        <li class="page-item disabled" th:if="${currentPage < (totalPages - 4)}">
+            <a class="page-link" href="#">...</a>
+        </li>
+
+        <li class="page-item" th:if="${currentPage < (totalPages - 3)}">
+            <a class="page-link" th:href="${@replaceOrAddParam.apply('page', #strings.toString(totalPages - 1))}" th:text="${totalPages}"></a>
+        </li>
+
+        <li class="page-item" th:classappend="${page.isLast() == true ? 'disabled' : ''}">
+            <a class="page-link" th:href="${@replaceOrAddParam.apply('page', #strings.toString(currentPage + 1))}" aria-label="이전 페이지로">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
 </html>

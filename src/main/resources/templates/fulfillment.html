@@ -196,7 +196,7 @@
     <div th:replace="~{fragments/response :: syncResponse(${synchronizeResponse})}"></div>
 
     <div class="d-flex align-items-end gap-3">
-        <div>총 <span th:text="${pageControl.totalElements()}" class="text-primary fw-bold">0</span>건</div>
+        <div>총 <span th:text="${page.totalElements}" class="text-primary fw-bold">0</span>건</div>
 
         <div class="flex-grow-1"></div>
 
@@ -216,7 +216,24 @@
         </button>
 
         <form method="GET" th:action="@{/v2/fulfillment}">
+            <input type="hidden" name="page" th:value="0" />
+            <input type="hidden" th:value="${page.pageable.sort}" />
 
+            <div class="d-flex gap-2">
+
+                <div class="col-auto">
+                    <select id="selectPageSize" class="form-select" aria-label="페이지 크기 선택" name="size">
+                        <option th:selected="${page.size} == 5" value="5">5개</option>
+                        <option th:selected="${page.size} == 10" value="10">10개</option>
+                        <option th:selected="${page.size} == 25" value="25">25개</option>
+                        <option th:selected="${page.size} == 50" value="50">50개</option>
+                    </select>
+                </div>
+
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-secondary">변경</button>
+                </div>
+            </div>
         </form>
     </div>
 
@@ -450,49 +467,8 @@
     </form>
     <div style="height: 32px;"></div>
 
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
+    <div th:replace="~{fragments/pagenation :: pageControl(${page})}"></div>
 
-            <li class="page-item" th:classappend="${pageControl.isFirst() == true ? 'disabled' : ''}">
-                <a class="page-link" th:href="${@replaceOrAddParam.apply('page', #strings.toString(pageControl?.currentPage() - 1))}" aria-label="이전 페이지로">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-
-            <th:block th:if="${pageControl?.showFirstNumber()}">
-                <li class="page-item">
-                    <a class="page-link" th:href="${@replaceOrAddParam.apply('page', #strings.toString(0))}" th:text="1" th:aria-label="|1번 페이지로|"></a>
-                </li>
-
-                <li class="page-item disabled">
-                    <a class="page-link" href="#">...</a>
-                </li>
-            </th:block>
-
-            <li class="page-item" th:each="i : ${pageControl?.numbers()}"
-                th:classappend="${i == pageControl?.currentPage() ? 'active' : ''}">
-                <a class="page-link" th:href="${@replaceOrAddParam.apply('page', #strings.toString(i))}" th:text="${i + 1}" th:aria-label="|${i + 1}번 페이지로|"></a>
-            </li>
-
-            <th:block th:if="${pageControl?.showLastNumber()}">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#">...</a>
-                </li>
-
-                <li class="page-item">
-                    <a class="page-link" th:href="${@replaceOrAddParam.apply('page',  #strings.toString(pageControl?.totalPage() - 1))}" th:text="${totalPage}" th:aria-label="|${totalPage}번 페이지로|"></a>
-                </li>
-            </th:block>
-
-
-
-            <li class="page-item" th:classappend="${pageControl.isLast() == true ? 'disabled' : ''}">
-                <a class="page-link" th:href="${@replaceOrAddParam.apply('page',  #strings.toString(pageControl?.currentPage() + 1))}" aria-label="다음 페이지로">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
 </section>
 </body>
 
