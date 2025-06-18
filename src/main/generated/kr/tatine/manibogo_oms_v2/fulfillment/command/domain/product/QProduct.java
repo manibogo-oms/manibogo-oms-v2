@@ -22,6 +22,8 @@ public class QProduct extends EntityPathBase<Product> {
 
     public static final QProduct product = new QProduct("product");
 
+    public final BooleanPath isEnabled = createBoolean("isEnabled");
+
     public final StringPath name = createString("name");
 
     public final QProductNumber number;

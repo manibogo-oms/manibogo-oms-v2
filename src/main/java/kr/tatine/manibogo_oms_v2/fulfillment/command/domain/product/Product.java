@@ -20,10 +20,13 @@ public class Product {
     @Embedded
     private Priority priority;
 
+    private Boolean isEnabled;
+
     public Product(ProductNumber number, String name, Priority priority) {
         this.number = number;
         this.name = name;
         this.priority = priority;
+        this.isEnabled = true;
     }
 
     public void changeName(String name) {
@@ -33,4 +36,9 @@ public class Product {
     public void changePriority(Priority priority) {
         this.priority = priority;
     }
+
+    public void changeIsEnabled(Boolean isEnabled) {
+        this.isEnabled = isEnabled;
+    }
+
 }

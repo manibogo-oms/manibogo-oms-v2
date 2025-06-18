@@ -29,6 +29,8 @@ public class ProductRowsForm {
 
         private Integer priority;
 
+        private Boolean isEnabled;
+
     }
 
 }
