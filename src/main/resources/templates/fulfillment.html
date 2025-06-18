@@ -32,29 +32,28 @@
         <button type="submit"
                 form="formEditRows"
                 class="btn btn-secondary"
-                th:formaction="|@{/v2/item-orders/proceed-state(targetState='PURCHASED')}|">
-
+                th:formaction="${@replaceUri.apply('/v2/item-orders/proceed-state/purchased')}">
             선택발주
         </button>
 
         <button type="submit"
                 form="formEditRows"
                 class="btn btn-secondary"
-                th:formaction="|@{/v2/item-orders/proceed-state(targetState='DISPATCHED')}|">
+                th:formaction="${@replaceUri.apply('/v2/item-orders/proceed-state/dispatched')}">
             선택출고
         </button>
 
         <button type="submit"
                 form="formEditRows"
                 class="btn btn-secondary"
-                th:formaction="|@{/v2/item-orders/proceed-state(targetState='SHIPPED')}|">
+                th:formaction="${@replaceUri.apply('/v2/item-orders/proceed-state/shipped')}">
             선택배송
         </button>
 
         <button type="submit"
                 form="formEditRows"
                 class="btn btn-primary"
-                th:formaction="@{/v2/item-orders/edit-summaries}">
+                th:formaction="|${@replaceUri.apply('/v2/item-orders/edit-summaries')}|">
             <i class="bi bi-pencil-fill"></i> 선택수정
         </button>
     </nav>
