@@ -34,6 +34,9 @@
 </div>
 <div th:if="${response?.message != null}" class="alert alert-primary" role="alert" th:text="${#messages.msgWithParams(response.message.messageCode(), response.message.arguments())}">메세지</div>
 
+<div th:replace="~{fragments/pagenation :: pageHeader('/v2/products', ${page}, ~{})}"></div>
+
+<div style="height: 16px;"></div>
 
 <div class="table-responsive">
     <table class="table table-striped text-center small align-middle w-100 text-nowrap" style="display: block; margin-bottom: 0 !important;">
@@ -104,6 +107,10 @@
     </table>
 </div>
 </form>
+
+<div style="height: 32px;"></div>
+
+<div th:replace="~{fragments/pagenation :: pageControl(${page})}"></div>
 
 </section>
 </body>
