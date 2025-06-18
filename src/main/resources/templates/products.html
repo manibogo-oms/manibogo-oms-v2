@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html th:replace="~{fragments/layout::layoutFragment (~{::title}, ~{::section}, ~{}, ~{})}"
+      xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>마니보고 주문관리 서비스 V2 - 상품관리</title>
+</head>
+<body>
+
+<section class="p-4">
+
+<form th:object="${rowsForm}">
+    <div class="table-responsive">
+        <table class="table table-striped text-center small align-middle w-100 text-nowrap" style="display: block; margin-bottom: 0 !important;">
+            <thead class="table-light">
+            <tr>
+                <th scope="col">
+                    <input class="form-check-input chk-select-all-rows" type="checkbox" aria-label="전체 선택">
+                </th>
+                <th scope="col" style="min-width: 160px;">상품번호</th>
+                <th scope="col" class="w-100">상품명</th>
+                <th scope="col" style="min-width: 88px;">우선순위</th>
+                <th scope="col">관리</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="table-row" th:each="product : ${products}">
+                <td class="td">
+                    <input type="checkbox"
+                           aria-label="선택"
+                           class="form-check-input chk-select-row"
+                           th:field="*{rows[__${productStat.index}__].isSelected}" />
+                </td>
+                <td th:text="${product.number}">상품번호</td>
+                <td>
+                    <input type="text"
+                           aria-label="상품명"
+                           class="form-control form-control-sm"
+                           th:field="*{rows[__${productStat.index}__].productName}" />
+                </td>
+                <td>
+                    <input type="number"
+                           aria-label="우선순위"
+                           class="form-control form-control-sm"
+                           th:field="*{rows[__${productStat.index}__].priority}" />
+                </td>
+                <td style="padding-top: 12px; padding-bottom: 12px;">
+                    <a href="#" class="btn btn-sm btn-secondary">옵션관리</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+
+</section>
+</body>
+</html>
