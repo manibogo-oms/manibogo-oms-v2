@@ -37,7 +37,7 @@ public class ItemOrderController {
             @ModelAttribute("rowsForm") ItemOrderRowsForm rowsForm,
             RedirectAttributes redirectAttributes) {
 
-        log.debug("[ItemOrderController.editSummaries] rowsForm = {}", rowsForm);
+        log.debug("[ItemOrderController.editSummaries] rows = {}", rowsForm);
 
         final ErrorResult errorResult = new ErrorResult();
 
@@ -83,7 +83,7 @@ public class ItemOrderController {
 
 
     private String proceedState(ItemOrderState targetState, ItemOrderRowsForm rowsForm, RedirectAttributes redirectAttributes) {
-        log.debug("[ItemOrderController.proceedState] rowsForm = {}", rowsForm);
+        log.debug("[ItemOrderController.proceedState] rows = {}", rowsForm);
         log.debug("[ItemOrderController.proceedState] targetState = {}", targetState);
 
         final ErrorResult errorResult = new ErrorResult();

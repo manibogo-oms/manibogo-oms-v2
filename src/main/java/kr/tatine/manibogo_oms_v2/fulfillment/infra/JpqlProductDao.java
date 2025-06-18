@@ -14,12 +14,16 @@ public class JpqlProductDao implements ProductDao {
 
     private final EntityManager em;
 
+    private static final String FIND_ALL_QUERY = """
+        SELECT new kr.tatine.manibogo_oms_v2.fulfillment.query.dto.ProductDto(p.number.productNumber, p.name, p.priority.priority)\s
+        FROM Product p\s
+        ORDER BY p.priority.priority
+    """;
 
     @Override
     public List<ProductDto> findAll() {
-        return em.createQuery(
-    "SELECT new kr.tatine.manibogo_oms_v2.fulfillment.query.dto.ProductDto(p.number.productNumber, p.name) FROM Product p ORDER BY p.priority.priority ASC", ProductDto.class)
-                .getResultList();
+        return em.createQuery(FIND_ALL_QUERY, ProductDto.class).getResultList();
+
     }
 
 
