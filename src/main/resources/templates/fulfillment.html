@@ -217,7 +217,7 @@
 
         <form method="GET" th:action="@{/v2/fulfillment}">
 
-            <input type="hidden" th:value="${page.pageable.pageNumber}" />
+            <input type="hidden" th:value="1" />
             <input type="hidden" th:value="${page.pageable.sort}" />
 
             <div class="d-flex gap-2">
