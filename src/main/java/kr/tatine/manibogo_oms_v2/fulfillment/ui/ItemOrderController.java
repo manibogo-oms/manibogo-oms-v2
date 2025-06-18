@@ -3,6 +3,7 @@ package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 import kr.tatine.manibogo_oms_v2.common.model.CommonResponse;
 import kr.tatine.manibogo_oms_v2.common.model.ErrorLevel;
 import kr.tatine.manibogo_oms_v2.common.model.ErrorResult;
+import kr.tatine.manibogo_oms_v2.common.utils.SelectableRowsFormUtils;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.EditItemOrderSummaryService;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.ItemOrderNotFoundException;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.ProceedItemOrderStateService;
@@ -41,7 +42,7 @@ public class ItemOrderController {
 
         final ErrorResult errorResult = new ErrorResult();
 
-        handleRowsForm(rowsForm, errorResult, (i, row) -> {
+        SelectableRowsFormUtils.handle(rowsForm, errorResult, (i, row) -> {
             try {
                 editItemOrderSummaryService.edit(row.toEditSummaryCommand());
 
@@ -50,6 +51,9 @@ public class ItemOrderController {
 
             } catch (AlreadyShippedException alreadyShippedException) {
                 errorResult.rejectValue(getRowsField(i, "preferredShipsOn"), "alreadyShipped.editItemOrder.preferredShipsOn");
+
+            } catch (ItemOrderNotFoundException ex) {
+                errorResult.reject("notFound.itemOrder", new Object[]{ row.getItemOrderNumber() });
             }
         });
 
@@ -88,7 +92,7 @@ public class ItemOrderController {
 
         final ErrorResult errorResult = new ErrorResult();
 
-        handleRowsForm(rowsForm, errorResult, (i, row) -> {
+        SelectableRowsFormUtils.handle(rowsForm, errorResult, (i, row) -> {
             try {
                 proceedItemOrderStateService.proceed(row.toProceedStateCommand(targetState));
 
@@ -99,12 +103,13 @@ public class ItemOrderController {
                         "stateAlreadyProceed",
                         new Object[] { targetState.getDescription() });
             } catch (CannotProceedToTargetStateException ex) {
-
                 errorResult.rejectValue(
                         getRowsField(i, "itemOrderState"),
                         "cannotProceedState",
                         new Object[] { targetState.getDescription() });
 
+            } catch (ItemOrderNotFoundException ex) {
+                errorResult.reject("notFound.itemOrder", new Object[]{ row.getItemOrderNumber() });
             }
         });
 
@@ -132,34 +137,6 @@ public class ItemOrderController {
         return "%s[%d].%s".formatted("rows", index, fieldName);
     }
 
-
-    private void handleRowsForm(
-            ItemOrderRowsForm rowsForm,
-            ErrorResult errorResult,
-            BiConsumer<Integer, ItemOrderRowsForm.Row> process) {
-
-        int selectedRowCount = 0;
-
-        for (int i = 0; i < rowsForm.getRows().size(); i ++) {
-            final ItemOrderRowsForm.Row row = rowsForm.getRows().get(i);
-
-            if (!row.getIsSelected()) continue;
-
-            selectedRowCount ++;
-
-            try {
-                process.accept(i, row);
-
-            } catch (ItemOrderNotFoundException ex) {
-                errorResult.reject("notFound.itemOrder", new Object[]{ row.getItemOrderNumber() });
-
-            }
-        }
-
-        if (selectedRowCount == 0) {
-            errorResult.reject(ErrorLevel.WARN,"requireSelect");
-        }
-    }
 
 
 }

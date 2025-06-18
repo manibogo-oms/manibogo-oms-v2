@@ -1,5 +1,7 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
+import kr.tatine.manibogo_oms_v2.common.model.SelectableRow;
+import kr.tatine.manibogo_oms_v2.common.model.SelectableRowsForm;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +13,7 @@ import java.util.List;
 @ToString
 @Getter @Setter
 @NoArgsConstructor
-public class ProductRowsForm {
+public class ProductRowsForm implements SelectableRowsForm<ProductRowsForm.Row> {
 
     private List<Row> rows = new ArrayList<>();
 
@@ -19,7 +21,7 @@ public class ProductRowsForm {
     @ToString
     @Getter @Setter
     @NoArgsConstructor
-    public static class Row {
+    public static class Row implements SelectableRow {
 
         private Boolean isSelected;
 
