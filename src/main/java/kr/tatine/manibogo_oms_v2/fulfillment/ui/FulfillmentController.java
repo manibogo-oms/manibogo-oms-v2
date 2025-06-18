@@ -1,6 +1,7 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
 import kr.tatine.manibogo_oms_v2.common.model.CommonResponse;
+import kr.tatine.manibogo_oms_v2.common.utils.PageUtils;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderState;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.SalesChannel;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.FulfillmentDao;
@@ -92,16 +93,18 @@ public class FulfillmentController {
         final Page<FulfillmentDto> page = fulfillmentDao.findAll(pageable, queryParams);
         final List<FulfillmentDto> fulfillmentList = page.getContent();
 
-        model.addAttribute("page", page);
+        model.addAttribute("pageControl", PageUtils.initControl(page));
+
         model.addAttribute("fulfillmentList", fulfillmentList);
 
         model.addAttribute("rowsForm", initEditForm(fulfillmentList));
-        calculatePageAttribute(model, page);
 
         model.addAttribute("nextSortParams", getNextSortParams(pageable.getSort()));
 
+
         return "fulfillment";
     }
+
 
     private ItemOrderRowsForm initEditForm(List<FulfillmentDto> fulfillmentList) {
 
