@@ -47,6 +47,7 @@ public class ProductController {
         row.setProductNumber(productDto.getNumber());
         row.setProductName(productDto.getName());
         row.setPriority(productDto.getPriority());
+        row.setIsEnabled(productDto.getIsEnabled());
 
         return row;
     }

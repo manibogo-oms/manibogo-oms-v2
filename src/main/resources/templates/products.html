@@ -20,6 +20,7 @@
                 <th scope="col" style="min-width: 160px;">상품번호</th>
                 <th scope="col" class="w-100">상품명</th>
                 <th scope="col" style="min-width: 88px;">우선순위</th>
+                <th scope="col">사용</th>
                 <th scope="col">관리</th>
             </tr>
             </thead>
@@ -44,8 +45,16 @@
                            class="form-control form-control-sm"
                            th:field="*{rows[__${productStat.index}__].priority}" />
                 </td>
+                <td>
+                    <input type="checkbox"
+                           aria-label="사용"
+                           class="form-check-input chk-select-row"
+                           th:field="*{rows[__${productStat.index}__].isEnabled}" />
+                </td>
                 <td style="padding-top: 12px; padding-bottom: 12px;">
-                    <a href="#" class="btn btn-sm btn-secondary">옵션관리</a>
+                    <div class="d-flex gap-2" >
+                        <a href="#" class="btn btn-sm btn-secondary">옵션관리</a>
+                    </div>
                 </td>
             </tr>
             </tbody>

@@ -57,7 +57,7 @@ public class FulfillmentController {
 
     @ModelAttribute("products")
     public List<ProductDto> products() {
-        return productDao.findAll();
+        return productDao.findEnabled();
     }
 
     @ModelAttribute("regions")

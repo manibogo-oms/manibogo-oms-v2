@@ -110,6 +110,7 @@ FROM
         GROUP BY
             ioh.item_order_number
     ) AS ioh_agg ON io.item_order_number = ioh_agg.item_order_number
+WHERE p.is_enabled = true
 """)
 public class FulfillmentDto {
 

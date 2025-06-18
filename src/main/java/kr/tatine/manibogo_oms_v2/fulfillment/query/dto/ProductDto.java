@@ -16,9 +16,12 @@ public class ProductDto {
 
     private Integer priority;
 
-    public ProductDto(String number, String name, Integer priority) {
+    private Boolean isEnabled;
+
+    public ProductDto(String number, String name, Integer priority, Boolean isEnabled) {
         this.number = number;
         this.name = name;
         this.priority = priority;
+        this.isEnabled = isEnabled;
     }
 }

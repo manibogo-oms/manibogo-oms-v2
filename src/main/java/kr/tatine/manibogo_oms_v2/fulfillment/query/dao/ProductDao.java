@@ -9,4 +9,6 @@ public interface ProductDao {
 
     List<ProductDto> findAll();
 
+    List<ProductDto> findEnabled();
+
 }
