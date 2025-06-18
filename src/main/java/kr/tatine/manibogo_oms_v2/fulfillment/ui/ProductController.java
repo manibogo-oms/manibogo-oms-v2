@@ -9,6 +9,8 @@ import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.ProductNameD
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.ProductDao;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static kr.tatine.manibogo_oms_v2.common.utils.SelectableRowsFormUtils.getRowsFieldName;
@@ -34,13 +37,19 @@ public class ProductController {
 
     @GetMapping
     @Transactional(readOnly = true)
-    public String products(Model model) {
+    public String products(Model model, Pageable pageable) {
 
-        final List<ProductDto> products = productDao.findAll();
+        final Page<ProductDto> products = productDao.findAll(pageable);
 
-        model.addAttribute("products", products);
+        model.addAttribute("products", products.getContent());
 
-        initRowsForm(model, products);
+        initRowsForm(model, products.getContent());
+
+        final Pageable nextPageable = products.getPageable();
+
+        final int pageNumber = nextPageable.getPageNumber();
+
+        final int totalPages = products.getTotalPages();
 
         return "products";
     }
