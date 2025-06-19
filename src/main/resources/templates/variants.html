@@ -9,6 +9,8 @@
 
 <section class="p-4">
 
+<form th:method="POST" th:action="${@replaceUri.apply('/v2/products/' + productNumber + '/variants/edit')}" th:object="${rowsForm}">
+
 
 <nav class="d-flex gap-2">
 
@@ -29,6 +31,18 @@
 
 <div class="container-xxl">
 
+  <div th:if="${response?.errorResult?.hasGlobalError()}">
+    <div role="alert"
+         th:class="alert"
+         th:with="errorLevel = ${err.level().name().toLowerCase()}"
+         th:classappend="(${errorLevel == 'error'} ? 'alert-danger' : '') + (${errorLevel == 'warn'} ? 'alert-warning' : '')"
+         th:each="err : ${response?.errorResult?.getGlobalErrors()}"
+         th:text="${#messages.msgWithParams(err.message().messageCode(), err.message().arguments())}">
+      에러 메세지
+    </div>
+  </div>
+  <div th:if="${response?.message != null}" class="alert alert-primary" role="alert" th:text="${#messages.msgWithParams(response.message.messageCode(), response.message.arguments())}">메세지</div>
+
   <div th:replace="~{fragments/pagenation :: pageHeader('/v2/products/' + ${productNumber} + '/variants', ${page}, ~{})}"></div>
 
   <div style="height: 16px;"></div>
@@ -45,18 +59,25 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="variant : ${variants}">
+    <tr th:each="variant, rowStat : ${variants}">
       <td class="td">
         <input type="checkbox"
                aria-label="선택"
-               class="form-check-input chk-select-row" />
+               class="form-check-input chk-select-row"
+               th:field="*{rows[__${rowStat.index}__].isSelected}" />
+
+        <input type="hidden" th:field="*{rows[__${rowStat.index}__].productNumber}" />
+        <input type="hidden" th:field="*{rows[__${rowStat.index}__].key}" />
+        <input type="hidden" th:field="*{rows[__${rowStat.index}__].value}" />
+
       </td>
       <td th:text="${variant.key}">이름</td>
       <td th:text="${variant.value}">값</td>
       <td>
         <input type="text"
                class="form-control form-control-sm"
-               th:value="${variant.value}" aria-label="레이블" />
+                aria-label="레이블"
+               th:field="*{rows[__${rowStat.index}__].label}" />
       </td>
     </tr>
     </tbody>
@@ -75,6 +96,7 @@
   <div th:replace="~{fragments/pagenation :: pageControl(${page})}"></div>
 
 </div>
+</form>
 
 </section>
 </body>

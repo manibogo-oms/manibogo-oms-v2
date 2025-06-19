@@ -24,4 +24,9 @@ public class Variant {
     public Variant(VariantId variantId) {
         this(variantId, variantId.getInitLabel());
     }
+
+    public void changeLabel(String label) {
+        this.label = label;
+    }
+
 }

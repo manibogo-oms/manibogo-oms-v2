@@ -2,9 +2,12 @@ package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
 import kr.tatine.manibogo_oms_v2.ValidationErrorException;
 import kr.tatine.manibogo_oms_v2.common.model.*;
+import kr.tatine.manibogo_oms_v2.common.utils.RedirectionUtils;
 import kr.tatine.manibogo_oms_v2.common.utils.SelectableRowsFormUtils;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.EditProductService;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.application.EditVariantService;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.ProductNotFoundException;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.application.VariantNotFoundException;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.ProductNameDuplicatedException;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.ProductDao;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.VariantDao;
@@ -17,11 +20,12 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static kr.tatine.manibogo_oms_v2.common.utils.SelectableRowsFormUtils.getRowsFieldName;
 
@@ -37,6 +41,8 @@ public class ProductController {
 
     private final EditProductService editProductService;
 
+    private final EditVariantService editVariantService;
+
     @GetMapping
     @Transactional(readOnly = true)
     public String products(Model model,
@@ -47,7 +53,7 @@ public class ProductController {
         model.addAttribute("products", page.getContent());
         model.addAttribute("page", page);
 
-        initRowsForm(model, page.getContent());
+        initProductRowsForm(model, page.getContent());
 
         return "products";
     }
@@ -74,10 +80,9 @@ public class ProductController {
             }
         }));
 
-
         redirectAttributes.addFlashAttribute("response", new CommonResponse("complete.editProducts", errorResult));
 
-        return "redirect:/v2/products";
+        return "redirect:" + RedirectionUtils.getUrlRemainQuery("/v2/products");
     }
 
     @GetMapping("/{productNumber}/variants")
@@ -96,12 +101,56 @@ public class ProductController {
         Page<VariantDto> page = variantDao.findAllByProductNumber(pageable, productNumber);
 
         model.addAttribute("page", page);
-        model.addAttribute("variants", page.getContent());
+
+        final List<VariantDto> variants = page.getContent();
+        model.addAttribute("variants", variants);
+        initVariantRowsForm(model, variants);
 
         return "variants";
     }
 
-    private void initRowsForm(Model model, List<ProductDto> products) {
+    @PostMapping("/{productNumber}/variants/edit")
+    public String editVariants(
+            @PathVariable String productNumber,
+            @ModelAttribute VariantRowsForm rowsForm,
+            RedirectAttributes redirectAttributes) {
+
+        final ErrorResult errorResult = new ErrorResult();
+
+        SelectableRowsFormUtils.handle(rowsForm, errorResult, (i, row) -> {
+            try {
+                editVariantService.edit(row.toEditCommand());
+
+            } catch (ValidationErrorException ex) {
+                ex.getValidationErrors().forEach(error ->
+                        errorResult.rejectValue(getRowsFieldName(i, error.getName()), error.getErrorCode()));
+
+            } catch (VariantNotFoundException ex) {
+                errorResult.reject("notFound.variant");
+            }
+        });
+
+        redirectAttributes.addFlashAttribute("response",
+                new CommonResponse("complete.editVariants", errorResult));
+
+        final String redirectPath = "/v2/products/%s/variants".formatted(productNumber);
+
+        return "redirect:" + RedirectionUtils.getUrlRemainQuery(redirectPath);
+    }
+
+    private void initVariantRowsForm(Model model, List<VariantDto> variants) {
+        final VariantRowsForm rowsForm = new VariantRowsForm();
+
+        final List<VariantRowsForm.Row> rows = variants.stream()
+                .map(VariantRowsForm.Row::fromDto)
+                .toList();
+
+        rowsForm.setRows(rows);
+
+        model.addAttribute("rowsForm", rowsForm);
+    }
+
+    private void initProductRowsForm(Model model, List<ProductDto> products) {
         final ProductRowsForm rowsForm = new ProductRowsForm();
 
         final List<ProductRowsForm.Row> rows = products.stream().map(this::converToRow).toList();
