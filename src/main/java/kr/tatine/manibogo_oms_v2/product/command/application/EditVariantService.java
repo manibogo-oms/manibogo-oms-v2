@@ -21,25 +21,10 @@ public class EditVariantService {
     private final VariantRepository variantRepository;
 
     @Transactional
-    public void edit(EditVariantCommand command) {
+    public void edit(VariantCommand command) {
 
-        final List<ValidationError> errors = new ArrayList<>();
-
-        if (command.productNumber() == null || command.productNumber().isBlank()) {
-            errors.add(ValidationError.of("productNumber", "notBlank.variant.productNumber"));
-        }
-
-        if (command.key() == null || command.key().isBlank()) {
-            errors.add(ValidationError.of("key", "notBlank.variant.key"));
-        }
-
-        if (command.value() == null || command.value().isBlank()) {
-            errors.add(ValidationError.of("value", "notBlank.variant.value"));
-        }
-
-        if (command.label() == null || command.label().isBlank()) {
-            errors.add(ValidationError.of("label", "notBlank.variant.label"));
-        }
+        final List<ValidationError> errors =
+                VariantCommandValidator.validate(command);
 
         if (!errors.isEmpty()) {
             throw new ValidationErrorException(errors);

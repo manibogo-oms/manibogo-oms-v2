@@ -21,40 +21,28 @@ public class AddVariantService {
     private final VariantRepository variantRepository;
 
     @Transactional
-    public void add(AddVariantCommand command) {
+    public void add(VariantCommand command) {
 
-        final List<ValidationError> errors = new ArrayList<>();
-
-        if (command.productNumber() == null || command.productNumber().isBlank()) {
-            errors.add(ValidationError.of("productNumber", "notBlank.variant.productNumber"));
-        }
-
-        if (command.key() == null || command.key().isBlank()) {
-            errors.add(ValidationError.of("key", "notBlank.variant.key"));
-        }
-
-        if (command.value() == null || command.value().isBlank()) {
-            errors.add(ValidationError.of("value", "notBlank.variant.value"));
-        }
-
-        if (command.label() == null || command.label().isBlank()) {
-            errors.add(ValidationError.of("label", "notBlank.variant.label"));
-        }
-
-        final ProductNumber productNumber = new ProductNumber(command.productNumber());
-        final Option option = new Option(command.key(), command.value());
-
-        final VariantId variantId = new VariantId(option, productNumber);
-
-        if (variantRepository.existsById(variantId)) {
-            errors.add(ValidationError.of("duplicate.variant"));
-        }
+        final List<ValidationError> errors = VariantCommandValidator.validate(command);
 
         if (!errors.isEmpty()) {
             throw new ValidationErrorException(errors);
         }
 
+        final VariantId variantId = getVariantId(command);
+
+        if (variantRepository.existsById(variantId)) {
+            throw new VariantDuplicatedException();
+        }
+
         variantRepository.save(new Variant(variantId, command.label()));
+    }
+
+    private VariantId getVariantId(VariantCommand command) {
+        final ProductNumber productNumber = new ProductNumber(command.productNumber());
+        final Option option = new Option(command.key(), command.value());
+
+        return new VariantId(option, productNumber);
     }
 
 }
