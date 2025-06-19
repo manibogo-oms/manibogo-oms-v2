@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:replace="~{fragments/layout::layoutFragment (~{::title}, ~{::section}, ~{}, ~{})}"
+<html th:replace="~{fragments/layout::layoutFragment (~{::title}, ~{::section}, ~{}, ~{::script})}"
       xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
   <meta charset="UTF-8">
@@ -10,7 +10,6 @@
 <section class="p-4">
 
 <form th:method="POST" th:action="${@replaceUri.apply('/v2/products/' + productNumber + '/variants/edit')}" th:object="${rowsForm}">
-
 
 <nav class="d-flex gap-2">
 
@@ -86,8 +85,8 @@
   <div style="height: 8px;"></div>
 
   <div class="d-flex justify-content-end">
-    <a th:href="@{/v2/products/${productNumber}/variants/add}" class="btn btn-primary">
-      <i class="bi bi-plus-lg"></i> 옵션추가
+    <a th:href="|/v2/products/${productNumber}/variants/add|" class="btn btn-primary">
+      <i class="bi bi-plus-lg"></i> 추가하기
     </a>
   </div>
 
@@ -100,4 +99,16 @@
 
 </section>
 </body>
+
+<script th:inline="javascript">
+
+  const isAddVariantModelOpen = [[${isAddModalOpen}]];
+
+  if (isAddVariantModelOpen === true) {
+    const modal = new bootstrap.Modal(document.getElementById('modalAddVariant'));
+    modal.show();
+  }
+
+</script>
+
 </html>

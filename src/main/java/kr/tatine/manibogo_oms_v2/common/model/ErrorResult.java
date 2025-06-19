@@ -50,6 +50,10 @@ public class ErrorResult {
         reject(ErrorLevel.ERROR, errorCode, new Object[0]);
     }
 
+    public boolean hasError() {
+        return !globalErrors.isEmpty() || !fieldErrors.isEmpty();
+    }
+
     public boolean hasGlobalError() {
         return !globalErrors.isEmpty();
     }

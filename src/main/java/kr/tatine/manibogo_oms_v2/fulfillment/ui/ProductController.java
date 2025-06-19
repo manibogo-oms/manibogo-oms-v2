@@ -4,10 +4,7 @@ import kr.tatine.manibogo_oms_v2.ValidationErrorException;
 import kr.tatine.manibogo_oms_v2.common.model.*;
 import kr.tatine.manibogo_oms_v2.common.utils.RedirectionUtils;
 import kr.tatine.manibogo_oms_v2.common.utils.SelectableRowsFormUtils;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.application.EditProductService;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.application.EditVariantService;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.application.ProductNotFoundException;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.application.VariantNotFoundException;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.application.*;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.ProductNameDuplicatedException;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.ProductDao;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.VariantDao;
@@ -20,12 +17,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Map;
 
 import static kr.tatine.manibogo_oms_v2.common.utils.SelectableRowsFormUtils.getRowsFieldName;
 
@@ -42,6 +37,8 @@ public class ProductController {
     private final EditProductService editProductService;
 
     private final EditVariantService editVariantService;
+
+    private final AddVariantService addVariantService;
 
     @GetMapping
     @Transactional(readOnly = true)
@@ -135,6 +132,51 @@ public class ProductController {
 
         final String redirectPath = "/v2/products/%s/variants".formatted(productNumber);
 
+        return "redirect:" + RedirectionUtils.getUrlRemainQuery(redirectPath);
+    }
+
+    @GetMapping("/{productNumber}/variants/add")
+    public String getAddVariant(@PathVariable String productNumber, Model model) {
+
+        final ProductDto productDto = productDao
+                .findByNumber(productNumber)
+                .orElseThrow(ProductNotFoundException::new);
+
+        final AddVariantForm form = new AddVariantForm();
+        form.setProductName(productDto.getName());
+
+        model.addAttribute("form", form);
+
+        return "addVariant";
+    }
+
+    @PostMapping("/{productNumber}/variants/add")
+    public String addVariant(
+            @PathVariable String productNumber,
+            @ModelAttribute("form") AddVariantForm form,
+            Model model
+    ) {
+
+        final ErrorResult errorResult = new ErrorResult();
+
+        try {
+            addVariantService.add(new AddVariantCommand(productNumber, form.getKey(), form.getValue(), form.getLabel()));
+        } catch (ValidationErrorException ex) {
+            ex.getValidationErrors().forEach(err -> {
+                if (err.getName() == null) {
+                    errorResult.reject(err.getErrorCode());
+                    return;
+                }
+                errorResult.rejectValue(err.getName(), err.getErrorCode());
+            });
+        }
+
+        if (errorResult.hasError()) {
+            model.addAttribute("error", errorResult);
+            return "addVariant";
+        }
+
+        final String redirectPath = "/v2/products/%s/variants".formatted(productNumber);
         return "redirect:" + RedirectionUtils.getUrlRemainQuery(redirectPath);
     }
 
