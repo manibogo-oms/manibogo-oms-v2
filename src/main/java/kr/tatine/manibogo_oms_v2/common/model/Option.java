@@ -20,8 +20,8 @@ public class Option implements Serializable {
     private String value;
 
     public Option(String key, String value) {
-        this.key = key;
-        this.value = value;
+        this.key = key.trim();
+        this.value = value.trim();
     }
 
 }
