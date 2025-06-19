@@ -41,7 +41,7 @@ public class QFulfillmentDto extends EntityPathBase<FulfillmentDto> {
 
     public final StringPath itemOrderNumber = createString("itemOrderNumber");
 
-    public final EnumPath<kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderState> itemOrderState = createEnum("itemOrderState", kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderState.class);
+    public final EnumPath<kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ItemOrderState> itemOrderState = createEnum("itemOrderState", kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ItemOrderState.class);
 
     public final StringPath optionInfo = createString("optionInfo");
 
@@ -73,17 +73,17 @@ public class QFulfillmentDto extends EntityPathBase<FulfillmentDto> {
 
     public final DatePath<java.time.LocalDate> refundedOn = createDate("refundedOn", java.time.LocalDate.class);
 
-    public final EnumPath<kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.SalesChannel> salesChannel = createEnum("salesChannel", kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.SalesChannel.class);
+    public final EnumPath<kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel> salesChannel = createEnum("salesChannel", kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel.class);
 
     public final DatePath<java.time.LocalDate> shippedOn = createDate("shippedOn", java.time.LocalDate.class);
 
-    public final EnumPath<kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ChargeType> shippingChargeType = createEnum("shippingChargeType", kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ChargeType.class);
+    public final EnumPath<kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType> shippingChargeType = createEnum("shippingChargeType", kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType.class);
 
     public final StringPath shippingCompany = createString("shippingCompany");
 
     public final StringPath shippingMemo = createString("shippingMemo");
 
-    public final EnumPath<kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ShippingMethod> shippingMethod = createEnum("shippingMethod", kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ShippingMethod.class);
+    public final EnumPath<kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ShippingMethod> shippingMethod = createEnum("shippingMethod", kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ShippingMethod.class);
 
     public final StringPath shippingTrackingNumber = createString("shippingTrackingNumber");
 
