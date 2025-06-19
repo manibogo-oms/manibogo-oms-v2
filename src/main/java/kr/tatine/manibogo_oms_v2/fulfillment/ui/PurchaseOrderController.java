@@ -1,6 +1,6 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderState;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ItemOrderState;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.FulfillmentDao;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.FulfillmentQueryParams;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.PurchaseOrderDto;
