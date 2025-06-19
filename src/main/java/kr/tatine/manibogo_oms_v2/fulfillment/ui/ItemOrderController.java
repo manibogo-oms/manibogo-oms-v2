@@ -3,6 +3,7 @@ package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 import kr.tatine.manibogo_oms_v2.common.model.CommonResponse;
 import kr.tatine.manibogo_oms_v2.common.model.ErrorLevel;
 import kr.tatine.manibogo_oms_v2.common.model.ErrorResult;
+import kr.tatine.manibogo_oms_v2.common.utils.SelectableRowsFormUtils;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.EditItemOrderSummaryService;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.ItemOrderNotFoundException;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.ProceedItemOrderStateService;
@@ -14,11 +15,11 @@ import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemO
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.function.BiConsumer;
 
@@ -35,14 +36,13 @@ public class ItemOrderController {
     @PostMapping("/edit-summaries")
     public String editSummaries(
             @ModelAttribute("rowsForm") ItemOrderRowsForm rowsForm,
-            RedirectAttributes redirectAttributes
-    ) {
+            RedirectAttributes redirectAttributes) {
 
-        log.debug("[ItemOrderController.editSummaries] rowsForm = {}", rowsForm);
+        log.debug("[ItemOrderController.editSummaries] rows = {}", rowsForm);
 
         final ErrorResult errorResult = new ErrorResult();
 
-        handleRowsForm(rowsForm, errorResult, (i, row) -> {
+        SelectableRowsFormUtils.handle(rowsForm, errorResult, (i, row) -> {
             try {
                 editItemOrderSummaryService.edit(row.toEditSummaryCommand());
 
@@ -51,6 +51,9 @@ public class ItemOrderController {
 
             } catch (AlreadyShippedException alreadyShippedException) {
                 errorResult.rejectValue(getRowsField(i, "preferredShipsOn"), "alreadyShipped.editItemOrder.preferredShipsOn");
+
+            } catch (ItemOrderNotFoundException ex) {
+                errorResult.reject("notFound.itemOrder", new Object[]{ row.getItemOrderNumber() });
             }
         });
 
@@ -58,22 +61,38 @@ public class ItemOrderController {
                 "response",
                 new CommonResponse("complete.editSummaries", errorResult));
 
-        return "redirect:/v2/fulfillment";
+        return redirectWithQueryParams("/v2/fulfillment");
     }
 
-    @PostMapping("/proceed-state")
-    public String proceedState(
-            @RequestParam("targetState") ItemOrderState targetState,
+    @PostMapping("/proceed-state/purchased")
+    public String proceedToPurchased(
             @ModelAttribute("rowsForm") ItemOrderRowsForm rowsForm,
-            RedirectAttributes redirectAttributes
-    ) {
+            RedirectAttributes redirectAttributes) {
+        return proceedState(ItemOrderState.PURCHASED, rowsForm, redirectAttributes);
+    }
 
-        log.debug("[ItemOrderController.proceedState] rowsForm = {}", rowsForm);
+    @PostMapping("/proceed-state/dispatched")
+    public String proceedToDispatched(
+            @ModelAttribute("rowsForm") ItemOrderRowsForm rowsForm,
+            RedirectAttributes redirectAttributes) {
+        return proceedState(ItemOrderState.DISPATCHED, rowsForm, redirectAttributes);
+    }
+
+    @PostMapping("/proceed-state/shipped")
+    public String proceedToShipped(
+            @ModelAttribute("rowsForm") ItemOrderRowsForm rowsForm,
+            RedirectAttributes redirectAttributes) {
+        return proceedState(ItemOrderState.SHIPPED, rowsForm, redirectAttributes);
+    }
+
+
+    private String proceedState(ItemOrderState targetState, ItemOrderRowsForm rowsForm, RedirectAttributes redirectAttributes) {
+        log.debug("[ItemOrderController.proceedState] rows = {}", rowsForm);
         log.debug("[ItemOrderController.proceedState] targetState = {}", targetState);
 
         final ErrorResult errorResult = new ErrorResult();
 
-        handleRowsForm(rowsForm, errorResult, (i, row) -> {
+        SelectableRowsFormUtils.handle(rowsForm, errorResult, (i, row) -> {
             try {
                 proceedItemOrderStateService.proceed(row.toProceedStateCommand(targetState));
 
@@ -84,12 +103,13 @@ public class ItemOrderController {
                         "stateAlreadyProceed",
                         new Object[] { targetState.getDescription() });
             } catch (CannotProceedToTargetStateException ex) {
-
                 errorResult.rejectValue(
                         getRowsField(i, "itemOrderState"),
                         "cannotProceedState",
                         new Object[] { targetState.getDescription() });
 
+            } catch (ItemOrderNotFoundException ex) {
+                errorResult.reject("notFound.itemOrder", new Object[]{ row.getItemOrderNumber() });
             }
         });
 
@@ -97,7 +117,19 @@ public class ItemOrderController {
                 "response",
                 new CommonResponse("complete.proceedState", new Object[]{targetState.getDescription()}, errorResult));
 
-        return "redirect:/v2/fulfillment";
+        return redirectWithQueryParams("/v2/fulfillment");
+    }
+
+    private String redirectWithQueryParams(String redirectPath) {
+        final String queryString = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getQueryString();
+
+        final UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromPath(redirectPath);
+
+        if (queryString != null && !queryString.isEmpty()) {
+            uriBuilder.query(queryString);
+        }
+
+        return "redirect:" + uriBuilder.toUriString();
     }
 
 
@@ -105,34 +137,6 @@ public class ItemOrderController {
         return "%s[%d].%s".formatted("rows", index, fieldName);
     }
 
-
-    private void handleRowsForm(
-            ItemOrderRowsForm rowsForm,
-            ErrorResult errorResult,
-            BiConsumer<Integer, ItemOrderRowsForm.Row> process) {
-
-        int selectedRowCount = 0;
-
-        for (int i = 0; i < rowsForm.getRows().size(); i ++) {
-            final ItemOrderRowsForm.Row row = rowsForm.getRows().get(i);
-
-            if (!row.getIsSelected()) continue;
-
-            selectedRowCount ++;
-
-            try {
-                process.accept(i, row);
-
-            } catch (ItemOrderNotFoundException ex) {
-                errorResult.reject("notFound.itemOrder", new Object[]{ row.getItemOrderNumber() });
-
-            }
-        }
-
-        if (selectedRowCount == 0) {
-            errorResult.reject(ErrorLevel.WARN,"requireSelect");
-        }
-    }
 
 
 }
