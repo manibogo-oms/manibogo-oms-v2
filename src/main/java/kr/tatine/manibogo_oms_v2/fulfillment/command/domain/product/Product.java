@@ -31,13 +31,7 @@ public class Product {
         this.isEnabled = true;
     }
 
-    public void changeName(ProductRepository repository, String name) {
-        if (Objects.equals(this.name, name)) return;
-
-        if (repository.countByName(name) > 0) {
-            throw new ProductNameDuplicatedException();
-        }
-
+    public void changeName(String name) {
         this.name = name;
     }
 
@@ -49,4 +43,7 @@ public class Product {
         this.isEnabled = isEnabled;
     }
 
+    String getName() {
+        return name;
+    }
 }
