@@ -70,7 +70,7 @@ public class VariantController {
 
         SelectableRowsFormUtils.handle(rowsForm, errorResult, (i, row) -> {
             try {
-                editVariantService.edit(row.toEditCommand());
+                editVariantService.edit(row.toCommand());
 
             } catch (ValidationErrorException ex) {
                 ex.getValidationErrors().forEach(error ->
@@ -114,13 +114,11 @@ public class VariantController {
         final ErrorResult errorResult = new ErrorResult();
 
         try {
-            addVariantService.add(new AddVariantCommand(productNumber, form.getKey(), form.getValue(), form.getLabel()));
+            addVariantService.add(new VariantCommand(productNumber, form.getKey(), form.getValue(), form.getLabel()));
+        } catch (VariantDuplicatedException ex) {
+            errorResult.reject("duplicate.variant");
         } catch (ValidationErrorException ex) {
             ex.getValidationErrors().forEach(err -> {
-                if (err.getName() == null) {
-                    errorResult.reject(err.getErrorCode());
-                    return;
-                }
                 errorResult.rejectValue(err.getName(), err.getErrorCode());
             });
         }

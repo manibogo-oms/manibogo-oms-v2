@@ -2,7 +2,7 @@ package kr.tatine.manibogo_oms_v2.product.ui;
 
 import kr.tatine.manibogo_oms_v2.common.model.SelectableRow;
 import kr.tatine.manibogo_oms_v2.common.model.SelectableRowsForm;
-import kr.tatine.manibogo_oms_v2.product.command.application.EditVariantCommand;
+import kr.tatine.manibogo_oms_v2.product.command.application.VariantCommand;
 import kr.tatine.manibogo_oms_v2.product.query.dto.VariantDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,8 +48,8 @@ public class VariantRowsForm implements SelectableRowsForm<VariantRowsForm.Row> 
             return row;
         }
 
-        public EditVariantCommand toEditCommand() {
-            return new EditVariantCommand(productNumber, key, value, label);
+        public VariantCommand toCommand() {
+            return new VariantCommand(productNumber, key, value, label);
         }
 
     }
