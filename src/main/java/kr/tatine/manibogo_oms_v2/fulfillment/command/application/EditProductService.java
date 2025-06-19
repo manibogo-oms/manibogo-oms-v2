@@ -2,10 +2,7 @@ package kr.tatine.manibogo_oms_v2.fulfillment.command.application;
 
 import kr.tatine.manibogo_oms_v2.ValidationErrorException;
 import kr.tatine.manibogo_oms_v2.common.ValidationError;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.Priority;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.Product;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.ProductNumber;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.ProductRepository;
+import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +13,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class EditProductService {
+
+    private final ProductService productService;
 
     private final ProductRepository productRepository;
 
@@ -52,7 +51,7 @@ public class EditProductService {
         final Product product = productRepository.findById(productNumber)
                 .orElseThrow(ProductNotFoundException::new);
 
-        product.changeName(productRepository, command.productName());
+        productService.changeName(product, command.productName());
         product.changePriority(new Priority(command.priority()));
         product.changeIsEnabled(command.isEnabled());
     }
