@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option;
+package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.variant;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -16,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QVariant extends EntityPathBase<Variant> {
 
-    private static final long serialVersionUID = 612439944L;
+    private static final long serialVersionUID = -1874998304L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 

@@ -7,7 +7,9 @@ import kr.tatine.manibogo_oms_v2.fulfillment.command.application.EditProductServ
 import kr.tatine.manibogo_oms_v2.fulfillment.command.application.ProductNotFoundException;
 import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.ProductNameDuplicatedException;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.ProductDao;
+import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.VariantDao;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.ProductDto;
+import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.VariantDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,10 +17,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
@@ -33,6 +32,8 @@ import static kr.tatine.manibogo_oms_v2.common.utils.SelectableRowsFormUtils.get
 public class ProductController {
 
     private final ProductDao productDao;
+
+    private final VariantDao variantDao;
 
     private final EditProductService editProductService;
 
@@ -77,6 +78,27 @@ public class ProductController {
         redirectAttributes.addFlashAttribute("response", new CommonResponse("complete.editProducts", errorResult));
 
         return "redirect:/v2/products";
+    }
+
+    @GetMapping("/{productNumber}/variants")
+    @Transactional(readOnly = true)
+    public String variants(
+            @PageableDefault(size = 25) Pageable pageable,
+            @PathVariable String productNumber,
+            Model model
+    ) {
+
+        final ProductDto productDto = productDao
+                .findByNumber(productNumber)
+                .orElseThrow(ProductNotFoundException::new);
+
+        model.addAttribute("product", productDto);
+        Page<VariantDto> page = variantDao.findAllByProductNumber(pageable, productNumber);
+
+        model.addAttribute("page", page);
+        model.addAttribute("variants", page.getContent());
+
+        return "variants";
     }
 
     private void initRowsForm(Model model, List<ProductDto> products) {

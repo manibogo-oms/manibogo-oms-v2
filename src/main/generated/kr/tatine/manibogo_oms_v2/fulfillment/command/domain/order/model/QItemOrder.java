@@ -44,7 +44,7 @@ public class QItemOrder extends EntityPathBase<ItemOrder> {
 
     public final kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.QTrackingInfo trackingInfo;
 
-    public final ListPath<kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.VariantId, kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.QVariantId> variants = this.<kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.VariantId, kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.QVariantId>createList("variants", kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.VariantId.class, kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option.QVariantId.class, PathInits.DIRECT2);
+    public final ListPath<kr.tatine.manibogo_oms_v2.fulfillment.command.domain.variant.VariantId, kr.tatine.manibogo_oms_v2.fulfillment.command.domain.variant.QVariantId> variants = this.<kr.tatine.manibogo_oms_v2.fulfillment.command.domain.variant.VariantId, kr.tatine.manibogo_oms_v2.fulfillment.command.domain.variant.QVariantId>createList("variants", kr.tatine.manibogo_oms_v2.fulfillment.command.domain.variant.VariantId.class, kr.tatine.manibogo_oms_v2.fulfillment.command.domain.variant.QVariantId.class, PathInits.DIRECT2);
 
     public QItemOrder(String variable) {
         this(ItemOrder.class, forVariable(variable), INITS);

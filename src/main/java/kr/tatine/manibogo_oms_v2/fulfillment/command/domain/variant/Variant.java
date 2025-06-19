@@ -1,9 +1,7 @@
-package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.option;
+package kr.tatine.manibogo_oms_v2.fulfillment.command.domain.variant;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import kr.tatine.manibogo_oms_v2.common.model.Option;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.product.ProductNumber;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
