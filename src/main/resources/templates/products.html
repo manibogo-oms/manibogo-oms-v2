@@ -8,7 +8,7 @@
 <body>
 
 <section class="p-4">
-<form th:object="${rowsForm}" th:method="POST" th:action="@{/v2/products/edit}">
+<form th:object="${rowsForm}" th:method="POST" th:action="${@replaceUri.apply('/v2/products/edit')}">
 
 <nav class="d-flex">
     <div class="flex-grow-1"></div>
