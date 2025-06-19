@@ -14,7 +14,7 @@ public class Priority {
 
     private Integer priority;
 
-    private Priority(Integer priority) {
+    public Priority(Integer priority) {
         this.priority = priority;
     }
 
