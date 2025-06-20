@@ -20,10 +20,6 @@ public class AddItemOrderForm {
 
     private String purchaseMemo;
 
-    private String shippingMemo;
-
-    private String adminMemo;
-
     @Getter
     @Setter
     @ToString
