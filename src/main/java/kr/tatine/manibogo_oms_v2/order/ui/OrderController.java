@@ -7,13 +7,13 @@ import kr.tatine.manibogo_oms_v2.product.query.dto.VariantDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.*;
@@ -62,19 +62,26 @@ public class OrderController {
     @PostMapping("/add/addItemOrder")
     public String addItemOrder(
             @ModelAttribute AddOrderForm form,
-            @RequestParam String productNumber,
+            @RequestParam String newProductNumber,
+            @RequestParam Integer newAmount,
             RedirectAttributes redirectAttributes
     ) {
 
-        final List<AddItemOrderForm> itemOrderForms = new ArrayList<>(form.getItemOrderForms());
+        if (!newProductNumber.isBlank()) {
+            final List<AddItemOrderForm> itemOrderForms = new ArrayList<>(form.getItemOrderForms());
 
-        final AddItemOrderForm itemOrderForm = new AddItemOrderForm();
-        itemOrderForm.setProductNumber(productNumber);
-        itemOrderForm.setAmount(1);
+            final AddItemOrderForm itemOrderForm = new AddItemOrderForm();
+            itemOrderForm.setProductNumber(newProductNumber);
 
-        itemOrderForms.add(itemOrderForm);
+            if (Objects.isNull(newAmount)) {
+                newAmount = 1;
+            }
+            itemOrderForm.setAmount(newAmount);
 
-        form.setItemOrderForms(itemOrderForms);
+            itemOrderForms.add(itemOrderForm);
+
+            form.setItemOrderForms(itemOrderForms);
+        }
 
         redirectAttributes.addFlashAttribute("form", form);
 
