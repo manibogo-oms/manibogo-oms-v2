@@ -85,7 +85,7 @@ public class OrderController {
 
         redirectAttributes.addFlashAttribute("form", form);
 
-        return "redirect:/v2/orders/add";
+        return "redirect:/v2/orders/add#lastItemOrder";
     }
 
 }
