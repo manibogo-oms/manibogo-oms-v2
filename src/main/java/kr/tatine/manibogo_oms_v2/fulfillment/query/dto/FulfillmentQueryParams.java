@@ -1,7 +1,7 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.query.dto;
 
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.ItemOrderState;
-import kr.tatine.manibogo_oms_v2.fulfillment.command.domain.order.model.vo.SalesChannel;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ItemOrderState;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 

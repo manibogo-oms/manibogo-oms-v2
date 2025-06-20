@@ -1,0 +1,4 @@
+.form-control.auto-height {
+    overflow: hidden; /* 스크롤바 숨김 */
+    resize: none; /* 사용자 수동 리사이즈 비활성화 */
+}
