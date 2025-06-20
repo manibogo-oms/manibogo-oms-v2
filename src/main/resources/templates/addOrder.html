@@ -187,6 +187,11 @@
 
 
       <div class="card p-3 mb-4" th:each="itemOrder, stat : *{itemOrderForms}">
+
+        <th:block th:if="${stat.last}">
+          <div id="lastItemOrder" style="height: 1px;"></div>
+        </th:block>
+
         <div class="mb-2"></div>
 
         <div class="row">
