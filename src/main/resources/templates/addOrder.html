@@ -8,9 +8,9 @@
 <body>
 
 <section class="p-4">
-<form th:method="POST" th:action="@{/v2/orders/add}" th:object="${form}" class="container-fluid row">
+<form th:method="POST" th:object="${form}" class="container-fluid row">
 
-  <button type="submit">완료</button>
+  <button th:formaction="|@{/v2/orders/add}|"  type="submit">완료</button>
 
   <div class="col-12 col-xl-8 mb-4 mb-xl-0">
     <div class="w-100 bg-primary">왼쪽</div>
@@ -21,15 +21,19 @@
 
     <div style="height: 8px;"></div>
 
-    <div class="card p-3" th:each="itemOrder, stat : *{itemOrderForms}">
+    <div class="card p-3 mb-3" th:each="itemOrder, stat : *{itemOrderForms}">
       <div class="mb-2"></div>
 
       <div class="row">
 
         <div class="col-12 col-md-8 mb-3">
+
+          <input type="hidden" th:field="*{itemOrderForms[__${stat.index}__].productNumber}">
+
           <label th:for="|itemOrderForms${stat.index}.productName|" class="form-label">상품명</label>
           <input class="form-control" type="text"
-                 th:field="*{itemOrderForms[__${stat.index}__].productName}" readonly />
+                 th:value="${products.get(itemOrder.productNumber)?.name}"
+                 th:id="|itemOrderForms${stat.index}.productName|" readonly />
         </div>
 
         <div class="col-12 col-md-4 mb-3">
@@ -41,7 +45,7 @@
 
       <div class="row">
         <div class="col-12 col-md-4 col-xl-12 mb-3"
-             th:each="key : ${productOptions.get(itemOrder.productNumber).keySet()}">
+             th:each="key : ${productOptions?.get(itemOrder.productNumber)?.keySet()}">
           <label class="form-label"
                  th:for="|itemOrderForms${stat.index}.options${keyStat.index}.value|"
                  th:text="${key}">
@@ -98,17 +102,16 @@
     <h5>상품추가</h5>
     <div class="d-flex">
       <div class="flex-grow-1">
-        <select id="selectProductNumber" class="form-select" aria-label="Default select example" readonly="readonly">
-          <option selected>선택</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
+        <select id="selectProductNumber" class="form-select" name="productNumber">
+          <option selected th:value="null">선택</option>
+          <option th:each="product : ${products.values()}" th:value="${product.number}" th:text="${product.name}"></option>
         </select>
       </div>
 
       <div style="width: 8px;"></div>
 
-      <button type="button" class="btn btn-primary">상품 추가</button>
+      <button th:formaction="|@{/v2/orders/add/addItemOrder}|"
+              type="submit" class="btn btn-primary text-nowrap">상품 추가</button>
     </div>
   </div>
 

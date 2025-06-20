@@ -1,18 +1,20 @@
 package kr.tatine.manibogo_oms_v2.order.ui;
 
+import kr.tatine.manibogo_oms_v2.product.query.dao.ProductDao;
 import kr.tatine.manibogo_oms_v2.product.query.dao.VariantDao;
+import kr.tatine.manibogo_oms_v2.product.query.dto.ProductDto;
 import kr.tatine.manibogo_oms_v2.product.query.dto.VariantDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import static java.util.stream.Collectors.*;
 
@@ -21,7 +23,15 @@ import static java.util.stream.Collectors.*;
 @RequiredArgsConstructor
 public class OrderController {
 
+    private final ProductDao productDao;
+
     private final VariantDao variantDao;
+
+    @ModelAttribute("products")
+    public Map<String, ProductDto> products() {
+        return productDao.findAll().stream()
+                .collect(toMap(ProductDto::getNumber, Function.identity()));
+    }
 
     @ModelAttribute("productOptions")
     public Map<String, Map<String, List<VariantDto>>> productOptions() {
@@ -35,13 +45,6 @@ public class OrderController {
 
         if (!model.containsAttribute("form")) {
             AddOrderForm form = new AddOrderForm();
-
-            AddItemOrderForm addItemOrderForm = new AddItemOrderForm();
-            addItemOrderForm.setProductNumber("1733636935");
-            addItemOrderForm.setProductName("벨라 파운데이션 그레이 SS 슈퍼싱글 1100X2000");
-
-            form.setItemOrderForms(List.of(addItemOrderForm));
-
             model.addAttribute("form", form);
         }
 
@@ -52,6 +55,28 @@ public class OrderController {
     public String addOrder(@ModelAttribute AddOrderForm form) {
 
         form.getItemOrderForms();
+
+        return "redirect:/v2/orders/add";
+    }
+
+    @PostMapping("/add/addItemOrder")
+    public String addItemOrder(
+            @ModelAttribute AddOrderForm form,
+            @RequestParam String productNumber,
+            RedirectAttributes redirectAttributes
+    ) {
+
+        final List<AddItemOrderForm> itemOrderForms = new ArrayList<>(form.getItemOrderForms());
+
+        final AddItemOrderForm itemOrderForm = new AddItemOrderForm();
+        itemOrderForm.setProductNumber(productNumber);
+        itemOrderForm.setAmount(1);
+
+        itemOrderForms.add(itemOrderForm);
+
+        form.setItemOrderForms(itemOrderForms);
+
+        redirectAttributes.addFlashAttribute("form", form);
 
         return "redirect:/v2/orders/add";
     }
