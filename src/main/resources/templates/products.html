@@ -8,7 +8,7 @@
 <body>
 
 <section class="p-4">
-<form th:object="${rowsForm}" th:method="POST" th:action="@{/v2/products/edit}">
+<form th:object="${rowsForm}" th:method="POST" th:action="${@replaceUri.apply('/v2/products/edit')}">
 
 <nav class="d-flex">
     <div class="flex-grow-1"></div>
@@ -22,89 +22,94 @@
 
 <div style="height: 24px;"></div>
 
-<div th:if="${response?.errorResult?.hasGlobalError()}">
-    <div role="alert"
-         th:class="alert"
-         th:with="errorLevel = ${err.level().name().toLowerCase()}"
-         th:classappend="(${errorLevel == 'error'} ? 'alert-danger' : '') + (${errorLevel == 'warn'} ? 'alert-warning' : '')"
-         th:each="err : ${response?.errorResult?.getGlobalErrors()}"
-         th:text="${#messages.msgWithParams(err.message().messageCode(), err.message().arguments())}">
-        에러 메세지
+
+<div class="container-xxl">
+
+    <div th:if="${response?.errorResult?.hasGlobalError()}">
+        <div role="alert"
+             th:class="alert"
+             th:with="errorLevel = ${err.level().name().toLowerCase()}"
+             th:classappend="(${errorLevel == 'error'} ? 'alert-danger' : '') + (${errorLevel == 'warn'} ? 'alert-warning' : '')"
+             th:each="err : ${response?.errorResult?.getGlobalErrors()}"
+             th:text="${#messages.msgWithParams(err.message().messageCode(), err.message().arguments())}">
+            에러 메세지
+        </div>
     </div>
-</div>
-<div th:if="${response?.message != null}" class="alert alert-primary" role="alert" th:text="${#messages.msgWithParams(response.message.messageCode(), response.message.arguments())}">메세지</div>
+    <div th:if="${response?.message != null}" class="alert alert-primary" role="alert" th:text="${#messages.msgWithParams(response.message.messageCode(), response.message.arguments())}">메세지</div>
 
-<div th:replace="~{fragments/pagenation :: pageHeader('/v2/products', ${page}, ~{})}"></div>
+    <div th:replace="~{fragments/pagenation :: pageHeader('/v2/products', ${page}, ~{})}"></div>
 
-<div style="height: 16px;"></div>
+    <div style="height: 16px;"></div>
 
-<div class="table-responsive">
+    <div class="table-responsive">
     <table class="table table-striped text-center small align-middle w-100 text-nowrap" style="display: block; margin-bottom: 0 !important;">
-        <thead class="table-light">
-        <tr>
-            <th scope="col">
-                <input class="form-check-input chk-select-all-rows" type="checkbox" aria-label="전체 선택">
-            </th>
-            <th scope="col" style="min-width: 160px;">상품번호</th>
-            <th scope="col" class="w-100">상품명</th>
-            <th scope="col" style="min-width: 88px;">우선순위</th>
-            <th scope="col">사용</th>
-            <th scope="col">관리</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="table-row" th:each="product : ${products}">
-            <td class="td">
-                <input type="checkbox"
-                       aria-label="선택"
-                       class="form-check-input chk-select-row"
-                       th:field="*{rows[__${productStat.index}__].isSelected}" />
-            </td>
-            <td>
-                <span th:text="${product.number}">상품번호</span>
-                <input type="hidden" th:field="*{rows[__${productStat.index}__].number}">
-            </td>
-            <td class="position-relative" th:with="fieldName = |rows[${productStat.index}].name|, fieldError = ${response?.errorResult?.getFieldError(fieldName)}">
-                <input type="text"
-                       aria-label="상품명"
-                       class="form-control form-control-sm"
-                       th:classappend="${fieldError != null ? 'is-invalid' : ''}"
-                       th:field="*{rows[__${productStat.index}__].name}" />
+            <thead class="table-light">
+            <tr>
+                <th scope="col">
+                    <input class="form-check-input chk-select-all-rows" type="checkbox" aria-label="전체 선택">
+                </th>
+                <th scope="col" style="min-width: 160px;">상품번호</th>
+                <th scope="col" class="w-100">상품명</th>
+                <th scope="col" style="min-width: 88px;">우선순위</th>
+                <th scope="col">사용</th>
+                <th scope="col">관리</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="table-row" th:each="product : ${products}">
+                <td class="td">
+                    <input type="checkbox"
+                           aria-label="선택"
+                           class="form-check-input chk-select-row"
+                           th:field="*{rows[__${productStat.index}__].isSelected}" />
+                </td>
+                <td>
+                    <span th:text="${product.number}">상품번호</span>
+                    <input type="hidden" th:field="*{rows[__${productStat.index}__].number}">
+                </td>
+                <td class="position-relative" th:with="fieldName = |rows[${productStat.index}].name|, fieldError = ${response?.errorResult?.getFieldError(fieldName)}">
+                    <input type="text"
+                           aria-label="상품명"
+                           class="form-control form-control-sm"
+                           th:classappend="${fieldError != null ? 'is-invalid' : ''}"
+                           th:field="*{rows[__${productStat.index}__].name}" />
 
-                <div class="invalid-feedback"
-                     th:each="message : ${fieldError?.messages()}"
-                     th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
-                    에러 메세지
-                </div>
-            </td>
-            <td
-                th:with="fieldName = |rows[${productStat.index}].priority|, fieldError = ${response?.errorResult?.getFieldError(fieldName)}">
-                <input type="number"
-                       aria-label="우선순위"
-                       class="form-control form-control-sm"
-                       th:classappend="${fieldError != null ? 'is-invalid' : ''}"
-                       th:field="*{rows[__${productStat.index}__].priority}" />
+                    <div class="invalid-feedback"
+                         th:each="message : ${fieldError?.messages()}"
+                         th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
+                        에러 메세지
+                    </div>
+                </td>
+                <td
+                        th:with="fieldName = |rows[${productStat.index}].priority|, fieldError = ${response?.errorResult?.getFieldError(fieldName)}">
+                    <input type="number"
+                           aria-label="우선순위"
+                           class="form-control form-control-sm"
+                           th:classappend="${fieldError != null ? 'is-invalid' : ''}"
+                           th:field="*{rows[__${productStat.index}__].priority}" />
 
-                <div class="invalid-feedback"
-                     th:each="message : ${fieldError?.messages()}"
-                     th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
-                    에러 메세지
-                </div>
-            </td>
-            <td>
-                <input type="checkbox"
-                       aria-label="사용"
-                       class="form-check-input"
-                       th:field="*{rows[__${productStat.index}__].isEnabled}" />
-            </td>
-            <td style="padding-top: 12px; padding-bottom: 12px;">
-                <div class="d-flex gap-2" >
-                    <a href="#" class="btn btn-sm btn-secondary">옵션관리</a>
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+                    <div class="invalid-feedback"
+                         th:each="message : ${fieldError?.messages()}"
+                         th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
+                        에러 메세지
+                    </div>
+                </td>
+                <td>
+                    <input type="checkbox"
+                           aria-label="사용"
+                           class="form-check-input"
+                           th:field="*{rows[__${productStat.index}__].isEnabled}" />
+                </td>
+                <td style="padding-top: 12px; padding-bottom: 12px;">
+                    <div class="d-flex gap-2" >
+                        <a th:href="|/v2/products/${product.number}/variants|"
+                           class="btn btn-sm btn-secondary">옵션관리</a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </form>
 

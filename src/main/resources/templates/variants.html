@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html th:replace="~{fragments/layout::layoutFragment (~{::title}, ~{::section}, ~{}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>마니보고 주문관리 서비스 V2 - 옵션관리</title>
+</head>
+<body>
+
+<section class="p-4">
+
+<form th:method="POST" th:action="${@replaceUri.apply('/v2/products/' + productNumber + '/variants/edit')}" th:object="${rowsForm}">
+
+<nav class="d-flex gap-2">
+
+  <div class="flex-grow-1"></div>
+
+  <a th:href="@{/v2/products}" class="btn btn-secondary">
+    목록으로
+  </a>
+
+  <button type="submit" class="btn btn-primary">
+    <i class="bi bi-pencil-fill"></i> 선택수정
+  </button>
+</nav>
+
+<hr/>
+
+<div style="height: 24px;"></div>
+
+<div class="container-xxl">
+
+  <div th:if="${response?.errorResult?.hasGlobalError()}">
+    <div role="alert"
+         th:class="alert"
+         th:with="errorLevel = ${err.level().name().toLowerCase()}"
+         th:classappend="(${errorLevel == 'error'} ? 'alert-danger' : '') + (${errorLevel == 'warn'} ? 'alert-warning' : '')"
+         th:each="err : ${response?.errorResult?.getGlobalErrors()}"
+         th:text="${#messages.msgWithParams(err.message().messageCode(), err.message().arguments())}">
+      에러 메세지
+    </div>
+  </div>
+  <div th:if="${response?.message != null}" class="alert alert-primary" role="alert" th:text="${#messages.msgWithParams(response.message.messageCode(), response.message.arguments())}">메세지</div>
+
+  <div th:replace="~{fragments/pagenation :: pageHeader('/v2/products/' + ${productNumber} + '/variants', ${page}, ~{})}"></div>
+
+  <div style="height: 16px;"></div>
+
+  <table class="table table-striped text-center small">
+    <thead class="table-light">
+    <tr>
+      <th scope="col">
+        <input class="form-check-input chk-select-all-rows" type="checkbox" aria-label="전체 선택">
+      </th>
+      <th scope="col">이름</th>
+      <th scope="col">값</th>
+      <th scope="col">레이블</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="variant, rowStat : ${variants}">
+      <td class="td">
+        <input type="checkbox"
+               aria-label="선택"
+               class="form-check-input chk-select-row"
+               th:field="*{rows[__${rowStat.index}__].isSelected}" />
+
+        <input type="hidden" th:field="*{rows[__${rowStat.index}__].productNumber}" />
+        <input type="hidden" th:field="*{rows[__${rowStat.index}__].key}" />
+        <input type="hidden" th:field="*{rows[__${rowStat.index}__].value}" />
+
+      </td>
+      <td th:text="${variant.key}">이름</td>
+      <td th:text="${variant.value}">값</td>
+      <td>
+        <input type="text"
+               class="form-control form-control-sm"
+                aria-label="레이블"
+               th:field="*{rows[__${rowStat.index}__].label}" />
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div style="height: 8px;"></div>
+
+  <div class="d-flex justify-content-end">
+    <a th:href="|/v2/products/${productNumber}/variants/add|" class="btn btn-primary">
+      <i class="bi bi-plus-lg"></i> 추가하기
+    </a>
+  </div>
+
+  <div style="height: 24px;"></div>
+
+  <div th:replace="~{fragments/pagenation :: pageControl(${page})}"></div>
+
+</div>
+</form>
+
+</section>
+</body>
+
+<script th:inline="javascript">
+
+  const isAddVariantModelOpen = [[${isAddModalOpen}]];
+
+  if (isAddVariantModelOpen === true) {
+    const modal = new bootstrap.Modal(document.getElementById('modalAddVariant'));
+    modal.show();
+  }
+
+</script>
+
+</html>
