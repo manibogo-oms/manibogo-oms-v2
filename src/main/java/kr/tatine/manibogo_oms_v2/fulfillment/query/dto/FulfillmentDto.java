@@ -44,7 +44,7 @@ SELECT
     o.address1 as 'recipient_address',
     o.address2 as 'recipient_detail_address',
     o.zip_code as 'recipient_zip_code',
-    ioh_agg.placed_at,
+    io.placed_at,
     io.dispatch_deadline,
     io.preferred_ships_on,
     ioh_agg.purchased_at,
@@ -99,7 +99,6 @@ FROM
     LEFT JOIN (
         SELECT
             ioh.item_order_number,
-            MAX(CASE WHEN ioh.new_state = 'PLACED' THEN ioh.changed_at ELSE NULL END) AS 'placed_at',
             MAX(CASE WHEN ioh.new_state = 'PURCHASED' THEN ioh.changed_at ELSE NULL END) AS 'purchased_at',
             MAX(CASE WHEN ioh.new_state = 'DISPATCHED' THEN ioh.changed_at ELSE NULL END) AS 'dispatched_at',
             MAX(CASE WHEN ioh.new_state = 'SHIPPED' THEN ioh.changed_at ELSE NULL END) AS 'shipped_at',

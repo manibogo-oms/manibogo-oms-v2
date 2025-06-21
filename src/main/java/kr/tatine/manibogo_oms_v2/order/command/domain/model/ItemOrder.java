@@ -57,6 +57,8 @@ public class ItemOrder {
 
     private LocalDate dispatchDeadline;
 
+    private LocalDateTime placedAt;
+
     @Embedded
     private ItemOrderNote note;
 
@@ -72,12 +74,10 @@ public class ItemOrder {
             LocalDate dispatchDeadline
     ) {
 
-        Events.raise(new ItemOrderPlacedEvent(
-                number.getItemOrderNumber(), placedAt, totalPrice.getValue()));
-
         return new ItemOrder(
                 number,
                 orderNumber,
+                placedAt,
                 ItemOrderState.PLACED,
                 productNumber,
                 variantIds,
@@ -88,9 +88,10 @@ public class ItemOrder {
         );
     }
 
-    private ItemOrder(ItemOrderNumber number, OrderNumber orderNumber, ItemOrderState state, ProductNumber productNumber, List<VariantId> variantIds, Integer amount, Money totalPrice, ShippingInfo shippingInfo, LocalDate dispatchDeadline) {
+    private ItemOrder(ItemOrderNumber number, OrderNumber orderNumber, LocalDateTime placedAt, ItemOrderState state, ProductNumber productNumber, List<VariantId> variantIds, Integer amount, Money totalPrice, ShippingInfo shippingInfo, LocalDate dispatchDeadline) {
         this.number = number;
         this.orderNumber = orderNumber;
+        this.placedAt = placedAt;
 
         setState(state);
 
