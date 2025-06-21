@@ -18,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,7 +147,7 @@ public class QueryDslFulfillmentDao implements FulfillmentDao {
 
         final ArrayList<OrderSpecifier<?>> orderSpecifiers = new ArrayList<>();
 
-        final OrderSpecifier<String> defaultOrderSpecifier = fulfillmentDto.itemOrderNumber.desc();
+        final OrderSpecifier<LocalDateTime> defaultOrderSpecifier = fulfillmentDto.placedAt.desc();
 
         for (final Sort.Order order : sort) {
             final Order direction = order.isAscending()
