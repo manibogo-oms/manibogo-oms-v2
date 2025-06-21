@@ -10,10 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.*;
@@ -40,52 +38,38 @@ public class OrderController {
                 groupingBy(VariantDto::getKey, toList())));
     }
 
-    @GetMapping("/add")
-    public String getAddOrder(Model model) {
+    @GetMapping("/placeOrder")
+    public String getPlaceOrder(Model model) {
 
         if (!model.containsAttribute("form")) {
-            AddOrderForm form = new AddOrderForm();
+            final PlaceOrderForm form = new PlaceOrderForm();
             model.addAttribute("form", form);
         }
 
-        return "addOrder";
+        return "placeOrder";
     }
 
-    @PostMapping("/add")
-    public String addOrder(@ModelAttribute AddOrderForm form) {
+    @PostMapping("/placeOrder")
+    public String placeOrder(@ModelAttribute PlaceOrderForm form) {
 
-        form.getItemOrderForms();
 
-        return "redirect:/v2/orders/add";
+        return "redirect:/v2/orders/placeOrder";
     }
 
-    @PostMapping("/add/addItemOrder")
-    public String addItemOrder(
-            @ModelAttribute AddOrderForm form,
+    @PostMapping("/placeOrder/selectProduct")
+    public String selectProduct(
+            @ModelAttribute PlaceOrderForm form,
             @RequestParam String newProductNumber,
-            @RequestParam Integer newAmount,
             RedirectAttributes redirectAttributes
     ) {
 
         if (!newProductNumber.isBlank()) {
-            final List<AddItemOrderForm> itemOrderForms = new ArrayList<>(form.getItemOrderForms());
-
-            final AddItemOrderForm itemOrderForm = new AddItemOrderForm();
-            itemOrderForm.setProductNumber(newProductNumber);
-
-            if (Objects.isNull(newAmount)) {
-                newAmount = 1;
-            }
-            itemOrderForm.setAmount(newAmount);
-
-            itemOrderForms.add(itemOrderForm);
-
-            form.setItemOrderForms(itemOrderForms);
+            form.setProductNumber(newProductNumber);
         }
 
         redirectAttributes.addFlashAttribute("form", form);
 
-        return "redirect:/v2/orders/add#lastItemOrder";
+        return "redirect:/v2/orders/placeOrder";
     }
 
 }
