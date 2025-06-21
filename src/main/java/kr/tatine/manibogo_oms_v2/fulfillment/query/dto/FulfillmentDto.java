@@ -16,6 +16,7 @@ import org.hibernate.annotations.Subselect;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -43,16 +44,16 @@ SELECT
     o.address1 as 'recipient_address',
     o.address2 as 'recipient_detail_address',
     o.zip_code as 'recipient_zip_code',
-    ioh_agg.placed_on,
+    ioh_agg.placed_at,
     io.dispatch_deadline,
     io.preferred_ships_on,
-    ioh_agg.purchased_on,
-    ioh_agg.dispatched_on,
-    ioh_agg.shipped_on,
+    ioh_agg.purchased_at,
+    ioh_agg.dispatched_at,
+    ioh_agg.shipped_at,
     io.tracking_number AS 'shipping_tracking_number',
-    ioh_agg.confirmed_on,
-    ioh_agg.cancelled_on,
-    ioh_agg.refunded_on,
+    ioh_agg.confirmed_at,
+    ioh_agg.cancelled_at,
+    ioh_agg.refunded_at,
     '' AS 'customer_memo',
     io.purchase_memo,
     io.shipping_memo,
@@ -98,13 +99,13 @@ FROM
     LEFT JOIN (
         SELECT
             ioh.item_order_number,
-            DATE(MAX(CASE WHEN ioh.new_state = 'PLACED' THEN ioh.changed_at ELSE NULL END)) AS 'placed_on',
-            DATE(MAX(CASE WHEN ioh.new_state = 'PURCHASED' THEN ioh.changed_at ELSE NULL END)) AS 'purchased_on',
-            DATE(MAX(CASE WHEN ioh.new_state = 'DISPATCHED' THEN ioh.changed_at ELSE NULL END)) AS 'dispatched_on',
-            DATE(MAX(CASE WHEN ioh.new_state = 'SHIPPED' THEN ioh.changed_at ELSE NULL END)) AS 'shipped_on',
-            DATE(MAX(CASE WHEN ioh.new_state = 'CONFIRMED' THEN ioh.changed_at ELSE NULL END)) AS 'confirmed_on',
-            DATE(MAX(CASE WHEN ioh.new_state = 'CANCELLED' THEN ioh.changed_at ELSE NULL END)) AS 'cancelled_on',
-            DATE(MAX(CASE WHEN ioh.new_state = 'REFUNDED' THEN ioh.changed_at ELSE NULL END)) AS 'refunded_on'
+            MAX(CASE WHEN ioh.new_state = 'PLACED' THEN ioh.changed_at ELSE NULL END) AS 'placed_at',
+            MAX(CASE WHEN ioh.new_state = 'PURCHASED' THEN ioh.changed_at ELSE NULL END) AS 'purchased_at',
+            MAX(CASE WHEN ioh.new_state = 'DISPATCHED' THEN ioh.changed_at ELSE NULL END) AS 'dispatched_at',
+            MAX(CASE WHEN ioh.new_state = 'SHIPPED' THEN ioh.changed_at ELSE NULL END) AS 'shipped_at',
+            MAX(CASE WHEN ioh.new_state = 'CONFIRMED' THEN ioh.changed_at ELSE NULL END) AS 'confirmed_at',
+            MAX(CASE WHEN ioh.new_state = 'CANCELLED' THEN ioh.changed_at ELSE NULL END) AS 'cancelled_at',
+            MAX(CASE WHEN ioh.new_state = 'REFUNDED' THEN ioh.changed_at ELSE NULL END) AS 'refunded_at'
         FROM
             item_order_history ioh
         GROUP BY
@@ -155,8 +156,7 @@ public class FulfillmentDto {
 
     private String recipientZipCode;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate placedOn;
+    private LocalDateTime placedAt;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dispatchDeadline;
@@ -164,25 +164,19 @@ public class FulfillmentDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate preferredShipsOn;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate purchasedOn;
+    private LocalDateTime purchasedAt;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dispatchedOn;
+    private LocalDateTime dispatchedAt;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate shippedOn;
+    private LocalDateTime shippedAt;
 
     private String shippingTrackingNumber;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate confirmedOn;
+    private LocalDateTime confirmedAt;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate cancelledOn;
+    private LocalDateTime cancelledAt;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate refundedOn;
+    private LocalDateTime refundedAt;
 
     private String customerMessage;
 
