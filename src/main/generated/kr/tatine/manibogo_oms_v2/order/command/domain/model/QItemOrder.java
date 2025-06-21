@@ -32,6 +32,8 @@ public class QItemOrder extends EntityPathBase<ItemOrder> {
 
     public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QOrderNumber orderNumber;
 
+    public final DateTimePath<java.time.LocalDateTime> placedAt = createDateTime("placedAt", java.time.LocalDateTime.class);
+
     public final DatePath<java.time.LocalDate> preferredShipsOn = createDate("preferredShipsOn", java.time.LocalDate.class);
 
     public final kr.tatine.manibogo_oms_v2.product.command.domain.QProductNumber productNumber;
