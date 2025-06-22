@@ -28,7 +28,7 @@
 
     <h4 class="mb-4">상품정보</h4>
 
-    <div class="row">
+    <div class="row mb-3">
 
       <div class="col-12 col-md-auto mb-3">
 
@@ -61,6 +61,9 @@
                th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}"></div>
         </div>
       </div>
+    </div>
+
+    <div class="row mb-3" th:if="*{productNumber != null}">
 
       <div class="col-12 col-md-auto mb-3" th:with="err = ${errors?.getFieldError('amount')}">
         <label th:for="|amount|" class="form-label">주문수량</label>
@@ -74,6 +77,19 @@
              th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
         </div>
 
+      </div>
+
+      <div class="col-12 col-md-auto mb-3" th:with="err = ${errors?.getFieldError('totalPrice')}">
+        <label th:for="|amount|" class="form-label">상품가격</label>
+        <input type="number"
+               class="form-control"
+               th:field="*{totalPrice}"
+               th:classappend="${err != null ? 'is-invalid' : ''}">
+
+        <div class="invalid-feedback"
+             th:each="message : ${err?.messages()}"
+             th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
+        </div>
       </div>
     </div>
 
@@ -95,21 +111,6 @@
           <option selected="selected" th:value="null">선택</option>
           <option th:each="variant : ${option.value}" th:value="${variant.value}" th:text="${variant.label}"></option>
         </select>
-
-        <div class="invalid-feedback"
-             th:each="message : ${err?.messages()}"
-             th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
-        </div>
-      </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col-12 col-md-auto mb-3" th:with="err = ${errors?.getFieldError('totalPrice')}">
-        <label th:for="|amount|" class="form-label">상품가격</label>
-        <input type="number"
-               class="form-control"
-               th:field="*{totalPrice}"
-               th:classappend="${err != null ? 'is-invalid' : ''}">
 
         <div class="invalid-feedback"
              th:each="message : ${err?.messages()}"
@@ -181,7 +182,16 @@
 
   <div class="col-12">
 
-    <h4 class="mb-4">받으시는 분</h4>
+    <div class="d-flex justify-content-between">
+      <h4 class="mb-4">받으시는 분</h4>
+
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" th:field="*{isRecipientSameAsCustomer}" th:attr="id='isRecipientSameAsCustomer'">
+        <label class="form-check-label" th:for="isRecipientSameAsCustomer">
+          주문자 정보와 동일
+        </label>
+      </div>
+    </div>
 
     <div class="row mb-4">
       <div class="col-4 col-md-auto"
@@ -270,8 +280,9 @@
                 th:field="*{shippingMethod}"
                 th:classappend="${err != null ? 'is-invalid' : ''}">
           <option selected th:value="null">선택</option>
-          <option value="1">직접배송</option>
-          <option value="2">택배/등기/소포</option>
+          <option th:each="method : ${shippingMethods}"
+                  th:value="${method}"
+                  th:text="${method.getDescription()}"></option>
         </select>
         <div class="invalid-feedback"
              th:each="message : ${err?.messages()}"
@@ -285,8 +296,9 @@
                 th:field="*{shippingChargeType}"
                 th:classappend="${err != null ? 'is-invalid' : ''}">
           <option selected th:value="null">선택</option>
-          <option value="1">직접배송</option>
-          <option value="2">택배/등기/소포</option>
+          <option th:each="chargeType : ${shippingChargeTypes}"
+                  th:value="${chargeType}"
+                  th:text="${chargeType.getDescription()}"></option>
         </select>
         <div class="invalid-feedback"
              th:each="message : ${err?.messages()}"
@@ -296,9 +308,16 @@
     </div>
 
     <div class="row mb-3">
-      <div class="col-6 col-md-auto mb-3">
+      <div class="col-6 col-md-auto mb-3" th:with="err = ${errors?.getFieldError('dispatchDeadline')}">
         <label th:for="dispatchDeadline" class="form-label">발송기한</label>
-        <input type="date" class="form-control" th:field="*{dispatchDeadline}" />
+        <input type="date"
+               class="form-control"
+               th:field="*{dispatchDeadline}"
+               th:classappend="${err != null ? 'is-invalid' : ''}"/>
+        <div class="invalid-feedback"
+             th:each="message : ${err?.messages()}"
+             th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
+        </div>
       </div>
 
       <div class="col-6 col-md-auto mb-3">
