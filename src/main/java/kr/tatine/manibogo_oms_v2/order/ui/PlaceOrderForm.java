@@ -54,6 +54,8 @@ public class PlaceOrderForm {
 
     private String adminMemo;
 
+    private Long totalPrice;
+
     @Getter
     @Setter
     @ToString

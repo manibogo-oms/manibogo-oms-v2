@@ -70,6 +70,12 @@ public class PlaceOrderService {
             errors.add(ValidationError.of("amount", "min.order.amount"));
         }
 
+        if (form.getTotalPrice() == null) {
+            errors.add(ValidationError.of("totalPrice", "required.order.totalPrice"));
+        } else if (form.getTotalPrice() < 0) {
+            errors.add(ValidationError.of("totalPrice", "min.order.totalPrice"));
+        }
+
         if (form.getOptions() != null) {
             for (int i = 0; i < form.getOptions().size(); i ++) {
                 final PlaceOrderForm.PlaceOrderOptionForm option = form.getOptions().get(i);
@@ -141,7 +147,7 @@ public class PlaceOrderService {
                 productNumber,
                 variantIds,
                 form.getAmount(),
-                new Money(0L),
+                new Money(form.getTotalPrice()),
                 shippingInfo,
                 form.getDispatchDeadline()
         );

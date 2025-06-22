@@ -74,7 +74,6 @@
              th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
         </div>
 
-
       </div>
     </div>
 
@@ -104,8 +103,23 @@
       </div>
     </div>
 
+    <div class="row mb-3">
+      <div class="col-12 col-md-auto mb-3" th:with="err = ${errors?.getFieldError('totalPrice')}">
+        <label th:for="|amount|" class="form-label">상품가격</label>
+        <input type="number"
+               class="form-control"
+               th:field="*{totalPrice}"
+               th:classappend="${err != null ? 'is-invalid' : ''}">
+
+        <div class="invalid-feedback"
+             th:each="message : ${err?.messages()}"
+             th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
+        </div>
+      </div>
+    </div>
+
     <div class="row mb-5">
-      <div class="col-12 col-md-6 col-xl-12 mb-3">
+      <div class="col-12 mb-3">
         <label th:for="|purchaseMemo|" class="form-label">발주메모</label>
         <textarea class="form-control"
                   th:field="*{purchaseMemo}"
