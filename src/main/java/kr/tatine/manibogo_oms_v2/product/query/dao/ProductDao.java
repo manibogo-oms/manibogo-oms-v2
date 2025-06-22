@@ -15,6 +15,18 @@ import java.util.Optional;
 public interface ProductDao extends Repository<Product, ProductNumber> {
 
     @Query("""
+        SELECT new kr.tatine.manibogo_oms_v2.product.query.dto.ProductDto(
+            p.number.productNumber,
+            p.name,
+            p.priority.priority,
+            p.isEnabled
+        )
+        FROM Product p
+        ORDER BY p.priority.priority
+    """)
+    List<ProductDto> findAll();
+
+    @Query("""
         SELECT new kr.tatine.manibogo_oms_v2.product.query.dto.ProductDto(p.number.productNumber, p.name, p.priority.priority, p.isEnabled)
         FROM Product p
         ORDER BY p.priority.priority

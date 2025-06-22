@@ -23,9 +23,9 @@ public class QFulfillmentDto extends EntityPathBase<FulfillmentDto> {
 
     public final NumberPath<Integer> amount = createNumber("amount", Integer.class);
 
-    public final DatePath<java.time.LocalDate> cancelledOn = createDate("cancelledOn", java.time.LocalDate.class);
+    public final DateTimePath<java.time.LocalDateTime> cancelledAt = createDateTime("cancelledAt", java.time.LocalDateTime.class);
 
-    public final DatePath<java.time.LocalDate> confirmedOn = createDate("confirmedOn", java.time.LocalDate.class);
+    public final DateTimePath<java.time.LocalDateTime> confirmedAt = createDateTime("confirmedAt", java.time.LocalDateTime.class);
 
     public final StringPath customerMessage = createString("customerMessage");
 
@@ -35,7 +35,7 @@ public class QFulfillmentDto extends EntityPathBase<FulfillmentDto> {
 
     public final DatePath<java.time.LocalDate> dispatchDeadline = createDate("dispatchDeadline", java.time.LocalDate.class);
 
-    public final DatePath<java.time.LocalDate> dispatchedOn = createDate("dispatchedOn", java.time.LocalDate.class);
+    public final DateTimePath<java.time.LocalDateTime> dispatchedAt = createDateTime("dispatchedAt", java.time.LocalDateTime.class);
 
     public final NumberPath<Integer> itemOrderBundleCount = createNumber("itemOrderBundleCount", Integer.class);
 
@@ -47,7 +47,7 @@ public class QFulfillmentDto extends EntityPathBase<FulfillmentDto> {
 
     public final StringPath orderNumber = createString("orderNumber");
 
-    public final DatePath<java.time.LocalDate> placedOn = createDate("placedOn", java.time.LocalDate.class);
+    public final DateTimePath<java.time.LocalDateTime> placedAt = createDateTime("placedAt", java.time.LocalDateTime.class);
 
     public final DatePath<java.time.LocalDate> preferredShipsOn = createDate("preferredShipsOn", java.time.LocalDate.class);
 
@@ -55,7 +55,7 @@ public class QFulfillmentDto extends EntityPathBase<FulfillmentDto> {
 
     public final StringPath productNumber = createString("productNumber");
 
-    public final DatePath<java.time.LocalDate> purchasedOn = createDate("purchasedOn", java.time.LocalDate.class);
+    public final DateTimePath<java.time.LocalDateTime> purchasedAt = createDateTime("purchasedAt", java.time.LocalDateTime.class);
 
     public final StringPath purchaseMemo = createString("purchaseMemo");
 
@@ -71,11 +71,11 @@ public class QFulfillmentDto extends EntityPathBase<FulfillmentDto> {
 
     public final StringPath recipientZipCode = createString("recipientZipCode");
 
-    public final DatePath<java.time.LocalDate> refundedOn = createDate("refundedOn", java.time.LocalDate.class);
+    public final DateTimePath<java.time.LocalDateTime> refundedAt = createDateTime("refundedAt", java.time.LocalDateTime.class);
 
     public final EnumPath<kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel> salesChannel = createEnum("salesChannel", kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel.class);
 
-    public final DatePath<java.time.LocalDate> shippedOn = createDate("shippedOn", java.time.LocalDate.class);
+    public final DateTimePath<java.time.LocalDateTime> shippedAt = createDateTime("shippedAt", java.time.LocalDateTime.class);
 
     public final EnumPath<kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType> shippingChargeType = createEnum("shippingChargeType", kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType.class);
 

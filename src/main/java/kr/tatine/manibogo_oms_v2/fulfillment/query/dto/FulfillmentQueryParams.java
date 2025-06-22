@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -35,5 +36,15 @@ public class FulfillmentQueryParams {
     private String sido;
 
     private String sigungu;
+
+    public LocalDateTime getStartedAt() {
+        if (startDate == null) return null;
+        return startDate.atStartOfDay();
+    }
+
+    public LocalDateTime getEndedAt() {
+        if (endDate == null) return null;
+        return endDate.atTime(23, 59, 59);
+    }
 
 }

@@ -1,21 +1,36 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const textarea = document.querySelector('.form-control.auto-height')
 
-    function adjustTextareaHeight(el) {
-        el.style.height = 'auto'; // 높이 초기화
-        el.style.height = el.scrollHeight + 'px'; // 스크롤 높이로 설정
+document.getElementById('btnSearchAddress')
+    .addEventListener('click', () => {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            console.log(data);
+            document.getElementById('recipientAddress1').value = data.address;
+            document.getElementById('recipientZipCode').value = data.zonecode;
+        }
+    }).open();
+
+});
+
+function recipientSamesAsCustomer(e) {
+    const recipientName = document.getElementById('recipientName');
+    const recipientTel1 = document.getElementById('recipientTel1');
+    const recipientTel2 = document.getElementById('recipientTel2');
+
+    if (!e.checked) {
+        recipientName.removeAttribute('disabled');
+        recipientTel1.removeAttribute('disabled');
+        recipientTel2.removeAttribute('disabled');
+        return;
     }
 
-    // 초기 로드 시 높이 조절 (이미 내용이 있는 경우)
-    adjustTextareaHeight(textarea);
+    recipientName.setAttribute('disabled', 'true');
+    recipientTel1.setAttribute('disabled', 'true');
+    recipientTel2.setAttribute('disabled', 'true');
+}
 
-    // 입력 시 높이 조절
-    textarea.addEventListener('input', function() {
-        adjustTextareaHeight(this);
-    });
+document.getElementById('isRecipientSameAsCustomer')
+    .addEventListener('change', (e) => recipientSamesAsCustomer(e.target));
 
-    // (선택 사항) 창 크기 조절 시에도 높이 조절 (텍스트 줄바꿈 변경 시)
-    window.addEventListener('resize', function() {
-        adjustTextareaHeight(textarea);
-    });
-});
+document.addEventListener('DOMContentLoaded', () => {
+    recipientSamesAsCustomer(document.getElementById('isRecipientSameAsCustomer'))
+})
