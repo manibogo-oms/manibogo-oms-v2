@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$/src/main" libraries="{bootstrap, bootstrap-icons, popper.js, xlsx-js-style, xlsx.full}" />
+    <file url="file://$PROJECT_DIR$/src/main" libraries="{bootstrap, popper.js, postcode.v2, xlsx-js-style}" />
   </component>
 </project>

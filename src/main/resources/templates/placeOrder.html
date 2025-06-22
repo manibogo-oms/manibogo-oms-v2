@@ -226,7 +226,7 @@
                    type="number"
                    th:classappend="${addrErr != null ? 'is-invalid' : ''}"
                    class="form-control" readonly>
-            <button class="btn btn-outline-primary" type="button">검색</button>
+            <button id="btnSearchAddress" class="btn btn-outline-primary" type="button">검색</button>
             <div class="invalid-feedback"
                  th:each="message : ${addrErr?.messages()}"
                  th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}"></div>
@@ -324,9 +324,8 @@
   </div>
 
 </div>
-
+</div>
 </form>
-
 
 </section>
 </body>
