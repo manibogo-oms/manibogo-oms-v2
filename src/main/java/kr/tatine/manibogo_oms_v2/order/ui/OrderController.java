@@ -1,5 +1,9 @@
 package kr.tatine.manibogo_oms_v2.order.ui;
 
+import kr.tatine.manibogo_oms_v2.ValidationErrorException;
+import kr.tatine.manibogo_oms_v2.common.model.ErrorResult;
+import kr.tatine.manibogo_oms_v2.order.command.application.PlaceOrderService;
+import kr.tatine.manibogo_oms_v2.product.command.application.ProductNotFoundException;
 import kr.tatine.manibogo_oms_v2.product.query.dao.ProductDao;
 import kr.tatine.manibogo_oms_v2.product.query.dao.VariantDao;
 import kr.tatine.manibogo_oms_v2.product.query.dto.ProductDto;
@@ -24,6 +28,8 @@ public class OrderController {
     private final ProductDao productDao;
 
     private final VariantDao variantDao;
+
+    private final PlaceOrderService placeOrderService;
 
     @ModelAttribute("products")
     public Map<String, ProductDto> products() {
@@ -50,8 +56,25 @@ public class OrderController {
     }
 
     @PostMapping("/placeOrder")
-    public String placeOrder(@ModelAttribute PlaceOrderForm form) {
+    public String placeOrder(
+            @ModelAttribute("form") PlaceOrderForm form, Model model) {
 
+        final ErrorResult errorResult = new ErrorResult();
+
+        try {
+            placeOrderService.placeOrder(form);
+        } catch (ValidationErrorException ex) {
+            ex.getValidationErrors().forEach(err -> {
+                errorResult.rejectValue(err.getName(), err.getErrorCode());
+            });
+        } catch (ProductNotFoundException ex) {
+            errorResult.reject("notFound.product");
+        }
+
+        if (errorResult.hasError()) {
+            model.addAttribute("errors", errorResult);
+            return "/placeOrder";
+        }
 
         return "redirect:/v2/orders/placeOrder";
     }

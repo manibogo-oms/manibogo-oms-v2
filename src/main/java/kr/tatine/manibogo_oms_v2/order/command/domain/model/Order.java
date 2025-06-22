@@ -32,4 +32,5 @@ public class Order {
         this.recipient = recipient;
         this.salesChannel = salesChannel;
     }
+
 }

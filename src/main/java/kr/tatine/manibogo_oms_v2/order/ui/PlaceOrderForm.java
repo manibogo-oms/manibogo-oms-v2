@@ -34,11 +34,9 @@ public class PlaceOrderForm {
 
     private String productNumber;
 
-    private Integer amount;
+    private Integer amount = 1;
 
     private List<PlaceOrderOptionForm> options;
-
-    private String purchaseMemo;
 
     private ShippingMethod shippingMethod;
 
@@ -50,7 +48,11 @@ public class PlaceOrderForm {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate preferredShipsOn;
 
+    private String purchaseMemo;
+
     private String shippingMemo;
+
+    private String adminMemo;
 
     @Getter
     @Setter
