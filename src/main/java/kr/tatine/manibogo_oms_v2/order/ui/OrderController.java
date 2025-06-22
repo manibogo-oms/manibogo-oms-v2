@@ -3,6 +3,8 @@ package kr.tatine.manibogo_oms_v2.order.ui;
 import kr.tatine.manibogo_oms_v2.ValidationErrorException;
 import kr.tatine.manibogo_oms_v2.common.model.ErrorResult;
 import kr.tatine.manibogo_oms_v2.order.command.application.PlaceOrderService;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ShippingMethod;
 import kr.tatine.manibogo_oms_v2.product.command.application.ProductNotFoundException;
 import kr.tatine.manibogo_oms_v2.product.query.dao.ProductDao;
 import kr.tatine.manibogo_oms_v2.product.query.dao.VariantDao;
@@ -14,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -44,11 +47,23 @@ public class OrderController {
                 groupingBy(VariantDto::getKey, toList())));
     }
 
+    @ModelAttribute("shippingMethods")
+    public ShippingMethod[] shippingMethods() {
+        return ShippingMethod.values();
+    }
+
+    @ModelAttribute("shippingChargeTypes")
+    public ChargeType[] shippingChargeTypes() {
+        return ChargeType.values();
+    }
+
     @GetMapping("/placeOrder")
     public String getPlaceOrder(Model model) {
 
         if (!model.containsAttribute("form")) {
             final PlaceOrderForm form = new PlaceOrderForm();
+            form.setDispatchDeadline(LocalDateTime.now().plusDays(31).toLocalDate());
+
             model.addAttribute("form", form);
         }
 
@@ -62,7 +77,8 @@ public class OrderController {
         final ErrorResult errorResult = new ErrorResult();
 
         try {
-            placeOrderService.placeOrder(form);
+            placeOrderService.placeOrder(form.toCommand());
+
         } catch (ValidationErrorException ex) {
             ex.getValidationErrors().forEach(err -> {
                 errorResult.rejectValue(err.getName(), err.getErrorCode());
