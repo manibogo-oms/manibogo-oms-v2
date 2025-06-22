@@ -9,14 +9,14 @@
 
 <section class="container-xl p-4">
 
-  <form th:method="POST" th:object="${form}" >
-<div class="d-flex align-items-end gap-3">
+<form th:method="POST" th:object="${form}" >
+<div class="d-flex align-items-end gap-2">
 
-    <h3>주문 생성</h3>
+    <h3>상담주문 추가</h3>
 
     <div class="flex-grow-1"></div>
 
-    <button type="button" class="btn btn-secondary">목록으로</button>
+    <a class="btn btn-secondary" th:href="@{/v2/fulfillment}">목록으로</a>
     <button type="submit" class="btn btn-primary">완료</button>
   </div>
 
