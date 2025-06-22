@@ -2,6 +2,7 @@ package kr.tatine.manibogo_oms_v2.order.command.application;
 
 import kr.tatine.manibogo_oms_v2.ValidationErrorException;
 import kr.tatine.manibogo_oms_v2.common.ValidationError;
+import kr.tatine.manibogo_oms_v2.common.Validator;
 import kr.tatine.manibogo_oms_v2.common.model.Address;
 import kr.tatine.manibogo_oms_v2.common.model.Money;
 import kr.tatine.manibogo_oms_v2.common.model.Option;
@@ -44,6 +45,8 @@ public class PlaceOrderService {
 
         if (command.customerTel() == null || command.customerTel().isBlank()) {
             errors.add(ValidationError.of("customerTel", "required.order.customerTel"));
+        } else if (Validator.isInvalidPhoneNumber(command.customerTel())) {
+            errors.add(ValidationError.of("customerTel", "invalid.order.customerTel"));
         }
 
         if (command.recipientName() == null || command.recipientName().isBlank()) {
@@ -52,6 +55,12 @@ public class PlaceOrderService {
 
         if (command.recipientTel1() == null || command.recipientTel1().isBlank()) {
             errors.add(ValidationError.of("recipientTel1", "required.order.recipientTel1"));
+        } else if (Validator.isInvalidPhoneNumber(command.recipientTel1())) {
+            errors.add(ValidationError.of("recipientTel1", "invalid.order.recipientTel1"));
+        }
+
+        if (command.recipientTel2() != null && Validator.isInvalidPhoneNumber(command.recipientTel2())) {
+            errors.add(ValidationError.of("recipientTel2", "invalid.order.recipientTel2"));
         }
 
         if ((command.recipientZipCode() == null || command.recipientZipCode().isBlank())

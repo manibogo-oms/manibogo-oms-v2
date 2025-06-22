@@ -156,7 +156,7 @@
       </div>
       <div class="col-4 col-md-auto mb-3"
            th:with="err = ${errors?.getFieldError('customerTel')}">
-        <label th:for="customerTel" class="form-label">전화번호</label>
+        <label th:for="customerTel" class="form-label input-phone-number">전화번호</label>
         <input type="text"
                class="form-control"
                placeholder="010-0000-0000"
@@ -212,7 +212,7 @@
            th:with="err = ${errors?.getFieldError('recipientTel1')}">
         <label th:for="recipientTel1" class="form-label">전화번호1</label>
         <input type="text"
-               class="form-control"
+               class="form-control input-phone-number"
                placeholder="010-0000-0000"
                th:field="*{recipientTel1}"
                th:classappend="${err != null ? 'is-invalid' : ''}" />
@@ -220,9 +220,16 @@
              th:each="message : ${err?.messages()}"
              th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}"></div>
       </div>
-      <div class="col-4 col-md-auto">
+      <div class="col-4 col-md-auto" th:with="err = ${errors?.getFieldError('recipientTel2')}">
         <label th:for="recipientTel2" class="form-label">전화번호2</label>
-        <input type="text" class="form-control" placeholder="010-0000-0000" th:field="*{recipientTel2}" />
+        <input type="text"
+               class="form-control input-phone-number"
+               placeholder="010-0000-0000"
+               th:field="*{recipientTel2}"
+               th:classappend="${err != null ? 'is-invalid' : ''}" />
+        <div class="invalid-feedback"
+             th:each="message : ${err?.messages()}"
+             th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}"></div>
       </div>
     </div>
 
