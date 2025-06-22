@@ -2,14 +2,14 @@ package kr.tatine.manibogo_oms_v2.fulfillment.query.dto;
 
 public enum FulfillmentSortParam {
 
-    PLACED_ON,
+    PLACED_AT,
     DISPATCH_DEADLINE,
     PREFERRED_SHIPS_ON,
-    PURCHASED_ON,
-    DISPATCHED_ON,
-    SHIPPED_ON,
-    CONFIRMED_ON,
-    CANCELLED_ON,
-    REFUNDED_ON;
+    PURCHASED_AT,
+    DISPATCHED_AT,
+    SHIPPED_AT,
+    CONFIRMED_AT,
+    CANCELLED_AT,
+    REFUNDED_AT
 
 }

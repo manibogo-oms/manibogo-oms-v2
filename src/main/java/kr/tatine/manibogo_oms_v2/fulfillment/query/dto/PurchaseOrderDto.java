@@ -137,9 +137,17 @@ public class PurchaseOrderDto {
         purchaseOrderDto.setRecipientFullAddress("%s %s".formatted(fulfillmentDto.getRecipientAddress(), fulfillmentDto.getRecipientDetailAddress()));
         purchaseOrderDto.setDispatchDeadline(fulfillmentDto.getDispatchDeadline());
         purchaseOrderDto.setPreferredShipsOn(fulfillmentDto.getPreferredShipsOn());
-        purchaseOrderDto.setPurchasedOn(fulfillmentDto.getPurchasedOn());
-        purchaseOrderDto.setDispatchedOn(fulfillmentDto.getDispatchedOn());
-        purchaseOrderDto.setShippedOn(fulfillmentDto.getShippedOn());
+
+        if (fulfillmentDto.getPurchasedAt() != null) {
+            purchaseOrderDto.setPurchasedOn(fulfillmentDto.getPurchasedAt().toLocalDate());
+        }
+        if (fulfillmentDto.getDispatchedAt() != null) {
+            purchaseOrderDto.setDispatchedOn(fulfillmentDto.getDispatchedAt().toLocalDate());
+        }
+        if (fulfillmentDto.getShippedAt() != null) {
+            purchaseOrderDto.setShippedOn(fulfillmentDto.getShippedAt().toLocalDate());
+        }
+
         purchaseOrderDto.setShippingMethod(fulfillmentDto.getShippingMethod().getDescription());
         purchaseOrderDto.setShippingChargeType(fulfillmentDto.getShippingChargeType().getDescription());
         purchaseOrderDto.setShippingCompany(fulfillmentDto.getShippingCompany());

@@ -18,10 +18,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static kr.tatine.manibogo_oms_v2.common.model.QRegion.region;
 import static kr.tatine.manibogo_oms_v2.fulfillment.query.dto.QFulfillmentDto.fulfillmentDto;
 
 @Repository
@@ -107,21 +107,21 @@ public class QueryDslFulfillmentDao implements FulfillmentDao {
 
     private BooleanExpression eqDateSearch(FulfillmentQueryParams queryParams) {
         if (queryParams.getDateSearchParam() == null
-                || queryParams.getStartDate() == null
-                || queryParams.getEndDate() == null) {
+                || queryParams.getStartedAt() == null
+                || queryParams.getEndedAt() == null) {
             return null;
         }
 
         return switch (queryParams.getDateSearchParam()) {
-            case PLACED_AT -> fulfillmentDto.placedOn.between(queryParams.getStartDate(), queryParams.getEndDate());
+            case PLACED_AT -> fulfillmentDto.placedAt.between(queryParams.getStartedAt(), queryParams.getEndedAt());
             case DISPATCH_DEADLINE -> fulfillmentDto.dispatchDeadline.between(queryParams.getStartDate(), queryParams.getEndDate());
             case PREFERRED_SHIPS_ON -> fulfillmentDto.preferredShipsOn.between(queryParams.getStartDate(), queryParams.getEndDate());
-            case PURCHASED_ON -> fulfillmentDto.purchasedOn.between(queryParams.getStartDate(), queryParams.getEndDate());
-            case DISPATCHED_ON -> fulfillmentDto.dispatchedOn.between(queryParams.getStartDate(), queryParams.getEndDate());
-            case SHIPPED_ON -> fulfillmentDto.shippedOn.between(queryParams.getStartDate(), queryParams.getEndDate());
-            case CONFIRMED_ON -> fulfillmentDto.confirmedOn.between(queryParams.getStartDate(), queryParams.getEndDate());
-            case CANCELLED_ON -> fulfillmentDto.cancelledOn.between(queryParams.getStartDate(), queryParams.getEndDate());
-            case REFUNDED_ON -> fulfillmentDto.refundedOn.between(queryParams.getStartDate(), queryParams.getEndDate());
+            case PURCHASED_AT -> fulfillmentDto.purchasedAt.between(queryParams.getStartedAt(), queryParams.getEndedAt());
+            case DISPATCHED_AT -> fulfillmentDto.dispatchedAt.between(queryParams.getStartedAt(), queryParams.getEndedAt());
+            case SHIPPED_AT -> fulfillmentDto.shippedAt.between(queryParams.getStartedAt(), queryParams.getEndedAt());
+            case CONFIRMED_AT -> fulfillmentDto.confirmedAt.between(queryParams.getStartedAt(), queryParams.getEndedAt());
+            case CANCELLED_AT -> fulfillmentDto.cancelledAt.between(queryParams.getStartedAt(), queryParams.getEndedAt());
+            case REFUNDED_AT -> fulfillmentDto.refundedAt.between(queryParams.getStartedAt(), queryParams.getEndedAt());
         };
     }
 
@@ -147,7 +147,7 @@ public class QueryDslFulfillmentDao implements FulfillmentDao {
 
         final ArrayList<OrderSpecifier<?>> orderSpecifiers = new ArrayList<>();
 
-        final OrderSpecifier<String> defaultOrderSpecifier = fulfillmentDto.itemOrderNumber.desc();
+        final OrderSpecifier<LocalDateTime> defaultOrderSpecifier = fulfillmentDto.placedAt.desc();
 
         for (final Sort.Order order : sort) {
             final Order direction = order.isAscending()
@@ -169,15 +169,15 @@ public class QueryDslFulfillmentDao implements FulfillmentDao {
     private Path<?> getPropertyPath(String property) {
         try {
             return switch (FulfillmentSortParam.valueOf(property)) {
-                case PLACED_ON -> fulfillmentDto.placedOn;
+                case PLACED_AT -> fulfillmentDto.placedAt;
                 case DISPATCH_DEADLINE -> fulfillmentDto.dispatchDeadline;
                 case PREFERRED_SHIPS_ON -> fulfillmentDto.preferredShipsOn;
-                case PURCHASED_ON -> fulfillmentDto.purchasedOn;
-                case DISPATCHED_ON -> fulfillmentDto.dispatchedOn;
-                case SHIPPED_ON -> fulfillmentDto.shippedOn;
-                case CANCELLED_ON -> fulfillmentDto.confirmedOn;
-                case CONFIRMED_ON -> fulfillmentDto.cancelledOn;
-                case REFUNDED_ON -> fulfillmentDto.refundedOn;
+                case PURCHASED_AT -> fulfillmentDto.purchasedAt;
+                case DISPATCHED_AT -> fulfillmentDto.dispatchedAt;
+                case SHIPPED_AT -> fulfillmentDto.shippedAt;
+                case CANCELLED_AT -> fulfillmentDto.confirmedAt;
+                case CONFIRMED_AT -> fulfillmentDto.cancelledAt;
+                case REFUNDED_AT -> fulfillmentDto.refundedAt;
             };
 
         } catch (IllegalArgumentException ex) {

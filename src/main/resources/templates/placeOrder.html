@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html th:replace="~{fragments/layout::layoutFragment (~{::title}, ~{::section}, ~{}, ~{})}"
+      xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>마니보고 주문관리 서비스 V2 - 주문생성</title>
+</head>
+<body>
+
+<section class="container-xl p-4">
+
+<form th:method="POST" th:object="${form}" >
+<div class="d-flex align-items-end gap-2">
+
+    <h3>상담주문 추가</h3>
+
+    <div class="flex-grow-1"></div>
+
+    <a class="btn btn-secondary" th:href="@{/v2/fulfillment}">목록으로</a>
+    <button type="submit" class="btn btn-primary">완료</button>
+  </div>
+
+<hr class="mb-4" />
+
+<div class="row">
+
+  <div class="col-12">
+
+    <h4 class="mb-4">상품정보</h4>
+
+    <div class="row mb-3">
+
+      <div class="col-12 col-md-auto mb-3">
+
+        <input type="hidden" th:field="*{productNumber}">
+
+        <label for="selectProductNumber" class="form-label">상품명</label>
+
+        <div class="input-group" th:with="err = ${errors?.getFieldError('productNumber')}">
+          <select id="selectProductNumber"
+                  class="form-select"
+                  name="newProductNumber"
+                  th:classappend="${err != null ? 'is-invalid' : ''}">
+
+            <option th:selected="*{productNumber == null}" th:value="null">선택</option>
+            <option th:each="product : ${products.values()}"
+                    th:value="${product.number}"
+                    th:selected="${product.number.equals(form.productNumber)}"
+                    th:text="${product.name}">
+            </option>
+          </select>
+
+          <button type="submit"
+                  class="btn btn-outline-primary text-nowrap"
+                  th:formaction="|@{/v2/orders/placeOrder/selectProduct}|">
+            상품선택
+          </button>
+
+          <div class="invalid-feedback"
+               th:each="message : ${err?.messages()}"
+               th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3" th:if="*{productNumber != null}">
+
+      <div class="col-12 col-md-auto mb-3" th:with="err = ${errors?.getFieldError('amount')}">
+        <label th:for="|amount|" class="form-label">주문수량</label>
+        <input type="number"
+               class="form-control"
+               th:field="*{amount}"
+               th:classappend="${err != null ? 'is-invalid' : ''}">
+
+        <div class="invalid-feedback"
+             th:each="message : ${err?.messages()}"
+             th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
+        </div>
+
+      </div>
+
+      <div class="col-12 col-md-auto mb-3" th:with="err = ${errors?.getFieldError('totalPrice')}">
+        <label th:for="|amount|" class="form-label">상품가격</label>
+        <input type="number"
+               class="form-control"
+               th:field="*{totalPrice}"
+               th:classappend="${err != null ? 'is-invalid' : ''}">
+
+        <div class="invalid-feedback"
+             th:each="message : ${err?.messages()}"
+             th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-6 col-md-4 col-xxl-3 mb-3"
+           th:each="option : ${productOptions?.get(form.productNumber)?.entrySet()}"
+           th:with="err = ${errors?.getFieldError('options[' + optionStat.index + '].value')}">
+        <label class="form-label"
+               th:for="|options${optionStat.index}.value|"
+               th:text="${option.key ?: '옵션' + (optionStat.index + 1)}">
+          옵션키
+        </label>
+
+        <input type="hidden" th:name="|options[${optionStat.index}].key|" th:value="${option.key}">
+
+        <select class="form-select"
+                th:field="*{options[__${optionStat.index}__].value}"
+                th:classappend="${err != null ? 'is-invalid' : ''}">
+          <option selected="selected" th:value="null">선택</option>
+          <option th:each="variant : ${option.value}" th:value="${variant.value}" th:text="${variant.label}"></option>
+        </select>
+
+        <div class="invalid-feedback"
+             th:each="message : ${err?.messages()}"
+             th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-5">
+      <div class="col-12 mb-3">
+        <label th:for="|purchaseMemo|" class="form-label">발주메모</label>
+        <textarea class="form-control"
+                  th:field="*{purchaseMemo}"
+                  rows="5"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="right"
+                  data-bs-title="공장에 전달할 메세지를 입력해 주세요."
+        ></textarea>
+      </div>
+    </div>
+
+    <hr class="mb-3"/>
+  </div>
+
+  <div class="col-12">
+
+    <h4 class="mb-4">주문하시는 분</h4>
+
+    <div class="row mb-3">
+      <div class="col-4 col-md-auto mb-3"
+           th:with="err = ${errors?.getFieldError('customerName')}">
+        <label th:for="customerName" class="form-label">구매자명</label>
+        <input type="text"
+               class="form-control"
+               placeholder="홍길동"
+               th:field="*{customerName}"
+               th:classappend="${err != null ? 'is-invalid' : ''}"/>
+
+        <div class="invalid-feedback"
+             th:each="message : ${err?.messages()}"
+             th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
+        </div>
+      </div>
+      <div class="col-4 col-md-auto mb-3"
+           th:with="err = ${errors?.getFieldError('customerTel')}">
+        <label th:for="customerTel" class="form-label input-phone-number">전화번호</label>
+        <input type="text"
+               class="form-control"
+               placeholder="010-0000-0000"
+               th:field="*{customerTel}"
+               th:classappend="${err != null ? 'is-invalid' : ''}" />
+
+        <div class="invalid-feedback"
+             th:each="message : ${err?.messages()}"
+             th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
+      </div>
+    </div>
+
+    <div class="row mb-5">
+      <div class="col-12 mb-3">
+        <label th:for="*{customerMemo}" class="form-label">고객메모</label>
+        <textarea class="form-control" rows="5" th:field="*{customerMemo}"></textarea>
+      </div>
+    </div>
+
+    <hr class="mb-3"/>
+
+  </div>
+
+  <div class="col-12">
+
+    <div class="d-flex justify-content-between">
+      <h4 class="mb-4">받으시는 분</h4>
+
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" th:field="*{isRecipientSameAsCustomer}" th:attr="id='isRecipientSameAsCustomer'">
+        <label class="form-check-label" th:for="isRecipientSameAsCustomer">
+          주문자 정보와 동일
+        </label>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-4 col-md-auto"
+           th:with="err = ${errors?.getFieldError('recipientName')}">
+        <label th:for="recipientName" class="form-label">수취인명</label>
+        <input type="text"
+               class="form-control"
+               placeholder="홍길동"
+               th:field="*{recipientName}"
+               th:classappend="${err != null ? 'is-invalid' : ''}"/>
+        <div class="invalid-feedback"
+             th:each="message : ${err?.messages()}"
+             th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
+        </div>
+      </div>
+
+      <div class="col-4 col-md-auto"
+           th:with="err = ${errors?.getFieldError('recipientTel1')}">
+        <label th:for="recipientTel1" class="form-label">전화번호1</label>
+        <input type="text"
+               class="form-control input-phone-number"
+               placeholder="010-0000-0000"
+               th:field="*{recipientTel1}"
+               th:classappend="${err != null ? 'is-invalid' : ''}" />
+        <div class="invalid-feedback"
+             th:each="message : ${err?.messages()}"
+             th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}"></div>
+      </div>
+      <div class="col-4 col-md-auto" th:with="err = ${errors?.getFieldError('recipientTel2')}">
+        <label th:for="recipientTel2" class="form-label">전화번호2</label>
+        <input type="text"
+               class="form-control input-phone-number"
+               placeholder="010-0000-0000"
+               th:field="*{recipientTel2}"
+               th:classappend="${err != null ? 'is-invalid' : ''}" />
+        <div class="invalid-feedback"
+             th:each="message : ${err?.messages()}"
+             th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}"></div>
+      </div>
+    </div>
+
+    <th:block th:with="addrErr = ${errors?.getFieldError('recipientAddress')}">
+
+      <div class="row">
+        <div class="col-6 col-sm-auto">
+          <label th:for="recipientZipCode" class="form-label">우편번호</label>
+          <div class="input-group mb-3">
+            <input th:field="*{recipientZipCode}"
+                   type="number"
+                   th:classappend="${addrErr != null ? 'is-invalid' : ''}"
+                   class="form-control" readonly>
+            <button id="btnSearchAddress" class="btn btn-outline-primary" type="button">검색</button>
+            <div class="invalid-feedback"
+                 th:each="message : ${addrErr?.messages()}"
+                 th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-5">
+
+        <div class="col-12 col-xl-7 mb-3">
+          <label th:for="recipientAddress1" class="form-label">기본주소</label>
+          <input type="text"
+                 class="form-control"
+                 th:classappend="${addrErr != null ? 'is-invalid' : ''}"
+                 th:field="*{recipientAddress1}"
+                 readonly />
+        </div>
+
+        <div class="col-12 col-xl-5 mb-3">
+          <label th:for="recipientAddress2" class="form-label">상세주소</label>
+          <input type="text" class="form-control" th:field="*{recipientAddress2}" />
+        </div>
+      </div>
+
+    </th:block>
+
+    <hr class="mb-3" />
+
+  </div>
+
+  <div class="col-12 ">
+
+    <h4 class="mb-4">배송정보</h4>
+
+    <div class="row mb-3">
+
+      <div class="col-6 col-md-auto md-3"
+           th:with="err = ${errors?.getFieldError('shippingMethod')}">
+        <label th:for="shippingMethod" class="form-label">배송방법</label>
+        <select class="form-select"
+                th:field="*{shippingMethod}"
+                th:classappend="${err != null ? 'is-invalid' : ''}">
+          <option selected th:value="null">선택</option>
+          <option th:each="method : ${shippingMethods}"
+                  th:value="${method}"
+                  th:text="${method.getDescription()}"></option>
+        </select>
+        <div class="invalid-feedback"
+             th:each="message : ${err?.messages()}"
+             th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}"></div>
+      </div>
+
+      <div class="col-6 col-md-auto mb-3"
+           th:with="err = ${errors?.getFieldError('shippingChargeType')}">
+        <label class="form-label" th:for="shippingChargeType">운임비</label>
+        <select class="form-select"
+                th:field="*{shippingChargeType}"
+                th:classappend="${err != null ? 'is-invalid' : ''}">
+          <option selected th:value="null">선택</option>
+          <option th:each="chargeType : ${shippingChargeTypes}"
+                  th:value="${chargeType}"
+                  th:text="${chargeType.getDescription()}"></option>
+        </select>
+        <div class="invalid-feedback"
+             th:each="message : ${err?.messages()}"
+             th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}"></div>
+      </div>
+
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-6 col-md-auto mb-3" th:with="err = ${errors?.getFieldError('dispatchDeadline')}">
+        <label th:for="dispatchDeadline" class="form-label">발송기한</label>
+        <input type="date"
+               class="form-control"
+               th:field="*{dispatchDeadline}"
+               th:classappend="${err != null ? 'is-invalid' : ''}"/>
+        <div class="invalid-feedback"
+             th:each="message : ${err?.messages()}"
+             th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
+        </div>
+      </div>
+
+      <div class="col-6 col-md-auto mb-3">
+        <label th:for="preferredShipsOn" class="form-label">희망배송일</label>
+        <input type="date" class="form-control" th:field="*{preferredShipsOn}" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 mb-3">
+        <label th:for="shippingMemo" class="form-label">배송메모</label>
+        <textarea class="form-control"
+                  rows="5"
+                  th:field="*{shippingMemo}"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="right"
+                  data-bs-title="배송팀에 전달할 메시지를 입력하세요. 서명시 고객이 볼수 있으니 주의하세요."
+        ></textarea>
+      </div>
+    </div>
+
+    <hr class="mt-5 mb-3" />
+  </div>
+
+</div>
+</div>
+</form>
+
+</section>
+</body>
+</html>
