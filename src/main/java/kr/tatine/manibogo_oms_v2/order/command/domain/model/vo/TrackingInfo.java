@@ -20,5 +20,4 @@ public class TrackingInfo {
         this.trackingNumber = trackingNumber;
         this.companyName = companyName;
     }
-
 }

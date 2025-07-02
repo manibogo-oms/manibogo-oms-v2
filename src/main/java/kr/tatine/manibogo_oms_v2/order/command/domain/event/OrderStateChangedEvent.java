@@ -10,12 +10,14 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @RequiredArgsConstructor
-public class ItemOrderPlacedEvent extends Event {
+public class OrderStateChangedEvent extends Event {
 
-    private final String itemOrderNumber;
+    private final String orderNumber;
 
-    private final LocalDateTime itemOrderPlacedAt;
+    private final String previousStateName;
 
-    private final Long totalPrice;
+    private final String newStateName;
+
+    private final LocalDateTime changedAt;
 
 }

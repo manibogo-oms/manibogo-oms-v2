@@ -1,0 +1,43 @@
+package kr.tatine.manibogo_oms_v2.order.command.application;
+
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.OrderLog;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderNumber;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
+import kr.tatine.manibogo_oms_v2.order.command.domain.repository.OrderLogRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class CreateOrderLogService {
+
+    private final OrderLogRepository repository;
+
+    @Transactional
+    public void create(OrderLogCommand command) {
+
+        final OrderState previousState = getPreviousStateOrNull(command);
+
+        final OrderState newState = OrderState.valueOf(command.newState());
+
+        final OrderLog history = new OrderLog(
+                new OrderNumber(command.orderNumber()),
+                previousState,
+                newState,
+                command.changedAt()
+        );
+
+        repository.save(history);
+    }
+
+    private OrderState getPreviousStateOrNull(OrderLogCommand command) {
+        return Optional
+                .ofNullable(command.previousState())
+                .map(OrderState::valueOf)
+                .orElse(null);
+    }
+
+}

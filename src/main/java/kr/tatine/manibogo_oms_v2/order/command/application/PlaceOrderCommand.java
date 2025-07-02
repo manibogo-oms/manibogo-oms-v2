@@ -9,7 +9,7 @@ import java.util.List;
 public record PlaceOrderCommand(
         String customerName,
         String customerTel,
-        String customerMemo,
+        String customerMessage,
         String recipientName,
         String recipientTel1,
         String recipientTel2,
@@ -22,7 +22,7 @@ public record PlaceOrderCommand(
         ShippingMethod shippingMethod,
         ChargeType shippingChargeType,
         LocalDate dispatchDeadline,
-        LocalDate preferredShipsOn,
+        LocalDate preferredShippingDate,
         String purchaseMemo,
         String shippingMemo,
         String adminMemo,

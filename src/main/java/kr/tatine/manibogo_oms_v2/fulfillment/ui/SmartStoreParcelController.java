@@ -1,6 +1,6 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ItemOrderState;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.FulfillmentDao;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.FulfillmentQueryParams;
@@ -25,7 +25,7 @@ public class SmartStoreParcelController {
     public List<SmartStoreParcelDto> getSmartStorePacelList(
             @ModelAttribute FulfillmentQueryParams queryParams) {
 
-        queryParams.setItemOrderState(ItemOrderState.SHIPPED);
+        queryParams.setItemOrderState(OrderState.SHIPPED);
         queryParams.setSalesChannel(SalesChannel.SMART_STORE);
 
         return fulfillmentDao.findAll(queryParams).stream()

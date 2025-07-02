@@ -37,11 +37,13 @@ public class QFulfillmentDto extends EntityPathBase<FulfillmentDto> {
 
     public final DateTimePath<java.time.LocalDateTime> dispatchedAt = createDateTime("dispatchedAt", java.time.LocalDateTime.class);
 
+    public final NumberPath<Long> id = createNumber("id", Long.class);
+
     public final NumberPath<Integer> itemOrderBundleCount = createNumber("itemOrderBundleCount", Integer.class);
 
     public final StringPath itemOrderNumber = createString("itemOrderNumber");
 
-    public final EnumPath<kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ItemOrderState> itemOrderState = createEnum("itemOrderState", kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ItemOrderState.class);
+    public final EnumPath<kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState> itemOrderState = createEnum("itemOrderState", kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState.class);
 
     public final StringPath optionInfo = createString("optionInfo");
 
