@@ -1,8 +1,8 @@
 package kr.tatine.manibogo_oms_v2.order.command.domain.model;
 
 import jakarta.persistence.*;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ItemOrderState;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ItemOrderNumber;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderNumber;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -12,29 +12,28 @@ import java.time.LocalDateTime;
 @Entity
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ItemOrderHistory {
+public class OrderLog {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Embedded
-    private ItemOrderNumber itemOrderNumber;
+    private OrderNumber orderNumber;
 
     @Enumerated(EnumType.STRING)
-    private ItemOrderState previousState;
+    private OrderState previousState;
 
     @Enumerated(EnumType.STRING)
-    private ItemOrderState newState;
+    private OrderState newState;
 
     private LocalDateTime changedAt;
 
-    public ItemOrderHistory(
-            ItemOrderNumber itemOrderNumber,
-            ItemOrderState previousState,
-            ItemOrderState newState,
+    public OrderLog(
+            OrderNumber orderNumber,
+            OrderState previousState,
+            OrderState newState,
             LocalDateTime changedAt) {
 
-        this.itemOrderNumber = itemOrderNumber;
+        this.orderNumber = orderNumber;
         this.previousState = previousState;
         this.newState = newState;
         this.changedAt = changedAt;

@@ -1,6 +1,6 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ItemOrderState;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.FulfillmentDao;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.FulfillmentQueryParams;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.PurchaseOrderDto;
@@ -23,7 +23,7 @@ public class PurchaseOrderController {
     public List<PurchaseOrderDto> getPurchaseOrder(
             @ModelAttribute FulfillmentQueryParams queryParams) {
 
-        queryParams.setItemOrderState(ItemOrderState.PURCHASED);
+        queryParams.setItemOrderState(OrderState.PURCHASED);
 
         return PurchaseOrderDto.FromFulfillmentDtoList(fulfillmentDao.findAll(queryParams));
 

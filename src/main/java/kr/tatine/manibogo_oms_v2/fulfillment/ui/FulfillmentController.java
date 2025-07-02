@@ -1,10 +1,16 @@
 package kr.tatine.manibogo_oms_v2.fulfillment.ui;
 
 import kr.tatine.manibogo_oms_v2.common.model.CommonResponse;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ItemOrderState;
+import kr.tatine.manibogo_oms_v2.common.model.ErrorResult;
+import kr.tatine.manibogo_oms_v2.common.utils.SelectableRowsFormUtils;
+import kr.tatine.manibogo_oms_v2.order.command.application.EditOrderCommand;
+import kr.tatine.manibogo_oms_v2.order.command.application.EditOrderService;
+import kr.tatine.manibogo_oms_v2.order.command.application.OrderNotFoundException;
+import kr.tatine.manibogo_oms_v2.order.command.domain.exception.AlreadyDispatchedException;
+import kr.tatine.manibogo_oms_v2.order.command.domain.exception.AlreadyShippedException;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.FulfillmentDao;
-import kr.tatine.manibogo_oms_v2.order.ui.ItemOrderRowsForm;
 import kr.tatine.manibogo_oms_v2.product.query.dao.ProductDao;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.RegionDao;
 import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.*;
@@ -21,7 +27,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -38,9 +49,11 @@ public class FulfillmentController {
 
     private final RegionDao regionDao;
 
+    private final EditOrderService editOrderService;
+
     @ModelAttribute("itemOrderStates")
-    public ItemOrderState[] orderStates() {
-        return ItemOrderState.values();
+    public OrderState[] orderStates() {
+        return OrderState.values();
     }
 
     @ModelAttribute("salesChannels")
@@ -107,9 +120,60 @@ public class FulfillmentController {
     }
 
 
-    private ItemOrderRowsForm initEditForm(List<FulfillmentDto> fulfillmentList) {
+    @PostMapping("/edit")
+    public String editSummaries(
+            @ModelAttribute("rowsForm") FulfillmentForm rowsForm,
+            RedirectAttributes redirectAttributes) {
 
-        final ItemOrderRowsForm editForm = new ItemOrderRowsForm();
+        log.debug("[ItemOrderController.editSummaries] rows = {}", rowsForm);
+
+        final ErrorResult errorResult = new ErrorResult();
+
+        SelectableRowsFormUtils.handle(rowsForm, errorResult, (i, row) -> {
+            try {
+               editOrderService.edit(new EditOrderCommand(
+                       row.getItemOrderNumber(), row.getState(), row.getDispatchDeadline(), row.getPreferredShippingDate(), row.getShippingMethod(), row.getChargeType(), row.getTrackingNumber(), row.getParcelCompany(), row.getPurchaseMemo(), row.getShippingMemo(), row.getAdminMemo()));
+
+            } catch (AlreadyDispatchedException alreadyDispatchedException) {
+                errorResult.rejectValue(getRowsField(i, "dispatchDeadline"), "alreadyDispatched.editItemOrder.dispatchDeadline");
+
+            } catch (AlreadyShippedException alreadyShippedException) {
+                errorResult.rejectValue(getRowsField(i, "preferredShippingDate"), "alreadyShipped.editItemOrder.preferredShipsOn");
+
+            } catch (OrderNotFoundException ex) {
+                errorResult.reject("notFound.fulfillment", new Object[]{ row.getId() });
+            }
+        });
+
+        redirectAttributes.addFlashAttribute(
+                "response",
+                new CommonResponse("complete.editSummaries", errorResult));
+
+        return redirectWithQueryParams("/v2/fulfillment");
+    }
+
+
+    private String redirectWithQueryParams(String redirectPath) {
+        final String queryString = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getQueryString();
+
+        final UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromPath(redirectPath);
+
+        if (queryString != null && !queryString.isEmpty()) {
+            uriBuilder.query(queryString);
+        }
+
+        return "redirect:" + uriBuilder.toUriString();
+    }
+
+
+    private String getRowsField(int index, String fieldName) {
+        return "%s[%d].%s".formatted("rows", index, fieldName);
+    }
+
+
+    private FulfillmentForm initEditForm(List<FulfillmentDto> fulfillmentList) {
+
+        final FulfillmentForm editForm = new FulfillmentForm();
 
         editForm.setRows(fulfillmentList.stream().map(FulfillmentDto::toEditFormRow).toList());
 

@@ -10,7 +10,7 @@ import lombok.ToString;
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ItemOrderNote {
+public class Memo {
 
     private String purchaseMemo;
 
@@ -18,7 +18,7 @@ public class ItemOrderNote {
 
     private String adminMemo;
 
-    public ItemOrderNote(String purchaseMemo, String shippingMemo, String adminMemo) {
+    public Memo(String purchaseMemo, String shippingMemo, String adminMemo) {
         this.purchaseMemo = purchaseMemo;
         this.shippingMemo = shippingMemo;
         this.adminMemo = adminMemo;

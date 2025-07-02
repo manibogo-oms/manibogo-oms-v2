@@ -72,7 +72,7 @@
         <button type="submit"
                 form="formEditRows"
                 class="btn btn-primary"
-                th:formaction="|${@replaceUri.apply('/v2/item-orders/edit-summaries')}|">
+                th:formaction="|${@replaceUri.apply('/v2/fulfillment/edit')}|">
             <i class="bi bi-pencil-fill"></i> 선택수정
         </button>
     </nav>
@@ -310,7 +310,7 @@
                         <select th:class="|form-control form-select form-select-sm pe-0 ${fulfillment.itemOrderState.name().toLowerCase()}|"
                                 aria-label="주문 상태 선택"
                                 th:classappend="${errorLevel != null ? 'is-invalid ' + errorLevel : ''}"
-                                th:field="*{rows[__${rowStat.index}__].itemOrderState}">
+                                th:field="*{rows[__${rowStat.index}__].state}">
                             <option th:each="itemOrderState : ${itemOrderStates}"
                                     th:value="${itemOrderState}"
                                     th:text="${itemOrderState.description}"
@@ -336,7 +336,8 @@
                             <div style="width: 6px"></div>
 
                             <a href="#" th:text="${fulfillment.itemOrderNumber}">상품주문번호</a>
-
+                            
+                            <input type="hidden" th:field="*{rows[__${rowStat.index}__].id}">
                             <input type="hidden" th:field="*{rows[__${rowStat.index}__].itemOrderNumber}">
                         </div>
 
@@ -393,7 +394,7 @@
                         th:with="fieldName = 'rows[' + ${rowStat.index} + '].preferredShipsOn', errorLevel = ${response?.errorResult?.getFieldError(fieldName)?.level()?.name()?.toLowerCase()}">
                         <input class="form-control form-control-sm" type="date" aria-label="희망배송일자"
                                th:classappend="${errorLevel != null ? 'is-invalid ' + errorLevel : ''}"
-                               th:field="*{rows[__${rowStat.index}__].preferredShipsOn}">
+                               th:field="*{rows[__${rowStat.index}__].preferredShippingDate}">
 
                         <div class="invalid-tooltip"
                              th:classappend="${errorLevel != null ? errorLevel : ''}"

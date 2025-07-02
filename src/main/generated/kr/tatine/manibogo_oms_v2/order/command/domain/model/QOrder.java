@@ -24,11 +24,21 @@ public class QOrder extends EntityPathBase<Order> {
 
     public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QCustomer customer;
 
+    public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QMemo memo;
+
     public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QOrderNumber number;
+
+    public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QOrderProduct product;
 
     public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QRecipient recipient;
 
     public final EnumPath<kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel> salesChannel = createEnum("salesChannel", kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel.class);
+
+    public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QShipping shipping;
+
+    public final EnumPath<kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState> state = createEnum("state", kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState.class);
+
+    public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QTrackingInfo trackingInfo;
 
     public QOrder(String variable) {
         this(Order.class, forVariable(variable), INITS);
@@ -49,8 +59,12 @@ public class QOrder extends EntityPathBase<Order> {
     public QOrder(Class<? extends Order> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.customer = inits.isInitialized("customer") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QCustomer(forProperty("customer"), inits.get("customer")) : null;
+        this.memo = inits.isInitialized("memo") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QMemo(forProperty("memo")) : null;
         this.number = inits.isInitialized("number") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QOrderNumber(forProperty("number")) : null;
+        this.product = inits.isInitialized("product") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QOrderProduct(forProperty("product"), inits.get("product")) : null;
         this.recipient = inits.isInitialized("recipient") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QRecipient(forProperty("recipient"), inits.get("recipient")) : null;
+        this.shipping = inits.isInitialized("shipping") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QShipping(forProperty("shipping")) : null;
+        this.trackingInfo = inits.isInitialized("trackingInfo") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QTrackingInfo(forProperty("trackingInfo")) : null;
     }
 
 }

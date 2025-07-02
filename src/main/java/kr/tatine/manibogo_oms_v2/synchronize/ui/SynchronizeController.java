@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
-import kr.tatine.manibogo_oms_v2.order.command.application.ItemOrderAlreadyPlacedException;
-import kr.tatine.manibogo_oms_v2.order.command.application.ItemOrderNotFoundException;
+import kr.tatine.manibogo_oms_v2.order.command.application.OrderAlreadyPlacedException;
+import kr.tatine.manibogo_oms_v2.order.command.application.OrderNotFoundException;
 import kr.tatine.manibogo_oms_v2.order.command.domain.exception.AlreadyShippedException;
 import kr.tatine.manibogo_oms_v2.order.command.domain.exception.StateAlreadyProceededException;
 import kr.tatine.manibogo_oms_v2.synchronize.command.application.*;
@@ -25,11 +25,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SynchronizeController {
 
-    private final SyncExternalItemOrderService syncExternalItemOrderService;
+    private final SyncExternalOrderService syncExternalOrderService;
 
-    private final SyncExternalParcelService syncExternalParcelService;
+    private final SyncOrderTrackingInfoService syncExternalParcelService;
 
-    private final SyncExternalItemOrderStateService syncExternalItemOrderStateService;
+    private final SyncOrderStateService syncOrderStateService;
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -58,9 +58,9 @@ public class SynchronizeController {
 
         for (ExternalItemOrderRequest request : listRequest) {
             try {
-                syncExternalItemOrderService.synchronize(request);
+                syncExternalOrderService.synchronize(request);
                 response.success(new SynchronizeResult(request.itemOrderNumber()));
-            } catch (ItemOrderAlreadyPlacedException exception) {
+            } catch (OrderAlreadyPlacedException exception) {
                 response.skip(new SynchronizeResult(request.itemOrderNumber()));
             } catch (ConstraintViolationException exception) {
 
@@ -84,7 +84,7 @@ public class SynchronizeController {
     @PostMapping("/external-parcel")
     public String syncParcel(@RequestParam("externalParcel") String externalParcel, RedirectAttributes redirectAttr) {
 
-        List<SyncExternalParcelCommand> listCommand = List.of();
+        List<SyncOrderTrackingInfoCommand> listCommand = List.of();
 
         final SynchronizeResponse response = new SynchronizeResponse();
 
@@ -95,12 +95,12 @@ public class SynchronizeController {
             response.globalError("유효하지 않은 요청 형식입니다. 올바른 엑셀 파일을 업로드했는지 확인해주세요.");
         }
 
-        for (final SyncExternalParcelCommand command : listCommand) {
+        for (final SyncOrderTrackingInfoCommand command : listCommand) {
             try {
                 syncExternalParcelService.synchronize(command);
-                response.success(new SynchronizeResult(command.itemOrderNumber()));
-            } catch (AlreadyShippedException | ItemOrderNotFoundException exception) {
-                response.skip(new SynchronizeResult(command.itemOrderNumber()));
+                response.success(new SynchronizeResult(command.orderNumber()));
+            } catch (AlreadyShippedException | OrderNotFoundException exception) {
+                response.skip(new SynchronizeResult(command.orderNumber()));
             } catch (ConstraintViolationException exception) {
 
                 final List<String> errorMessages = exception
@@ -109,7 +109,7 @@ public class SynchronizeController {
                         .map(ConstraintViolation::getMessage)
                         .toList();
 
-                response.error(new SynchronizeErrorResult(command.itemOrderNumber(), errorMessages));
+                response.error(new SynchronizeErrorResult(command.orderNumber(), errorMessages));
             }
         }
 
@@ -121,7 +121,7 @@ public class SynchronizeController {
     @PostMapping("/external-item-order-state")
     public String syncItemOrderState(@RequestParam("externalItemOrderState") String externalItemOrderState, RedirectAttributes redirectAttr) {
 
-        List<SyncExternalItemOrderStateCommand> listCommand = List.of();
+        List<SyncOrderStateCommand> listCommand = List.of();
 
         final SynchronizeResponse response = new SynchronizeResponse();
 
@@ -132,12 +132,12 @@ public class SynchronizeController {
             response.globalError("유효하지 않은 요청 형식입니다. 올바른 엑셀 파일을 업로드했는지 확인해주세요.");
         }
 
-        for (final SyncExternalItemOrderStateCommand command : listCommand) {
+        for (final SyncOrderStateCommand command : listCommand) {
             try {
-                syncExternalItemOrderStateService.synchronize(command);
-                response.success(new SynchronizeResult(command.itemOrderNumber()));
-            } catch (StateAlreadyProceededException | ItemOrderNotFoundException exception) {
-                response.skip(new SynchronizeResult(command.itemOrderNumber()));
+                syncOrderStateService.synchronize(command);
+                response.success(new SynchronizeResult(command.orderNumber()));
+            } catch (StateAlreadyProceededException | OrderNotFoundException exception) {
+                response.skip(new SynchronizeResult(command.orderNumber()));
             } catch (ConstraintViolationException exception) {
 
                 final List<String> errorMessages = exception
@@ -146,7 +146,7 @@ public class SynchronizeController {
                         .map(ConstraintViolation::getMessage)
                         .toList();
 
-                response.error(new SynchronizeErrorResult(command.itemOrderNumber(), errorMessages));
+                response.error(new SynchronizeErrorResult(command.orderNumber(), errorMessages));
             }
         }
 

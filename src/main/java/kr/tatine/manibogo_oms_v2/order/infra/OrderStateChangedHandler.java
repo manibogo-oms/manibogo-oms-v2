@@ -1,8 +1,8 @@
 package kr.tatine.manibogo_oms_v2.order.infra;
 
-import kr.tatine.manibogo_oms_v2.order.command.application.CreateItemOrderHistoryService;
-import kr.tatine.manibogo_oms_v2.order.command.application.ItemOrderHistoryCommand;
-import kr.tatine.manibogo_oms_v2.order.command.domain.event.ItemOrderStateChangedEvent;
+import kr.tatine.manibogo_oms_v2.order.command.application.CreateOrderLogService;
+import kr.tatine.manibogo_oms_v2.order.command.application.OrderLogCommand;
+import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderStateChangedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -13,20 +13,20 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ItemOrderStateChangedHandler {
+public class OrderStateChangedHandler {
 
-    private final CreateItemOrderHistoryService createItemOrderHistoryService;
+    private final CreateOrderLogService createOrderLogService;
 
     @Async
     @TransactionalEventListener(
-            classes = ItemOrderStateChangedEvent.class,
+            classes = OrderStateChangedEvent.class,
             phase = TransactionPhase.AFTER_COMMIT
     )
-    public void handleItemOrderStateChanged(ItemOrderStateChangedEvent event) {
+    public void handleItemOrderStateChanged(OrderStateChangedEvent event) {
         log.debug("[temOrderStateChangedHandler.handleItemOrderStateChanged] event = {}", event);
 
-        createItemOrderHistoryService.create(new ItemOrderHistoryCommand(
-                event.getItemOrderNumber(),
+        createOrderLogService.create(new OrderLogCommand(
+                event.getOrderNumber(),
                 event.getPreviousStateName(),
                 event.getNewStateName(),
                 event.getChangedAt()));

@@ -10,14 +10,14 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QItemOrderNote is a Querydsl query type for ItemOrderNote
+ * QMemo is a Querydsl query type for Memo
  */
 @Generated("com.querydsl.codegen.DefaultEmbeddableSerializer")
-public class QItemOrderNote extends BeanPath<ItemOrderNote> {
+public class QMemo extends BeanPath<Memo> {
 
-    private static final long serialVersionUID = -1076461335L;
+    private static final long serialVersionUID = -1968702626L;
 
-    public static final QItemOrderNote itemOrderNote = new QItemOrderNote("itemOrderNote");
+    public static final QMemo memo = new QMemo("memo");
 
     public final StringPath adminMemo = createString("adminMemo");
 
@@ -25,16 +25,16 @@ public class QItemOrderNote extends BeanPath<ItemOrderNote> {
 
     public final StringPath shippingMemo = createString("shippingMemo");
 
-    public QItemOrderNote(String variable) {
-        super(ItemOrderNote.class, forVariable(variable));
+    public QMemo(String variable) {
+        super(Memo.class, forVariable(variable));
     }
 
-    public QItemOrderNote(Path<? extends ItemOrderNote> path) {
+    public QMemo(Path<? extends Memo> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QItemOrderNote(PathMetadata metadata) {
-        super(ItemOrderNote.class, metadata);
+    public QMemo(PathMetadata metadata) {
+        super(Memo.class, metadata);
     }
 
 }

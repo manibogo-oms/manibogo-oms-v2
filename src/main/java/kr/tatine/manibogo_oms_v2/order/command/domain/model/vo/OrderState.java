@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum ItemOrderState implements Describable {
+public enum OrderState implements Describable {
 
     PLACED("주문"),
     PURCHASED("발주"),
@@ -18,19 +18,19 @@ public enum ItemOrderState implements Describable {
 
     private final String description;
 
-    public boolean canProceedTo(ItemOrderState state) {
+    public boolean canProceedTo(OrderState state) {
         return this.ordinal() < state.ordinal();
     }
 
-    public boolean isAfter(ItemOrderState state) {
+    public boolean isAfter(OrderState state) {
         return this.ordinal() > state.ordinal();
     }
 
-    public boolean isAfterOrSame(ItemOrderState state) {
+    public boolean isAfterOrSame(OrderState state) {
         return this.ordinal() >= state.ordinal();
     }
 
-    public boolean isBefore(ItemOrderState state) {
+    public boolean isBefore(OrderState state) {
         return this.ordinal() < state.ordinal();
     }
     
