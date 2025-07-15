@@ -87,6 +87,8 @@ public class QOrderDto extends EntityPathBase<OrderDto> {
 
     public final DateTimePath<java.time.LocalDateTime> shippedAt = createDateTime("shippedAt", java.time.LocalDateTime.class);
 
+    public final StringPath shippingBundleNumber = createString("shippingBundleNumber");
+
     public final EnumPath<kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType> shippingChargeType = createEnum("shippingChargeType", kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType.class);
 
     public final StringPath shippingCompany = createString("shippingCompany");

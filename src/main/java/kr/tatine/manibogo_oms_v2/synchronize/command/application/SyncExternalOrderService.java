@@ -7,6 +7,7 @@ import kr.tatine.manibogo_oms_v2.common.model.Address;
 import kr.tatine.manibogo_oms_v2.common.model.Money;
 import kr.tatine.manibogo_oms_v2.common.model.Option;
 import kr.tatine.manibogo_oms_v2.common.model.PhoneNumber;
+import kr.tatine.manibogo_oms_v2.order.command.application.exception.OrderAlreadyPlacedException;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ShippingMethod;
 import kr.tatine.manibogo_oms_v2.synchronize.ui.ExternalItemOrderRequest;
 import kr.tatine.manibogo_oms_v2.product.command.domain.Variant;
@@ -41,10 +42,11 @@ public class SyncExternalOrderService {
     public void synchronize(@Valid ExternalItemOrderRequest command) {
         final OrderNumber orderNumber = new OrderNumber(command.orderNumber());
 
-        final Order order = orderRepository.findById(orderNumber)
-                .orElse(createOrder(command));
+        if (orderRepository.existsById(orderNumber)) {
+            throw new OrderAlreadyPlacedException();
+        }
 
-        orderRepository.save(order);
+        orderRepository.save(createOrder(command));
     }
 
     private OrderProduct createOrderProduct(ExternalItemOrderRequest command) {
@@ -70,7 +72,7 @@ public class SyncExternalOrderService {
                 StringToDescribableEnumConverter.convert(ShippingMethod.class, command.shippingMethod()),
                 StringToDescribableEnumConverter.convert(ChargeType.class, command.shippingChargeType()));
 
-        return new Order(new OrderNumber(command.orderNumber()), customer, recipient, SalesChannel.SMART_STORE, createOrderProduct(command), shipping, null, command.orderPlacedAt(), command.dispatchDeadline(), null);
+        return new Order(new OrderNumber(command.orderNumber()), customer, recipient, SalesChannel.SMART_STORE, createOrderProduct(command), new ShippingBundleNumber(command.shippingBundleNumber()), shipping, null, command.orderPlacedAt(), command.dispatchDeadline(), null);
     }
 
 

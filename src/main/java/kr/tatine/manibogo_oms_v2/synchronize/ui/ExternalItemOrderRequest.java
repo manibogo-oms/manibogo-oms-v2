@@ -75,6 +75,8 @@ public record ExternalItemOrderRequest (
                 enumClazz = ChargeType.class)
         String shippingChargeType,
 
+        String shippingBundleNumber,
+
         @NotNull(message = "{notNull.externalOrder.itemOrderPlacedAt}")
         LocalDateTime orderPlacedAt,
 

@@ -42,6 +42,8 @@ public class QOrder extends EntityPathBase<Order> {
 
     public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QShipping shipping;
 
+    public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QShippingBundleNumber shippingBundleNumber;
+
     public final EnumPath<kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState> state = createEnum("state", kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState.class);
 
     public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QTrackingInfo trackingInfo;
@@ -70,6 +72,7 @@ public class QOrder extends EntityPathBase<Order> {
         this.product = inits.isInitialized("product") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QOrderProduct(forProperty("product"), inits.get("product")) : null;
         this.recipient = inits.isInitialized("recipient") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QRecipient(forProperty("recipient"), inits.get("recipient")) : null;
         this.shipping = inits.isInitialized("shipping") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QShipping(forProperty("shipping")) : null;
+        this.shippingBundleNumber = inits.isInitialized("shippingBundleNumber") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QShippingBundleNumber(forProperty("shippingBundleNumber")) : null;
         this.trackingInfo = inits.isInitialized("trackingInfo") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QTrackingInfo(forProperty("trackingInfo")) : null;
     }
 

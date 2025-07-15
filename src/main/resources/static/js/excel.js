@@ -21,6 +21,7 @@ function parseOrder(order) {
         'shippingChargeType': order['배송비 형태'],
         'orderPlacedAt': order['주문일시'],
         'dispatchDeadline': order['발송기한'],
+        'shippingBundleNumber': order['배송비 묶음번호']
     };
 }
 

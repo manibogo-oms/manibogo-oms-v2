@@ -5,6 +5,7 @@ import kr.tatine.manibogo_oms_v2.common.event.Events;
 import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderStateChangedEvent;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
@@ -35,6 +36,9 @@ public class Order {
     private OrderProduct product;
 
     @Embedded
+    private ShippingBundleNumber shippingBundleNumber;
+
+    @Embedded
     private Shipping shipping;
 
     @Embedded
@@ -49,18 +53,27 @@ public class Order {
 
     private LocalDate preferredShippingDate;
 
-    public Order(OrderNumber number, Customer customer, Recipient recipient, SalesChannel salesChannel, OrderProduct product, Shipping shipping, Memo memo, LocalDateTime placedAt, LocalDate dispatchDeadline, LocalDate preferredShippingDate) {
+    public Order(OrderNumber number, Customer customer, Recipient recipient, SalesChannel salesChannel, OrderProduct product, ShippingBundleNumber shippingBundleNumber, Shipping shipping, Memo memo, LocalDateTime placedAt, LocalDate dispatchDeadline, LocalDate preferredShippingDate) {
         this.number = number;
         this.state = OrderState.PLACED;
         this.customer = customer;
         this.recipient = recipient;
         this.salesChannel = salesChannel;
         this.product = product;
+        this.shippingBundleNumber = shippingBundleNumber;
         this.shipping = shipping;
         this.memo = memo;
         this.placedAt = placedAt;
         this.dispatchDeadline = dispatchDeadline;
         this.preferredShippingDate = preferredShippingDate;
+    }
+
+    void changeShippingBundleNumber(ShippingBundleNumber shippingBundleNumber) {
+        this.shippingBundleNumber = shippingBundleNumber;
+    }
+
+    boolean canBundleShippingWith(Order order) {
+        return (number == order.number) || (state.isBefore(OrderState.SHIPPED) && shipping.equals(order.shipping) && recipient.equals(order.recipient));
     }
 
     public void changeState(OrderState state, LocalDateTime changedAt) {

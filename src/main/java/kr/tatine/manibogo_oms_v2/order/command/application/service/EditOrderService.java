@@ -9,6 +9,7 @@ import kr.tatine.manibogo_oms_v2.order.command.application.dto.EditOrderDetailCo
 import kr.tatine.manibogo_oms_v2.order.command.application.dto.EditOrderSummaryCommand;
 import kr.tatine.manibogo_oms_v2.order.command.application.dto.EditOrderSummaryCommandValidator;
 import kr.tatine.manibogo_oms_v2.order.command.application.exception.OrderNotFoundException;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.BundleOrderShippingService;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.Order;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.*;
 import kr.tatine.manibogo_oms_v2.order.command.domain.repository.OrderRepository;
@@ -24,6 +25,8 @@ import java.util.List;
 public class EditOrderService {
 
     private final OrderRepository orderRepository;
+
+    private final BundleOrderShippingService bundleOrderShippingService;
 
     @Transactional
     public void editSummary(EditOrderSummaryCommand command) {
@@ -66,6 +69,8 @@ public class EditOrderService {
 
         order.changeRecipient(recipient);
         order.changeCustomer(customer);
+
+        bundleOrderShippingService.bundle(order, new ShippingBundleNumber(command.shippingBundleNumber()));
     }
 
     private Recipient createRecipient(EditOrderDetailCommand command) {
