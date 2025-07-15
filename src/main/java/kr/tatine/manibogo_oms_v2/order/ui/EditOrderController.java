@@ -61,6 +61,14 @@ public class EditOrderController {
         return "editOrder";
     }
 
+    @PostMapping("/{orderNumber}/edit")
+    public String edit(@PathVariable String orderNumber, @ModelAttribute EditOrderForm form) {
+
+        editOrderService.editDetail(form.toCommand());
+
+        return "redirect:/v2/orders/{orderNumber}/edit";
+    }
+
     @PostMapping("/editSummary")
     public String editSummary(
             @ModelAttribute("rowsForm") EditOrderSummaryForm rowsForm,
