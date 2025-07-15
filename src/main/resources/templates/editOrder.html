@@ -126,6 +126,32 @@
       </div>
     </div>
 
+    <div class="row mb-3" th:if="*{optionKey1 != null}">
+      <div class="col col-auto mb-3">
+        <label th:for="optionLabel1" class="form-label" th:text="*{optionKey1}">옵션1</label>
+        <input type="hidden" th:field="*{optionKey1}">
+        <select class="form-control form-select" th:field="*{optionLabel1}">
+          <option selected="selected" th:text="*{optionLabel1}" th:value="*{optionLabel1}">옵션1</option>
+        </select>
+      </div>
+
+      <div class="col col-auto mb-3" th:if="*{optionKey2 != null}">
+        <label th:for="optionLabel2" class="form-label" th:text="*{optionKey2}">옵션2</label>
+        <input type="hidden" th:field="*{optionKey2}">
+        <select class="form-control form-select" th:field="*{optionLabel2}">
+          <option selected="selected" th:text="*{optionLabel2}" th:value="*{optionLabel2}">옵션2</option>
+        </select>
+      </div>
+
+      <div class="col col-auto mb-3" th:if="*{optionKey3 != null}">
+        <label th:for="optionLabel3" class="form-label" th:text="*{optionKey3}">옵션3</label>
+        <input type="hidden" th:field="*{optionKey3}">
+        <select class="form-control form-select" th:field="*{optionLabel3}">
+          <option selected="selected" th:text="*{optionLabel3}" th:value="*{optionLabel3}">옵션3</option>
+        </select>
+      </div>
+    </div>
+
     <div class="row mb-3">
       <div class="col-12 col-md-auto mb-3">
         <label th:for="|amount|" class="form-label">주문수량</label>

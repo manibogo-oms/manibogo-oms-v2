@@ -8,7 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -125,11 +124,9 @@ public class PurchaseOrderDto {
         purchaseOrderDto.setRecipientPhoneNumber2(orderDto.getRecipientPhoneNumber2());
         purchaseOrderDto.setProductName(orderDto.getProductName());
 
-        List<String> optionValues = Arrays.stream(orderDto.getOptionInfo().trim().split(", ")).toList();
-
-        if (!optionValues.isEmpty()) purchaseOrderDto.setOption1(optionValues.get(0));
-        if (optionValues.size() > 1) purchaseOrderDto.setOption1(optionValues.get(1));
-        if (optionValues.size() > 2) purchaseOrderDto.setOption1(optionValues.get(2));
+        purchaseOrderDto.setOption1(orderDto.getOptionLabel1());
+        purchaseOrderDto.setOption2(orderDto.getOptionLabel2());
+        purchaseOrderDto.setOption3(orderDto.getOptionLabel3());
 
         purchaseOrderDto.setItemOrderBundleCount(orderDto.getItemOrderBundleCount());
         purchaseOrderDto.setAmount(orderDto.getAmount());

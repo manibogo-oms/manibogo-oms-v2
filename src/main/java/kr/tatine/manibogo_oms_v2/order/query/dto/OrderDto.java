@@ -29,7 +29,12 @@ SELECT
     o.`state` AS 'order_state',
     p.product_number,
     p.`name` AS 'product_name',
-    '개발필요' as 'option_info',
+    opo_agg.option_key1,
+    opo_agg.option_key2,
+    opo_agg.option_key3,
+    opo_agg.option_label1,
+    opo_agg.option_label2,
+    opo_agg.option_label3,
     '0' AS 'item_order_bundle_count',
     o.amount,
     r.sido,
@@ -65,6 +70,24 @@ FROM
     orders AS o
     JOIN product AS p ON o.product_number = p.product_number
     JOIN region AS r ON o.zip_code = r.zip_code
+    LEFT JOIN (
+        SELECT
+            opo.order_number,
+            MAX(CASE WHEN opo.option_seq = 0 THEN v.option_key ELSE NULL END) AS option_key1,
+            MAX(CASE WHEN opo.option_seq = 0 THEN v.`label` ELSE NULL END) AS option_label1,
+            MAX(CASE WHEN opo.option_seq = 1 THEN v.option_key ELSE NULL END) AS option_key2,
+            MAX(CASE WHEN opo.option_seq = 1 THEN v.`label` ELSE NULL END) AS option_label2,
+            MAX(CASE WHEN opo.option_seq = 2 THEN v.option_key ELSE NULL END) AS option_key3,
+            MAX(CASE WHEN opo.option_seq = 2 THEN v.`label` ELSE NULL END) AS option_label3
+        FROM
+            order_product_option AS opo
+            JOIN orders o ON o.order_number = opo.order_number
+            JOIN variant v ON v.product_number = o.product_number
+            AND v.option_key = opo.option_key
+            AND v.option_value = opo.option_value
+        GROUP BY
+            opo.order_number
+    ) AS opo_agg ON o.order_number = opo_agg.order_number
      -- 상품주문 상태 이력 집계 View
     LEFT JOIN (
         SELECT
@@ -97,7 +120,17 @@ public class OrderDto {
 
     private String productName;
 
-    private String optionInfo;
+    private String optionKey1;
+
+    private String optionLabel1;
+
+    private String optionKey2;
+
+    private String optionLabel2;
+
+    private String optionKey3;
+
+    private String optionLabel3;
 
     private int itemOrderBundleCount;
 

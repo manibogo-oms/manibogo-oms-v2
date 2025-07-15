@@ -161,7 +161,7 @@ public class EditOrderController {
                         new Object[] { targetState.getDescription() });
 
             } catch (OrderNotFoundException ex) {
-                errorResult.reject("notFound.fulfillment", new Object[]{ row.getOrderNumber() });
+                errorResult.reject("notFound.order", new Object[]{ row.getOrderNumber() });
             }
         });
 
@@ -169,7 +169,7 @@ public class EditOrderController {
                 "response",
                 new CommonResponse("complete.proceedState", new Object[]{targetState.getDescription()}, errorResult));
 
-        return redirectWithQueryParams("/v2/fulfillment");
+        return redirectWithQueryParams("/v2/orders");
     }
 
     private String getRowsField(int index, String fieldName) {

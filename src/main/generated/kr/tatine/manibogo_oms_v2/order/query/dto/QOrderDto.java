@@ -41,7 +41,17 @@ public class QOrderDto extends EntityPathBase<OrderDto> {
 
     public final NumberPath<Integer> itemOrderBundleCount = createNumber("itemOrderBundleCount", Integer.class);
 
-    public final StringPath optionInfo = createString("optionInfo");
+    public final StringPath optionKey1 = createString("optionKey1");
+
+    public final StringPath optionKey2 = createString("optionKey2");
+
+    public final StringPath optionKey3 = createString("optionKey3");
+
+    public final StringPath optionLabel1 = createString("optionLabel1");
+
+    public final StringPath optionLabel2 = createString("optionLabel2");
+
+    public final StringPath optionLabel3 = createString("optionLabel3");
 
     public final StringPath orderNumber = createString("orderNumber");
 

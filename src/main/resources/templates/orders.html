@@ -341,7 +341,7 @@
 
                     </td>
 
-                    <td class="text-nowrap col-expand text-start" th:text="|${fulfillment.productName} [${fulfillment.optionInfo}]|">
+                    <td class="text-nowrap col-expand text-start" th:text="|${fulfillment.productName} [${#strings.defaultString(fulfillment.optionLabel1, '')} ${#strings.defaultString(fulfillment.optionLabel2, '')} ${#strings.defaultString(fulfillment.optionLabel3, '')}]|">
                         상품명
                     </td>
 
