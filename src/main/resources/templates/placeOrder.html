@@ -346,6 +346,19 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-12 mb-3">
+        <label th:for="adminMemo" class="form-label">관리자메모</label>
+        <textarea class="form-control"
+                  rows="5"
+                  th:field="*{adminMemo}"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="right"
+                  data-bs-title="관리자만 볼 수 있습니다."
+        ></textarea>
+      </div>
+    </div>
+
     <hr class="mt-5 mb-3" />
   </div>
 
