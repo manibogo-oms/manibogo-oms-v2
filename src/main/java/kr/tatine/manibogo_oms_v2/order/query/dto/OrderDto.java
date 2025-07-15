@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.fulfillment.query.dto;
+package kr.tatine.manibogo_oms_v2.order.query.dto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -8,7 +8,7 @@ import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ShippingMethod;
-import kr.tatine.manibogo_oms_v2.fulfillment.ui.FulfillmentForm;
+import kr.tatine.manibogo_oms_v2.order.ui.EditOrderForm;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -81,7 +81,7 @@ FROM
     ) AS ioh_agg ON o.order_number = ioh_agg.order_number
 WHERE p.is_enabled = true
 """)
-public class FulfillmentDto {
+public class OrderDto {
 
     @Id
     private String orderNumber;
@@ -161,8 +161,8 @@ public class FulfillmentDto {
     private String shippingCompany;
 
 
-    public FulfillmentForm.Row toEditFormRow() {
-        final FulfillmentForm.Row row = new FulfillmentForm.Row();
+    public EditOrderForm.Row toEditFormRow() {
+        final EditOrderForm.Row row = new EditOrderForm.Row();
 
         row.setIsSelected(false);
         row.setOrderNumber(getOrderNumber());

@@ -18,23 +18,20 @@ public class EditOrderService {
     private final OrderRepository orderRepository;
 
     @Transactional
-    public void edit(EditOrderCommand command) {
+    public void editSummary(EditOrderSummaryCommand command) {
 
         final Order order = orderRepository
                 .findById(new OrderNumber(command.orderNumber()))
                 .orElseThrow(OrderNotFoundException::new);
 
         order.changeState(command.state(), LocalDateTime.now());
-        order.changeShipping(createShipping(command));
+        order.changeDispatchDeadline(command.dispatchDeadline());
+        order.changePreferredShippingDate(command.preferredShippingDate());
         order.changeMemo(createMemo(command));
     }
 
-    private Memo createMemo(EditOrderCommand command) {
+    private Memo createMemo(EditOrderSummaryCommand command) {
         return new Memo(command.purchaseMemo(), command.shippingMemo(), command.adminMemo());
-    }
-
-    private Shipping createShipping(EditOrderCommand command) {
-        return new Shipping(command.shippingMethod(), command.shppingChargeType(), command.dispatchDeadline(), command.preferredShippingDate());
     }
 
 }

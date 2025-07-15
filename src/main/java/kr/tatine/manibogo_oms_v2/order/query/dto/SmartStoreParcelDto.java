@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.fulfillment.query.dto;
+package kr.tatine.manibogo_oms_v2.order.query.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -30,16 +30,16 @@ public class SmartStoreParcelDto {
 
 
 
-    public static SmartStoreParcelDto fromFulfillmentDto(FulfillmentDto fulfillmentDto) {
+    public static SmartStoreParcelDto fromFulfillmentDto(OrderDto orderDto) {
 
         final SmartStoreParcelDto parcelDto = new SmartStoreParcelDto();
 
-        parcelDto.setItemOrderNumber(fulfillmentDto.getOrderNumber());
-        parcelDto.setShippingMethod(fulfillmentDto.getShippingMethod().getDescription());
-        parcelDto.setShippingCompanyName(fulfillmentDto.getShippingCompany());
-        parcelDto.setShippingTrackingNumber(fulfillmentDto.getShippingTrackingNumber());
-        parcelDto.setCustomerName(fulfillmentDto.getCustomerName());
-        parcelDto.setCustomerPhoneNumber(fulfillmentDto.getCustomerPhoneNumber());
+        parcelDto.setItemOrderNumber(orderDto.getOrderNumber());
+        parcelDto.setShippingMethod(orderDto.getShippingMethod().getDescription());
+        parcelDto.setShippingCompanyName(orderDto.getShippingCompany());
+        parcelDto.setShippingTrackingNumber(orderDto.getShippingTrackingNumber());
+        parcelDto.setCustomerName(orderDto.getCustomerName());
+        parcelDto.setCustomerPhoneNumber(orderDto.getCustomerPhoneNumber());
 
         return parcelDto;
     }

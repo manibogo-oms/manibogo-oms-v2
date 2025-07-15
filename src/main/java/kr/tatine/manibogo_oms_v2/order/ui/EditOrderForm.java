@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.fulfillment.ui;
+package kr.tatine.manibogo_oms_v2.order.ui;
 
 import kr.tatine.manibogo_oms_v2.common.model.SelectableRow;
 import kr.tatine.manibogo_oms_v2.common.model.SelectableRowsForm;
@@ -17,7 +17,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class FulfillmentForm implements SelectableRowsForm<FulfillmentForm.Row> {
+public class EditOrderForm implements SelectableRowsForm<EditOrderForm.Row> {
 
     private List<Row> rows = new ArrayList<>();
 

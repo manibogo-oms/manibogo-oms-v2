@@ -61,9 +61,9 @@ public class PlaceOrderService {
 
         final Memo memo = new Memo(command.purchaseMemo(), command.shippingMemo(), command.adminMemo());
 
-        final Shipping shipping = new Shipping(command.shippingMethod(), command.shippingChargeType(), command.dispatchDeadline(), command.preferredShippingDate());
+        final Shipping shipping = new Shipping(command.shippingMethod(), command.shippingChargeType());
 
-        return new Order(orderNumber, customer, recipient, SalesChannel.LOCAL, orderProduct, shipping, memo, LocalDateTime.now());
+        return new Order(orderNumber, customer, recipient, SalesChannel.LOCAL, orderProduct, shipping, memo, LocalDateTime.now(), command.dispatchDeadline(), command.preferredShippingDate());
     }
 
     private OrderProduct createOrderProduct(PlaceOrderCommand command) {

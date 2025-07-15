@@ -68,11 +68,9 @@ public class SyncExternalOrderService {
 
         Shipping shipping = new Shipping(
                 StringToDescribableEnumConverter.convert(ShippingMethod.class, command.shippingMethod()),
-                StringToDescribableEnumConverter.convert(ChargeType.class, command.shippingChargeType()),
-                command.dispatchDeadline(),
-                null);
+                StringToDescribableEnumConverter.convert(ChargeType.class, command.shippingChargeType()));
 
-        return new Order(new OrderNumber(command.orderNumber()), customer, recipient, SalesChannel.SMART_STORE, createOrderProduct(command), shipping, null, command.orderPlacedAt());
+        return new Order(new OrderNumber(command.orderNumber()), customer, recipient, SalesChannel.SMART_STORE, createOrderProduct(command), shipping, null, command.orderPlacedAt(), command.dispatchDeadline(), null);
     }
 
 

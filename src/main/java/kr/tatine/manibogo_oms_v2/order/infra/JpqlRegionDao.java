@@ -1,8 +1,8 @@
-package kr.tatine.manibogo_oms_v2.fulfillment.infra;
+package kr.tatine.manibogo_oms_v2.order.infra;
 
 import jakarta.persistence.EntityManager;
-import kr.tatine.manibogo_oms_v2.fulfillment.query.dao.RegionDao;
-import kr.tatine.manibogo_oms_v2.fulfillment.query.dto.RegionDto;
+import kr.tatine.manibogo_oms_v2.order.query.dao.RegionDao;
+import kr.tatine.manibogo_oms_v2.order.query.dto.RegionDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +18,7 @@ public class JpqlRegionDao implements RegionDao {
     public List<RegionDto> findDistinctAll() {
 
         final String query = """
-            SELECT DISTINCT new kr.tatine.manibogo_oms_v2.fulfillment.query.dto.RegionDto(r.sido, r.sigungu) FROM Region r
+            SELECT DISTINCT new kr.tatine.manibogo_oms_v2.order.query.dto.RegionDto(r.sido, r.sigungu) FROM Region r
         """;
 
         return em.createQuery(query, RegionDto.class).getResultList();

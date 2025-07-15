@@ -1,114 +1,151 @@
 package kr.tatine.manibogo_oms_v2.order.ui;
 
-import kr.tatine.manibogo_oms_v2.ValidationErrorException;
-import kr.tatine.manibogo_oms_v2.common.model.ErrorResult;
-import kr.tatine.manibogo_oms_v2.order.command.application.PlaceOrderService;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ShippingMethod;
-import kr.tatine.manibogo_oms_v2.product.command.application.ProductNotFoundException;
+import kr.tatine.manibogo_oms_v2.common.model.CommonResponse;
+import kr.tatine.manibogo_oms_v2.order.query.dao.OrderDao;
+import kr.tatine.manibogo_oms_v2.order.query.dao.RegionDao;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel;
+import kr.tatine.manibogo_oms_v2.order.query.dto.*;
 import kr.tatine.manibogo_oms_v2.product.query.dao.ProductDao;
-import kr.tatine.manibogo_oms_v2.product.query.dao.VariantDao;
 import kr.tatine.manibogo_oms_v2.product.query.dto.ProductDto;
-import kr.tatine.manibogo_oms_v2.product.query.dto.VariantDto;
+import kr.tatine.manibogo_oms_v2.synchronize.ui.SynchronizeResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.*;
-
+@Slf4j
 @Controller
 @RequestMapping("/v2/orders")
 @RequiredArgsConstructor
 public class OrderController {
 
+    private final OrderDao orderDao;
+
     private final ProductDao productDao;
 
-    private final VariantDao variantDao;
+    private final RegionDao regionDao;
 
-    private final PlaceOrderService placeOrderService;
+    @ModelAttribute("itemOrderStates")
+    public OrderState[] orderStates() {
+        return OrderState.values();
+    }
+
+    @ModelAttribute("salesChannels")
+    public SalesChannel[] salesChannels() {
+        return SalesChannel.values();
+    }
+
+    @ModelAttribute("detailSearchParams")
+    public DetailSearchParam[] detailSearchParams() {
+        return DetailSearchParam.values();
+    }
+
+    @ModelAttribute("dateSearchParams")
+    public DateSearchParam[] dateSearchParams() {
+        return DateSearchParam.values();
+    }
 
     @ModelAttribute("products")
-    public Map<String, ProductDto> products() {
-        return productDao.findAll().stream()
-                .collect(toMap(ProductDto::getNumber, Function.identity()));
+    public List<ProductDto> products() {
+        return productDao.findEnabled();
     }
 
-    @ModelAttribute("productOptions")
-    public Map<String, Map<String, List<VariantDto>>> productOptions() {
-        return variantDao.findAll().stream().collect(
-                groupingBy(VariantDto::getProductNumber,
-                groupingBy(VariantDto::getKey, toList())));
+    @ModelAttribute("regions")
+    public Map<String, List<String>> regions() {
+        return regionDao.findDistinctAll().stream()
+                .collect(Collectors.groupingBy(RegionDto::getSido, Collectors.mapping(RegionDto::getSigungu, Collectors.toList())));
     }
 
-    @ModelAttribute("shippingMethods")
-    public ShippingMethod[] shippingMethods() {
-        return ShippingMethod.values();
-    }
+    @GetMapping
+    @Transactional(readOnly = true)
+    public String orders(
+            @PageableDefault Pageable pageable,
+            Model model,
+            @ModelAttribute OrderQueryParams queryParams,
+            @ModelAttribute SynchronizeResponse synchronizeResponse,
+            @ModelAttribute("response") CommonResponse response) {
 
-    @ModelAttribute("shippingChargeTypes")
-    public ChargeType[] shippingChargeTypes() {
-        return ChargeType.values();
-    }
+        model.addAttribute("queryParams", queryParams);
 
-    @GetMapping("/placeOrder")
-    public String getPlaceOrder(Model model) {
+        if (queryParams.getProductNumber() != null && !queryParams.getProductNumber().isBlank()) {
+            final Optional<ProductDto> productOptional = products().stream()
+                    .filter(e -> e.getNumber().equals(queryParams.getProductNumber()))
+                    .findFirst();
 
-        if (!model.containsAttribute("form")) {
-            final PlaceOrderForm form = new PlaceOrderForm();
-            form.setDispatchDeadline(LocalDateTime.now().plusDays(31).toLocalDate());
-
-            model.addAttribute("form", form);
+            productOptional.ifPresent(p ->
+                    model.addAttribute("queryProductName", p.getName()));
         }
 
-        return "placeOrder";
+        model.addAttribute("synchronizeResponse", synchronizeResponse);
+        model.addAttribute("response", response);
+
+        final Page<OrderDto> page = orderDao.findAll(pageable, queryParams);
+        final List<OrderDto> fulfillmentList = page.getContent();
+
+        model.addAttribute("fulfillmentList", fulfillmentList);
+
+        model.addAttribute("rowsForm", initEditForm(fulfillmentList));
+
+        model.addAttribute("nextSortParams", getNextSortParams(pageable.getSort()));
+
+        model.addAttribute("page", page);
+
+        return "orders";
     }
 
-    @PostMapping("/placeOrder")
-    public String placeOrder(
-            @ModelAttribute("form") PlaceOrderForm form, Model model) {
+    private EditOrderForm initEditForm(List<OrderDto> fulfillmentList) {
 
-        final ErrorResult errorResult = new ErrorResult();
+        final EditOrderForm editForm = new EditOrderForm();
 
-        try {
-            placeOrderService.placeOrder(form.toCommand());
+        editForm.setRows(fulfillmentList.stream().map(OrderDto::toEditFormRow).toList());
 
-        } catch (ValidationErrorException ex) {
-            ex.getValidationErrors().forEach(err -> {
-                errorResult.rejectValue(err.getName(), err.getErrorCode());
-            });
-        } catch (ProductNotFoundException ex) {
-            errorResult.reject("notFound.product");
-        }
-
-        if (errorResult.hasError()) {
-            model.addAttribute("errors", errorResult);
-            return "/placeOrder";
-        }
-
-        return "redirect:/v2/orders/placeOrder";
+        return editForm;
     }
 
-    @PostMapping("/placeOrder/selectProduct")
-    public String selectProduct(
-            @ModelAttribute PlaceOrderForm form,
-            @RequestParam String newProductNumber,
-            RedirectAttributes redirectAttributes
-    ) {
+    private Map<String, String> getNextSortParams(Sort currentSort) {
 
-        if (!newProductNumber.isBlank()) {
-            form.setProductNumber(newProductNumber);
+        Map<String , String> nextSortParams = new HashMap<>();
+
+        for (OrderSortParam sortField : OrderSortParam.values()) {
+
+            final Optional<Sort.Order> optionalOrder = currentSort.stream()
+                    .filter(order -> order.getProperty().equals(sortField.name()))
+                    .findFirst();
+
+            // 현재 정렬 없음 -> 다음은 내림차순 (DESC)
+            if (optionalOrder.isEmpty()) {
+                nextSortParams.put(sortField.name(), sortField.name() + ",DESC");
+                continue;
+            }
+
+            final Sort.Order order = optionalOrder.get();
+
+            // 현재 오름차순(ASC) -> 정렬 해제(UNSORTED)
+            if (order.getDirection() == Sort.Direction.ASC) {
+                nextSortParams.put(sortField.name(), "UNSORTED");
+                continue;
+            }
+
+            // 현재 내림차순(DESC) -> 다음은 오름차순(ASC)
+            nextSortParams.put(sortField.name(), sortField.name() + ",ASC");
         }
 
-        redirectAttributes.addFlashAttribute("form", form);
-
-        return "redirect:/v2/orders/placeOrder";
+        return nextSortParams;
     }
 
 }

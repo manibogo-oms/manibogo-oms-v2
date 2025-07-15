@@ -6,7 +6,7 @@ import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ShippingMethod;
 
 import java.time.LocalDate;
 
-public record EditOrderCommand(
+public record EditOrderSummaryCommand(
         String orderNumber,
         OrderState state,
         LocalDate dispatchDeadline,

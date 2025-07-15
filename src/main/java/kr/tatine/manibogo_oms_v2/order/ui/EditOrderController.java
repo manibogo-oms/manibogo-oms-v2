@@ -1,12 +1,12 @@
-package kr.tatine.manibogo_oms_v2.fulfillment.ui;
+package kr.tatine.manibogo_oms_v2.order.ui;
 
 import kr.tatine.manibogo_oms_v2.common.model.CommonResponse;
 import kr.tatine.manibogo_oms_v2.common.model.ErrorLevel;
 import kr.tatine.manibogo_oms_v2.common.model.ErrorResult;
 import kr.tatine.manibogo_oms_v2.common.utils.SelectableRowsFormUtils;
-import kr.tatine.manibogo_oms_v2.order.command.application.OrderNotFoundException;
-import kr.tatine.manibogo_oms_v2.order.command.application.ProceedOrderStateCommand;
-import kr.tatine.manibogo_oms_v2.order.command.application.ProceedOrderStateService;
+import kr.tatine.manibogo_oms_v2.order.command.application.*;
+import kr.tatine.manibogo_oms_v2.order.command.domain.exception.AlreadyDispatchedException;
+import kr.tatine.manibogo_oms_v2.order.command.domain.exception.AlreadyShippedException;
 import kr.tatine.manibogo_oms_v2.order.command.domain.exception.CannotProceedToTargetStateException;
 import kr.tatine.manibogo_oms_v2.order.command.domain.exception.StateAlreadyProceededException;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
@@ -23,35 +23,66 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @Slf4j
 @Controller
-@RequestMapping("/v2/fulfillment")
+@RequestMapping("/v2/orders")
 @RequiredArgsConstructor
-public class FulfillmentStateController {
+public class EditOrderController {
+
+    private final EditOrderService editOrderService;
+
+    @PostMapping("/editSummary")
+    public String editSummary(
+            @ModelAttribute("rowsForm") EditOrderForm rowsForm,
+            RedirectAttributes redirectAttributes) {
+
+        final ErrorResult errorResult = new ErrorResult();
+
+        SelectableRowsFormUtils.handle(rowsForm, errorResult, (i, row) -> {
+            try {
+                editOrderService.editSummary(new EditOrderSummaryCommand(
+                        row.getOrderNumber(), row.getState(), row.getDispatchDeadline(), row.getPreferredShippingDate(), row.getShippingMethod(), row.getChargeType(), row.getTrackingNumber(), row.getParcelCompany(), row.getPurchaseMemo(), row.getShippingMemo(), row.getAdminMemo()));
+
+            } catch (AlreadyDispatchedException alreadyDispatchedException) {
+                errorResult.rejectValue(getRowsField(i, "dispatchDeadline"), "alreadyDispatched.editItemOrder.dispatchDeadline");
+
+            } catch (AlreadyShippedException alreadyShippedException) {
+                errorResult.rejectValue(getRowsField(i, "preferredShippingDate"), "alreadyShipped.editItemOrder.preferredShipsOn");
+
+            } catch (OrderNotFoundException ex) {
+                errorResult.reject("notFound.order", new Object[]{ row.getId() });
+            }
+        });
+
+        redirectAttributes.addFlashAttribute(
+                "response",
+                new CommonResponse("complete.editSummaries", errorResult));
+
+        return redirectWithQueryParams("/v2/fulfillment");
+    }
 
     private final ProceedOrderStateService proceedStateService;
 
-    @PostMapping("/proceed-state/purchased")
+    @PostMapping("/proceedState/purchased")
     public String proceedToPurchased(
-            @ModelAttribute("rowsForm") FulfillmentForm rowsForm,
+            @ModelAttribute("rowsForm") EditOrderForm rowsForm,
             RedirectAttributes redirectAttributes) {
         return proceedState(OrderState.PURCHASED, rowsForm, redirectAttributes);
     }
 
-    @PostMapping("/proceed-state/dispatched")
+    @PostMapping("/proceedState/dispatched")
     public String proceedToDispatched(
-            @ModelAttribute("rowsForm") FulfillmentForm rowsForm,
+            @ModelAttribute("rowsForm") EditOrderForm rowsForm,
             RedirectAttributes redirectAttributes) {
         return proceedState(OrderState.DISPATCHED, rowsForm, redirectAttributes);
     }
 
-    @PostMapping("/proceed-state/shipped")
+    @PostMapping("/proceedState/shipped")
     public String proceedToShipped(
-            @ModelAttribute("rowsForm") FulfillmentForm rowsForm,
+            @ModelAttribute("rowsForm") EditOrderForm rowsForm,
             RedirectAttributes redirectAttributes) {
         return proceedState(OrderState.SHIPPED, rowsForm, redirectAttributes);
     }
 
-
-    private String proceedState(OrderState targetState, FulfillmentForm rowsForm, RedirectAttributes redirectAttributes) {
+    private String proceedState(OrderState targetState, EditOrderForm rowsForm, RedirectAttributes redirectAttributes) {
 
         final ErrorResult errorResult = new ErrorResult();
 
@@ -83,6 +114,10 @@ public class FulfillmentStateController {
         return redirectWithQueryParams("/v2/fulfillment");
     }
 
+    private String getRowsField(int index, String fieldName) {
+        return "%s[%d].%s".formatted("rows", index, fieldName);
+    }
+
     private String redirectWithQueryParams(String redirectPath) {
         final String queryString = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getQueryString();
 
@@ -96,9 +131,5 @@ public class FulfillmentStateController {
     }
 
 
-
-    private String getRowsField(int index, String fieldName) {
-        return "%s[%d].%s".formatted("rows", index, fieldName);
-    }
 
 }

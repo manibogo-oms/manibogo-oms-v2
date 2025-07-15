@@ -20,18 +20,12 @@ public class Shipping {
     @Enumerated(EnumType.STRING)
     private ChargeType chargeType;
 
-    private LocalDate dispatchDeadline;
-
-    private LocalDate preferredShippingDate;
-
     public Shipping(ShippingMethod method) {
         this.method = method;
     }
 
-    public Shipping(ShippingMethod method, ChargeType chargeType, LocalDate dispatchDeadline, LocalDate preferredShippingDate) {
+    public Shipping(ShippingMethod method, ChargeType chargeType) {
         this.method = method;
         this.chargeType = chargeType;
-        this.dispatchDeadline = dispatchDeadline;
-        this.preferredShippingDate = preferredShippingDate;
     }
 }

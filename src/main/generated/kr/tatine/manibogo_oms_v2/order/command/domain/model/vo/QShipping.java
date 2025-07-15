@@ -21,11 +21,7 @@ public class QShipping extends BeanPath<Shipping> {
 
     public final EnumPath<ChargeType> chargeType = createEnum("chargeType", ChargeType.class);
 
-    public final DatePath<java.time.LocalDate> dispatchDeadline = createDate("dispatchDeadline", java.time.LocalDate.class);
-
     public final EnumPath<ShippingMethod> method = createEnum("method", ShippingMethod.class);
-
-    public final DatePath<java.time.LocalDate> preferredShippingDate = createDate("preferredShippingDate", java.time.LocalDate.class);
 
     public QShipping(String variable) {
         super(Shipping.class, forVariable(variable));

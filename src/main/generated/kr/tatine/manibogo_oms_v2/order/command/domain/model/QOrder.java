@@ -24,11 +24,15 @@ public class QOrder extends EntityPathBase<Order> {
 
     public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QCustomer customer;
 
+    public final DatePath<java.time.LocalDate> dispatchDeadline = createDate("dispatchDeadline", java.time.LocalDate.class);
+
     public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QMemo memo;
 
     public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QOrderNumber number;
 
     public final DateTimePath<java.time.LocalDateTime> placedAt = createDateTime("placedAt", java.time.LocalDateTime.class);
+
+    public final DatePath<java.time.LocalDate> preferredShippingDate = createDate("preferredShippingDate", java.time.LocalDate.class);
 
     public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QOrderProduct product;
 
