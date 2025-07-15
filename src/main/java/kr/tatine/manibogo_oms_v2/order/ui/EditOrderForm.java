@@ -1,5 +1,6 @@
 package kr.tatine.manibogo_oms_v2.order.ui;
 
+import kr.tatine.manibogo_oms_v2.order.command.application.EditOrderDetailCommand;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel;
@@ -127,6 +128,29 @@ public class EditOrderForm {
         form.setAdminMemo(orderDto.getAdminMemo());
 
         return form;
+    }
+
+    public EditOrderDetailCommand toCommand() {
+        return new EditOrderDetailCommand(
+                getOrderNumber(),
+                getOrderState(),
+                getPurchaseMemo(),
+                getCustomerName(),
+                getCustomerTel(),
+                getCustomerMessage(),
+                getRecipientName(),
+                getRecipientTel1(),
+                getRecipientTel2(),
+                getRecipientZipCode(),
+                getRecipientAddress1(),
+                getRecipientAddress2(),
+                getShippingMethod(),
+                getShippingChargeType(),
+                getDispatchDeadline(),
+                getPreferredShippingDate(),
+                getShippingMemo(),
+                getAdminMemo()
+        );
     }
 
 }
