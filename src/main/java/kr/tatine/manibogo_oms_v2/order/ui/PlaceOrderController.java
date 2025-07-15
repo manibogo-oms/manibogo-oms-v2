@@ -57,7 +57,7 @@ public class PlaceOrderController {
         return ChargeType.values();
     }
 
-    @GetMapping("/placeOrder")
+    @GetMapping("/place")
     public String getPlaceOrder(Model model) {
 
         if (!model.containsAttribute("form")) {
@@ -70,7 +70,7 @@ public class PlaceOrderController {
         return "placeOrder";
     }
 
-    @PostMapping("/placeOrder")
+    @PostMapping("/place")
     public String placeOrder(
             @ModelAttribute("form") PlaceOrderForm form, Model model) {
 
@@ -95,7 +95,7 @@ public class PlaceOrderController {
         return "redirect:/v2/orders/placeOrder";
     }
 
-    @PostMapping("/placeOrder/selectProduct")
+    @PostMapping("/place/selectProduct")
     public String selectProduct(
             @ModelAttribute PlaceOrderForm form,
             @RequestParam String newProductNumber,
