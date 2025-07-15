@@ -108,9 +108,9 @@ public class OrderController {
         return "orders";
     }
 
-    private EditOrderForm initEditForm(List<OrderDto> fulfillmentList) {
+    private EditOrderSummaryForm initEditForm(List<OrderDto> fulfillmentList) {
 
-        final EditOrderForm editForm = new EditOrderForm();
+        final EditOrderSummaryForm editForm = new EditOrderSummaryForm();
 
         editForm.setRows(fulfillmentList.stream().map(OrderDto::toEditFormRow).toList());
 

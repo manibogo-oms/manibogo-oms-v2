@@ -1,61 +1,132 @@
 package kr.tatine.manibogo_oms_v2.order.ui;
 
-import kr.tatine.manibogo_oms_v2.common.model.SelectableRow;
-import kr.tatine.manibogo_oms_v2.common.model.SelectableRowsForm;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ShippingMethod;
-import lombok.*;
+import kr.tatine.manibogo_oms_v2.order.query.dto.OrderDto;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
-public class EditOrderForm implements SelectableRowsForm<EditOrderForm.Row> {
+public class EditOrderForm {
 
-    private List<Row> rows = new ArrayList<>();
+    private String orderNumber;
 
-    @Getter
-    @Setter
-    @ToString
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Row implements SelectableRow {
+    private SalesChannel salesChannel;
 
-        private Boolean isSelected;
+    private String productName;
 
-        private Long id;
+    private Integer amount;
 
-        private String orderNumber;
+    private Long finalPrice;
 
-        private OrderState state;
+    private OrderState orderState;
 
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        private LocalDate dispatchDeadline;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime placedAt;
 
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        private LocalDate preferredShippingDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime purchasedAt;
 
-        private ShippingMethod shippingMethod;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime dispatchedAt;
 
-        private ChargeType chargeType;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime shippedAt;
 
-        private String trackingNumber;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime confirmedAt;
 
-        private String parcelCompany;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime cancelledAt;
 
-        private String purchaseMemo;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime refundedAt;
 
-        private String shippingMemo;
+    private String purchaseMemo;
 
-        private String adminMemo;
+    private String customerName;
 
+    private String customerTel;
+
+    private String customerMessage;
+
+    private String recipientName;
+
+    private String recipientTel1;
+
+    private String recipientTel2;
+
+    private String recipientZipCode;
+
+    private String recipientAddress1;
+
+    private String recipientAddress2;
+
+    private ShippingMethod shippingMethod;
+
+    private ChargeType shippingChargeType;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dispatchDeadline;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate preferredShippingDate;
+
+    private String shippingMemo;
+
+    private String adminMemo;
+
+    public static EditOrderForm of(OrderDto orderDto) {
+        final EditOrderForm form = new EditOrderForm();
+
+        form.setOrderNumber(orderDto.getOrderNumber());
+        form.setSalesChannel(orderDto.getSalesChannel());
+
+        form.setProductName(orderDto.getProductName());
+        form.setAmount(orderDto.getAmount());
+        form.setFinalPrice(orderDto.getFinalPrice());
+        form.setPurchaseMemo(orderDto.getPurchaseMemo());
+
+        form.setOrderState(orderDto.getOrderState());
+        form.setPlacedAt(orderDto.getPlacedAt());
+        form.setPurchasedAt(orderDto.getPurchasedAt());
+        form.setDispatchedAt(orderDto.getDispatchedAt());
+        form.setShippedAt(orderDto.getShippedAt());
+        form.setConfirmedAt(orderDto.getConfirmedAt());
+        form.setCancelledAt(orderDto.getCancelledAt());
+        form.setRefundedAt(orderDto.getRefundedAt());
+
+        form.setCustomerName(orderDto.getCustomerName());
+        form.setCustomerTel(orderDto.getCustomerPhoneNumber());
+        form.setCustomerMessage(orderDto.getCustomerMessage());
+
+        form.setRecipientName(orderDto.getRecipientName());
+        form.setRecipientTel1(orderDto.getRecipientPhoneNumber1());
+        form.setRecipientTel2(orderDto.getRecipientPhoneNumber2());
+        form.setRecipientZipCode(orderDto.getRecipientZipCode());
+        form.setRecipientAddress1(orderDto.getRecipientAddress());
+        form.setRecipientAddress2(orderDto.getRecipientDetailAddress());
+
+        form.setShippingMethod(orderDto.getShippingMethod());
+        form.setShippingChargeType(orderDto.getShippingChargeType());
+        form.setDispatchDeadline(orderDto.getDispatchDeadline());
+        form.setPreferredShippingDate(orderDto.getPreferredShippingDate());
+        form.setShippingMemo(orderDto.getShippingMemo());
+
+        form.setAdminMemo(orderDto.getAdminMemo());
+
+        return form;
     }
 
 }

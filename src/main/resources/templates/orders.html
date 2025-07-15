@@ -335,7 +335,7 @@
 
                             <div style="width: 6px"></div>
 
-                            <a href="#" th:text="${fulfillment.orderNumber}">상품주문번호</a>
+                            <a th:href="|/v2/orders/${fulfillment.orderNumber}/edit|" th:text="${fulfillment.orderNumber}">상품주문번호</a>
                             <input type="hidden" th:field="*{rows[__${rowStat.index}__].orderNumber}">
                         </div>
 

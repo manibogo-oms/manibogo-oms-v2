@@ -8,7 +8,7 @@ import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ShippingMethod;
-import kr.tatine.manibogo_oms_v2.order.ui.EditOrderForm;
+import kr.tatine.manibogo_oms_v2.order.ui.EditOrderSummaryForm;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -59,7 +59,8 @@ SELECT
     o.customer_message,
     o.method AS 'shipping_method',
     o.charge_type AS 'shipping_charge_type',
-    o.company_name as 'shipping_company'
+    o.company_name as 'shipping_company',
+    o.final_price
 FROM
     orders AS o
     JOIN product AS p ON o.product_number = p.product_number
@@ -160,9 +161,10 @@ public class OrderDto {
 
     private String shippingCompany;
 
+    private Long finalPrice;
 
-    public EditOrderForm.Row toEditFormRow() {
-        final EditOrderForm.Row row = new EditOrderForm.Row();
+    public EditOrderSummaryForm.Row toEditFormRow() {
+        final EditOrderSummaryForm.Row row = new EditOrderSummaryForm.Row();
 
         row.setIsSelected(false);
         row.setOrderNumber(getOrderNumber());
