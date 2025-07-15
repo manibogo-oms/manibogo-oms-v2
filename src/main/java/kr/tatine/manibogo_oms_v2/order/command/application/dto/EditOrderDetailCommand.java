@@ -35,6 +35,8 @@ public record EditOrderDetailCommand(
 
         ChargeType shippingChargeType,
 
+        String shippingBundleNumber,
+
         LocalDate dispatchDeadline,
 
         LocalDate preferredShippingDate,

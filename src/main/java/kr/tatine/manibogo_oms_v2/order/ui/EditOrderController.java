@@ -10,10 +10,7 @@ import kr.tatine.manibogo_oms_v2.order.command.application.dto.ProceedOrderState
 import kr.tatine.manibogo_oms_v2.order.command.application.exception.OrderNotFoundException;
 import kr.tatine.manibogo_oms_v2.order.command.application.service.EditOrderService;
 import kr.tatine.manibogo_oms_v2.order.command.application.service.ProceedOrderStateService;
-import kr.tatine.manibogo_oms_v2.order.command.domain.exception.AlreadyDispatchedException;
-import kr.tatine.manibogo_oms_v2.order.command.domain.exception.AlreadyShippedException;
-import kr.tatine.manibogo_oms_v2.order.command.domain.exception.CannotProceedToTargetStateException;
-import kr.tatine.manibogo_oms_v2.order.command.domain.exception.StateAlreadyProceededException;
+import kr.tatine.manibogo_oms_v2.order.command.domain.exception.*;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ShippingMethod;
@@ -81,6 +78,8 @@ public class EditOrderController {
             ex.getValidationErrors().forEach((err) -> errorResult.rejectValue(err.getName(), err.getErrorCode()));
         } catch (OrderNotFoundException ex) {
             errorResult.reject("notFound.order", new Object[]{ form.getOrderNumber() });
+        } catch (CannotBundleShippingException ex) {
+            errorResult.reject("canNotBundleShipping");
         }
 
         if (errorResult.hasError()) {

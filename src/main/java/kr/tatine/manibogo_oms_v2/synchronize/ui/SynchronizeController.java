@@ -78,7 +78,7 @@ public class SynchronizeController {
 
         redirectAttr.addFlashAttribute("synchronizeResponse", response);
 
-        return "redirect:/v2/fulfillment";
+        return "redirect:/v2/orders";
     }
 
     @PostMapping("/external-parcel")
@@ -115,7 +115,7 @@ public class SynchronizeController {
 
         redirectAttr.addFlashAttribute("synchronizeResponse", response);
 
-        return "redirect:/v2/fulfillment";
+        return "redirect:/v2/orders";
     }
 
     @PostMapping("/external-item-order-state")
@@ -152,6 +152,6 @@ public class SynchronizeController {
 
         redirectAttr.addFlashAttribute("synchronizeResponse", response);
 
-        return "redirect:/v2/fulfillment";
+        return "redirect:/v2/orders";
     }
 }

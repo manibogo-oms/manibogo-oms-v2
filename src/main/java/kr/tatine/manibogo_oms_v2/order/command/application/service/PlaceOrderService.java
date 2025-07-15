@@ -6,13 +6,14 @@ import kr.tatine.manibogo_oms_v2.common.model.Address;
 import kr.tatine.manibogo_oms_v2.common.model.Money;
 import kr.tatine.manibogo_oms_v2.common.model.Option;
 import kr.tatine.manibogo_oms_v2.common.model.PhoneNumber;
-import kr.tatine.manibogo_oms_v2.order.command.application.validator.PlaceOrderCommandValidator;
 import kr.tatine.manibogo_oms_v2.order.command.application.dto.PlaceOrderCommand;
+import kr.tatine.manibogo_oms_v2.order.command.application.validator.PlaceOrderCommandValidator;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.Order;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.*;
 import kr.tatine.manibogo_oms_v2.order.command.domain.repository.OrderRepository;
 import kr.tatine.manibogo_oms_v2.product.command.application.ProductNotFoundException;
-import kr.tatine.manibogo_oms_v2.product.command.domain.*;
+import kr.tatine.manibogo_oms_v2.product.command.domain.ProductNumber;
+import kr.tatine.manibogo_oms_v2.product.command.domain.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,7 +66,7 @@ public class PlaceOrderService {
 
         final Shipping shipping = new Shipping(command.shippingMethod(), command.shippingChargeType());
 
-        return new Order(orderNumber, customer, recipient, SalesChannel.LOCAL, orderProduct, shipping, memo, LocalDateTime.now(), command.dispatchDeadline(), command.preferredShippingDate());
+        return new Order(orderNumber, customer, recipient, SalesChannel.LOCAL, orderProduct, ShippingBundleNumber.random(), shipping, memo, LocalDateTime.now(), command.dispatchDeadline(), command.preferredShippingDate());
     }
 
     private OrderProduct createOrderProduct(PlaceOrderCommand command) {

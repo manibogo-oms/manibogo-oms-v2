@@ -22,6 +22,14 @@
 
 <hr class="mb-4" />
 
+  <div th:if="${errors != null && errors.hasGlobalError()}">
+    <div role="alert" class="alert alert-danger"
+         th:each="err : ${errors.getGlobalErrors()}"
+         th:text="${#messages.msgWithParams(err.message().messageCode(), err.message().arguments())}">
+      에러 메세지
+    </div>
+  </div>
+
 <div class="row">
 
   <div class="col-12">
@@ -321,6 +329,11 @@
     <h4 class="mb-4">배송정보</h4>
 
     <div class="row mb-3">
+
+      <div class="col col-auto mb-3">
+        <label th:for="shippingBundleNumber" class="form-label">묶음배송번호</label>
+        <input type="text" class="form-control" th:field="*{shippingBundleNumber}"/>
+      </div>
 
       <div class="col-6 col-md-auto md-3"
            th:with="err = ${errors?.getFieldError('shippingMethod')}">

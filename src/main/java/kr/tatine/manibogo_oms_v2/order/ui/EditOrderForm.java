@@ -90,6 +90,8 @@ public class EditOrderForm {
 
     private ChargeType shippingChargeType;
 
+    private String shippingBundleNumber;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dispatchDeadline;
 
@@ -146,6 +148,7 @@ public class EditOrderForm {
         form.setDispatchDeadline(orderDto.getDispatchDeadline());
         form.setPreferredShippingDate(orderDto.getPreferredShippingDate());
         form.setShippingMemo(orderDto.getShippingMemo());
+        form.setShippingBundleNumber(orderDto.getShippingBundleNumber());
 
         form.setAdminMemo(orderDto.getAdminMemo());
 
@@ -168,6 +171,7 @@ public class EditOrderForm {
                 getRecipientAddress2(),
                 getShippingMethod(),
                 getShippingChargeType(),
+                getShippingBundleNumber(),
                 getDispatchDeadline(),
                 getPreferredShippingDate(),
                 getShippingMemo(),

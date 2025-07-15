@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 @Subselect("""
-SELECT
+SELECT DISTINCT
     o.order_number,
     o.sales_channel,
     o.`state` AS 'order_state',
@@ -57,13 +57,13 @@ SELECT
     ioh_agg.confirmed_at,
     ioh_agg.cancelled_at,
     ioh_agg.refunded_at,
-    '' AS 'customer_memo',
     o.purchase_memo,
     o.shipping_memo,
     o.admin_memo,
     o.customer_message,
     o.method AS 'shipping_method',
     o.charge_type AS 'shipping_charge_type',
+    o.shipping_bundle_number,
     o.company_name as 'shipping_company',
     o.final_price
 FROM
@@ -104,6 +104,7 @@ FROM
             ioh.order_number
     ) AS ioh_agg ON o.order_number = ioh_agg.order_number
 WHERE p.is_enabled = true
+GROUP BY o.order_number
 """)
 public class OrderDto {
 
@@ -191,6 +192,8 @@ public class OrderDto {
 
     @Enumerated(EnumType.STRING)
     private ChargeType shippingChargeType;
+
+    private String shippingBundleNumber;
 
     private String shippingCompany;
 

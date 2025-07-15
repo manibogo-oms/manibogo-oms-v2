@@ -20,10 +20,6 @@ public class Shipping {
     @Enumerated(EnumType.STRING)
     private ChargeType chargeType;
 
-    public Shipping(ShippingMethod method) {
-        this.method = method;
-    }
-
     public Shipping(ShippingMethod method, ChargeType chargeType) {
         this.method = method;
         this.chargeType = chargeType;
