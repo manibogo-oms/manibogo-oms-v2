@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.order.command.application;
+package kr.tatine.manibogo_oms_v2.order.command.application.service;
 
 import kr.tatine.manibogo_oms_v2.ValidationErrorException;
 import kr.tatine.manibogo_oms_v2.common.ValidationError;
@@ -6,6 +6,8 @@ import kr.tatine.manibogo_oms_v2.common.model.Address;
 import kr.tatine.manibogo_oms_v2.common.model.Money;
 import kr.tatine.manibogo_oms_v2.common.model.Option;
 import kr.tatine.manibogo_oms_v2.common.model.PhoneNumber;
+import kr.tatine.manibogo_oms_v2.order.command.application.validator.PlaceOrderCommandValidator;
+import kr.tatine.manibogo_oms_v2.order.command.application.dto.PlaceOrderCommand;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.Order;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.*;
 import kr.tatine.manibogo_oms_v2.order.command.domain.repository.OrderRepository;

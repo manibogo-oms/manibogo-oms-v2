@@ -1,7 +1,7 @@
 package kr.tatine.manibogo_oms_v2.order.infra;
 
-import kr.tatine.manibogo_oms_v2.order.command.application.CreateOrderLogService;
-import kr.tatine.manibogo_oms_v2.order.command.application.CreateOrderLogCommand;
+import kr.tatine.manibogo_oms_v2.order.command.application.service.CreateOrderLogService;
+import kr.tatine.manibogo_oms_v2.order.command.application.dto.CreateOrderLogCommand;
 import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderStateChangedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
