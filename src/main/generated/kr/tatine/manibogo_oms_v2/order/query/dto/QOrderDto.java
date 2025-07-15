@@ -39,8 +39,6 @@ public class QOrderDto extends EntityPathBase<OrderDto> {
 
     public final NumberPath<Long> finalPrice = createNumber("finalPrice", Long.class);
 
-    public final NumberPath<Integer> itemOrderBundleCount = createNumber("itemOrderBundleCount", Integer.class);
-
     public final StringPath optionKey1 = createString("optionKey1");
 
     public final StringPath optionKey2 = createString("optionKey2");
@@ -86,6 +84,8 @@ public class QOrderDto extends EntityPathBase<OrderDto> {
     public final EnumPath<kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel> salesChannel = createEnum("salesChannel", kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel.class);
 
     public final DateTimePath<java.time.LocalDateTime> shippedAt = createDateTime("shippedAt", java.time.LocalDateTime.class);
+
+    public final NumberPath<Integer> shippingBundleCount = createNumber("shippingBundleCount", Integer.class);
 
     public final StringPath shippingBundleNumber = createString("shippingBundleNumber");
 

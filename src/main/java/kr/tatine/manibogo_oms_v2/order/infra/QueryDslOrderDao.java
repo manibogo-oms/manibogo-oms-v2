@@ -112,6 +112,7 @@ public class QueryDslOrderDao implements OrderDao {
             case RECIPIENT_TEL_2 -> orderDto.recipientPhoneNumber2.eq(queryParams.getDetailSearch());
             case RECIPIENT_ADDRESS -> orderDto.recipientAddress.contains(queryParams.getDetailSearch());
             case SHIPPING_TRACKING_NUMBER -> orderDto.shippingTrackingNumber.eq(queryParams.getDetailSearch());
+            case SHIPPING_BUNDLE_NUMBER -> orderDto.shippingBundleNumber.eq(queryParams.getDetailSearch());
         };
     }
 

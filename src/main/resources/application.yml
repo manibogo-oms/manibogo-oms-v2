@@ -12,6 +12,10 @@ spring:
         max-page-size: 50
   jpa:
     open-in-view: false
+    properties:
+      hibernate:
+        create_empty_composites:
+          enabled: true
 
 ---
 spring:

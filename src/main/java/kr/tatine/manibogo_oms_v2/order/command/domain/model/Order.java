@@ -73,7 +73,7 @@ public class Order {
     }
 
     boolean canBundleShippingWith(Order order) {
-        return (number == order.number) || (state.isBefore(OrderState.SHIPPED) && shipping.equals(order.shipping) && recipient.equals(order.recipient));
+        return (number == order.number) || (shipping.equals(order.shipping) && recipient.equals(order.recipient));
     }
 
     public void changeState(OrderState state, LocalDateTime changedAt) {

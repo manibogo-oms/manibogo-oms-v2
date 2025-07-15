@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 @Subselect("""
-SELECT DISTINCT
+SELECT
     o.order_number,
     o.sales_channel,
     o.`state` AS 'order_state',
@@ -35,7 +35,7 @@ SELECT DISTINCT
     opo_agg.option_label1,
     opo_agg.option_label2,
     opo_agg.option_label3,
-    '0' AS 'item_order_bundle_count',
+    sbc_agg.shipping_bundle_count,
     o.amount,
     r.sido,
     r.sigungu,
@@ -70,6 +70,7 @@ FROM
     orders AS o
     JOIN product AS p ON o.product_number = p.product_number
     JOIN region AS r ON o.zip_code = r.zip_code
+    -- 상품주문 옵션 1 ~ 3 집계 View
     LEFT JOIN (
         SELECT
             opo.order_number,
@@ -88,7 +89,16 @@ FROM
         GROUP BY
             opo.order_number
     ) AS opo_agg ON o.order_number = opo_agg.order_number
-     -- 상품주문 상태 이력 집계 View
+    -- 합배송수 집계 View
+    LEFT JOIN (
+    	SELECT\s
+    		orders.shipping_bundle_number,
+    		COUNT(orders.shipping_bundle_number) AS 'shipping_bundle_count'
+		FROM orders
+    	GROUP BY
+    		orders.shipping_bundle_number
+    ) AS sbc_agg ON o.shipping_bundle_number = sbc_agg.shipping_bundle_number
+    -- 상품주문 상태 이력 집계 View
     LEFT JOIN (
         SELECT
             ioh.order_number,
@@ -133,7 +143,7 @@ public class OrderDto {
 
     private String optionLabel3;
 
-    private int itemOrderBundleCount;
+    private int shippingBundleCount;
 
     private int amount;
 

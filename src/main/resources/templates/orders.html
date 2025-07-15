@@ -346,9 +346,9 @@
                     </td>
 
                     <td class="td">
-                        <a th:href="@{/v2/orders(detailSearchParam='ORDER_NUMBER', detailSearch=${fulfillment.orderNumber})}"
-                           th:classappend="${fulfillment.itemOrderBundleCount > 1} ? 'accent' : ''"
-                           th:text="${fulfillment.itemOrderBundleCount}">
+                        <a th:href="@{/v2/orders(detailSearchParam='SHIPPING_BUNDLE_NUMBER', detailSearch=${fulfillment.shippingBundleNumber})}"
+                           th:classappend="${fulfillment.shippingBundleCount > 1} ? 'accent' : ''"
+                           th:text="${fulfillment.shippingBundleCount}">
                             합배송수
                         </a>
                     </td>

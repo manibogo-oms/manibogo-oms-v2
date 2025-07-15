@@ -128,7 +128,7 @@ public class PurchaseOrderDto {
         purchaseOrderDto.setOption2(orderDto.getOptionLabel2());
         purchaseOrderDto.setOption3(orderDto.getOptionLabel3());
 
-        purchaseOrderDto.setItemOrderBundleCount(orderDto.getItemOrderBundleCount());
+        purchaseOrderDto.setItemOrderBundleCount(orderDto.getShippingBundleCount());
         purchaseOrderDto.setAmount(orderDto.getAmount());
         purchaseOrderDto.setShippingRegionName(orderDto.getSido());
         purchaseOrderDto.setRecipientFullAddress("%s %s".formatted(orderDto.getRecipientAddress(), orderDto.getRecipientDetailAddress()));
