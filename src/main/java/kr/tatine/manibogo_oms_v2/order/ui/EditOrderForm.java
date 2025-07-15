@@ -1,6 +1,6 @@
 package kr.tatine.manibogo_oms_v2.order.ui;
 
-import kr.tatine.manibogo_oms_v2.order.command.application.EditOrderDetailCommand;
+import kr.tatine.manibogo_oms_v2.order.command.application.dto.EditOrderDetailCommand;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel;

@@ -1,7 +1,8 @@
-package kr.tatine.manibogo_oms_v2.order.command.application;
+package kr.tatine.manibogo_oms_v2.order.command.application.validator;
 
 import kr.tatine.manibogo_oms_v2.common.ValidationError;
 import kr.tatine.manibogo_oms_v2.common.Validator;
+import kr.tatine.manibogo_oms_v2.order.command.application.dto.EditOrderDetailCommand;
 import org.apache.logging.log4j.util.Strings;
 
 import java.util.ArrayList;

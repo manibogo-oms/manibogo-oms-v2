@@ -2,7 +2,7 @@ package kr.tatine.manibogo_oms_v2.order.ui;
 
 import kr.tatine.manibogo_oms_v2.ValidationErrorException;
 import kr.tatine.manibogo_oms_v2.common.model.ErrorResult;
-import kr.tatine.manibogo_oms_v2.order.command.application.PlaceOrderService;
+import kr.tatine.manibogo_oms_v2.order.command.application.service.PlaceOrderService;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ShippingMethod;
 import kr.tatine.manibogo_oms_v2.product.command.application.ProductNotFoundException;
