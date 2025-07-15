@@ -59,9 +59,9 @@ public class SynchronizeController {
         for (ExternalItemOrderRequest request : listRequest) {
             try {
                 syncExternalOrderService.synchronize(request);
-                response.success(new SynchronizeResult(request.itemOrderNumber()));
+                response.success(new SynchronizeResult(request.orderNumber()));
             } catch (OrderAlreadyPlacedException exception) {
-                response.skip(new SynchronizeResult(request.itemOrderNumber()));
+                response.skip(new SynchronizeResult(request.orderNumber()));
             } catch (ConstraintViolationException exception) {
 
                 log.debug("[SynchronizeController.syncExternalItemOrders] Validation Error = {}", exception.getConstraintViolations());
@@ -72,7 +72,7 @@ public class SynchronizeController {
                         .map(ConstraintViolation::getMessage)
                         .toList();
 
-               response.error(new SynchronizeErrorResult(request.itemOrderNumber(), errorMessages));
+               response.error(new SynchronizeErrorResult(request.orderNumber(), errorMessages));
             }
         }
 

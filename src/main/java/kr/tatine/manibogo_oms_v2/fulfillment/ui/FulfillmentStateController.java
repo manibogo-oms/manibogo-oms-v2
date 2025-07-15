@@ -57,7 +57,7 @@ public class FulfillmentStateController {
 
         SelectableRowsFormUtils.handle(rowsForm, errorResult, (i, row) -> {
             try {
-                proceedStateService.proceed(new ProceedOrderStateCommand(row.getItemOrderNumber(), targetState));
+                proceedStateService.proceed(new ProceedOrderStateCommand(row.getOrderNumber(), targetState));
 
             } catch (StateAlreadyProceededException ex) {
                 errorResult.rejectValue(

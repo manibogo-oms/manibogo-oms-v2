@@ -72,7 +72,7 @@ public class SyncExternalOrderService {
                 command.dispatchDeadline(),
                 null);
 
-        return new Order(new OrderNumber(command.orderNumber()), customer, recipient, SalesChannel.SMART_STORE, createOrderProduct(command), shipping, null);
+        return new Order(new OrderNumber(command.orderNumber()), customer, recipient, SalesChannel.SMART_STORE, createOrderProduct(command), shipping, null, command.orderPlacedAt());
     }
 
 

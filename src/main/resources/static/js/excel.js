@@ -1,7 +1,7 @@
 
 function parseOrder(order) {
     return {
-        'orderNumber': order['주문번호'],
+        'orderNumber': order['상품주문번호'],
         'customerName': order['구매자명'],
         'customerPhoneNumber': order['구매자연락처'],
         'customerMessage': order['배송메세지'],
@@ -12,7 +12,6 @@ function parseOrder(order) {
         'recipientAddress1': order['기본배송지'],
         'recipientAddress2': order['상세배송지'],
         'recipientAddressZipcode': order['우편번호'],
-        'itemOrderNumber': order['상품주문번호'],
         'productNumber': order['판매자 상품코드'],
         'productName': order['상품명'],
         'optionInfo': order['옵션정보'],
@@ -20,7 +19,7 @@ function parseOrder(order) {
         'totalPrice': order['정산예정금액'],
         'shippingMethod': order['배송방법'],
         'shippingChargeType': order['배송비 형태'],
-        'itemOrderPlacedAt': order['주문일시'],
+        'orderPlacedAt': order['주문일시'],
         'dispatchDeadline': order['발송기한'],
     };
 }

@@ -42,7 +42,9 @@ public class Order {
     @Embedded
     private TrackingInfo trackingInfo;
 
-    public Order(OrderNumber number, Customer customer, Recipient recipient, SalesChannel salesChannel, OrderProduct product, Shipping shipping, Memo memo) {
+    private LocalDateTime placedAt;
+
+    public Order(OrderNumber number, Customer customer, Recipient recipient, SalesChannel salesChannel, OrderProduct product, Shipping shipping, Memo memo, LocalDateTime placedAt) {
         this.number = number;
         this.state = OrderState.PLACED;
         this.customer = customer;
@@ -51,6 +53,7 @@ public class Order {
         this.product = product;
         this.shipping = shipping;
         this.memo = memo;
+        this.placedAt = placedAt;
     }
 
     public void changeState(OrderState state, LocalDateTime changedAt) {

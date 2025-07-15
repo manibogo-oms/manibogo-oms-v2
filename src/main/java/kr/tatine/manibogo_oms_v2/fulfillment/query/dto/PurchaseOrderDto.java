@@ -117,7 +117,7 @@ public class PurchaseOrderDto {
         PurchaseOrderDto purchaseOrderDto = new PurchaseOrderDto();
 
         purchaseOrderDto.setSequence(index + 1);
-        purchaseOrderDto.setItemOrderNumber(fulfillmentDto.getItemOrderNumber());
+        purchaseOrderDto.setItemOrderNumber(fulfillmentDto.getOrderNumber());
         purchaseOrderDto.setCustomerName(fulfillmentDto.getCustomerName());
         purchaseOrderDto.setCustomerPhoneNumber(fulfillmentDto.getCustomerPhoneNumber());
         purchaseOrderDto.setRecipientName(fulfillmentDto.getRecipientName());
@@ -136,7 +136,7 @@ public class PurchaseOrderDto {
         purchaseOrderDto.setShippingRegionName(fulfillmentDto.getSido());
         purchaseOrderDto.setRecipientFullAddress("%s %s".formatted(fulfillmentDto.getRecipientAddress(), fulfillmentDto.getRecipientDetailAddress()));
         purchaseOrderDto.setDispatchDeadline(fulfillmentDto.getDispatchDeadline());
-        purchaseOrderDto.setPreferredShipsOn(fulfillmentDto.getPreferredShipsOn());
+        purchaseOrderDto.setPreferredShipsOn(fulfillmentDto.getPreferredShippingDate());
 
         if (fulfillmentDto.getPurchasedAt() != null) {
             purchaseOrderDto.setPurchasedOn(fulfillmentDto.getPurchasedAt().toLocalDate());
@@ -154,7 +154,7 @@ public class PurchaseOrderDto {
         purchaseOrderDto.setShippingTrackingNumber(fulfillmentDto.getShippingTrackingNumber());
         purchaseOrderDto.setCustomerMemo(fulfillmentDto.getCustomerMessage());
         purchaseOrderDto.setPurchaseMemo(fulfillmentDto.getPurchaseMemo());
-        purchaseOrderDto.setItemOrderState(fulfillmentDto.getItemOrderState().getDescription());
+        purchaseOrderDto.setItemOrderState(fulfillmentDto.getOrderState().getDescription());
 
         return purchaseOrderDto;
     }

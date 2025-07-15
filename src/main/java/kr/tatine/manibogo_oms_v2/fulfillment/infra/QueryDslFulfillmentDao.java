@@ -93,7 +93,7 @@ public class QueryDslFulfillmentDao implements FulfillmentDao {
         }
 
         return switch (queryParams.getDetailSearchParam()) {
-            case ITEM_ORDER_NUMBER -> fulfillmentDto.itemOrderNumber.eq(queryParams.getDetailSearch());
+            case ITEM_ORDER_NUMBER -> fulfillmentDto.orderNumber.eq(queryParams.getDetailSearch());
             case ORDER_NUMBER -> fulfillmentDto.orderNumber.eq(queryParams.getDetailSearch());
             case CUSTOMER_NAME -> fulfillmentDto.customerName.eq(queryParams.getDetailSearch());
             case CUSTOMER_TEL -> fulfillmentDto.customerPhoneNumber.eq(queryParams.getDetailSearch());
@@ -115,7 +115,7 @@ public class QueryDslFulfillmentDao implements FulfillmentDao {
         return switch (queryParams.getDateSearchParam()) {
             case PLACED_AT -> fulfillmentDto.placedAt.between(queryParams.getStartedAt(), queryParams.getEndedAt());
             case DISPATCH_DEADLINE -> fulfillmentDto.dispatchDeadline.between(queryParams.getStartDate(), queryParams.getEndDate());
-            case PREFERRED_SHIPS_ON -> fulfillmentDto.preferredShipsOn.between(queryParams.getStartDate(), queryParams.getEndDate());
+            case PREFERRED_SHIPS_ON -> fulfillmentDto.preferredShippingDate.between(queryParams.getStartDate(), queryParams.getEndDate());
             case PURCHASED_AT -> fulfillmentDto.purchasedAt.between(queryParams.getStartedAt(), queryParams.getEndedAt());
             case DISPATCHED_AT -> fulfillmentDto.dispatchedAt.between(queryParams.getStartedAt(), queryParams.getEndedAt());
             case SHIPPED_AT -> fulfillmentDto.shippedAt.between(queryParams.getStartedAt(), queryParams.getEndedAt());
@@ -128,7 +128,7 @@ public class QueryDslFulfillmentDao implements FulfillmentDao {
     private BooleanExpression eqItemOrderStatus(FulfillmentQueryParams queryParams) {
         if (queryParams.getItemOrderState() == null) return null;
 
-        return fulfillmentDto.itemOrderState.eq(queryParams.getItemOrderState());
+        return fulfillmentDto.orderState.eq(queryParams.getItemOrderState());
     }
 
     private BooleanExpression eqSalesChannel(FulfillmentQueryParams queryParams) {
@@ -171,7 +171,7 @@ public class QueryDslFulfillmentDao implements FulfillmentDao {
             return switch (FulfillmentSortParam.valueOf(property)) {
                 case PLACED_AT -> fulfillmentDto.placedAt;
                 case DISPATCH_DEADLINE -> fulfillmentDto.dispatchDeadline;
-                case PREFERRED_SHIPS_ON -> fulfillmentDto.preferredShipsOn;
+                case PREFERRED_SHIPS_ON -> fulfillmentDto.preferredShippingDate;
                 case PURCHASED_AT -> fulfillmentDto.purchasedAt;
                 case DISPATCHED_AT -> fulfillmentDto.dispatchedAt;
                 case SHIPPED_AT -> fulfillmentDto.shippedAt;
