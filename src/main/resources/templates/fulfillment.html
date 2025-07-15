@@ -307,14 +307,14 @@
 
                     <td class="td position-relative"
                         th:with="fieldName = ${objectName} + '.itemOrderState', errorLevel = ${response?.errorResult?.getFieldError(fieldName)?.level()?.name()?.toLowerCase()}">
-                        <select th:class="|form-control form-select form-select-sm pe-0 ${fulfillment.itemOrderState.name().toLowerCase()}|"
+                        <select th:class="|form-control form-select form-select-sm pe-0 ${fulfillment.orderState.name().toLowerCase()}|"
                                 aria-label="주문 상태 선택"
                                 th:classappend="${errorLevel != null ? 'is-invalid ' + errorLevel : ''}"
                                 th:field="*{rows[__${rowStat.index}__].state}">
                             <option th:each="itemOrderState : ${itemOrderStates}"
                                     th:value="${itemOrderState}"
                                     th:text="${itemOrderState.description}"
-                                    th:selected="${itemOrderState} == ${fulfillment.itemOrderState}">
+                                    th:selected="${itemOrderState} == ${fulfillment.orderState}">
                             </option>
                         </select>
 
@@ -335,10 +335,8 @@
 
                             <div style="width: 6px"></div>
 
-                            <a href="#" th:text="${fulfillment.itemOrderNumber}">상품주문번호</a>
-                            
-                            <input type="hidden" th:field="*{rows[__${rowStat.index}__].id}">
-                            <input type="hidden" th:field="*{rows[__${rowStat.index}__].itemOrderNumber}">
+                            <a href="#" th:text="${fulfillment.orderNumber}">상품주문번호</a>
+                            <input type="hidden" th:field="*{rows[__${rowStat.index}__].orderNumber}">
                         </div>
 
                     </td>

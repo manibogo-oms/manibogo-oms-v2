@@ -132,7 +132,7 @@ public class FulfillmentController {
         SelectableRowsFormUtils.handle(rowsForm, errorResult, (i, row) -> {
             try {
                editOrderService.edit(new EditOrderCommand(
-                       row.getItemOrderNumber(), row.getState(), row.getDispatchDeadline(), row.getPreferredShippingDate(), row.getShippingMethod(), row.getChargeType(), row.getTrackingNumber(), row.getParcelCompany(), row.getPurchaseMemo(), row.getShippingMemo(), row.getAdminMemo()));
+                       row.getOrderNumber(), row.getState(), row.getDispatchDeadline(), row.getPreferredShippingDate(), row.getShippingMethod(), row.getChargeType(), row.getTrackingNumber(), row.getParcelCompany(), row.getPurchaseMemo(), row.getShippingMemo(), row.getAdminMemo()));
 
             } catch (AlreadyDispatchedException alreadyDispatchedException) {
                 errorResult.rejectValue(getRowsField(i, "dispatchDeadline"), "alreadyDispatched.editItemOrder.dispatchDeadline");

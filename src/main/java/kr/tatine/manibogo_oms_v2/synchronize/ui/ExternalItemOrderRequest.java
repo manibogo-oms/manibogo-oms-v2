@@ -48,9 +48,6 @@ public record ExternalItemOrderRequest (
         @NotBlank(message = "{notBlank.externalOrder.recipientAddressZipcode}")
         String recipientAddressZipcode,
 
-        @NotBlank(message = "{notBlank.externalOrder.itemOrderNumber}")
-        String itemOrderNumber,
-
         @NotBlank(message = "{notBlank.externalOrder.productNumber}")
         String productNumber,
 
@@ -79,7 +76,7 @@ public record ExternalItemOrderRequest (
         String shippingChargeType,
 
         @NotNull(message = "{notNull.externalOrder.itemOrderPlacedAt}")
-        LocalDateTime itemOrderPlacedAt,
+        LocalDateTime orderPlacedAt,
 
         @NotNull(message = "{notNull.externalOrder.dispatchDeadline}")
         LocalDate dispatchDeadline

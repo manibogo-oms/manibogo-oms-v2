@@ -32,7 +32,7 @@ public class FulfillmentForm implements SelectableRowsForm<FulfillmentForm.Row> 
 
         private Long id;
 
-        private String itemOrderNumber;
+        private String orderNumber;
 
         private OrderState state;
 

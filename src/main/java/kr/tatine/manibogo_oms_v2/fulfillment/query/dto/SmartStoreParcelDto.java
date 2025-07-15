@@ -34,7 +34,7 @@ public class SmartStoreParcelDto {
 
         final SmartStoreParcelDto parcelDto = new SmartStoreParcelDto();
 
-        parcelDto.setItemOrderNumber(fulfillmentDto.getItemOrderNumber());
+        parcelDto.setItemOrderNumber(fulfillmentDto.getOrderNumber());
         parcelDto.setShippingMethod(fulfillmentDto.getShippingMethod().getDescription());
         parcelDto.setShippingCompanyName(fulfillmentDto.getShippingCompany());
         parcelDto.setShippingTrackingNumber(fulfillmentDto.getShippingTrackingNumber());

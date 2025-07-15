@@ -24,16 +24,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Subselect("""
 SELECT
-    f.id,
-    io.item_order_number,
     o.order_number,
     o.sales_channel,
-    f.`state` AS 'item_order_state',
+    o.`state` AS 'order_state',
     p.product_number,
     p.`name` AS 'product_name',
     '개발필요' as 'option_info',
-    item_order_cnt.item_order_count AS 'item_order_bundle_count',
-    io.amount,
+    '0' AS 'item_order_bundle_count',
+    o.amount,
     r.sido,
     r.sigungu,
     o.customer_name,
@@ -44,44 +42,32 @@ SELECT
     o.address1 as 'recipient_address',
     o.address2 as 'recipient_detail_address',
     o.zip_code as 'recipient_zip_code',
-    io.created_at as 'placed_at',
-    f.dispatch_deadline,
-    f.preferred_shipping_date as `preferred_ships_on`,
+    o.placed_at,
+    o.dispatch_deadline,
+    o.preferred_shipping_date,
     ioh_agg.purchased_at,
     ioh_agg.dispatched_at,
     ioh_agg.shipped_at,
-    f.tracking_number AS 'shipping_tracking_number',
+    o.tracking_number AS 'shipping_tracking_number',
     ioh_agg.confirmed_at,
     ioh_agg.cancelled_at,
     ioh_agg.refunded_at,
     '' AS 'customer_memo',
-    f.purchase_memo,
-    f.shipping_memo,
-    f.admin_memo,
+    o.purchase_memo,
+    o.shipping_memo,
+    o.admin_memo,
     o.customer_message,
-    io.shipping_method,
-    io.shipping_charge_type,
-    f.company_name as 'shipping_company'
+    o.method AS 'shipping_method',
+    o.charge_type AS 'shipping_charge_type',
+    o.company_name as 'shipping_company'
 FROM
-    fulfillment AS f
-    JOIN item_order AS io ON f.item_order_number = io.item_order_number
-    JOIN orders AS o ON io.order_number = o.order_number
-    JOIN product AS p ON io.product_number = p.product_number
+    orders AS o
+    JOIN product AS p ON o.product_number = p.product_number
     JOIN region AS r ON o.zip_code = r.zip_code
-    -- 주문별 아이템 개수 집계 View
-    LEFT JOIN (
-        SELECT
-            item_order.order_number,
-            COUNT(item_order.item_order_number) AS item_order_count
-        FROM
-            item_order
-        GROUP BY
-            item_order.order_number
-    ) AS item_order_cnt ON o.order_number = item_order_cnt.order_number
      -- 상품주문 상태 이력 집계 View
     LEFT JOIN (
         SELECT
-            ioh.fulfillment_id,
+            ioh.order_number,
             MAX(CASE WHEN ioh.new_state = 'PURCHASED' THEN ioh.changed_at ELSE NULL END) AS 'purchased_at',
             MAX(CASE WHEN ioh.new_state = 'DISPATCHED' THEN ioh.changed_at ELSE NULL END) AS 'dispatched_at',
             MAX(CASE WHEN ioh.new_state = 'SHIPPED' THEN ioh.changed_at ELSE NULL END) AS 'shipped_at',
@@ -89,26 +75,22 @@ FROM
             MAX(CASE WHEN ioh.new_state = 'CANCELLED' THEN ioh.changed_at ELSE NULL END) AS 'cancelled_at',
             MAX(CASE WHEN ioh.new_state = 'REFUNDED' THEN ioh.changed_at ELSE NULL END) AS 'refunded_at'
         FROM
-            fulfillment_log ioh
+            order_log ioh
         GROUP BY
-            ioh.fulfillment_id
-    ) AS ioh_agg ON f.id = ioh_agg.fulfillment_id
+            ioh.order_number
+    ) AS ioh_agg ON o.order_number = ioh_agg.order_number
 WHERE p.is_enabled = true
 """)
 public class FulfillmentDto {
 
     @Id
-    private Long id;
-
-    private String itemOrderNumber;
-
     private String orderNumber;
 
     @Enumerated(EnumType.STRING)
     private SalesChannel salesChannel;
 
     @Enumerated(EnumType.STRING)
-    private OrderState itemOrderState;
+    private OrderState orderState;
 
     private String productNumber;
 
@@ -146,7 +128,7 @@ public class FulfillmentDto {
     private LocalDate dispatchDeadline;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate preferredShipsOn;
+    private LocalDate preferredShippingDate;
 
     private LocalDateTime purchasedAt;
 
@@ -183,11 +165,10 @@ public class FulfillmentDto {
         final FulfillmentForm.Row row = new FulfillmentForm.Row();
 
         row.setIsSelected(false);
-        row.setId(getId());
-        row.setItemOrderNumber(getItemOrderNumber());
-        row.setState(getItemOrderState());
+        row.setOrderNumber(getOrderNumber());
+        row.setState(getOrderState());
         row.setDispatchDeadline(getDispatchDeadline());
-        row.setPreferredShippingDate(getPreferredShipsOn());
+        row.setPreferredShippingDate(getPreferredShippingDate());
         row.setPurchaseMemo(getPurchaseMemo());
         row.setShippingMemo(getShippingMemo());
         row.setAdminMemo(getAdminMemo());

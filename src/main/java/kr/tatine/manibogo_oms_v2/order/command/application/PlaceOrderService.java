@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -62,7 +63,7 @@ public class PlaceOrderService {
 
         final Shipping shipping = new Shipping(command.shippingMethod(), command.shippingChargeType(), command.dispatchDeadline(), command.preferredShippingDate());
 
-        return new Order(orderNumber, customer, recipient, SalesChannel.LOCAL, orderProduct, shipping, memo);
+        return new Order(orderNumber, customer, recipient, SalesChannel.LOCAL, orderProduct, shipping, memo, LocalDateTime.now());
     }
 
     private OrderProduct createOrderProduct(PlaceOrderCommand command) {
