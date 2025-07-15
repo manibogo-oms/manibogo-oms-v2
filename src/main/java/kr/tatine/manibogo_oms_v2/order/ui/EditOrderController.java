@@ -1,5 +1,6 @@
 package kr.tatine.manibogo_oms_v2.order.ui;
 
+import kr.tatine.manibogo_oms_v2.ValidationErrorException;
 import kr.tatine.manibogo_oms_v2.common.model.CommonResponse;
 import kr.tatine.manibogo_oms_v2.common.model.ErrorLevel;
 import kr.tatine.manibogo_oms_v2.common.model.ErrorResult;
@@ -62,9 +63,26 @@ public class EditOrderController {
     }
 
     @PostMapping("/{orderNumber}/edit")
-    public String edit(@PathVariable String orderNumber, @ModelAttribute EditOrderForm form) {
+    public String edit(
+            @PathVariable String orderNumber,
+            @ModelAttribute("form") EditOrderForm form,
+            Model model
+    ) {
 
-        editOrderService.editDetail(form.toCommand());
+        final ErrorResult errorResult = new ErrorResult();
+
+        try {
+            editOrderService.editDetail(form.toCommand());
+        } catch (ValidationErrorException ex) {
+            ex.getValidationErrors().forEach((err) -> errorResult.rejectValue(err.getName(), err.getErrorCode()));
+        } catch (OrderNotFoundException ex) {
+            errorResult.reject("notFound.order", new Object[]{ form.getOrderNumber() });
+        }
+
+        if (errorResult.hasError()) {
+            model.addAttribute("errors", errorResult);
+            return "editOrder";
+        }
 
         return "redirect:/v2/orders/{orderNumber}/edit";
     }
@@ -88,7 +106,7 @@ public class EditOrderController {
                 errorResult.rejectValue(getRowsField(i, "preferredShippingDate"), "alreadyShipped.editItemOrder.preferredShipsOn");
 
             } catch (OrderNotFoundException ex) {
-                errorResult.reject("notFound.order", new Object[]{ row.getId() });
+                errorResult.reject("notFound.order", new Object[]{ row.getOrderNumber() });
             }
         });
 
@@ -132,18 +150,18 @@ public class EditOrderController {
 
             } catch (StateAlreadyProceededException ex) {
                 errorResult.rejectValue(
-                        getRowsField(i, "state"),
+                        getRowsField(i, "orderState"),
                         ErrorLevel.WARN,
                         "stateAlreadyProceed",
                         new Object[] { targetState.getDescription() });
             } catch (CannotProceedToTargetStateException ex) {
                 errorResult.rejectValue(
-                        getRowsField(i, "state"),
+                        getRowsField(i, "orderState"),
                         "cannotProceedState",
                         new Object[] { targetState.getDescription() });
 
             } catch (OrderNotFoundException ex) {
-                errorResult.reject("notFound.fulfillment", new Object[]{ row.getId() });
+                errorResult.reject("notFound.fulfillment", new Object[]{ row.getOrderNumber() });
             }
         });
 

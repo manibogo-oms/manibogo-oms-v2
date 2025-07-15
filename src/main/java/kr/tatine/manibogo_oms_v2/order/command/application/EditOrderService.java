@@ -1,18 +1,18 @@
 package kr.tatine.manibogo_oms_v2.order.command.application;
 
+import kr.tatine.manibogo_oms_v2.ValidationErrorException;
+import kr.tatine.manibogo_oms_v2.common.ValidationError;
 import kr.tatine.manibogo_oms_v2.common.model.Address;
 import kr.tatine.manibogo_oms_v2.common.model.PhoneNumber;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.Order;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.Customer;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.Memo;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderNumber;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.Recipient;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.*;
 import kr.tatine.manibogo_oms_v2.order.command.domain.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +22,16 @@ public class EditOrderService {
 
     @Transactional
     public void editSummary(EditOrderSummaryCommand command) {
+
+        final List<ValidationError> errors = EditOrderSummaryCommandValidator.validate(command);
+
+        if (!errors.isEmpty()) {
+            throw new ValidationErrorException(errors);
+        }
+
         final Order order = findOrder(command.orderNumber());
 
-        order.changeState(command.state(), LocalDateTime.now());
+        order.changeState(command.orderState(), LocalDateTime.now());
         order.changeDispatchDeadline(command.dispatchDeadline());
         order.changePreferredShippingDate(command.preferredShippingDate());
         order.changeMemo(createMemo(command));
@@ -32,6 +39,13 @@ public class EditOrderService {
 
     @Transactional
     public void editDetail(EditOrderDetailCommand command) {
+
+        final List<ValidationError> errors = EditOrderDetailCommandValidator.validate(command);
+
+        if (!errors.isEmpty()) {
+            throw new ValidationErrorException(errors);
+        }
+
         final Order order = findOrder(command.orderNumber());
 
         order.changeState(command.orderState(), LocalDateTime.now());
@@ -41,6 +55,9 @@ public class EditOrderService {
 
         final Customer customer = new Customer(command.customerName(), new PhoneNumber(command.customerTel()), command.customerMessage());
         final Recipient recipient = createRecipient(command);
+
+        final Shipping shipping = new Shipping(command.shippingMethod(), command.shippingChargeType());
+        order.changeShipping(shipping);
 
         order.changeRecipient(recipient);
         order.changeCustomer(customer);
