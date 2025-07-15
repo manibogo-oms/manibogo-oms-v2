@@ -21,6 +21,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static kr.tatine.manibogo_oms_v2.order.query.dto.QOrderDto.orderDto;
 
@@ -57,6 +58,15 @@ public class QueryDslOrderDao implements OrderDao {
                 .selectFrom(orderDto)
                 .where(getPredicates(queryParams))
                 .fetch();
+    }
+
+    @Override
+    public Optional<OrderDto> findById(String orderNumber) {
+        return Optional.ofNullable(
+                queryFactory.selectFrom(orderDto)
+                .where(orderDto.orderNumber.eq(orderNumber))
+                .fetchOne()
+        );
     }
 
     private Predicate[] getPredicates(OrderQueryParams queryParams) {

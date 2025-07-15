@@ -37,6 +37,8 @@ public class QOrderDto extends EntityPathBase<OrderDto> {
 
     public final DateTimePath<java.time.LocalDateTime> dispatchedAt = createDateTime("dispatchedAt", java.time.LocalDateTime.class);
 
+    public final NumberPath<Long> finalPrice = createNumber("finalPrice", Long.class);
+
     public final NumberPath<Integer> itemOrderBundleCount = createNumber("itemOrderBundleCount", Integer.class);
 
     public final StringPath optionInfo = createString("optionInfo");

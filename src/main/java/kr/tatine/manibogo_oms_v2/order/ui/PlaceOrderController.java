@@ -108,7 +108,7 @@ public class PlaceOrderController {
 
         redirectAttributes.addFlashAttribute("form", form);
 
-        return "redirect:/v2/orders/placeOrder";
+        return "redirect:/v2/orders/place";
     }
 
 }

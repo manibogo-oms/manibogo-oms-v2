@@ -58,7 +58,6 @@ public class Order {
         this.product = product;
         this.shipping = shipping;
         this.memo = memo;
-        this.trackingInfo = trackingInfo;
         this.placedAt = placedAt;
         this.dispatchDeadline = dispatchDeadline;
         this.preferredShippingDate = preferredShippingDate;

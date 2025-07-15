@@ -9,13 +9,17 @@ import kr.tatine.manibogo_oms_v2.order.command.domain.exception.AlreadyDispatche
 import kr.tatine.manibogo_oms_v2.order.command.domain.exception.AlreadyShippedException;
 import kr.tatine.manibogo_oms_v2.order.command.domain.exception.CannotProceedToTargetStateException;
 import kr.tatine.manibogo_oms_v2.order.command.domain.exception.StateAlreadyProceededException;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ShippingMethod;
+import kr.tatine.manibogo_oms_v2.order.query.dao.OrderDao;
+import kr.tatine.manibogo_oms_v2.order.query.dto.OrderDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -27,11 +31,39 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequiredArgsConstructor
 public class EditOrderController {
 
+    private final OrderDao orderDao;
+
     private final EditOrderService editOrderService;
+
+    @ModelAttribute("orderStates")
+    public OrderState[] orderStates() {
+        return OrderState.values();
+    }
+
+    @ModelAttribute("shippingMethods")
+    public ShippingMethod[] shippingMethods() {
+        return ShippingMethod.values();
+    }
+
+    @ModelAttribute("shippingChargeTypes")
+    public ChargeType[] shippingChargeTypes() {
+        return ChargeType.values();
+    }
+
+    @GetMapping("/{orderNumber}/edit")
+    @Transactional(readOnly = true)
+    public String getEdit(@PathVariable String orderNumber, Model model) {
+        final OrderDto orderDto = orderDao.findById(orderNumber)
+                .orElseThrow(OrderNotFoundException::new);
+
+        model.addAttribute("form", EditOrderForm.of(orderDto));
+
+        return "editOrder";
+    }
 
     @PostMapping("/editSummary")
     public String editSummary(
-            @ModelAttribute("rowsForm") EditOrderForm rowsForm,
+            @ModelAttribute("rowsForm") EditOrderSummaryForm rowsForm,
             RedirectAttributes redirectAttributes) {
 
         final ErrorResult errorResult = new ErrorResult();
@@ -63,26 +95,26 @@ public class EditOrderController {
 
     @PostMapping("/proceedState/purchased")
     public String proceedToPurchased(
-            @ModelAttribute("rowsForm") EditOrderForm rowsForm,
+            @ModelAttribute("rowsForm") EditOrderSummaryForm rowsForm,
             RedirectAttributes redirectAttributes) {
         return proceedState(OrderState.PURCHASED, rowsForm, redirectAttributes);
     }
 
     @PostMapping("/proceedState/dispatched")
     public String proceedToDispatched(
-            @ModelAttribute("rowsForm") EditOrderForm rowsForm,
+            @ModelAttribute("rowsForm") EditOrderSummaryForm rowsForm,
             RedirectAttributes redirectAttributes) {
         return proceedState(OrderState.DISPATCHED, rowsForm, redirectAttributes);
     }
 
     @PostMapping("/proceedState/shipped")
     public String proceedToShipped(
-            @ModelAttribute("rowsForm") EditOrderForm rowsForm,
+            @ModelAttribute("rowsForm") EditOrderSummaryForm rowsForm,
             RedirectAttributes redirectAttributes) {
         return proceedState(OrderState.SHIPPED, rowsForm, redirectAttributes);
     }
 
-    private String proceedState(OrderState targetState, EditOrderForm rowsForm, RedirectAttributes redirectAttributes) {
+    private String proceedState(OrderState targetState, EditOrderSummaryForm rowsForm, RedirectAttributes redirectAttributes) {
 
         final ErrorResult errorResult = new ErrorResult();
 
