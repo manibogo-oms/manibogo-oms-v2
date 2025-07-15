@@ -41,7 +41,7 @@ function parseParcel(parcel) {
     if (!parcel['번호']) return null;
 
     return {
-        'itemOrderNumber': parcel['주문번호'],
+        'orderNumber': parcel['주문번호'],
         'shippingTrackingNumber': parcel['운송장번호'],
         'shippingCompanyName': '로젠택배'
     };
@@ -57,7 +57,7 @@ document.getElementById('uploadParcel')
 
 function parseItemOrderState(itemOrderState) {
     return {
-        'itemOrderNumber': itemOrderState['상품주문번호'],
+        'orderNumber': itemOrderState['상품주문번호'],
         'targetState': itemOrderState['주문상태'],
         'changedAt': itemOrderState['구매확정일'] || itemOrderState['취소승인일']
     };
