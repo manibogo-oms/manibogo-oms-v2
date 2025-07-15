@@ -30,8 +30,6 @@ public class EditOrderSummaryForm implements SelectableRowsForm<EditOrderSummary
 
         private Boolean isSelected;
 
-        private Long id;
-
         private String orderNumber;
 
         private OrderState state;

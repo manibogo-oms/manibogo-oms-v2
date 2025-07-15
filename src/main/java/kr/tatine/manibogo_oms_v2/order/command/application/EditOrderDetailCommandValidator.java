@@ -7,13 +7,21 @@ import org.apache.logging.log4j.util.Strings;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaceOrderCommandValidator {
+public class EditOrderDetailCommandValidator {
 
-    private PlaceOrderCommandValidator() {}
+    private EditOrderDetailCommandValidator() {}
 
-    public static List<ValidationError> validate(PlaceOrderCommand command) {
+    public static List<ValidationError> validate(EditOrderDetailCommand command) {
 
         final List<ValidationError> errors = new ArrayList<>();
+
+        if (command.orderNumber() == null || command.orderNumber().isBlank()) {
+            errors.add(ValidationError.of("orderNumber", "required.order.orderNumber"));
+        }
+
+        if (command.orderState() == null) {
+            errors.add(ValidationError.of("orderState", "required.order.orderState"));
+        }
 
         if (command.customerName() == null || command.customerName().isBlank()) {
             errors.add(ValidationError.of("customerName", "required.order.customerName"));
@@ -42,37 +50,6 @@ public class PlaceOrderCommandValidator {
         if ((command.recipientZipCode() == null || command.recipientZipCode().isBlank())
                 || (command.recipientAddress1() == null || command.recipientAddress1().isBlank())) {
             errors.add(ValidationError.of("recipientAddress", "required.order.recipientAddress"));
-        }
-
-        if (command.productNumber() == null || command.productNumber().isBlank()) {
-            errors.add(ValidationError.of("productNumber", "required.order.productNumber"));
-        }
-
-        if (command.amount() == null) {
-            errors.add(ValidationError.of("amount", "required.order.amount"));
-        } else if (command.amount() < 0) {
-            errors.add(ValidationError.of("amount", "min.order.amount"));
-        }
-
-        if (command.totalPrice() == null) {
-            errors.add(ValidationError.of("totalPrice", "required.order.totalPrice"));
-        } else if (command.totalPrice() < 0) {
-            errors.add(ValidationError.of("totalPrice", "min.order.totalPrice"));
-        }
-
-        if (command.options() != null) {
-            for (int i = 0; i < command.options().size(); i ++) {
-                final PlaceOrderCommand.PlaceOrderOptionCommand option = command.options().get(i);
-                final String fieldName = "options[%d].value".formatted(i);
-
-                if (option.key() == null || option.key().isBlank()) {
-                    errors.add(ValidationError.of(fieldName, "required.order." + fieldName));
-                }
-
-                if (option.value() == null || option.value().isBlank()) {
-                    errors.add(ValidationError.of(fieldName, "required.order." + fieldName));
-                }
-            }
         }
 
         if (command.shippingMethod() == null) {

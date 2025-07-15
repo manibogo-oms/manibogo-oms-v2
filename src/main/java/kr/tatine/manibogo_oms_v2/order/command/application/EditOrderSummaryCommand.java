@@ -8,11 +8,11 @@ import java.time.LocalDate;
 
 public record EditOrderSummaryCommand(
         String orderNumber,
-        OrderState state,
+        OrderState orderState,
         LocalDate dispatchDeadline,
         LocalDate preferredShippingDate,
         ShippingMethod shippingMethod,
-        ChargeType shppingChargeType,
+        ChargeType shippingChargeType,
         String trackingNumber,
         String parcelCompany,
         String purchaseMemo,
