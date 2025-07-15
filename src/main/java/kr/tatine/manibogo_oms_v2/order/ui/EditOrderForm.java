@@ -33,6 +33,18 @@ public class EditOrderForm {
 
     private OrderState orderState;
 
+    private String optionKey1;
+
+    private String optionLabel1;
+
+    private String optionKey2;
+
+    private String optionLabel2;
+
+    private String optionKey3;
+
+    private String optionLabel3;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime placedAt;
 
@@ -95,6 +107,16 @@ public class EditOrderForm {
         form.setSalesChannel(orderDto.getSalesChannel());
 
         form.setProductName(orderDto.getProductName());
+
+        form.setOptionKey1(orderDto.getOptionKey1());
+        form.setOptionLabel1(orderDto.getOptionLabel1());
+
+        form.setOptionKey2(orderDto.getOptionKey2());
+        form.setOptionLabel2(orderDto.getOptionLabel2());
+
+        form.setOptionKey3(orderDto.getOptionKey3());
+        form.setOptionLabel3(orderDto.getOptionLabel3());
+
         form.setAmount(orderDto.getAmount());
         form.setFinalPrice(orderDto.getFinalPrice());
         form.setPurchaseMemo(orderDto.getPurchaseMemo());
