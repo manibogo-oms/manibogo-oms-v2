@@ -89,10 +89,10 @@ public class PlaceOrderController {
 
         if (errorResult.hasError()) {
             model.addAttribute("errors", errorResult);
-            return "/placeOrder";
+            return "placeOrder";
         }
 
-        return "redirect:/v2/orders/placeOrder";
+        return "redirect:/v2/orders";
     }
 
     @PostMapping("/place/selectProduct")
