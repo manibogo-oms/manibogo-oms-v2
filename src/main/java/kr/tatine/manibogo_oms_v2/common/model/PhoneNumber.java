@@ -12,7 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PhoneNumber {
 
-    private String phoneNumber;
+    private String phoneNumber = "";
 
     public PhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
