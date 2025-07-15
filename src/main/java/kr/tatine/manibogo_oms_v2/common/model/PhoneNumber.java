@@ -15,6 +15,10 @@ public class PhoneNumber {
     private String phoneNumber;
 
     public PhoneNumber(String phoneNumber) {
+        if (phoneNumber.isBlank()) {
+            this.phoneNumber = null;
+            return;
+        }
         this.phoneNumber = phoneNumber;
     }
 
