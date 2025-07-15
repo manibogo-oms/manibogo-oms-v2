@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.fulfillment.query.dto;
+package kr.tatine.manibogo_oms_v2.order.query.dto;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -10,14 +10,14 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QFulfillmentDto is a Querydsl query type for FulfillmentDto
+ * QOrderDto is a Querydsl query type for OrderDto
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QFulfillmentDto extends EntityPathBase<FulfillmentDto> {
+public class QOrderDto extends EntityPathBase<OrderDto> {
 
-    private static final long serialVersionUID = -904599199L;
+    private static final long serialVersionUID = -1452729663L;
 
-    public static final QFulfillmentDto fulfillmentDto = new QFulfillmentDto("fulfillmentDto");
+    public static final QOrderDto orderDto = new QOrderDto("orderDto");
 
     public final StringPath adminMemo = createString("adminMemo");
 
@@ -89,16 +89,16 @@ public class QFulfillmentDto extends EntityPathBase<FulfillmentDto> {
 
     public final StringPath sigungu = createString("sigungu");
 
-    public QFulfillmentDto(String variable) {
-        super(FulfillmentDto.class, forVariable(variable));
+    public QOrderDto(String variable) {
+        super(OrderDto.class, forVariable(variable));
     }
 
-    public QFulfillmentDto(Path<? extends FulfillmentDto> path) {
+    public QOrderDto(Path<? extends OrderDto> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QFulfillmentDto(PathMetadata metadata) {
-        super(FulfillmentDto.class, metadata);
+    public QOrderDto(PathMetadata metadata) {
+        super(OrderDto.class, metadata);
     }
 
 }

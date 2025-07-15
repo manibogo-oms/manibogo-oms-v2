@@ -1,6 +1,6 @@
-package kr.tatine.manibogo_oms_v2.fulfillment.query.dto;
+package kr.tatine.manibogo_oms_v2.order.query.dto;
 
-public enum FulfillmentSortParam {
+public enum OrderSortParam {
 
     PLACED_AT,
     DISPATCH_DEADLINE,

@@ -17,7 +17,7 @@ public class CreateOrderLogService {
     private final OrderLogRepository repository;
 
     @Transactional
-    public void create(OrderLogCommand command) {
+    public void create(CreateOrderLogCommand command) {
 
         final OrderState previousState = getPreviousStateOrNull(command);
 
@@ -33,7 +33,7 @@ public class CreateOrderLogService {
         repository.save(history);
     }
 
-    private OrderState getPreviousStateOrNull(OrderLogCommand command) {
+    private OrderState getPreviousStateOrNull(CreateOrderLogCommand command) {
         return Optional
                 .ofNullable(command.previousState())
                 .map(OrderState::valueOf)

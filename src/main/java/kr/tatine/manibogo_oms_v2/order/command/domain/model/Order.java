@@ -7,6 +7,7 @@ import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -44,7 +45,11 @@ public class Order {
 
     private LocalDateTime placedAt;
 
-    public Order(OrderNumber number, Customer customer, Recipient recipient, SalesChannel salesChannel, OrderProduct product, Shipping shipping, Memo memo, LocalDateTime placedAt) {
+    private LocalDate dispatchDeadline;
+
+    private LocalDate preferredShippingDate;
+
+    public Order(OrderNumber number, Customer customer, Recipient recipient, SalesChannel salesChannel, OrderProduct product, Shipping shipping, Memo memo, LocalDateTime placedAt, LocalDate dispatchDeadline, LocalDate preferredShippingDate) {
         this.number = number;
         this.state = OrderState.PLACED;
         this.customer = customer;
@@ -53,7 +58,10 @@ public class Order {
         this.product = product;
         this.shipping = shipping;
         this.memo = memo;
+        this.trackingInfo = trackingInfo;
         this.placedAt = placedAt;
+        this.dispatchDeadline = dispatchDeadline;
+        this.preferredShippingDate = preferredShippingDate;
     }
 
     public void changeState(OrderState state, LocalDateTime changedAt) {
@@ -94,9 +102,16 @@ public class Order {
         this.memo = memo;
     }
 
+    public void changeDispatchDeadline(LocalDate dispatchDeadline) {
+        this.dispatchDeadline = dispatchDeadline;
+    }
+
+    public void changePreferredShippingDate(LocalDate preferredShippingDate) {
+        this.preferredShippingDate = preferredShippingDate;
+    }
+
     private void setState(OrderState state, LocalDateTime changedAt) {
         if (Objects.equals(this.state, state)) return;
         this.state = state;
-
     }
 }

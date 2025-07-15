@@ -51,28 +51,28 @@
         <button type="submit"
                 form="formEditRows"
                 class="btn btn-secondary"
-                th:formaction="${@replaceUri.apply('/v2/item-orders/proceed-state/purchased')}">
+                th:formaction="${@replaceUri.apply('/v2/orders/proceedState/purchased')}">
             선택발주
         </button>
 
         <button type="submit"
                 form="formEditRows"
                 class="btn btn-secondary"
-                th:formaction="${@replaceUri.apply('/v2/item-orders/proceed-state/dispatched')}">
+                th:formaction="${@replaceUri.apply('/v2/orders/proceedState/dispatched')}">
             선택출고
         </button>
 
         <button type="submit"
                 form="formEditRows"
                 class="btn btn-secondary"
-                th:formaction="${@replaceUri.apply('/v2/item-orders/proceed-state/shipped')}">
+                th:formaction="${@replaceUri.apply('/v2/orders/proceedState/shipped')}">
             선택배송
         </button>
 
         <button type="submit"
                 form="formEditRows"
                 class="btn btn-primary"
-                th:formaction="|${@replaceUri.apply('/v2/fulfillment/edit')}|">
+                th:formaction="|${@replaceUri.apply('/v2/orders/editSummary')}|">
             <i class="bi bi-pencil-fill"></i> 선택수정
         </button>
     </nav>
@@ -81,7 +81,7 @@
 
     <div style="height: 8px;"></div>
 
-    <form method="GET" th:action="@{/v2/fulfillment}" th:object="${queryParams}">
+    <form method="GET" th:action="@{/v2/orders}" th:object="${queryParams}">
         <div class="bg-body-secondary rounded p-4">
 
             <div class="d-flex gap-4 gap-lg-5 mb-3 mb-sm-0">
@@ -202,7 +202,7 @@
                         <i class="bi bi-search"></i> 검색
                     </button>
 
-                    <a th:href="@{/v2/fulfillment}" class="btn btn-secondary">초기화</a>
+                    <a th:href="@{/v2/orders}" class="btn btn-secondary">초기화</a>
 
                 </div>
 
@@ -215,7 +215,7 @@
     <div th:replace="~{fragments/response :: syncResponse(${synchronizeResponse})}"></div>
 
 
-    <div th:replace="~{fragments/pagenation :: pageHeader('/v2/fulfillment', ${page}, ~{::div#pageHeaderContent})}"></div>
+    <div th:replace="~{fragments/pagenation :: pageHeader('/v2/orders', ${page}, ~{::div#pageHeaderContent})}"></div>
 
 
     <div style="height: 16px;"></div>
@@ -346,7 +346,7 @@
                     </td>
 
                     <td class="td">
-                        <a th:href="@{/v2/fulfillment(detailSearchParam='ORDER_NUMBER', detailSearch=${fulfillment.orderNumber})}"
+                        <a th:href="@{/v2/orders(detailSearchParam='ORDER_NUMBER', detailSearch=${fulfillment.orderNumber})}"
                            th:classappend="${fulfillment.itemOrderBundleCount > 1} ? 'accent' : ''"
                            th:text="${fulfillment.itemOrderBundleCount}">
                             합배송수
@@ -364,7 +364,7 @@
                     <td class="td text-nowrap" th:text="${fulfillment.sigungu}">시/군/구</td>
 
                     <td class="td">
-                        <a th:href="@{/v2/fulfillment(detailSearchParam='CUSTOMER_NAME', detailSearch=${fulfillment.customerName})}"
+                        <a th:href="@{/v2/orders(detailSearchParam='CUSTOMER_NAME', detailSearch=${fulfillment.customerName})}"
                            th:text="${fulfillment.customerName}">
                             구매자
                         </a>

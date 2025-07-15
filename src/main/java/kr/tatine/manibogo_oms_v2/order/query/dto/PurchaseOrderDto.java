@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.fulfillment.query.dto;
+package kr.tatine.manibogo_oms_v2.order.query.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -101,60 +101,60 @@ public class PurchaseOrderDto {
     @JsonProperty("상태")
     private String itemOrderState;
 
-    public static List<PurchaseOrderDto> FromFulfillmentDtoList(List<FulfillmentDto> fulfillmentDtoList) {
+    public static List<PurchaseOrderDto> FromFulfillmentDtoList(List<OrderDto> orderDtoList) {
 
         final List<PurchaseOrderDto> purchaseOrders = new ArrayList<>();
 
-        for (int i = 0; i < fulfillmentDtoList.size(); i ++) {
-            purchaseOrders.add(fromFulfillmentDto(i, fulfillmentDtoList.get(i)));
+        for (int i = 0; i < orderDtoList.size(); i ++) {
+            purchaseOrders.add(fromFulfillmentDto(i, orderDtoList.get(i)));
 
         }
 
         return purchaseOrders;
     }
 
-    private static PurchaseOrderDto fromFulfillmentDto(int index, FulfillmentDto fulfillmentDto) {
+    private static PurchaseOrderDto fromFulfillmentDto(int index, OrderDto orderDto) {
         PurchaseOrderDto purchaseOrderDto = new PurchaseOrderDto();
 
         purchaseOrderDto.setSequence(index + 1);
-        purchaseOrderDto.setItemOrderNumber(fulfillmentDto.getOrderNumber());
-        purchaseOrderDto.setCustomerName(fulfillmentDto.getCustomerName());
-        purchaseOrderDto.setCustomerPhoneNumber(fulfillmentDto.getCustomerPhoneNumber());
-        purchaseOrderDto.setRecipientName(fulfillmentDto.getRecipientName());
-        purchaseOrderDto.setRecipientPhoneNumber1(fulfillmentDto.getRecipientPhoneNumber1());
-        purchaseOrderDto.setRecipientPhoneNumber2(fulfillmentDto.getRecipientPhoneNumber2());
-        purchaseOrderDto.setProductName(fulfillmentDto.getProductName());
+        purchaseOrderDto.setItemOrderNumber(orderDto.getOrderNumber());
+        purchaseOrderDto.setCustomerName(orderDto.getCustomerName());
+        purchaseOrderDto.setCustomerPhoneNumber(orderDto.getCustomerPhoneNumber());
+        purchaseOrderDto.setRecipientName(orderDto.getRecipientName());
+        purchaseOrderDto.setRecipientPhoneNumber1(orderDto.getRecipientPhoneNumber1());
+        purchaseOrderDto.setRecipientPhoneNumber2(orderDto.getRecipientPhoneNumber2());
+        purchaseOrderDto.setProductName(orderDto.getProductName());
 
-        List<String> optionValues = Arrays.stream(fulfillmentDto.getOptionInfo().trim().split(", ")).toList();
+        List<String> optionValues = Arrays.stream(orderDto.getOptionInfo().trim().split(", ")).toList();
 
         if (!optionValues.isEmpty()) purchaseOrderDto.setOption1(optionValues.get(0));
         if (optionValues.size() > 1) purchaseOrderDto.setOption1(optionValues.get(1));
         if (optionValues.size() > 2) purchaseOrderDto.setOption1(optionValues.get(2));
 
-        purchaseOrderDto.setItemOrderBundleCount(fulfillmentDto.getItemOrderBundleCount());
-        purchaseOrderDto.setAmount(fulfillmentDto.getAmount());
-        purchaseOrderDto.setShippingRegionName(fulfillmentDto.getSido());
-        purchaseOrderDto.setRecipientFullAddress("%s %s".formatted(fulfillmentDto.getRecipientAddress(), fulfillmentDto.getRecipientDetailAddress()));
-        purchaseOrderDto.setDispatchDeadline(fulfillmentDto.getDispatchDeadline());
-        purchaseOrderDto.setPreferredShipsOn(fulfillmentDto.getPreferredShippingDate());
+        purchaseOrderDto.setItemOrderBundleCount(orderDto.getItemOrderBundleCount());
+        purchaseOrderDto.setAmount(orderDto.getAmount());
+        purchaseOrderDto.setShippingRegionName(orderDto.getSido());
+        purchaseOrderDto.setRecipientFullAddress("%s %s".formatted(orderDto.getRecipientAddress(), orderDto.getRecipientDetailAddress()));
+        purchaseOrderDto.setDispatchDeadline(orderDto.getDispatchDeadline());
+        purchaseOrderDto.setPreferredShipsOn(orderDto.getPreferredShippingDate());
 
-        if (fulfillmentDto.getPurchasedAt() != null) {
-            purchaseOrderDto.setPurchasedOn(fulfillmentDto.getPurchasedAt().toLocalDate());
+        if (orderDto.getPurchasedAt() != null) {
+            purchaseOrderDto.setPurchasedOn(orderDto.getPurchasedAt().toLocalDate());
         }
-        if (fulfillmentDto.getDispatchedAt() != null) {
-            purchaseOrderDto.setDispatchedOn(fulfillmentDto.getDispatchedAt().toLocalDate());
+        if (orderDto.getDispatchedAt() != null) {
+            purchaseOrderDto.setDispatchedOn(orderDto.getDispatchedAt().toLocalDate());
         }
-        if (fulfillmentDto.getShippedAt() != null) {
-            purchaseOrderDto.setShippedOn(fulfillmentDto.getShippedAt().toLocalDate());
+        if (orderDto.getShippedAt() != null) {
+            purchaseOrderDto.setShippedOn(orderDto.getShippedAt().toLocalDate());
         }
 
-        purchaseOrderDto.setShippingMethod(fulfillmentDto.getShippingMethod().getDescription());
-        purchaseOrderDto.setShippingChargeType(fulfillmentDto.getShippingChargeType().getDescription());
-        purchaseOrderDto.setShippingCompany(fulfillmentDto.getShippingCompany());
-        purchaseOrderDto.setShippingTrackingNumber(fulfillmentDto.getShippingTrackingNumber());
-        purchaseOrderDto.setCustomerMemo(fulfillmentDto.getCustomerMessage());
-        purchaseOrderDto.setPurchaseMemo(fulfillmentDto.getPurchaseMemo());
-        purchaseOrderDto.setItemOrderState(fulfillmentDto.getOrderState().getDescription());
+        purchaseOrderDto.setShippingMethod(orderDto.getShippingMethod().getDescription());
+        purchaseOrderDto.setShippingChargeType(orderDto.getShippingChargeType().getDescription());
+        purchaseOrderDto.setShippingCompany(orderDto.getShippingCompany());
+        purchaseOrderDto.setShippingTrackingNumber(orderDto.getShippingTrackingNumber());
+        purchaseOrderDto.setCustomerMemo(orderDto.getCustomerMessage());
+        purchaseOrderDto.setPurchaseMemo(orderDto.getPurchaseMemo());
+        purchaseOrderDto.setItemOrderState(orderDto.getOrderState().getDescription());
 
         return purchaseOrderDto;
     }

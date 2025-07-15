@@ -1,7 +1,7 @@
 package kr.tatine.manibogo_oms_v2.order.infra;
 
 import kr.tatine.manibogo_oms_v2.order.command.application.CreateOrderLogService;
-import kr.tatine.manibogo_oms_v2.order.command.application.OrderLogCommand;
+import kr.tatine.manibogo_oms_v2.order.command.application.CreateOrderLogCommand;
 import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderStateChangedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ public class OrderStateChangedHandler {
     public void handleItemOrderStateChanged(OrderStateChangedEvent event) {
         log.debug("[temOrderStateChangedHandler.handleItemOrderStateChanged] event = {}", event);
 
-        createOrderLogService.create(new OrderLogCommand(
+        createOrderLogService.create(new CreateOrderLogCommand(
                 event.getOrderNumber(),
                 event.getPreviousStateName(),
                 event.getNewStateName(),
