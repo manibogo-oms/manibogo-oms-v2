@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html th:replace="~{fragments/layout::layoutFragment (~{::title}, ~{::section}, ~{::style}, ~{})}"
+      xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>마니보고 주문관리 서비스 V2 - 배송 송장</title>
+</head>
+<body>
+<section>
+<table id="tableInvoice" class="table small text-center table-bordered w-100 h-100">
+
+    <colgroup>
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+    </colgroup>
+
+    <tr>
+        <th colspan="4" class="table-light" style="height: 72px;">
+            <h2>마니보고</h2>
+        </th>
+    </tr>
+
+    <tr>
+        <th colspan="1" class="table-light">묶음배송번호</th>
+        <td colspan="1" th:text="${orders.get(0).shippingBundleNumber}">0</td>
+
+        <th colspan="1" class="table-light">희망배송일</th>
+        <td colspan="1" th:text="${orders.get(0).preferredShippingDate}">2025-01-01</td>
+    </tr>
+
+    <tr>
+        <th colspan="1" th:rowspan="${orders.size() + 1}" class="table-light">상품목록</th>
+    </tr>
+
+    <tr th:each="order : ${orders}">
+        <td colspan="3">
+            <span class="fw-bold" th:text="|[${order.orderState.description}]|">주문상태</span>
+            <span th:text="${order.productName}">상품이름</span>
+            <span th:if="${order.optionLabel1 != null}" th:text="|(${#strings.defaultString(order.optionLabel1, '')} ${#strings.defaultString(order.optionLabel2, '')} ${#strings.defaultString(order.optionLabel3, '')})|">상품옵션</span>
+            <span th:text="|(수량:${order.amount}개)|">(수량:0개)</span>
+        </td>
+    </tr>
+
+    <tr>
+        <th colspan="1" class="table-light">구매자명</th>
+        <td th:text="${orders.get(0).customerName}">홍길동</td>
+
+        <th colspan="1" class="table-light">전화번호1</th>
+        <td colspan="1" th:text="${orders.get(0).recipientPhoneNumber1}">010-0000-0000</td>
+    </tr>
+
+    <tr>
+        <th colspan="1" class="table-light">수취인명</th>
+        <td th:text="${orders.get(0).recipientName}">홍길동</td>
+
+        <th colspan="1" class="table-light">전화번호2</th>
+        <td colspan="1" th:text="${orders.get(0).recipientPhoneNumber2}">010-0000-0000</td>
+    </tr>
+
+    <tr>
+        <th colspan="1" class="table-light">주소</th>
+        <td colspan="3" th:text="|${orders.get(0).recipientAddress} ${orders.get(0).recipientDetailAddress}|">주소</td>
+    </tr>
+
+    <tr>
+        <th colspan="1" class="table-light">배송방법</th>
+        <td th:text="${orders.get(0).shippingMethod.description}">직접전달</td>
+
+        <th colspan="1" class="table-light">운임타입</th>
+        <td colspan="1" th:text="${orders.get(0).shippingChargeType.description}">착불</td>
+    </tr>
+
+    <tr>
+        <th colspan="1" class="table-light">고객메세지</th>
+        <td colspan="3" th:text="${orders.get(0).customerMessage}"></td>
+    </tr>
+
+    <tr>
+        <th colspan="1" class="table-light">배송메세지</th>
+        <td colspan="3" th:text="${orders.get(0).shippingMemo}"></td>
+    </tr>
+
+    <tr>
+        <th colspan="2" class="table-light">고객 서명</th>
+        <th colspan="2" class="table-light">배송기사 서명</th>
+    </tr>
+    <tr>
+        <td colspan="2" class="signature"></td>
+        <td colspan="2" class="signature"></td>
+    </tr>
+</table>
+</section>
+</body>
+
+<style>
+    .navbar {
+        display: none;
+    }
+
+    .table td, .table th {
+        height: 72px;
+    }
+
+    .table .signature {
+        height: 100%;
+    }
+
+    html, body, section, .table {
+        height: 100%;
+    }
+
+</style>
+
+</html>

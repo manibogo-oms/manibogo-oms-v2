@@ -22,7 +22,7 @@ public class QRecipient extends BeanPath<Recipient> {
 
     public static final QRecipient recipient = new QRecipient("recipient");
 
-    public final kr.tatine.manibogo_oms_v2.common.model.QAddress address;
+    public final kr.tatine.manibogo_oms_v2.region.command.domain.QAddress address;
 
     public final StringPath name = createString("name");
 
@@ -48,7 +48,7 @@ public class QRecipient extends BeanPath<Recipient> {
 
     public QRecipient(Class<? extends Recipient> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.address = inits.isInitialized("address") ? new kr.tatine.manibogo_oms_v2.common.model.QAddress(forProperty("address")) : null;
+        this.address = inits.isInitialized("address") ? new kr.tatine.manibogo_oms_v2.region.command.domain.QAddress(forProperty("address")) : null;
         this.phoneNumber1 = inits.isInitialized("phoneNumber1") ? new kr.tatine.manibogo_oms_v2.common.model.QPhoneNumber(forProperty("phoneNumber1")) : null;
         this.phoneNumber2 = inits.isInitialized("phoneNumber2") ? new kr.tatine.manibogo_oms_v2.common.model.QPhoneNumber(forProperty("phoneNumber2")) : null;
     }
