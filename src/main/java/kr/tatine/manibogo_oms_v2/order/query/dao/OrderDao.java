@@ -16,4 +16,6 @@ public interface OrderDao {
 
     Optional<OrderDto> findById(String orderNumber);
 
+    List<OrderDto> findByShippingBundleNumber(String shippingBundleNumber);
+
 }

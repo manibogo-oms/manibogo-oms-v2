@@ -25,15 +25,6 @@ public class EditOrderSummaryCommandValidator {
             errors.add(ValidationError.of("dispatchDeadline", "required.order.dispatchDeadline"));
         }
 
-        if (command.shippingMethod() == null) {
-            errors.add(ValidationError.of("shippingMethod", "required.order.shippingMethod"));
-        }
-
-        if (command.shippingChargeType() == null) {
-            errors.add(ValidationError.of("shippingChargeType", "required.order.shippingChargeType"));
-        }
-
-
         return errors;
     }
 

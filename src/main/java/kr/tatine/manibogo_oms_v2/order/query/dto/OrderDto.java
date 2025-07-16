@@ -69,7 +69,7 @@ SELECT
 FROM
     orders AS o
     JOIN product AS p ON o.product_number = p.product_number
-    JOIN region AS r ON o.zip_code = r.zip_code
+    JOIN zip_code_region AS r ON o.zip_code = r.zip_code
     -- 상품주문 옵션 1 ~ 3 집계 View
     LEFT JOIN (
         SELECT
@@ -114,7 +114,6 @@ FROM
             ioh.order_number
     ) AS ioh_agg ON o.order_number = ioh_agg.order_number
 WHERE p.is_enabled = true
-GROUP BY o.order_number
 """)
 public class OrderDto {
 

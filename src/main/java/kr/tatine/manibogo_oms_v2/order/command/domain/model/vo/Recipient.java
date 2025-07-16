@@ -3,7 +3,7 @@ package kr.tatine.manibogo_oms_v2.order.command.domain.model.vo;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import kr.tatine.manibogo_oms_v2.common.model.Address;
+import kr.tatine.manibogo_oms_v2.region.command.domain.Address;
 import kr.tatine.manibogo_oms_v2.common.model.PhoneNumber;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
