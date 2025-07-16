@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html th:replace="~{fragments/layout::layoutFragment (~{::title}, ~{::section}, ~{}, ~{})}"
+      xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>마니보고 주문관리 서비스 V2 - 배송조회</title>
+</head>
+<body>
+
+<section class="p-4">
+
+<div style="height: 24px;"></div>
+
+
+<div class="container-fluid" style="max-width: 1920px;">
+
+    <div th:replace="~{fragments/pagenation :: pageHeader('/v2/logistics', ${page}, ~{})}"></div>
+
+    <div style="height: 16px;"></div>
+
+    <div class="table-responsive">
+    <table class="table table-striped text-center small align-middle w-100 text-nowrap" style="display: block; margin-bottom: 0 !important;">
+            <thead class="table-light">
+            <tr>
+                <th scope="col" style="min-width: 160px;">묶음배송번호</th>
+                <th scope="col">시/도</th>
+                <th scope="col">시/군/구</th>
+                <th scope="col">구매자</th>
+                <th scope="col">수취인</th>
+                <th scope="col">발주</th>
+                <th scope="col">출고</th>
+                <th scope="col">배송</th>
+                <th scope="col">취소</th>
+                <th scope="col">환불</th>
+                <th scope="col" class="w-100" style="min-width: 320px;">고객메세지</th>
+                <th scope="col" class="w-100" style="min-width: 320px;">배송메모</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="table-row" th:each="logistics : ${logisticsList}">
+                <td>
+                    <a href="#" th:text="${logistics.shippingBundleNumber}">묶음배송번호</a>
+                </td>
+                <td th:text="${logistics.sido}">시/도</td>
+                <td th:text="${logistics.sigungu}">시/군/구</td>
+                <td th:text="${logistics.customerName}">구매자</td>
+                <td th:text="${logistics.recipientName}">수취인</td>
+                <td th:text="${logistics.purchasedCount}">0</td>
+                <td th:text="${logistics.dispatchedCount}">0</td>
+                <td th:text="${logistics.shippedCount}">0</td>
+                <td th:text="${logistics.cancelledCount}">0</td>
+                <td th:text="${logistics.refundedCount}">0</td>
+                <td class="text-wrap text-start" th:text="${logistics.customerMessage}">고객메세지</td>
+                <td class="text-wrap text-start" th:text="${logistics.shippingMemo}">배송메모</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div style="height: 32px;"></div>
+
+<div th:replace="~{fragments/pagenation :: pageControl(${page})}"></div>
+
+</section>
+</body>
+</html>
