@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:replace="~{fragments/layout::layoutFragment (~{::title}, ~{::section}, ~{}, ~{})}"
+<html th:replace="~{fragments/layout::layoutFragment (~{::title}, ~{::section}, ~{}, ~{::script})}"
       xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -11,6 +11,70 @@
 
 <div style="height: 24px;"></div>
 
+<form method="GET" th:action="@{/v2/logistics}" th:object="${queryParams}">
+    <div class="bg-body-secondary rounded p-4">
+
+        <div class="d-flex gap-4 gap-lg-5 mb-3 mb-sm-0">
+            <div class="fw-semibold">
+                <label class="col-form-label text-nowrap">상세검색</label>
+            </div>
+
+            <div class="row flex-grow-1">
+                <div class="col-12 col-sm-auto col-lg-auto">
+                    <select th:field="*{detailSearchParam}" class="form-select mb-3" aria-label="Floating label select example">
+                        <option selected="selected" th:value="null">대상 선택</option>
+
+                        <option th:each="detailParam : ${detailSearchParams}" th:value="${detailParam}" th:text="${detailParam.description}">검색 대상</option>
+                    </select>
+                </div>
+                <div class="col-sm-auto col-lg-auto mb-3">
+                    <input th:field="*{detailSearch}" style="min-width: 320px;" class="form-control" type="text" placeholder="검색내용" aria-label="상세 검색내용 입력">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="d-flex gap-4 gap-lg-5 mb-3 mb-sm-0">
+            <div class="fw-semibold">
+                <label class="col-form-label text-nowrap">지역검색</label>
+            </div>
+
+            <div class="row flex-grow-1">
+                <div class="col-6 col-sm-auto">
+                    <select th:field="*{sido}" style="min-width: 160px;" class="form-select mb-3" aria-label="시/도 선택">
+                        <option selected="selected" th:value="null">시/도 선택</option>
+                        <option th:each="sido : ${regions.keySet().toArray()}" th:value="${sido}" th:text="${sido}"></option>
+                    </select>
+                </div>
+                <div class="col-6 col-sm-auto">
+                    <select th:field="*{sigungu}" style="min-width: 160px;" class="form-select mb-3" aria-label="시/군/구 선택">
+                        <option selected="selected" th:value="null">시/군/구 선택</option>
+
+                        <th:block th:if="*{!#strings.isEmpty(sido)}">
+                            <option th:each="sigungu : ${regions.get(queryParams.sido)}" th:value="${sigungu}" th:text="${sigungu}"></option>
+                        </th:block>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex">
+            <div class="flex-md-grow-1"></div>
+
+            <div class="d-flex justify-content-end gap-2">
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-search"></i> 검색
+                </button>
+
+                <a th:href="@{/v2/logistics}" class="btn btn-secondary">초기화</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<div style="height: 24px;"></div>
 
 <div class="container-fluid" style="max-width: 1920px;">
 
@@ -64,4 +128,18 @@
 
 </section>
 </body>
+
+<script th:inline="javascript">
+    document.getElementById('sido')
+        .addEventListener('change', (e) => {
+            const select = document.getElementById('sigungu');
+            select.innerHTML = '<option selected="selected" value>시/군/구 선택</option>';
+
+            if (!e.target.value) return;
+
+            for (const sigungu of [[${regions}]][e.target.value]) {
+                select.innerHTML += `\n<option name="sigungu" value="${sigungu}">${sigungu}</option>`
+            }
+        });
+</script>
 </html>

@@ -185,10 +185,9 @@
                         <select class="form-select mb-3 mb-lg-0" th:field="*{productNumber}" aria-label="Floating label select example">
                             <option selected="selected" th:value="null">선택</option>
 
-
                             <option th:each="product : ${products}"
                                     th:value="${product.number}"
-                                    th:text="${product.name}">판매채널 목록</option>
+                                    th:text="${product.name}">상품이름</option>
                         </select>
                     </div>
 
