@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.product.ui;
+package kr.tatine.manibogo_oms_v2.variant.ui;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

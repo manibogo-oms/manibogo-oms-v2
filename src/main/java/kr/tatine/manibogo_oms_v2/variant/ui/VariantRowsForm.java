@@ -1,9 +1,9 @@
-package kr.tatine.manibogo_oms_v2.product.ui;
+package kr.tatine.manibogo_oms_v2.variant.ui;
 
 import kr.tatine.manibogo_oms_v2.common.model.SelectableRow;
 import kr.tatine.manibogo_oms_v2.common.model.SelectableRowsForm;
-import kr.tatine.manibogo_oms_v2.product.command.application.VariantCommand;
-import kr.tatine.manibogo_oms_v2.product.query.dto.VariantDto;
+import kr.tatine.manibogo_oms_v2.variant.command.application.VariantCommand;
+import kr.tatine.manibogo_oms_v2.variant.query.VariantDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

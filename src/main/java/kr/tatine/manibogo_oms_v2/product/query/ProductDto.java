@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.product.query.dto;
+package kr.tatine.manibogo_oms_v2.product.query;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

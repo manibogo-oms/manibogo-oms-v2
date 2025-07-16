@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.product.command.domain;
+package kr.tatine.manibogo_oms_v2.variant.command.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -16,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEmbeddableSerializer")
 public class QVariantId extends BeanPath<VariantId> {
 
-    private static final long serialVersionUID = -2033484077L;
+    private static final long serialVersionUID = -885764099L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
@@ -24,7 +24,7 @@ public class QVariantId extends BeanPath<VariantId> {
 
     public final kr.tatine.manibogo_oms_v2.common.model.QOption option;
 
-    public final QProductNumber productNumber;
+    public final kr.tatine.manibogo_oms_v2.product.command.domain.QProductNumber productNumber;
 
     public QVariantId(String variable) {
         this(VariantId.class, forVariable(variable), INITS);
@@ -45,7 +45,7 @@ public class QVariantId extends BeanPath<VariantId> {
     public QVariantId(Class<? extends VariantId> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.option = inits.isInitialized("option") ? new kr.tatine.manibogo_oms_v2.common.model.QOption(forProperty("option")) : null;
-        this.productNumber = inits.isInitialized("productNumber") ? new QProductNumber(forProperty("productNumber")) : null;
+        this.productNumber = inits.isInitialized("productNumber") ? new kr.tatine.manibogo_oms_v2.product.command.domain.QProductNumber(forProperty("productNumber")) : null;
     }
 
 }

@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.product.command.application;
+package kr.tatine.manibogo_oms_v2.variant.command.application;
 
 import kr.tatine.manibogo_oms_v2.common.ValidationError;
 

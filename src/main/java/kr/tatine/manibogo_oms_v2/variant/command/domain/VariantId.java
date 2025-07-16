@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.product.command.domain;
+package kr.tatine.manibogo_oms_v2.variant.command.domain;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
