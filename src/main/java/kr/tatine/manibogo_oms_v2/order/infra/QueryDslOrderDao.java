@@ -69,6 +69,13 @@ public class QueryDslOrderDao implements OrderDao {
         );
     }
 
+    @Override
+    public List<OrderDto> findByShippingBundleNumber(String shippingBundleNumber) {
+        return queryFactory.selectFrom(orderDto)
+                .where(orderDto.shippingBundleNumber.eq(shippingBundleNumber))
+                .fetch();
+    }
+
     private Predicate[] getPredicates(OrderQueryParams queryParams) {
 
         return new Predicate[]{
