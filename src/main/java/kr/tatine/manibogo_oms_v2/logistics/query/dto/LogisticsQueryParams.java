@@ -11,4 +11,12 @@ import lombok.ToString;
 @NoArgsConstructor
 public class LogisticsQueryParams {
 
+    private DetailSearchParam detailSearchParam;
+
+    private String detailSearch;
+
+    private String sido;
+
+    private String sigungu;
+
 }
