@@ -6,10 +6,10 @@ import kr.tatine.manibogo_oms_v2.order.command.application.service.PlaceOrderSer
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ShippingMethod;
 import kr.tatine.manibogo_oms_v2.product.command.application.ProductNotFoundException;
-import kr.tatine.manibogo_oms_v2.product.query.dao.ProductDao;
-import kr.tatine.manibogo_oms_v2.product.query.dao.VariantDao;
-import kr.tatine.manibogo_oms_v2.product.query.dto.ProductDto;
-import kr.tatine.manibogo_oms_v2.product.query.dto.VariantDto;
+import kr.tatine.manibogo_oms_v2.product.query.ProductDao;
+import kr.tatine.manibogo_oms_v2.variant.query.VariantDao;
+import kr.tatine.manibogo_oms_v2.product.query.ProductDto;
+import kr.tatine.manibogo_oms_v2.variant.query.VariantDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

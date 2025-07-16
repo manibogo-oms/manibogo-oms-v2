@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.product.ui;
+package kr.tatine.manibogo_oms_v2.variant.ui;
 
 import kr.tatine.manibogo_oms_v2.ValidationErrorException;
 import kr.tatine.manibogo_oms_v2.common.model.CommonResponse;
@@ -6,10 +6,11 @@ import kr.tatine.manibogo_oms_v2.common.model.ErrorResult;
 import kr.tatine.manibogo_oms_v2.common.utils.RedirectionUtils;
 import kr.tatine.manibogo_oms_v2.common.utils.SelectableRowsFormUtils;
 import kr.tatine.manibogo_oms_v2.product.command.application.*;
-import kr.tatine.manibogo_oms_v2.product.query.dao.ProductDao;
-import kr.tatine.manibogo_oms_v2.product.query.dto.ProductDto;
-import kr.tatine.manibogo_oms_v2.product.query.dao.VariantDao;
-import kr.tatine.manibogo_oms_v2.product.query.dto.VariantDto;
+import kr.tatine.manibogo_oms_v2.product.query.ProductDao;
+import kr.tatine.manibogo_oms_v2.product.query.ProductDto;
+import kr.tatine.manibogo_oms_v2.variant.command.application.*;
+import kr.tatine.manibogo_oms_v2.variant.query.VariantDao;
+import kr.tatine.manibogo_oms_v2.variant.query.VariantDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

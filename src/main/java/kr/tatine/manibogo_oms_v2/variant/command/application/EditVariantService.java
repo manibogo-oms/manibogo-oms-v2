@@ -1,17 +1,16 @@
-package kr.tatine.manibogo_oms_v2.product.command.application;
+package kr.tatine.manibogo_oms_v2.variant.command.application;
 
 import kr.tatine.manibogo_oms_v2.ValidationErrorException;
 import kr.tatine.manibogo_oms_v2.common.ValidationError;
 import kr.tatine.manibogo_oms_v2.common.model.Option;
 import kr.tatine.manibogo_oms_v2.product.command.domain.ProductNumber;
-import kr.tatine.manibogo_oms_v2.product.command.domain.Variant;
-import kr.tatine.manibogo_oms_v2.product.command.domain.VariantId;
-import kr.tatine.manibogo_oms_v2.product.command.domain.VariantRepository;
+import kr.tatine.manibogo_oms_v2.variant.command.domain.Variant;
+import kr.tatine.manibogo_oms_v2.variant.command.domain.VariantId;
+import kr.tatine.manibogo_oms_v2.variant.command.domain.VariantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

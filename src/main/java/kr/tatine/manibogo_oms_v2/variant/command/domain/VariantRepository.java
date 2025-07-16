@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.product.command.domain;
+package kr.tatine.manibogo_oms_v2.variant.command.domain;
 
 import org.springframework.data.repository.CrudRepository;
 

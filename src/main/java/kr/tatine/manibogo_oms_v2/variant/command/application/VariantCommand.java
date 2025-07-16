@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.product.command.application;
+package kr.tatine.manibogo_oms_v2.variant.command.application;
 
 public record VariantCommand(
         String productNumber,
