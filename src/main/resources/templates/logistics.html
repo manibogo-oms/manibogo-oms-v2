@@ -103,7 +103,9 @@
             <tbody>
             <tr class="table-row" th:each="logistics : ${logisticsList}">
                 <td>
-                    <a href="#" th:text="${logistics.shippingBundleNumber}">묶음배송번호</a>
+                    <a th:href="|/v2/logistics/${logistics.shippingBundleNumber}/invoice|"
+                       onclick="window.open(this.href, 'logisticsInvoice', 'width=800, height=960'); return false;"
+                       th:text="${logistics.shippingBundleNumber}">묶음배송번호</a>
                 </td>
                 <td th:text="${logistics.sido}">시/도</td>
                 <td th:text="${logistics.sigungu}">시/군/구</td>
