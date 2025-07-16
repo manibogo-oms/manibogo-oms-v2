@@ -1,13 +1,13 @@
 package kr.tatine.manibogo_oms_v2.order.ui;
 
 import kr.tatine.manibogo_oms_v2.common.model.CommonResponse;
-import kr.tatine.manibogo_oms_v2.order.query.dao.OrderDao;
-import kr.tatine.manibogo_oms_v2.order.query.dao.RegionDao;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel;
+import kr.tatine.manibogo_oms_v2.order.query.dao.OrderDao;
 import kr.tatine.manibogo_oms_v2.order.query.dto.*;
 import kr.tatine.manibogo_oms_v2.product.query.dao.ProductDao;
 import kr.tatine.manibogo_oms_v2.product.query.dto.ProductDto;
+import kr.tatine.manibogo_oms_v2.region.query.dao.GroupRegionsService;
 import kr.tatine.manibogo_oms_v2.synchronize.ui.SynchronizeResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -38,7 +37,7 @@ public class OrderController {
 
     private final ProductDao productDao;
 
-    private final RegionDao regionDao;
+    private final GroupRegionsService groupRegionsService;
 
     @ModelAttribute("itemOrderStates")
     public OrderState[] orderStates() {
@@ -67,8 +66,7 @@ public class OrderController {
 
     @ModelAttribute("regions")
     public Map<String, List<String>> regions() {
-        return regionDao.findDistinctAll().stream()
-                .collect(Collectors.groupingBy(RegionDto::getSido, Collectors.mapping(RegionDto::getSigungu, Collectors.toList())));
+        return groupRegionsService.group();
     }
 
     @GetMapping
