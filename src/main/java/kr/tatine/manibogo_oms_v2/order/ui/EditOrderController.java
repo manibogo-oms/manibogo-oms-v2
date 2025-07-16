@@ -117,7 +117,7 @@ public class EditOrderController {
                 "response",
                 new CommonResponse("complete.editSummaries", errorResult));
 
-        return redirectWithQueryParams("/v2/fulfillment");
+        return redirectWithQueryParams("/v2/orders");
     }
 
     private final ProceedOrderStateService proceedStateService;
