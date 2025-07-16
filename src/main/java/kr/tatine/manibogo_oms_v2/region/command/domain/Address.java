@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.common.model;
+package kr.tatine.manibogo_oms_v2.region.command.domain;
 
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;

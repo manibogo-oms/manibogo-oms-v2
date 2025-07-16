@@ -1,4 +1,5 @@
-package kr.tatine.manibogo_oms_v2.common.model;
+package kr.tatine.manibogo_oms_v2.region.command.domain;
+
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,20 +12,12 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(indexes = @Index(name = "IDX_ZIP_CODE", columnList = "zip_code"))
-public class Region {
+public class ZipCodeRegion {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @Id
     private String zipCode;
 
     private String sido;
 
     private String sigungu;
-
-    public Region(String zipCode, String sido, String sgg) {
-        this.zipCode = zipCode;
-        this.sido = sido;
-        this.sigungu = sgg;
-    }
 }

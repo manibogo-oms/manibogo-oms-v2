@@ -3,7 +3,7 @@ package kr.tatine.manibogo_oms_v2.synchronize.command.application;
 import jakarta.validation.Valid;
 import kr.tatine.manibogo_oms_v2.common.converter.StringToDescribableEnumConverter;
 import kr.tatine.manibogo_oms_v2.common.converter.StringToOptionListConvertor;
-import kr.tatine.manibogo_oms_v2.common.model.Address;
+import kr.tatine.manibogo_oms_v2.region.command.domain.Address;
 import kr.tatine.manibogo_oms_v2.common.model.Money;
 import kr.tatine.manibogo_oms_v2.common.model.Option;
 import kr.tatine.manibogo_oms_v2.common.model.PhoneNumber;

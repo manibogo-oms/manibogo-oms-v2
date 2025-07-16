@@ -1,12 +1,11 @@
 package kr.tatine.manibogo_oms_v2.logistics.ui;
 
 import kr.tatine.manibogo_oms_v2.logistics.query.dao.LogisticsDao;
+import kr.tatine.manibogo_oms_v2.logistics.query.dto.DetailSearchParam;
 import kr.tatine.manibogo_oms_v2.logistics.query.dto.LogisticsDto;
 import kr.tatine.manibogo_oms_v2.logistics.query.dto.LogisticsQueryParams;
-import kr.tatine.manibogo_oms_v2.logistics.query.dto.DetailSearchParam;
 import kr.tatine.manibogo_oms_v2.order.query.dao.OrderDao;
-import kr.tatine.manibogo_oms_v2.order.query.dao.RegionDao;
-import kr.tatine.manibogo_oms_v2.order.query.dto.RegionDto;
+import kr.tatine.manibogo_oms_v2.region.query.dao.GroupRegionsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/v2/logistics")
@@ -30,9 +28,9 @@ public class LogisticsController {
 
     private final LogisticsDao logisticsDao;
 
-    private final RegionDao regionDao;
-
     private final OrderDao orderDao;
+
+    private final GroupRegionsService groupRegionsService;
 
     @ModelAttribute("detailSearchParams")
     public DetailSearchParam[] searchParams() {
@@ -41,8 +39,7 @@ public class LogisticsController {
 
     @ModelAttribute("regions")
     public Map<String, List<String>> regions() {
-        return regionDao.findDistinctAll().stream()
-                .collect(Collectors.groupingBy(RegionDto::getSido, Collectors.mapping(RegionDto::getSigungu, Collectors.toList())));
+        return groupRegionsService.group();
     }
 
     @GetMapping
