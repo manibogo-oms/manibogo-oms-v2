@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.infra;
+package kr.tatine.manibogo_oms_v2.logistics.infra;
 
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
