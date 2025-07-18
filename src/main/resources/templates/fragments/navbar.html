@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko"
       th:fragment="layoutFragment (title, content, links, scripts)"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <nav th:fragment="navbar" class="navbar bg-body-tertiary navbar-expand-lg ">
     <div class="container-fluid" th:with="path = ${@getCurrentPath.get()}">
@@ -17,27 +18,41 @@
 
         <div id="navbarNav" class="collapse navbar-collapse">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="/v2/orders" th:classappend="${path.startsWith('/v2/orders') ? 'active' : ''}">주문관리</a>
+                <li class="nav-item"  sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link"
+                       href="/v2/orders"
+                       th:classappend="${path.startsWith('/v2/orders') ? 'active' : ''}">
+                        주문관리
+                    </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/v2/products" th:classappend="${path.startsWith('/v2/products') ? 'active' : ''}">상품관리</a>
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link"
+                       href="/v2/products"
+                       th:classappend="${path.startsWith('/v2/products') ? 'active' : ''}">
+                        상품관리
+                    </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">회원관리</a>
+                <li class="nav-item"  sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link" href="#">
+                        회원관리
+                    </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/v2/logistics" th:classappend="${path.startsWith('/v2/logistics') ? 'active' : ''}">배송조회</a>
+                <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'LOGISTICS')">
+                    <a class="nav-link"
+                       href="/v2/logistics"
+                       th:classappend="${path.startsWith('/v2/logistics') ? 'active' : ''}">
+                       배송조회
+                    </a>
                 </li>
             </ul>
             <div class="navbar-text d-flex align-items-center gap-2">
                 <div>
-                    <span class="fw-bold text-primary">홍길동</span>님 안녕하세요.
+                    <span class="fw-bold text-primary" th:text="${#authentication.getName()}">홍길동</span>님 안녕하세요.
                 </div>
 
                 <div class="flex-grow-1"></div>
 
-                <button class="btn btn-sm btn-outline-primary">로그아웃</button>
+                <a href="/logout" class="btn btn-sm btn-outline-primary">로그아웃</a>
             </div>
         </div>
     </div>
