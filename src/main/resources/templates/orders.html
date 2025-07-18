@@ -221,7 +221,7 @@
     <form id="formEditRows" method="POST" th:object="${rowsForm}">
 
         <!--추후 CSRF 보호 후 추가할 것-->
-        <!--<input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}"/>-->
+        <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}"/>
 
         <div th:if="${response?.errorResult?.hasGlobalError()}">
             <div role="alert"
