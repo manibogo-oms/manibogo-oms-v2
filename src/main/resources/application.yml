@@ -42,3 +42,9 @@ logging:
   level:
     org.hibernate.SQL: debug
     kr.tatine.manibogo_oms_v2: debug
+
+security:
+  remember-me:
+    key: uGfR1cWlEUy&Qi
+    ttl: 1209600 # 14d
+#    ttl: 30
