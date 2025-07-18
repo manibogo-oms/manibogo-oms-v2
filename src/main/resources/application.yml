@@ -2,6 +2,10 @@ spring:
   profiles:
     active: local
 
+  session:
+    redis:
+      namespace: manibogo
+
   messages:
     basename: messages,ValidationMessages
     encoding: UTF-8
