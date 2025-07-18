@@ -3,15 +3,22 @@ package kr.tatine.manibogo_oms_v2.common.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 public class RedisPersistentTokenRepository implements PersistentTokenRepository {
 
     private final RedisTemplate<String, String> redisTemplate;
+
+    private final int timeToLiveSeconds;
 
     @Override
     public void createNewToken(PersistentRememberMeToken token) {
@@ -23,21 +30,35 @@ public class RedisPersistentTokenRepository implements PersistentTokenRepository
         entries.put("token", token.getTokenValue());
         entries.put("last_used", String.valueOf(token.getDate().getTime()));
 
-        hashOps.putAll(getKey(token.getUsername(), token.getSeries()), entries);
+        final String hashKey = getHashKey(token.getSeries());
+        hashOps.putAll(hashKey, entries);
+
+        final String userKey = getUserKey(token.getUsername());
+        final SetOperations<String, String> setOps = redisTemplate.opsForSet();
+        setOps.add(userKey, hashKey);
+
+        redisTemplate.expire(hashKey, timeToLiveSeconds, TimeUnit.SECONDS);
+        redisTemplate.expire(userKey, timeToLiveSeconds, TimeUnit.SECONDS);
     }
 
     @Override
     public void updateToken(String series, String tokenValue, Date lastUsed) {
         final HashOperations<String, String, String> hashOps = redisTemplate.opsForHash();
 
-        hashOps.put(getKey("*", series), "token", tokenValue);
-        hashOps.put(getKey("*", series), "last_used", String.valueOf(lastUsed.getTime()));
+        final String hashKey = getHashKey(series);
+        hashOps.put(hashKey, "token", tokenValue);
+        hashOps.put(hashKey, "last_used", String.valueOf(lastUsed.getTime()));
+
+        final String userKey = getUserKey(hashOps.get(hashKey, "username"));
+
+        redisTemplate.expire(hashKey, timeToLiveSeconds, TimeUnit.SECONDS);
+        redisTemplate.expire(userKey, timeToLiveSeconds, TimeUnit.SECONDS);
     }
 
     @Override
     public PersistentRememberMeToken getTokenForSeries(String seriesId) {
         final HashOperations<String, String, String> hashOps = redisTemplate.opsForHash();
-        final Map<String, String> entries = hashOps.entries(getKey(seriesId, "*"));
+        final Map<String, String> entries = hashOps.entries(getHashKey(seriesId));
 
         if (entries.isEmpty()) {
             return null;
@@ -53,13 +74,20 @@ public class RedisPersistentTokenRepository implements PersistentTokenRepository
 
     @Override
     public void removeUserTokens(String username) {
-        final Set<String> keys = redisTemplate.keys(getKey(username, "*"));
+        final SetOperations<String, String> setOps = redisTemplate.opsForSet();
+        final Set<String> keys = setOps.members(getUserKey(username));
+        redisTemplate.delete(getUserKey(username));
+
         if (keys.isEmpty()) return;
 
         redisTemplate.delete(keys);
     }
 
-    private String getKey(String username, String series) {
-        return "rem_me:user:%s:series:%s".formatted(username, series);
+    private String getHashKey(String series) {
+        return "rem_me:%s".formatted( series);
+    }
+
+    private String getUserKey(String username) {
+        return "user_rem_me:%s".formatted(username);
     }
 }

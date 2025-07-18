@@ -1,27 +1,36 @@
 package kr.tatine.manibogo_oms_v2.common.config;
 
+import kr.tatine.manibogo_oms_v2.member.command.domain.MemberRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 @Configuration
 public class SecurityConfig {
 
+    @Value("${security.remember-me.key}")
+    private String rememberMeKey;
+
+    @Value("${security.remember-me.ttl}")
+    private Integer rememberMeTTL;
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, RedisTemplate<String, String> redisTemplate) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, RememberMeServices rememberMeServices) throws Exception {
         http.authorizeHttpRequests(request -> request
                 .requestMatchers("/v2/**").authenticated()
-                .requestMatchers("/error", "/image/**", "/js/**", "/css/**").permitAll());
-
-        http.formLogin(Customizer.withDefaults());
-
-        http.rememberMe(rmc -> rmc.tokenRepository(persistentTokenRepository(redisTemplate)));
+                .requestMatchers("/error", "/image/**", "/js/**", "/css/**").permitAll())
+                .formLogin(Customizer.withDefaults())
+                .rememberMe(rmc -> rmc.rememberMeServices(rememberMeServices));
 
         return http.build();
     }
@@ -33,7 +42,23 @@ public class SecurityConfig {
 
     @Bean
     public PersistentTokenRepository persistentTokenRepository(RedisTemplate<String, String> redisTemplate) {
-        return new RedisPersistentTokenRepository(redisTemplate);
+        return new RedisPersistentTokenRepository(redisTemplate, rememberMeTTL);
     }
+
+    @Bean
+    public UserDetailsService userDetailsService(MemberRepository memberRepository) {
+        return new MemberUserDetailService(memberRepository);
+    }
+
+    @Bean
+    public RememberMeServices rememberMeServices(UserDetailsService userDetailsService, PersistentTokenRepository persistentTokenRepository) {
+        final PersistentTokenBasedRememberMeServices rememberMeServices =
+                new PersistentTokenBasedRememberMeServices(rememberMeKey, userDetailsService, persistentTokenRepository);
+
+        rememberMeServices.setTokenValiditySeconds(rememberMeTTL);
+
+        return rememberMeServices;
+    }
+
 
 }
