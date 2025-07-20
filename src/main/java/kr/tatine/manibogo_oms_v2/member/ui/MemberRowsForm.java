@@ -2,6 +2,7 @@ package kr.tatine.manibogo_oms_v2.member.ui;
 
 import kr.tatine.manibogo_oms_v2.common.model.SelectableRow;
 import kr.tatine.manibogo_oms_v2.common.model.SelectableRowsForm;
+import kr.tatine.manibogo_oms_v2.member.command.application.EditMemberCommand;
 import kr.tatine.manibogo_oms_v2.member.query.MemberDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,20 +32,20 @@ public class MemberRowsForm implements SelectableRowsForm<MemberRowsForm.Row> {
 
         private String role;
 
-        private String newPassword;
+        private String password;
 
-        private String repeatNewPassword;
-
-        private Boolean isEnabled;
+        private String repeatPassword;
 
         public static MemberRowsForm.Row of(MemberDto memberDto) {
             final Row row = new Row();
-
             row.setUsername(memberDto.getUsername());
             row.setRole(memberDto.getRole());
-            row.setIsEnabled(memberDto.getIsEnabled());
 
             return row;
+        }
+
+        public EditMemberCommand toCommand() {
+            return new EditMemberCommand(getUsername(), getPassword(), getRepeatPassword());
         }
 
     }
