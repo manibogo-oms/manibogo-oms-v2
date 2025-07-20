@@ -1,9 +1,10 @@
 package kr.tatine.manibogo_oms_v2.member.command.domain;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -17,11 +18,12 @@ public class Member {
 
     private String password;
 
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     private Boolean isEnabled;
 
-    public Member(String username, String password, String role, Boolean isEnabled) {
+    public Member(String username, String password, Role role, Boolean isEnabled) {
         this.username = username;
         this.password = password;
         this.role = role;
