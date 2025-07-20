@@ -1,14 +1,14 @@
 package kr.tatine.manibogo_oms_v2.common.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.io.Serializable;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
-public class CommonResponse {
+public class CommonResponse implements Serializable {
 
     private Message message;
 

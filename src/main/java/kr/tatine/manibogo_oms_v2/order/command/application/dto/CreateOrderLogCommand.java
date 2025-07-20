@@ -6,5 +6,6 @@ public record CreateOrderLogCommand(
         String orderNumber,
         String previousState,
         String newState,
-        LocalDateTime changedAt
+        LocalDateTime changedAt,
+        String changedBy
 ) { }

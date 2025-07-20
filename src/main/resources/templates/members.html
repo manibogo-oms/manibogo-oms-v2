@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html th:replace="~{fragments/layout::layoutFragment (~{::title}, ~{::section}, ~{}, ~{})}"
+      xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>마니보고 주문관리 서비스 V2 - 회원관리</title>
+</head>
+<body>
+
+<section class="p-4">
+    <form th:object="${rowsForm}" th:method="POST" th:action="${@replaceUri.apply('/v2/members/edit')}">
+
+        <nav class="d-flex">
+            <div class="flex-grow-1"></div>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-pencil-fill"></i> 선택수정
+            </button>
+        </nav>
+
+        <hr/>
+
+        <div style="height: 24px;"></div>
+
+
+        <div class="container-xxl">
+
+            <div th:if="${response?.errorResult?.hasGlobalError()}">
+                <div role="alert" class="alert alert-danger"
+                     th:each="err : ${response?.errorResult?.getGlobalErrors()}"
+                     th:text="${#messages.msgWithParams(err.message().messageCode(), err.message().arguments())}">
+                    에러 메세지
+                </div>
+            </div>
+            <div th:if="${response?.message != null}" class="alert alert-primary" role="alert" th:text="${#messages.msgWithParams(response.message.messageCode(), response.message.arguments())}">메세지</div>
+
+            <div th:replace="~{fragments/pagenation :: pageHeader('/v2/members', ${page}, ~{})}"></div>
+
+            <div style="height: 16px;"></div>
+
+            <div class="table-responsive">
+                <table class="table table-striped text-center small align-middle w-100 text-nowrap" style="margin-bottom: 0 !important;">
+                    <thead class="table-light">
+                    <tr>
+                        <th scope="col">
+                            <input class="form-check-input chk-select-all-rows" type="checkbox" aria-label="전체 선택">
+                        </th>
+                        <th scope="col" style="min-width: 128px;">아이디</th>
+                        <th scope="col" style="min-width: 128px;">역할</th>
+                        <th scope="col" style="width: 50%">비밀번호</th>
+                        <th scope="col" style="width: 50%">비밀번호 확인</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="table-row" th:each="_, rowStat : *{rows}">
+                        <td class="td">
+                            <input type="checkbox"
+                                   aria-label="선택"
+                                   class="form-check-input chk-select-row"
+                                   th:field="*{rows[__${rowStat.index}__].isSelected}" />
+                        </td>
+                        <td>
+                            <span th:text="*{rows[__${rowStat.index}__].username}"></span>
+                            <input type="hidden" th:field="*{rows[__${rowStat.index}__].username}">
+                        </td>
+                        <td class="position-relative">
+                            <span th:text="#{*{rows[__${rowStat.index}__].role}}"></span>
+                            <input type="hidden" th:field="*{rows[__${rowStat.index}__].role}">
+                        </td>
+                        <td th:with="fieldName = |rows[${rowStat.index}].password|, fieldError = ${response?.errorResult?.getFieldError(fieldName)}">
+                            <input type="password"
+                                   class="form-control form-control-sm"
+                                   th:classappend="${fieldError != null ? 'is-invalid' : ''}"
+                                   th:field="*{rows[__${rowStat.index}__].password}" />
+
+                            <div class="invalid-feedback"
+                                 th:each="message : ${fieldError?.messages()}"
+                                 th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
+                                에러 메세지
+                            </div>
+                        </td>
+                        <td th:with="fieldName = |rows[${rowStat.index}].repeatPassword|, fieldError = ${response?.errorResult?.getFieldError(fieldName)}">
+                            <input type="password"
+                                   class="form-control form-control-sm"
+                                   th:classappend="${fieldError != null ? 'is-invalid' : ''}"
+                                   th:field="*{rows[__${rowStat.index}__].repeatPassword}" />
+
+                            <div class="invalid-feedback"
+                                 th:each="message : ${fieldError?.messages()}"
+                                 th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
+                                에러 메세지
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+
+    <div style="height: 32px;"></div>
+
+    <div th:replace="~{fragments/pagenation :: pageControl(${page})}"></div>
+
+</section>
+</body>
+</html>

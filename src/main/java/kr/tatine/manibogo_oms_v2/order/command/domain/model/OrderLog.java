@@ -27,16 +27,21 @@ public class OrderLog {
 
     private LocalDateTime changedAt;
 
+    private String changedBy;
+
     public OrderLog(
             OrderNumber orderNumber,
             OrderState previousState,
             OrderState newState,
-            LocalDateTime changedAt) {
+            LocalDateTime changedAt,
+            String changedBy
+    ) {
 
         this.orderNumber = orderNumber;
         this.previousState = previousState;
         this.newState = newState;
         this.changedAt = changedAt;
+        this.changedBy = changedBy;
     }
 
 }

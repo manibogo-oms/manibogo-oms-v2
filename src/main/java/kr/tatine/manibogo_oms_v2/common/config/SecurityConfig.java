@@ -1,6 +1,6 @@
 package kr.tatine.manibogo_oms_v2.common.config;
 
-import kr.tatine.manibogo_oms_v2.member.command.domain.MemberRepository;
+import kr.tatine.manibogo_oms_v2.member.query.MemberDao;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +27,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, RememberMeServices rememberMeServices) throws Exception {
         http.authorizeHttpRequests(request -> request
-                .requestMatchers("/v2/orders", "/v2/orders/**", "/v2/products", "/v2/products/**", "/v2/synchronize/**").hasRole("ADMIN")
+                .requestMatchers("/v2/orders", "/v2/orders/**", "/v2/products", "/v2/products/**", "/v2/synchronize/**", "/v2/members", "/v2/members/**").hasRole("ADMIN")
                 .requestMatchers("/v2/logistics", "/v2/logistics/**").hasAnyRole("ADMIN", "LOGISTICS")
                 .requestMatchers("/error", "/image/**", "/js/**", "/css/**").permitAll())
                 .formLogin(Customizer.withDefaults())
@@ -47,8 +47,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(MemberRepository memberRepository) {
-        return new MemberUserDetailService(memberRepository);
+    public UserDetailsService userDetailsService(MemberDao memberDao) {
+        return new MemberUserDetailsService(memberDao);
     }
 
     @Bean

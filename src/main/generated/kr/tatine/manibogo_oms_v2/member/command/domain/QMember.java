@@ -19,9 +19,11 @@ public class QMember extends EntityPathBase<Member> {
 
     public static final QMember member = new QMember("member1");
 
+    public final BooleanPath isEnabled = createBoolean("isEnabled");
+
     public final StringPath password = createString("password");
 
-    public final StringPath role = createString("role");
+    public final EnumPath<Role> role = createEnum("role", Role.class);
 
     public final StringPath username = createString("username");
 

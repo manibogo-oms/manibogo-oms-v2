@@ -2,10 +2,11 @@ package kr.tatine.manibogo_oms_v2.common.model;
 
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.util.*;
 
 @Getter
-public class ErrorResult {
+public class ErrorResult implements Serializable {
 
     private final Map<String, FieldError> fieldErrors = new HashMap<>();
 
