@@ -27,7 +27,6 @@
 
             <div th:if="${response?.errorResult?.hasGlobalError()}">
                 <div role="alert" class="alert alert-danger"
-                     th:with="errorLevel = ${err.level().name().toLowerCase()}"
                      th:each="err : ${response?.errorResult?.getGlobalErrors()}"
                      th:text="${#messages.msgWithParams(err.message().messageCode(), err.message().arguments())}">
                     에러 메세지
@@ -50,7 +49,6 @@
                         <th scope="col" style="min-width: 128px;">역할</th>
                         <th scope="col" style="width: 50%">비밀번호</th>
                         <th scope="col" style="width: 50%">비밀번호 확인</th>
-                        <th scope="col" style="min-width: 88px;">사용</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -69,11 +67,11 @@
                             <span th:text="#{*{rows[__${rowStat.index}__].role}}"></span>
                             <input type="hidden" th:field="*{rows[__${rowStat.index}__].role}">
                         </td>
-                        <td th:with="fieldName = |rows[${rowStat.index}].newPassword|, fieldError = ${response?.errorResult?.getFieldError(fieldName)}">
+                        <td th:with="fieldName = |rows[${rowStat.index}].password|, fieldError = ${response?.errorResult?.getFieldError(fieldName)}">
                             <input type="password"
                                    class="form-control form-control-sm"
                                    th:classappend="${fieldError != null ? 'is-invalid' : ''}"
-                                   th:field="*{rows[__${rowStat.index}__].newPassword}" />
+                                   th:field="*{rows[__${rowStat.index}__].password}" />
 
                             <div class="invalid-feedback"
                                  th:each="message : ${fieldError?.messages()}"
@@ -81,23 +79,17 @@
                                 에러 메세지
                             </div>
                         </td>
-                        <td th:with="fieldName = |rows[${rowStat.index}].repeatNewPassword|, fieldError = ${response?.errorResult?.getFieldError(fieldName)}">
+                        <td th:with="fieldName = |rows[${rowStat.index}].repeatPassword|, fieldError = ${response?.errorResult?.getFieldError(fieldName)}">
                             <input type="password"
                                    class="form-control form-control-sm"
                                    th:classappend="${fieldError != null ? 'is-invalid' : ''}"
-                                   th:field="*{rows[__${rowStat.index}__].repeatNewPassword}" />
+                                   th:field="*{rows[__${rowStat.index}__].repeatPassword}" />
 
                             <div class="invalid-feedback"
                                  th:each="message : ${fieldError?.messages()}"
                                  th:text="${#messages.msgWithParams(message.messageCode(), message.arguments())}">
                                 에러 메세지
                             </div>
-                        </td>
-                        <td>
-                            <input type="checkbox"
-                                   aria-label="사용"
-                                   class="form-check-input"
-                                   th:field="*{rows[__${rowStat.index}__].isEnabled}" />
                         </td>
                     </tr>
                     </tbody>

@@ -1,10 +1,11 @@
 package kr.tatine.manibogo_oms_v2.common.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public record FieldError(
-        ErrorLevel level, List<Message> messages) {
+        ErrorLevel level, List<Message> messages) implements Serializable {
 
     public FieldError addError(ErrorLevel level, Message message) {
         ArrayList<Message> prevMessages = new ArrayList<>(messages);

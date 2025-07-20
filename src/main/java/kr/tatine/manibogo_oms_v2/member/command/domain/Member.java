@@ -29,4 +29,12 @@ public class Member {
         this.role = role;
         this.isEnabled = isEnabled;
     }
+
+    public void changePassword(String newPassword) {
+        this.password = newPassword;
+    }
+
+    public void changeIsEnabled(Boolean isEnabled) {
+        this.isEnabled = isEnabled;
+    }
 }
