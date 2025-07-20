@@ -24,6 +24,8 @@ public class QOrderLog extends EntityPathBase<OrderLog> {
 
     public final DateTimePath<java.time.LocalDateTime> changedAt = createDateTime("changedAt", java.time.LocalDateTime.class);
 
+    public final StringPath changedBy = createString("changedBy");
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final EnumPath<kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState> newState = createEnum("newState", kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState.class);

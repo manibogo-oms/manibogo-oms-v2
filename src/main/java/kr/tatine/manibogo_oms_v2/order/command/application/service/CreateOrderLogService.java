@@ -17,21 +17,21 @@ public class CreateOrderLogService {
 
     private final OrderLogRepository repository;
 
-    @Transactional
     public void create(CreateOrderLogCommand command) {
 
         final OrderState previousState = getPreviousStateOrNull(command);
 
         final OrderState newState = OrderState.valueOf(command.newState());
 
-        final OrderLog history = new OrderLog(
+        final OrderLog orderLog = new OrderLog(
                 new OrderNumber(command.orderNumber()),
                 previousState,
                 newState,
-                command.changedAt()
+                command.changedAt(),
+                command.changedBy()
         );
 
-        repository.save(history);
+        repository.save(orderLog);
     }
 
     private OrderState getPreviousStateOrNull(CreateOrderLogCommand command) {
