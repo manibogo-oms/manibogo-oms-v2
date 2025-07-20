@@ -1,30 +1,35 @@
 package kr.tatine.manibogo_oms_v2.common.config;
 
-import kr.tatine.manibogo_oms_v2.member.command.domain.Member;
-import kr.tatine.manibogo_oms_v2.member.command.domain.MemberRepository;
+import kr.tatine.manibogo_oms_v2.member.query.MemberDao;
+import kr.tatine.manibogo_oms_v2.member.query.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-public class MemberUserDetailService implements UserDetailsService {
+public class MemberUserDetailsService implements UserDetailsService {
 
-    private final MemberRepository memberRepository;
+    private final MemberDao memberDao;
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return memberRepository.findById(username)
+        return memberDao.findById(username)
                 .map(this::createUserDetails)
                 .orElseThrow(() -> new UsernameNotFoundException(""));
     }
 
-    private UserDetails createUserDetails(Member member) {
-        return new User(member.getUsername(), member.getPassword(), List.of(new SimpleGrantedAuthority(member.getRole())));
+    private UserDetails createUserDetails(MemberDto memberDto) {
+        return User.builder()
+                .username(memberDto.getUsername())
+                .password(memberDto.getPassword())
+                .authorities(new SimpleGrantedAuthority(memberDto.getRole()))
+                .disabled(!memberDto.getIsEnabled())
+                .build();
     }
 
 }

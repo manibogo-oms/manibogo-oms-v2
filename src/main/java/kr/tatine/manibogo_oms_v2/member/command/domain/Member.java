@@ -1,13 +1,13 @@
 package kr.tatine.manibogo_oms_v2.member.command.domain;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Getter
 @Entity
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,11 +18,23 @@ public class Member {
 
     private String password;
 
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    public Member(String username, String password, String role) {
+    private Boolean isEnabled;
+
+    public Member(String username, String password, Role role, Boolean isEnabled) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.isEnabled = isEnabled;
+    }
+
+    public void changePassword(String newPassword) {
+        this.password = newPassword;
+    }
+
+    public void changeIsEnabled(Boolean isEnabled) {
+        this.isEnabled = isEnabled;
     }
 }
