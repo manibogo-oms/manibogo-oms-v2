@@ -1,16 +1,19 @@
-package kr.tatine.manibogo_oms_v2.member.command.domain;
+package kr.tatine.manibogo_oms_v2.member.query;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
+@Getter
 @ToString
+@Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class MemberDto {
 
     @Id
     private String username;
@@ -21,10 +24,5 @@ public class Member {
 
     private Boolean isEnabled;
 
-    public Member(String username, String password, String role, Boolean isEnabled) {
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.isEnabled = isEnabled;
-    }
 }
+
