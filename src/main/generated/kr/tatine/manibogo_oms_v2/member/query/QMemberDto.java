@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.member.command.domain;
+package kr.tatine.manibogo_oms_v2.member.query;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -10,14 +10,14 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QMember is a Querydsl query type for Member
+ * QMemberDto is a Querydsl query type for MemberDto
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QMember extends EntityPathBase<Member> {
+public class QMemberDto extends EntityPathBase<MemberDto> {
 
-    private static final long serialVersionUID = -274563672L;
+    private static final long serialVersionUID = 347050054L;
 
-    public static final QMember member = new QMember("member1");
+    public static final QMemberDto memberDto = new QMemberDto("memberDto");
 
     public final BooleanPath isEnabled = createBoolean("isEnabled");
 
@@ -27,16 +27,16 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath username = createString("username");
 
-    public QMember(String variable) {
-        super(Member.class, forVariable(variable));
+    public QMemberDto(String variable) {
+        super(MemberDto.class, forVariable(variable));
     }
 
-    public QMember(Path<? extends Member> path) {
+    public QMemberDto(Path<? extends MemberDto> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QMember(PathMetadata metadata) {
-        super(Member.class, metadata);
+    public QMemberDto(PathMetadata metadata) {
+        super(MemberDto.class, metadata);
     }
 
 }
