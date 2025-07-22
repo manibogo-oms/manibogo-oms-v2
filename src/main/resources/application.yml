@@ -42,6 +42,9 @@ spring:
         format_sql: true
         highlight_sql: true
 
+  flyway:
+    enabled: false
+
 logging:
   level:
     org.hibernate.SQL: debug
@@ -51,4 +54,27 @@ security:
   remember-me:
     key: uGfR1cWlEUy&Qi
     ttl: 1209600 # 14d
-#    ttl: 30
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/manibogo_v2_test
+    username: root
+    password: 3520
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+security:
+  remember-me:
+    key: uGfR1cWlEUy&Qi
+    ttl: 1209600 # 14d

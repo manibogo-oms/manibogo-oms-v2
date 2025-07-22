@@ -1,5 +1,6 @@
 package kr.tatine.manibogo_oms_v2.product.command.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -15,6 +16,7 @@ public class Product {
     @EmbeddedId
     private ProductNumber number;
 
+    @Column(name = "product_name")
     private String name;
 
     @Embedded

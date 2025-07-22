@@ -20,7 +20,7 @@ public class Customer {
 
     @AttributeOverride(
             name = "phoneNumber",
-            column = @Column(name = "customer_phone_number"))
+            column = @Column(name = "customer_tel"))
     private PhoneNumber phoneNumber;
 
     @Column(name = "customer_message")

@@ -15,9 +15,11 @@ import java.time.LocalDate;
 public class Shipping {
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "shipping_method")
     private ShippingMethod method;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "shipping_charge_type")
     private ChargeType chargeType;
 
     public Shipping(ShippingMethod method, ChargeType chargeType) {
