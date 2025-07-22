@@ -73,6 +73,10 @@ spring:
     hibernate:
       ddl-auto: validate
 
+  data:
+    redis:
+      url: ENC(0Zxi8lSQDYl+OjVkiN05To7N5nwp9xzDe/oqE5DmPNbf3kFHS4exyoURC57G4bSVbkxNLk6LuTSNK8JZlA5NTFJgqMW/hqle6DUFzx9L4mSbI8fKj6x3yJ65tAPcePHT3+1et3zd1Bhd2kIH0ekz2A==)
+
 security:
   remember-me:
     key: ENC(1iM0Jgz9hzhPqSpqhDXaJe2Wk9bvHjHFajFkaeJ8qOQwFsUpV2u8GJMSaUoOYsoj)
