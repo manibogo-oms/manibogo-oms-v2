@@ -2,6 +2,7 @@ package kr.tatine.manibogo_oms_v2.synchronize.ui;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-public class SynchronizeResponse {
+public class SynchronizeResponse implements Serializable {
 
     private List<SynchronizeResult> successes = new ArrayList<>();
     private List<SynchronizeResult> skips = new ArrayList<>();
