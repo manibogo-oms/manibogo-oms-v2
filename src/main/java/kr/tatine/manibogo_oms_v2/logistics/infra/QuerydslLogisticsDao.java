@@ -81,7 +81,7 @@ public class QuerydslLogisticsDao implements LogisticsDao {
             case RECIPIENT_NAME -> logisticsDto.recipientName.eq(queryParams.getDetailSearch());
             case RECIPIENT_TEL1 -> logisticsDto.recipientTel1.eq(queryParams.getDetailSearch());
             case RECIPIENT_TEL2 -> logisticsDto.recipientTel2.eq(queryParams.getDetailSearch());
-            case ADDRESS -> logisticsDto.address1.contains(queryParams.getDetailSearch());
+            case ADDRESS -> logisticsDto.recipientAddr1.contains(queryParams.getDetailSearch());
             case SHIPPING_BUNDLE_NUMBER -> logisticsDto.shippingBundleNumber.eq(queryParams.getDetailSearch());
         };
     }
