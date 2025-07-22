@@ -14,28 +14,28 @@ import java.time.LocalDateTime;
 @Subselect("""
 SELECT
 	o.shipping_bundle_number,
-	SUM(CASE WHEN o.`state` = 'PURCHASED' THEN 1 ELSE 0 END) AS 'purchased_count',
-	SUM(CASE WHEN o.`state` = 'DISPATCHED' THEN 1 ELSE 0 END) AS 'dispatched_count',
-	SUM(CASE WHEN o.`state` = 'SHIPPED' THEN 1 ELSE 0 END) AS 'shipped_count',
-	SUM(CASE WHEN o.`state` = 'CANCELLED' THEN 1 ELSE 0 END) AS 'cancelled_count',
-	SUM(CASE WHEN o.`state` = 'REFUNDED' THEN 1 ELSE 0 END) AS 'refunded_count',
+	SUM(CASE WHEN o.`order_state` = 'PURCHASED' THEN 1 ELSE 0 END) AS 'purchased_count',
+	SUM(CASE WHEN o.`order_state` = 'DISPATCHED' THEN 1 ELSE 0 END) AS 'dispatched_count',
+	SUM(CASE WHEN o.`order_state` = 'SHIPPED' THEN 1 ELSE 0 END) AS 'shipped_count',
+	SUM(CASE WHEN o.`order_state` = 'CANCELLED' THEN 1 ELSE 0 END) AS 'cancelled_count',
+	SUM(CASE WHEN o.`order_state` = 'REFUNDED' THEN 1 ELSE 0 END) AS 'refunded_count',
 	MAX(o.placed_at) as 'recently_placed_at',
-	o.address1,
+	o.recipient_addr1,
 	r.sido,
 	r.sigungu,
 	o.customer_name,
-	o.customer_phone_number as 'customer_tel',
+	o.customer_tel,
 	o.recipient_name,
-	o.recipient_phone_number_1 as 'recipient_tel1',
-	o.recipient_phone_number_2 as 'recipient_tel2',
+	o.recipient_tel1,
+	o.recipient_tel2,
 	o.customer_message,
 	o.shipping_memo
 FROM
 	orders AS o
-	LEFT JOIN zip_code_region AS r ON o.zip_code = r.zip_code
+	LEFT JOIN zip_code_region AS r ON o.recipient_zip_code = r.zip_code
 WHERE
-	o.`method` = 'DIRECT'
-	AND o.`state` IN ('PURCHASED', 'DISPATCHED', 'SHIPPED', 'CANCELLED', 'REFUNDED')
+	o.`shipping_method` = 'DIRECT'
+	AND o.`order_state` IN ('PURCHASED', 'DISPATCHED', 'SHIPPED', 'CANCELLED', 'REFUNDED')
 GROUP BY
 	o.shipping_bundle_number
 """)
@@ -56,7 +56,7 @@ public class LogisticsDto {
 
     private LocalDateTime recentlyPlacedAt;
 
-    private String address1;
+    private String recipientAddr1;
 
     private String sido;
 

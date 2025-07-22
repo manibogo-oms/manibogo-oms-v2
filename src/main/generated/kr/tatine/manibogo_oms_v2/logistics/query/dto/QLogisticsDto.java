@@ -19,8 +19,6 @@ public class QLogisticsDto extends EntityPathBase<LogisticsDto> {
 
     public static final QLogisticsDto logisticsDto = new QLogisticsDto("logisticsDto");
 
-    public final StringPath address1 = createString("address1");
-
     public final NumberPath<Integer> cancelledCount = createNumber("cancelledCount", Integer.class);
 
     public final StringPath customerMessage = createString("customerMessage");
@@ -34,6 +32,8 @@ public class QLogisticsDto extends EntityPathBase<LogisticsDto> {
     public final NumberPath<Integer> purchasedCount = createNumber("purchasedCount", Integer.class);
 
     public final DateTimePath<java.time.LocalDateTime> recentlyPlacedAt = createDateTime("recentlyPlacedAt", java.time.LocalDateTime.class);
+
+    public final StringPath recipientAddr1 = createString("recipientAddr1");
 
     public final StringPath recipientName = createString("recipientName");
 
