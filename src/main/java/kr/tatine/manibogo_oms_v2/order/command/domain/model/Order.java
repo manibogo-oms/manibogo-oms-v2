@@ -21,6 +21,7 @@ public class Order {
     private OrderNumber number;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "order_state")
     private OrderState state;
 
     @Embedded
