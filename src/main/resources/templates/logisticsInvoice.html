@@ -48,7 +48,7 @@
         <td th:text="${orders.get(0).customerName}">홍길동</td>
 
         <th colspan="1" class="table-light">전화번호1</th>
-        <td colspan="1" th:text="${orders.get(0).recipientPhoneNumber1}">010-0000-0000</td>
+        <td colspan="1" th:text="${orders.get(0).getRecipientTel1}">010-0000-0000</td>
     </tr>
 
     <tr>
@@ -56,12 +56,12 @@
         <td th:text="${orders.get(0).recipientName}">홍길동</td>
 
         <th colspan="1" class="table-light">전화번호2</th>
-        <td colspan="1" th:text="${orders.get(0).recipientPhoneNumber2}">010-0000-0000</td>
+        <td colspan="1" th:text="${orders.get(0).getRecipientTel2}">010-0000-0000</td>
     </tr>
 
     <tr>
         <th colspan="1" class="table-light">주소</th>
-        <td colspan="3" th:text="|${orders.get(0).recipientAddress} ${orders.get(0).recipientDetailAddress}|">주소</td>
+        <td colspan="3" th:text="|${orders.get(0).getRecipientAddr1} ${orders.get(0).getRecipientAddr2}|">주소</td>
     </tr>
 
     <tr>

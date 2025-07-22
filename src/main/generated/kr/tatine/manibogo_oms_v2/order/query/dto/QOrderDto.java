@@ -31,7 +31,7 @@ public class QOrderDto extends EntityPathBase<OrderDto> {
 
     public final StringPath customerName = createString("customerName");
 
-    public final StringPath customerPhoneNumber = createString("customerPhoneNumber");
+    public final StringPath customerTel = createString("customerTel");
 
     public final DatePath<java.time.LocalDate> dispatchDeadline = createDate("dispatchDeadline", java.time.LocalDate.class);
 
@@ -67,15 +67,15 @@ public class QOrderDto extends EntityPathBase<OrderDto> {
 
     public final StringPath purchaseMemo = createString("purchaseMemo");
 
-    public final StringPath recipientAddress = createString("recipientAddress");
+    public final StringPath recipientAddr1 = createString("recipientAddr1");
 
-    public final StringPath recipientDetailAddress = createString("recipientDetailAddress");
+    public final StringPath recipientAddr2 = createString("recipientAddr2");
 
     public final StringPath recipientName = createString("recipientName");
 
-    public final StringPath recipientPhoneNumber1 = createString("recipientPhoneNumber1");
+    public final StringPath recipientTel1 = createString("recipientTel1");
 
-    public final StringPath recipientPhoneNumber2 = createString("recipientPhoneNumber2");
+    public final StringPath recipientTel2 = createString("recipientTel2");
 
     public final StringPath recipientZipCode = createString("recipientZipCode");
 
@@ -91,7 +91,7 @@ public class QOrderDto extends EntityPathBase<OrderDto> {
 
     public final EnumPath<kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType> shippingChargeType = createEnum("shippingChargeType", kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType.class);
 
-    public final StringPath shippingCompany = createString("shippingCompany");
+    public final StringPath shippingCompanyName = createString("shippingCompanyName");
 
     public final StringPath shippingMemo = createString("shippingMemo");
 

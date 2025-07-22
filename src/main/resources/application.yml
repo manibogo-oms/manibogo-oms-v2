@@ -62,7 +62,6 @@ spring:
 
   flyway:
     enabled: true
-    baseline-on-migrate: true
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver

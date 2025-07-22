@@ -26,9 +26,9 @@ import java.time.LocalDateTime;
 SELECT
     o.order_number,
     o.sales_channel,
-    o.`state` AS 'order_state',
+    o.order_state,
     p.product_number,
-    p.`name` AS 'product_name',
+    p.product_name,
     opo_agg.option_key1,
     opo_agg.option_key2,
     opo_agg.option_key3,
@@ -40,20 +40,20 @@ SELECT
     r.sido,
     r.sigungu,
     o.customer_name,
-    o.customer_phone_number,
+    o.customer_tel,
     o.recipient_name,
-    o.recipient_phone_number_1 as 'recipient_phone_number1',
-    o.recipient_phone_number_2 as 'recipient_phone_number2',
-    o.address1 as 'recipient_address',
-    o.address2 as 'recipient_detail_address',
-    o.zip_code as 'recipient_zip_code',
+    o.recipient_tel1,
+    o.recipient_tel2,
+    o.recipient_addr1,
+    o.recipient_addr2,
+    o.recipient_zip_code,
     o.placed_at,
     o.dispatch_deadline,
     o.preferred_shipping_date,
     ioh_agg.purchased_at,
     ioh_agg.dispatched_at,
     ioh_agg.shipped_at,
-    o.tracking_number AS 'shipping_tracking_number',
+    o.shipping_tracking_number,
     ioh_agg.confirmed_at,
     ioh_agg.cancelled_at,
     ioh_agg.refunded_at,
@@ -61,15 +61,15 @@ SELECT
     o.shipping_memo,
     o.admin_memo,
     o.customer_message,
-    o.method AS 'shipping_method',
-    o.charge_type AS 'shipping_charge_type',
+    o.shipping_method,
+    o.shipping_charge_type,
     o.shipping_bundle_number,
-    o.company_name as 'shipping_company',
+    o.shipping_company_name,
     o.final_price
 FROM
     orders AS o
-    JOIN product AS p ON o.product_number = p.product_number
-    JOIN zip_code_region AS r ON o.zip_code = r.zip_code
+    LEFT JOIN product AS p ON o.product_number = p.product_number
+    LEFT JOIN zip_code_region AS r ON o.recipient_zip_code = r.zip_code
     -- 상품주문 옵션 1 ~ 3 집계 View
     LEFT JOIN (
         SELECT
@@ -152,17 +152,17 @@ public class OrderDto {
 
     private String customerName;
 
-    private String customerPhoneNumber;
+    private String customerTel;
 
     private String recipientName;
 
-    private String recipientPhoneNumber1;
+    private String recipientTel1;
 
-    private String recipientPhoneNumber2;
+    private String recipientTel2;
 
-    private String recipientAddress;
+    private String recipientAddr1;
 
-    private String recipientDetailAddress;
+    private String recipientAddr2;
 
     private String recipientZipCode;
 
@@ -204,7 +204,7 @@ public class OrderDto {
 
     private String shippingBundleNumber;
 
-    private String shippingCompany;
+    private String shippingCompanyName;
 
     private Long finalPrice;
 

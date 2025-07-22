@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
     `final_price` BIGINT NOT NULL CHECK (`final_price` > 0 ),
     `customer_name` varchar(255) NOT NULL,
     `customer_tel` varchar(255) NOT NULL,
-    `customer_message` varchar(255) NOT NULL,
+    `customer_message` varchar(255),
     `recipient_name` varchar(255) NOT NULL,
     `recipient_tel1` varchar(255) NOT NULL,
     `recipient_tel2` varchar(255),
