@@ -65,9 +65,9 @@ spring:
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/manibogo_v2_test
-    username: root
-    password: 3520
+    url: ENC(AP556YlhNzQtQdAGHbIrP9VZjlxGr85saviW4zTt4j8ijrXLSe0qnbhAM52jt3YuLcBQZuIbxq49rLvxfRzl49RbNEhF8AtLXz6ptpoPloM+IUP0L698QkCsiRx1Xui9hm5HQ2ZYe/ak98SiuAawB7aQIR9w//a6EoPMdao2v2k=)
+    username: ENC(hyDirMnvkTOuZy1fCgg0inStRABuDatKtTQmw8kHw9kDRceCECAzMooOAtmN2rdw)
+    password: ENC(RGsbi5/4Iqmly9DoUeMdgXNGNQzdScQciFWaMuIa7aEtUravs/TRP2wZhwg+Sl8z)
 
   jpa:
     hibernate:
@@ -75,5 +75,5 @@ spring:
 
 security:
   remember-me:
-    key: uGfR1cWlEUy&Qi
+    key: ENC(1iM0Jgz9hzhPqSpqhDXaJe2Wk9bvHjHFajFkaeJ8qOQwFsUpV2u8GJMSaUoOYsoj)
     ttl: 1209600 # 14d
