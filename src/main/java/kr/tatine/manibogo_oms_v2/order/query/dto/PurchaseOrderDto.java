@@ -118,10 +118,10 @@ public class PurchaseOrderDto {
         purchaseOrderDto.setSequence(index + 1);
         purchaseOrderDto.setItemOrderNumber(orderDto.getOrderNumber());
         purchaseOrderDto.setCustomerName(orderDto.getCustomerName());
-        purchaseOrderDto.setCustomerPhoneNumber(orderDto.getCustomerPhoneNumber());
+        purchaseOrderDto.setCustomerPhoneNumber(orderDto.getCustomerTel());
         purchaseOrderDto.setRecipientName(orderDto.getRecipientName());
-        purchaseOrderDto.setRecipientPhoneNumber1(orderDto.getRecipientPhoneNumber1());
-        purchaseOrderDto.setRecipientPhoneNumber2(orderDto.getRecipientPhoneNumber2());
+        purchaseOrderDto.setRecipientPhoneNumber1(orderDto.getRecipientTel1());
+        purchaseOrderDto.setRecipientPhoneNumber2(orderDto.getRecipientTel2());
         purchaseOrderDto.setProductName(orderDto.getProductName());
 
         purchaseOrderDto.setOption1(orderDto.getOptionLabel1());
@@ -131,7 +131,7 @@ public class PurchaseOrderDto {
         purchaseOrderDto.setItemOrderBundleCount(orderDto.getShippingBundleCount());
         purchaseOrderDto.setAmount(orderDto.getAmount());
         purchaseOrderDto.setShippingRegionName(orderDto.getSido());
-        purchaseOrderDto.setRecipientFullAddress("%s %s".formatted(orderDto.getRecipientAddress(), orderDto.getRecipientDetailAddress()));
+        purchaseOrderDto.setRecipientFullAddress("%s %s".formatted(orderDto.getRecipientAddr1(), orderDto.getRecipientAddr2()));
         purchaseOrderDto.setDispatchDeadline(orderDto.getDispatchDeadline());
         purchaseOrderDto.setPreferredShipsOn(orderDto.getPreferredShippingDate());
 
@@ -147,7 +147,7 @@ public class PurchaseOrderDto {
 
         purchaseOrderDto.setShippingMethod(orderDto.getShippingMethod().getDescription());
         purchaseOrderDto.setShippingChargeType(orderDto.getShippingChargeType().getDescription());
-        purchaseOrderDto.setShippingCompany(orderDto.getShippingCompany());
+        purchaseOrderDto.setShippingCompany(orderDto.getShippingCompanyName());
         purchaseOrderDto.setShippingTrackingNumber(orderDto.getShippingTrackingNumber());
         purchaseOrderDto.setCustomerMemo(orderDto.getCustomerMessage());
         purchaseOrderDto.setPurchaseMemo(orderDto.getPurchaseMemo());

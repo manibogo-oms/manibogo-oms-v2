@@ -133,15 +133,15 @@ public class EditOrderForm {
         form.setRefundedAt(orderDto.getRefundedAt());
 
         form.setCustomerName(orderDto.getCustomerName());
-        form.setCustomerTel(orderDto.getCustomerPhoneNumber());
+        form.setCustomerTel(orderDto.getCustomerTel());
         form.setCustomerMessage(orderDto.getCustomerMessage());
 
         form.setRecipientName(orderDto.getRecipientName());
-        form.setRecipientTel1(orderDto.getRecipientPhoneNumber1());
-        form.setRecipientTel2(orderDto.getRecipientPhoneNumber2());
+        form.setRecipientTel1(orderDto.getRecipientTel1());
+        form.setRecipientTel2(orderDto.getRecipientTel2());
         form.setRecipientZipCode(orderDto.getRecipientZipCode());
-        form.setRecipientAddress1(orderDto.getRecipientAddress());
-        form.setRecipientAddress2(orderDto.getRecipientDetailAddress());
+        form.setRecipientAddress1(orderDto.getRecipientAddr1());
+        form.setRecipientAddress2(orderDto.getRecipientAddr2());
 
         form.setShippingMethod(orderDto.getShippingMethod());
         form.setShippingChargeType(orderDto.getShippingChargeType());

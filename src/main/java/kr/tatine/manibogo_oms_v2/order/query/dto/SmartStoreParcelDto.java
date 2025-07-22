@@ -36,10 +36,10 @@ public class SmartStoreParcelDto {
 
         parcelDto.setItemOrderNumber(orderDto.getOrderNumber());
         parcelDto.setShippingMethod(orderDto.getShippingMethod().getDescription());
-        parcelDto.setShippingCompanyName(orderDto.getShippingCompany());
+        parcelDto.setShippingCompanyName(orderDto.getShippingCompanyName());
         parcelDto.setShippingTrackingNumber(orderDto.getShippingTrackingNumber());
         parcelDto.setCustomerName(orderDto.getCustomerName());
-        parcelDto.setCustomerPhoneNumber(orderDto.getCustomerPhoneNumber());
+        parcelDto.setCustomerPhoneNumber(orderDto.getCustomerTel());
 
         return parcelDto;
     }

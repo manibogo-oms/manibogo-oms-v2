@@ -113,11 +113,11 @@ public class QueryDslOrderDao implements OrderDao {
             case ITEM_ORDER_NUMBER -> orderDto.orderNumber.eq(queryParams.getDetailSearch());
             case ORDER_NUMBER -> orderDto.orderNumber.eq(queryParams.getDetailSearch());
             case CUSTOMER_NAME -> orderDto.customerName.eq(queryParams.getDetailSearch());
-            case CUSTOMER_TEL -> orderDto.customerPhoneNumber.eq(queryParams.getDetailSearch());
+            case CUSTOMER_TEL -> orderDto.customerTel.eq(queryParams.getDetailSearch());
             case RECIPIENT_NAME -> orderDto.recipientName.eq(queryParams.getDetailSearch());
-            case RECIPIENT_TEL_1 -> orderDto.recipientPhoneNumber1.eq(queryParams.getDetailSearch());
-            case RECIPIENT_TEL_2 -> orderDto.recipientPhoneNumber2.eq(queryParams.getDetailSearch());
-            case RECIPIENT_ADDRESS -> orderDto.recipientAddress.contains(queryParams.getDetailSearch());
+            case RECIPIENT_TEL_1 -> orderDto.recipientTel1.eq(queryParams.getDetailSearch());
+            case RECIPIENT_TEL_2 -> orderDto.recipientTel2.eq(queryParams.getDetailSearch());
+            case RECIPIENT_ADDRESS -> orderDto.recipientAddr1.contains(queryParams.getDetailSearch());
             case SHIPPING_TRACKING_NUMBER -> orderDto.shippingTrackingNumber.eq(queryParams.getDetailSearch());
             case SHIPPING_BUNDLE_NUMBER -> orderDto.shippingBundleNumber.eq(queryParams.getDetailSearch());
         };
