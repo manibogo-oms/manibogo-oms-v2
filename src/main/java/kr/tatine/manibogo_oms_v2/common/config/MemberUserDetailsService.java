@@ -16,7 +16,7 @@ public class MemberUserDetailsService implements UserDetailsService {
     private final MemberDao memberDao;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return memberDao.findById(username)
                 .map(this::createUserDetails)
