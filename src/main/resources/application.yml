@@ -21,6 +21,13 @@ spring:
         create_empty_composites:
           enabled: true
 
+management:
+  endpoint:
+    health:
+      show-details: always
+  health:
+    diskspace:
+      enabled: false
 ---
 spring:
   config:
@@ -53,7 +60,8 @@ logging:
 security:
   remember-me:
     key: uGfR1cWlEUy&Qi
-    ttl: 1209600 # 14d
+    ttl: 1209600 # 14d\
+#    ttl: 30
 ---
 spring:
   config:
@@ -65,8 +73,8 @@ spring:
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: ENC(AP556YlhNzQtQdAGHbIrP9VZjlxGr85saviW4zTt4j8ijrXLSe0qnbhAM52jt3YuLcBQZuIbxq49rLvxfRzl49RbNEhF8AtLXz6ptpoPloM+IUP0L698QkCsiRx1Xui9hm5HQ2ZYe/ak98SiuAawB7aQIR9w//a6EoPMdao2v2k=)
-    username: ENC(hyDirMnvkTOuZy1fCgg0inStRABuDatKtTQmw8kHw9kDRceCECAzMooOAtmN2rdw)
+    url: ENC(kUhdidxAjJuzeR4A+68fb1HhEz8nQDo8M2LHTrGqPhEI+B6zZS9ZByFbCWYHk4ZESTPzqbXIe5RRpi992RiR9ATs4+aD/7M6H3nI36NbZHI=)
+    username: ENC(wz6jODmMCum4utAn43ThYuv/0rur3eYCxxggzf8GwEnAmF8JSeoKXBhpz5tMtmjkp6gTz1Z2eMRIpDPdKkXsHA==)
     password: ENC(RGsbi5/4Iqmly9DoUeMdgXNGNQzdScQciFWaMuIa7aEtUravs/TRP2wZhwg+Sl8z)
 
   jpa:
