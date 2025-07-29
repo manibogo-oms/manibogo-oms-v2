@@ -83,7 +83,13 @@ spring:
 
   data:
     redis:
-      url: ENC(0Zxi8lSQDYl+OjVkiN05To7N5nwp9xzDe/oqE5DmPNbf3kFHS4exyoURC57G4bSVbkxNLk6LuTSNK8JZlA5NTFJgqMW/hqle6DUFzx9L4mSbI8fKj6x3yJ65tAPcePHT3+1et3zd1Bhd2kIH0ekz2A==)
+      sentinel:
+        master: mymaster
+        nodes:
+          - ENC(2lnKOqTfYTDCABgLwtMpv3sY+3egyLxHgo+IRKiM2sxiB0F66JcMFRMWP7nOuFCk7oN2ll24b2QkPlUSkiqfZA==)
+          - ENC(m+kW7mq7iC/Q/m6HlmmSMJTrFf4v4ossxoWaD/e7JxeD3oXa5qnH2ED/InVf3qDLUu9qS5QQuLl3Xp8qAwnFHg==)
+          - ENC(b31u29KeUqsGctQsmn5vcgf3KrFa8EI0Fn64RT6Y+lhpWyUXH0Bb7sj8HJ2KnPYGngaNR/phbcoTcfXvGqjnEA==)
+      password: ENC(JAlEhIXHea21IvZKMBcmoiFVmGklm45H7ZmzFaOb58bn1zAOlEDfAg8TdjogMQ4F)
 
 security:
   remember-me:
