@@ -8,21 +8,21 @@ files:
 
 hooks:
   ApplicationStop:
-    - location: scripts/stop_service.sh
+    - location: stop_service.sh
       timeout: 300
       runas: root
 
   BeforeInstall:
-    - location: scripts/backup_jar.sh
+    - location: backup_jar.sh
       timeout: 300
       runas: root
 
   ApplicationStart:
-    - location: scripts/start_service.sh
+    - location: start_service.sh
       timeout: 300
       runas: root
 
-  ApplicationStart:
-    - location: scripts/validate_service.sh
+  ValidateService:
+    - location: validate_service.sh
       timeout: 300
       runas: root
