@@ -89,3 +89,7 @@ clean {
 jar {
 	enabled = false
 }
+
+springBoot {
+	buildInfo()
+}
