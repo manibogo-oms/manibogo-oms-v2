@@ -1,0 +1,183 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.0.6 Chrome/138.0.7204.100 Electron/37.2.3 Safari/537.36" version="28.0.6">
+  <diagram name="페이지-1" id="OfrMbrlCytJfYURwM7MI">
+    <mxGraphModel dx="2347" dy="1604" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-105" value="org.springframework" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;dashed=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="-820" y="10" width="1370" height="580" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-106" value="security" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;dashed=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="-360" y="40" width="890" height="530" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=classic;startFill=1;" edge="1" parent="1" source="y4KOdZGZ_hCAsyHQ0U1c-41" target="y4KOdZGZ_hCAsyHQ0U1c-46">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=classic;startFill=1;" edge="1" parent="1" source="y4KOdZGZ_hCAsyHQ0U1c-41" target="y4KOdZGZ_hCAsyHQ0U1c-74">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="59.999999999999545" y="244.0588235294117" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-10" y="385" />
+              <mxPoint x="-10" y="130" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-41" value="Authentication Filters" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="-340" y="250" width="280" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-36" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="-320" y="399" width="240" height="101" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-28" value="RememberMeAuthenticationFilter" style="html=1;whiteSpace=wrap;verticalAlign=top;fillColor=#dae8fc;strokeColor=#000000;" vertex="1" parent="y4KOdZGZ_hCAsyHQ0U1c-36">
+          <mxGeometry width="240" height="101" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-29" value="«interface»&lt;br&gt;&lt;b&gt;RememberMeServices&lt;/b&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="y4KOdZGZ_hCAsyHQ0U1c-36">
+          <mxGeometry x="20" y="30.3" width="200" height="50.5" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-37" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="-320" y="280" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-25" value="SecurityContextHolderFilter" style="html=1;whiteSpace=wrap;verticalAlign=top;fillColor=#dae8fc;strokeColor=#000000;" vertex="1" parent="y4KOdZGZ_hCAsyHQ0U1c-37">
+          <mxGeometry width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-9" value="HttpSession&lt;div&gt;SecurityContextRepository&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontStyle=1" vertex="1" parent="y4KOdZGZ_hCAsyHQ0U1c-37">
+          <mxGeometry x="20" y="27.63000000000011" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="y4KOdZGZ_hCAsyHQ0U1c-34" target="y4KOdZGZ_hCAsyHQ0U1c-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-51" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="-320" y="80" width="240" height="95.5" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-46" value="Authentication" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="y4KOdZGZ_hCAsyHQ0U1c-51">
+          <mxGeometry width="240" height="95.5" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-47" value="UsernamePassword&lt;div&gt;AuthenticationToken&lt;/div&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="y4KOdZGZ_hCAsyHQ0U1c-51">
+          <mxGeometry x="20" y="25" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-61" value="«interface»&lt;br&gt;&lt;b&gt;UserDetailsService&lt;/b&gt;" style="html=1;whiteSpace=wrap;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="40" y="440" width="240" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-45" value="kr.tatine.manibogo_oms_v2.common.config" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;dashed=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="-350" y="630" width="870" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-32" value="RedisPersistentTokenRepository" style="html=1;whiteSpace=wrap;fontStyle=1;fillColor=#FF0000;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="-300" y="810" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-40" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="-320" y="665" width="240" height="101" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-34" value="&lt;font style=&quot;font-size: 11px;&quot;&gt;PersistentTokenBased&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;RememberMeServices&lt;/span&gt;&lt;/font&gt;" style="html=1;whiteSpace=wrap;verticalAlign=top;" vertex="1" parent="y4KOdZGZ_hCAsyHQ0U1c-40">
+          <mxGeometry width="240" height="101" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-33" value="«interface»&lt;br&gt;&lt;b&gt;PersistentTokenRepository&lt;/b&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="y4KOdZGZ_hCAsyHQ0U1c-40">
+          <mxGeometry x="20" y="31.31" width="200" height="50.5" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;" edge="1" parent="1" source="y4KOdZGZ_hCAsyHQ0U1c-32" target="y4KOdZGZ_hCAsyHQ0U1c-33">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-65" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="40" y="665" width="240" height="101" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-66" value="&lt;span style=&quot;font-size: 11px;&quot;&gt;MemberUserDetailsService&lt;/span&gt;" style="html=1;whiteSpace=wrap;verticalAlign=top;" vertex="1" parent="y4KOdZGZ_hCAsyHQ0U1c-65">
+          <mxGeometry width="240" height="101" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-67" value="«interface»&lt;br&gt;&lt;b&gt;MemberDao&lt;/b&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="y4KOdZGZ_hCAsyHQ0U1c-65">
+          <mxGeometry x="20" y="31.31" width="200" height="50.5" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-69" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;" edge="1" parent="1" source="y4KOdZGZ_hCAsyHQ0U1c-66" target="y4KOdZGZ_hCAsyHQ0U1c-61">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="160" y="510" />
+              <mxPoint x="160" y="510" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-85" value="«interface»&lt;br&gt;&lt;b&gt;PasswordEncoder&lt;/b&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="60" y="480" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-86" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="40" y="260.5" width="240" height="99.5" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-82" value="" style="group" vertex="1" connectable="0" parent="y4KOdZGZ_hCAsyHQ0U1c-86">
+          <mxGeometry width="240" height="99.5" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-79" value="«AuthenticationProvider»" style="html=1;whiteSpace=wrap;verticalAlign=top;" vertex="1" parent="y4KOdZGZ_hCAsyHQ0U1c-82">
+          <mxGeometry width="240" height="99.5" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-83" value="&lt;b&gt;DaoAuthenticationProvider&lt;/b&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="y4KOdZGZ_hCAsyHQ0U1c-86">
+          <mxGeometry x="20" y="30" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-87" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;startArrow=classic;startFill=1;" edge="1" parent="1" source="y4KOdZGZ_hCAsyHQ0U1c-79" target="y4KOdZGZ_hCAsyHQ0U1c-61">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-90" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;" edge="1" parent="1" source="y4KOdZGZ_hCAsyHQ0U1c-89" target="y4KOdZGZ_hCAsyHQ0U1c-85">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="495" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-89" value="DelegatingPasswordEncoder" style="html=1;whiteSpace=wrap;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="310" y="665" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-92" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;" edge="1" parent="1" source="y4KOdZGZ_hCAsyHQ0U1c-91" target="y4KOdZGZ_hCAsyHQ0U1c-67">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-91" value="JpaMemberDao" style="html=1;whiteSpace=wrap;fontStyle=1;fillColor=#007FFF;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="60" y="810" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-74" value="«AuthenticationManager»" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="240" height="95.5" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-76" value="&lt;b&gt;ProviderManager&lt;/b&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="60" y="110" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-114" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;" edge="1" parent="1" source="y4KOdZGZ_hCAsyHQ0U1c-25" target="y4KOdZGZ_hCAsyHQ0U1c-20">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-400" y="330" />
+              <mxPoint x="-400" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-44" value="session" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;dashed=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="-800" y="40" width="360" height="360" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-43" value="data.redis" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;dashed=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="-780" y="290" width="320" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-42" value="web.http" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;dashed=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="-780" y="71" width="320" height="199" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-10" value="SessionRepositoryFilter" style="html=1;whiteSpace=wrap;verticalAlign=top;fillColor=#dae8fc;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="-760" y="100" width="280" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-20" value="SessionRepositoryRequestWrapper" style="html=1;whiteSpace=wrap;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="-740" y="129.5" width="240" height="100.5" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-16" value="«interface»&lt;br&gt;&lt;b&gt;SecurityRepository&lt;/b&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="-720" y="160" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;" edge="1" parent="1" source="y4KOdZGZ_hCAsyHQ0U1c-17" target="y4KOdZGZ_hCAsyHQ0U1c-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-640" y="185" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-17" value="RedisSessionRepository" style="html=1;whiteSpace=wrap;fontStyle=1;fillColor=#FF0000;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="-720" y="320" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-116" value="HTTP Request" style="shape=singleArrow;whiteSpace=wrap;html=1;pointerEvents=0;align=center;verticalAlign=top;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=default;gradientColor=none;arrowWidth=0.44285714285713873;arrowSize=0.08757763975155215;" vertex="1" parent="1">
+          <mxGeometry x="-820" y="420" width="480" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="y4KOdZGZ_hCAsyHQ0U1c-122" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontFamily=Helvetica;fontSize=12;fontColor=default;startArrow=classic;startFill=1;" edge="1" parent="1" source="y4KOdZGZ_hCAsyHQ0U1c-79" target="y4KOdZGZ_hCAsyHQ0U1c-74">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
