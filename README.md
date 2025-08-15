@@ -1,10 +1,4 @@
-
-
-
-
 ## 개요
-
-![인트로](https://github-production-user-asset-6210df.s3.amazonaws.com/89298198/477962208-683688e1-5bee-4031-ae62-3ba2d01abfcd.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250814%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250814T100931Z&X-Amz-Expires=300&X-Amz-Signature=536b1827a06fa61d5e9cd4dc4309a7ddf4fc5205322c92551ed1c6fc6c73c571&X-Amz-SignedHeaders=host)
 
 경북 소재 침대/매트리스 전문 기업 S*사의 주문 관리 서비스입니다. 네이버 스마트스토어, 매장 등 다양한 채널의 주문을 통합 관리하고, 엑셀 파일을 기반으로 주문 이행을 자동화하기 위해 개발했습니다.
 
@@ -47,8 +41,7 @@
 ## 주요 기능
 
 ### 주문/상품관리 기능 
-
-![인트로](https://github-production-user-asset-6210df.s3.amazonaws.com/89298198/477962208-683688e1-5bee-4031-ae62-3ba2d01abfcd.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250814%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250814T100931Z&X-Amz-Expires=300&X-Amz-Signature=536b1827a06fa61d5e9cd4dc4309a7ddf4fc5205322c92551ed1c6fc6c73c571&X-Amz-SignedHeaders=host)
+![인트로](https://github.com/user-attachments/assets/81602f02-729b-400a-a12a-2370eed8b935)
 
 - 스마트스토어, 매장 등 여러 채널의 주문을 통합 관리
 - 동적 페이징, 검색, 헤더 정렬 기능
