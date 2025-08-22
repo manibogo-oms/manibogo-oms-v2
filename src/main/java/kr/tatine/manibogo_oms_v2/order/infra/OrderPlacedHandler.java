@@ -1,31 +1,31 @@
 package kr.tatine.manibogo_oms_v2.order.infra;
 
-import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderStateChangedEvent;
+import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderPlacedEvent;
 import kr.tatine.manibogo_oms_v2.order.query.dao.OrderStateHistoryDao;
 import kr.tatine.manibogo_oms_v2.order.query.dto.OrderStateHistory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-@Service
+@Component
 @RequiredArgsConstructor
-public class OrderStateChangedHandler {
+public class OrderPlacedHandler {
 
     private final OrderStateHistoryDao orderStateHistoryDao;
 
     @TransactionalEventListener(
-            classes = OrderStateChangedEvent.class,
+            classes = OrderPlacedEvent.class,
             phase = TransactionPhase.AFTER_COMMIT
     )
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void handleItemOrderStateChanged(OrderStateChangedEvent event) {
-        final OrderStateHistory orderStateHistory = orderStateHistoryDao.findById(event.getOrderNumber())
-                .orElseGet(() -> orderStateHistoryDao.save(new OrderStateHistory(event.getOrderNumber(), event.getChangedAt())));
+    public void handleOrderPlaced(OrderPlacedEvent orderPlacedEvent) {
+        final OrderStateHistory orderStateHistory = new OrderStateHistory(
+                orderPlacedEvent.getOrderNumber(), orderPlacedEvent.getOrderPlacedAt());
 
-        orderStateHistory.changeHistory(event.getOrderState(), event.getChangedAt());
+        orderStateHistoryDao.save(orderStateHistory);
     }
 
 }
