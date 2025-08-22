@@ -47,16 +47,16 @@ SELECT
     o.recipient_addr1,
     o.recipient_addr2,
     o.recipient_zip_code,
-    o.placed_at,
+    ish.placed_at,
     o.dispatch_deadline,
     o.preferred_shipping_date,
-    ioh_agg.purchased_at,
-    ioh_agg.dispatched_at,
-    ioh_agg.shipped_at,
+    ish.purchased_at,
+    ish.dispatched_at,
+    ish.shipped_at,
     o.shipping_tracking_number,
-    ioh_agg.confirmed_at,
-    ioh_agg.cancelled_at,
-    ioh_agg.refunded_at,
+    ish.confirmed_at,
+    ish.cancelled_at,
+    ish.refunded_at,
     o.purchase_memo,
     o.shipping_memo,
     o.admin_memo,
@@ -70,6 +70,7 @@ FROM
     orders AS o
     LEFT JOIN product AS p ON o.product_number = p.product_number
     LEFT JOIN zip_code_region AS r ON o.recipient_zip_code = r.zip_code
+    LEFT JOIN order_state_history AS ish ON o.order_number = ish.order_number
     -- 상품주문 옵션 1 ~ 3 집계 View
     LEFT JOIN (
         SELECT
@@ -99,20 +100,6 @@ FROM
     		orders.shipping_bundle_number
     ) AS sbc_agg ON o.shipping_bundle_number = sbc_agg.shipping_bundle_number
     -- 상품주문 상태 이력 집계 View
-    LEFT JOIN (
-        SELECT
-            ioh.order_number,
-            MAX(CASE WHEN ioh.new_state = 'PURCHASED' THEN ioh.changed_at ELSE NULL END) AS 'purchased_at',
-            MAX(CASE WHEN ioh.new_state = 'DISPATCHED' THEN ioh.changed_at ELSE NULL END) AS 'dispatched_at',
-            MAX(CASE WHEN ioh.new_state = 'SHIPPED' THEN ioh.changed_at ELSE NULL END) AS 'shipped_at',
-            MAX(CASE WHEN ioh.new_state = 'CONFIRMED' THEN ioh.changed_at ELSE NULL END) AS 'confirmed_at',
-            MAX(CASE WHEN ioh.new_state = 'CANCELLED' THEN ioh.changed_at ELSE NULL END) AS 'cancelled_at',
-            MAX(CASE WHEN ioh.new_state = 'REFUNDED' THEN ioh.changed_at ELSE NULL END) AS 'refunded_at'
-        FROM
-            order_log ioh
-        GROUP BY
-            ioh.order_number
-    ) AS ioh_agg ON o.order_number = ioh_agg.order_number
 WHERE p.is_enabled = true
 """)
 public class OrderDto {
