@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum DetailSearchParam implements Describable {
 
-    ITEM_ORDER_NUMBER("상품주문번호"),
     ORDER_NUMBER("주문번호"),
     CUSTOMER_NAME("구매자명"),
     CUSTOMER_TEL("구매자연락처"),

@@ -14,9 +14,7 @@ public class OrderStateChangedEvent extends Event {
 
     private final String orderNumber;
 
-    private final String previousStateName;
-
-    private final String newStateName;
+    private final String orderState;
 
     private final LocalDateTime changedAt;
 

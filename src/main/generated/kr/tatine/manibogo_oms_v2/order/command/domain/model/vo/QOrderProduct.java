@@ -24,7 +24,11 @@ public class QOrderProduct extends BeanPath<OrderProduct> {
 
     public final NumberPath<Integer> amount = createNumber("amount", Integer.class);
 
-    public final ListPath<kr.tatine.manibogo_oms_v2.common.model.Option, kr.tatine.manibogo_oms_v2.common.model.QOption> options = this.<kr.tatine.manibogo_oms_v2.common.model.Option, kr.tatine.manibogo_oms_v2.common.model.QOption>createList("options", kr.tatine.manibogo_oms_v2.common.model.Option.class, kr.tatine.manibogo_oms_v2.common.model.QOption.class, PathInits.DIRECT2);
+    public final kr.tatine.manibogo_oms_v2.common.model.QOption option1;
+
+    public final kr.tatine.manibogo_oms_v2.common.model.QOption option2;
+
+    public final kr.tatine.manibogo_oms_v2.common.model.QOption option3;
 
     public final kr.tatine.manibogo_oms_v2.common.model.QMoney price;
 
@@ -48,6 +52,9 @@ public class QOrderProduct extends BeanPath<OrderProduct> {
 
     public QOrderProduct(Class<? extends OrderProduct> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.option1 = inits.isInitialized("option1") ? new kr.tatine.manibogo_oms_v2.common.model.QOption(forProperty("option1")) : null;
+        this.option2 = inits.isInitialized("option2") ? new kr.tatine.manibogo_oms_v2.common.model.QOption(forProperty("option2")) : null;
+        this.option3 = inits.isInitialized("option3") ? new kr.tatine.manibogo_oms_v2.common.model.QOption(forProperty("option3")) : null;
         this.price = inits.isInitialized("price") ? new kr.tatine.manibogo_oms_v2.common.model.QMoney(forProperty("price")) : null;
         this.productNumber = inits.isInitialized("productNumber") ? new kr.tatine.manibogo_oms_v2.product.command.domain.QProductNumber(forProperty("productNumber")) : null;
     }
