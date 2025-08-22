@@ -2,9 +2,6 @@ package kr.tatine.manibogo_oms_v2.order.command.domain.event;
 
 import kr.tatine.manibogo_oms_v2.common.event.Event;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderNumber;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ShippingMethod;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType;
-import kr.tatine.manibogo_oms_v2.product.command.domain.ProductNumber;
 import lombok.Getter;
 import lombok.ToString;
 

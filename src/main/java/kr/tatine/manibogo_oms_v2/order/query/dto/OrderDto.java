@@ -29,13 +29,13 @@ SELECT
     o.order_state,
     p.product_number,
     p.product_name,
-    opo_agg.option_key1,
-    opo_agg.option_key2,
-    opo_agg.option_key3,
-    opo_agg.option_label1,
-    opo_agg.option_label2,
-    opo_agg.option_label3,
-    sbc_agg.shipping_bundle_count,
+    o.option_key1,
+    o.option_key2,
+    o.option_key3,
+    o.option_value1 as 'option_label1',
+    o.option_value2 as 'option_label2',
+    o.option_value3 as 'option_label3',
+    '1' as 'shipping_bundle_count',
     o.amount,
     r.sido,
     r.sigungu,
@@ -71,35 +71,6 @@ FROM
     LEFT JOIN product AS p ON o.product_number = p.product_number
     LEFT JOIN zip_code_region AS r ON o.recipient_zip_code = r.zip_code
     LEFT JOIN order_state_history AS ish ON o.order_number = ish.order_number
-    -- 상품주문 옵션 1 ~ 3 집계 View
-    LEFT JOIN (
-        SELECT
-            opo.order_number,
-            MAX(CASE WHEN opo.option_seq = 0 THEN v.option_key ELSE NULL END) AS option_key1,
-            MAX(CASE WHEN opo.option_seq = 0 THEN v.`label` ELSE NULL END) AS option_label1,
-            MAX(CASE WHEN opo.option_seq = 1 THEN v.option_key ELSE NULL END) AS option_key2,
-            MAX(CASE WHEN opo.option_seq = 1 THEN v.`label` ELSE NULL END) AS option_label2,
-            MAX(CASE WHEN opo.option_seq = 2 THEN v.option_key ELSE NULL END) AS option_key3,
-            MAX(CASE WHEN opo.option_seq = 2 THEN v.`label` ELSE NULL END) AS option_label3
-        FROM
-            order_product_option AS opo
-            JOIN orders o ON o.order_number = opo.order_number
-            JOIN variant v ON v.product_number = o.product_number
-            AND v.option_key = opo.option_key
-            AND v.option_value = opo.option_value
-        GROUP BY
-            opo.order_number
-    ) AS opo_agg ON o.order_number = opo_agg.order_number
-    -- 합배송수 집계 View
-    LEFT JOIN (
-    	SELECT\s
-    		orders.shipping_bundle_number,
-    		COUNT(orders.shipping_bundle_number) AS 'shipping_bundle_count'
-		FROM orders
-    	GROUP BY
-    		orders.shipping_bundle_number
-    ) AS sbc_agg ON o.shipping_bundle_number = sbc_agg.shipping_bundle_number
-    -- 상품주문 상태 이력 집계 View
 WHERE p.is_enabled = true
 """)
 public class OrderDto {
