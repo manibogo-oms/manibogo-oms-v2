@@ -19,10 +19,24 @@ public class OrderProduct {
 
     private ProductNumber productNumber;
 
-    @ElementCollection
-    @OrderColumn(name = "option_seq")
-    @CollectionTable(name = "order_product_option", joinColumns = @JoinColumn(name = "order_number"))
-    private List<Option> options;
+
+    @AttributeOverrides({
+        @AttributeOverride(name = "key", column = @Column(name = "option_key1")),
+        @AttributeOverride(name = "value", column = @Column(name = "option_value1"))
+    })
+    private Option option1;
+
+    @AttributeOverrides({
+            @AttributeOverride(name = "key", column = @Column(name = "option_key2")),
+            @AttributeOverride(name = "value", column = @Column(name = "option_value2"))
+    })
+    private Option option2;
+
+    @AttributeOverrides({
+            @AttributeOverride(name = "key", column = @Column(name = "option_key3")),
+            @AttributeOverride(name = "value", column = @Column(name = "option_value3"))
+    })
+    private Option option3;
 
     private Integer amount;
 
@@ -31,7 +45,15 @@ public class OrderProduct {
 
     public OrderProduct(ProductNumber productNumber, List<Option> options, Integer amount, Money price) {
         this.productNumber = productNumber;
-        this.options = options;
+        if (!options.isEmpty()) {
+            this.option1 = options.get(0);
+        }
+        if (options.size() > 1) {
+            this.option2 = options.get(1);
+        }
+        if (options.size() > 2) {
+            this.option3 = options.get(2);
+        }
         this.amount = amount;
         this.price = price;
     }
