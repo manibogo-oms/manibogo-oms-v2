@@ -2,6 +2,7 @@ package kr.tatine.manibogo_oms_v2.order.command.domain.model;
 
 import jakarta.persistence.*;
 import kr.tatine.manibogo_oms_v2.common.event.Events;
+import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderPlacedEvent;
 import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderStateChangedEvent;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.*;
 import lombok.AccessLevel;
@@ -48,8 +49,6 @@ public class Order {
     @Embedded
     private TrackingInfo trackingInfo;
 
-    private LocalDateTime placedAt;
-
     private LocalDate dispatchDeadline;
 
     private LocalDate preferredShippingDate;
@@ -64,9 +63,10 @@ public class Order {
         this.shippingBundleNumber = shippingBundleNumber;
         this.shipping = shipping;
         this.memo = memo;
-        this.placedAt = placedAt;
         this.dispatchDeadline = dispatchDeadline;
         this.preferredShippingDate = preferredShippingDate;
+
+        Events.raise(new OrderPlacedEvent(number, placedAt));
     }
 
     void changeShippingBundleNumber(ShippingBundleNumber shippingBundleNumber) {
@@ -83,7 +83,7 @@ public class Order {
         setState(state, changedAt);
 
         if (prevState.equals(this.state)) return;
-        Events.raise(new OrderStateChangedEvent(number.getOrderNumber(), prevState.name(), state.name(), changedAt));
+        Events.raise(new OrderStateChangedEvent(number.getOrderNumber(), state.name(), changedAt));
     }
 
     public void proceedState(OrderState state, LocalDateTime changedAt) {
