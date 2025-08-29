@@ -6,7 +6,6 @@ import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderPlacedEvent;
 import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderStateChangedEvent;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.*;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
@@ -28,9 +27,6 @@ public class Order {
     @Embedded
     private Customer customer;
 
-    @Embedded
-    private Recipient recipient;
-
     @Enumerated(EnumType.STRING)
     private SalesChannel salesChannel;
 
@@ -41,7 +37,7 @@ public class Order {
     private ShippingBundleNumber shippingBundleNumber;
 
     @Embedded
-    private Shipping shipping;
+    private ShippingInfo shippingInfo;
 
     @Embedded
     private Memo memo;
@@ -53,15 +49,14 @@ public class Order {
 
     private LocalDate preferredShippingDate;
 
-    public Order(OrderNumber number, Customer customer, Recipient recipient, SalesChannel salesChannel, OrderProduct product, ShippingBundleNumber shippingBundleNumber, Shipping shipping, Memo memo, LocalDateTime placedAt, LocalDate dispatchDeadline, LocalDate preferredShippingDate) {
+    public Order(OrderNumber number, Customer customer, SalesChannel salesChannel, OrderProduct product, ShippingBundleNumber shippingBundleNumber, ShippingInfo shippingInfo, Memo memo, LocalDateTime placedAt, LocalDate dispatchDeadline, LocalDate preferredShippingDate) {
         this.number = number;
         this.state = OrderState.PLACED;
         this.customer = customer;
-        this.recipient = recipient;
         this.salesChannel = salesChannel;
         this.product = product;
         this.shippingBundleNumber = shippingBundleNumber;
-        this.shipping = shipping;
+        this.shippingInfo = shippingInfo;
         this.memo = memo;
         this.dispatchDeadline = dispatchDeadline;
         this.preferredShippingDate = preferredShippingDate;
@@ -75,7 +70,7 @@ public class Order {
 
     boolean canBundleShippingWith(Order order) {
         return (number == order.number)
-                || (customer.equals(order.customer) && shipping.equals(order.shipping) && recipient.equals(order.recipient));
+                || (customer.equals(order.customer) && shippingInfo.equals(order.shippingInfo));
     }
 
     public void changeState(OrderState state, LocalDateTime changedAt) {
@@ -96,14 +91,9 @@ public class Order {
         this.customer = customer;
     }
 
-    public void changeRecipient(Recipient recipient) {
-        if (Objects.equals(this.recipient, recipient)) return;
-        this.recipient = recipient;
-    }
-
-    public void changeShipping(Shipping shipping) {
-        if (Objects.equals(this.shipping, shipping)) return;
-        this.shipping = shipping;
+    public void changeShippingInfo(ShippingInfo shippingInfo) {
+        if (Objects.equals(this.shippingInfo, shippingInfo)) return;
+        this.shippingInfo = shippingInfo;
     }
 
     public void changeTrackingInfo(TrackingInfo trackingInfo) {

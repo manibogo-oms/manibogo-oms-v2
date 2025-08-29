@@ -59,14 +59,11 @@ public class PlaceOrderService {
         final Address address = new Address(
                 command.recipientAddress1(), command.recipientAddress2(), command.recipientZipCode());
 
-        final Recipient recipient = new Recipient(
-                command.recipientName(), new PhoneNumber(command.recipientTel1()), new PhoneNumber(command.recipientTel2()), address);
-
         final Memo memo = new Memo(command.purchaseMemo(), command.shippingMemo(), command.adminMemo());
 
-        final Shipping shipping = new Shipping(command.shippingMethod(), command.shippingChargeType());
+        final ShippingInfo shippingInfo = new ShippingInfo(command.shippingMethod(), command.shippingChargeType(), command.recipientName(), new PhoneNumber(command.recipientTel1()), new PhoneNumber(command.recipientTel2()), address);
 
-        return new Order(orderNumber, customer, recipient, SalesChannel.LOCAL, orderProduct, ShippingBundleNumber.random(), shipping, memo, LocalDateTime.now(), command.dispatchDeadline(), command.preferredShippingDate());
+        return new Order(orderNumber, customer, SalesChannel.LOCAL, orderProduct, ShippingBundleNumber.random(), shippingInfo, memo, LocalDateTime.now(), command.dispatchDeadline(), command.preferredShippingDate());
     }
 
     private OrderProduct createOrderProduct(PlaceOrderCommand command) {

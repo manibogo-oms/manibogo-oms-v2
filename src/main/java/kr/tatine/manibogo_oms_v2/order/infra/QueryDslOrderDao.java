@@ -48,7 +48,7 @@ public class QueryDslOrderDao implements OrderDao {
                 .from(order)
                 .leftJoin(product).on(order.product.productNumber.eq(product.number))
                 .leftJoin(orderStateHistory).on(order.number.orderNumber.eq(orderStateHistory.orderNumber))
-                .leftJoin(zipCodeRegion).on(order.recipient.address.zipCode.eq(zipCodeRegion.zipCode))
+                .leftJoin(zipCodeRegion).on(order.shippingInfo.address.zipCode.eq(zipCodeRegion.zipCode))
                 .where(predicates);
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
@@ -95,12 +95,12 @@ public class QueryDslOrderDao implements OrderDao {
                         zipCodeRegion.sigungu,
                         order.customer.name.as("customerName"),
                         order.customer.phoneNumber.phoneNumber.as("customerTel"),
-                        order.recipient.name.as("recipientName"),
-                        order.recipient.phoneNumber1.phoneNumber.as("recipientTel1"),
-                        order.recipient.phoneNumber1.phoneNumber.as("recipientTel2"),
-                        order.recipient.address.address1.as("recipientAddr1"),
-                        order.recipient.address.address2.as("recipientAddr2"),
-                        order.recipient.address.zipCode.as("recipientZipCode"),
+                        order.shippingInfo.recipientName.as("recipientName"),
+                        order.shippingInfo.recipientTel1.phoneNumber.as("recipientTel1"),
+                        order.shippingInfo.recipientTel2.phoneNumber.as("recipientTel2"),
+                        order.shippingInfo.address.address1.as("recipientAddr1"),
+                        order.shippingInfo.address.address2.as("recipientAddr2"),
+                        order.shippingInfo.address.zipCode.as("recipientZipCode"),
                         orderStateHistory.placedAt,
                         order.dispatchDeadline,
                         order.preferredShippingDate,
@@ -115,15 +115,15 @@ public class QueryDslOrderDao implements OrderDao {
                         order.memo.shippingMemo,
                         order.memo.adminMemo,
                         order.customer.message.as("customerMessage"),
-                        order.shipping.method.as("shippingMethod"),
-                        order.shipping.chargeType.as("shippingChargeType"),
+                        order.shippingInfo.method.as("shippingMethod"),
+                        order.shippingInfo.chargeType.as("shippingChargeType"),
                         order.trackingInfo.companyName.as("shippingCompanyName"),
                         order.product.price.value.as("finalPrice")
                 ))
                 .from(order)
                 .leftJoin(product).on(order.product.productNumber.eq(product.number))
                 .leftJoin(orderStateHistory).on(order.number.orderNumber.eq(orderStateHistory.orderNumber))
-                .leftJoin(zipCodeRegion).on(order.recipient.address.zipCode.eq(zipCodeRegion.zipCode));
+                .leftJoin(zipCodeRegion).on(order.shippingInfo.address.zipCode.eq(zipCodeRegion.zipCode));
     }
 
     private Predicate[] getPredicates(OrderQueryParams queryParams) {
@@ -164,10 +164,10 @@ public class QueryDslOrderDao implements OrderDao {
             case ORDER_NUMBER -> order.number.orderNumber.eq(queryParams.getDetailSearch());
             case CUSTOMER_NAME -> order.customer.name.eq(queryParams.getDetailSearch());
             case CUSTOMER_TEL -> order.customer.phoneNumber.phoneNumber.eq(queryParams.getDetailSearch());
-            case RECIPIENT_NAME -> order.recipient.name.eq(queryParams.getDetailSearch());
-            case RECIPIENT_TEL_1 -> order.recipient.phoneNumber1.phoneNumber.eq(queryParams.getDetailSearch());
-            case RECIPIENT_TEL_2 -> order.recipient.phoneNumber2.phoneNumber.eq(queryParams.getDetailSearch());
-            case RECIPIENT_ADDRESS -> order.recipient.address.address1.contains(queryParams.getDetailSearch());
+            case RECIPIENT_NAME -> order.shippingInfo.recipientName.eq(queryParams.getDetailSearch());
+            case RECIPIENT_TEL_1 -> order.shippingInfo.recipientTel1.phoneNumber.eq(queryParams.getDetailSearch());
+            case RECIPIENT_TEL_2 -> order.shippingInfo.recipientTel2.phoneNumber.eq(queryParams.getDetailSearch());
+            case RECIPIENT_ADDRESS -> order.shippingInfo.address.address1.contains(queryParams.getDetailSearch());
             case SHIPPING_TRACKING_NUMBER -> order.trackingInfo.trackingNumber.eq(queryParams.getDetailSearch());
             case SHIPPING_BUNDLE_NUMBER -> order.shippingBundleNumber.shippingBundleNumber.eq(queryParams.getDetailSearch());
         };

@@ -7,7 +7,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.tatine.manibogo_oms_v2.logistics.query.dao.LogisticsDao;
 import kr.tatine.manibogo_oms_v2.logistics.query.dto.LogisticsDto;
 import kr.tatine.manibogo_oms_v2.logistics.query.dto.LogisticsQueryParams;
-import kr.tatine.manibogo_oms_v2.order.query.dto.OrderQueryParams;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.domain.Page;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static kr.tatine.manibogo_oms_v2.logistics.query.dto.QLogisticsDto.logisticsDto;
-import static kr.tatine.manibogo_oms_v2.order.query.dto.QOrderDto.orderDto;
 
 @Repository
 @RequiredArgsConstructor
