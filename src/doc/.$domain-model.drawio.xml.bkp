@@ -151,7 +151,7 @@
         <mxCell id="FBPeUek5stQZwFcVivVc-11" value="- memo: Memo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;rounded=1;" parent="71ndXXiEe4uwfo-h6Cex-81" vertex="1">
           <mxGeometry y="144" width="280" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="FBPeUek5stQZwFcVivVc-25" value="- shipping: Shipping" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;rounded=1;" parent="71ndXXiEe4uwfo-h6Cex-81" vertex="1">
+        <mxCell id="FBPeUek5stQZwFcVivVc-25" value="- shippingInfo: Shipping" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;rounded=1;" parent="71ndXXiEe4uwfo-h6Cex-81" vertex="1">
           <mxGeometry y="170" width="280" height="26" as="geometry" />
         </mxCell>
         <mxCell id="FBPeUek5stQZwFcVivVc-29" value="- placedAt: LocalDateTime" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="71ndXXiEe4uwfo-h6Cex-81" vertex="1">
@@ -181,7 +181,7 @@
         <mxCell id="71ndXXiEe4uwfo-h6Cex-88" value="+ changeRecipient(recipient): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="71ndXXiEe4uwfo-h6Cex-81" vertex="1">
           <mxGeometry y="386" width="280" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="FBPeUek5stQZwFcVivVc-23" value="+ changeShipping(shipping): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="71ndXXiEe4uwfo-h6Cex-81" vertex="1">
+        <mxCell id="FBPeUek5stQZwFcVivVc-23" value="+ changeShipping(shippingInfo): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="71ndXXiEe4uwfo-h6Cex-81" vertex="1">
           <mxGeometry y="412" width="280" height="26" as="geometry" />
         </mxCell>
         <mxCell id="FBPeUek5stQZwFcVivVc-24" value="+ changeMemo(memo): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="71ndXXiEe4uwfo-h6Cex-81" vertex="1">
