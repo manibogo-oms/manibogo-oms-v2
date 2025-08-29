@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.order.command.domain.model.vo;
+package kr.tatine.manibogo_oms_v2.shipping.command.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -16,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEmbeddableSerializer")
 public class QRecipient extends BeanPath<Recipient> {
 
-    private static final long serialVersionUID = -956644747L;
+    private static final long serialVersionUID = -2004966793L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 

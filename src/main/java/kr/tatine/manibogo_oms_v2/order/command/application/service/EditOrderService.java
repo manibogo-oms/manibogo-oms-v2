@@ -62,24 +62,25 @@ public class EditOrderService {
         order.changeMemo(new Memo(command.purchaseMemo(), command.shippingMemo(), command.adminMemo()));
 
         final Customer customer = new Customer(command.customerName(), new PhoneNumber(command.customerTel()), command.customerMessage());
-        final Recipient recipient = createRecipient(command);
 
-        final Shipping shipping = new Shipping(command.shippingMethod(), command.shippingChargeType());
-        order.changeShipping(shipping);
+        final ShippingInfo shippingInfo = createShippingInfo(command);
+        order.changeShippingInfo(shippingInfo);
 
-        order.changeRecipient(recipient);
         order.changeCustomer(customer);
 
         bundleOrderShippingService.bundle(order, new ShippingBundleNumber(command.shippingBundleNumber()));
     }
 
-    private Recipient createRecipient(EditOrderDetailCommand command) {
+    private static ShippingInfo createShippingInfo(EditOrderDetailCommand command) {
+
         final Address address = new Address(
                 command.recipientAddress1(), command.recipientAddress2(), command.recipientZipCode());
 
-        final Recipient recipient = new Recipient(
-                command.recipientName(), new PhoneNumber(command.recipientTel1()), new PhoneNumber(command.recipientTel2()), address);
-        return recipient;
+        return new ShippingInfo(
+                command.shippingMethod(),
+                command.shippingChargeType(),
+                command.recipientName(),
+                new PhoneNumber(command.recipientTel1()), new PhoneNumber(command.recipientTel2()), address);
     }
 
     private Order findOrder(String orderNumber) {
