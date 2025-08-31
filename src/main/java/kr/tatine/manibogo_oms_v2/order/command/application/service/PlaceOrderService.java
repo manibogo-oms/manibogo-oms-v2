@@ -2,10 +2,8 @@ package kr.tatine.manibogo_oms_v2.order.command.application.service;
 
 import kr.tatine.manibogo_oms_v2.ValidationErrorException;
 import kr.tatine.manibogo_oms_v2.common.ValidationError;
+import kr.tatine.manibogo_oms_v2.common.model.*;
 import kr.tatine.manibogo_oms_v2.region.command.domain.Address;
-import kr.tatine.manibogo_oms_v2.common.model.Money;
-import kr.tatine.manibogo_oms_v2.common.model.Option;
-import kr.tatine.manibogo_oms_v2.common.model.PhoneNumber;
 import kr.tatine.manibogo_oms_v2.order.command.application.dto.PlaceOrderCommand;
 import kr.tatine.manibogo_oms_v2.order.command.application.validator.PlaceOrderCommandValidator;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.Order;
@@ -61,9 +59,9 @@ public class PlaceOrderService {
 
         final Memo memo = new Memo(command.purchaseMemo(), command.shippingMemo(), command.adminMemo());
 
-        final ShippingInfo shippingInfo = new ShippingInfo(command.shippingMethod(), command.shippingChargeType(), command.recipientName(), new PhoneNumber(command.recipientTel1()), new PhoneNumber(command.recipientTel2()), address);
+        final ShippingInfo shippingInfo = new ShippingInfo(command.shippingMethod(), command.shippingChargeType(), new Recipient(command.recipientName(), new PhoneNumber(command.recipientTel1()), new PhoneNumber(command.recipientTel2()), address));
 
-        return new Order(orderNumber, customer, SalesChannel.LOCAL, orderProduct, ShippingBundleNumber.random(), shippingInfo, memo, LocalDateTime.now(), command.dispatchDeadline(), command.preferredShippingDate());
+        return new Order(orderNumber, customer, SalesChannel.LOCAL, orderProduct, ShippingNumber.random(), shippingInfo, memo, LocalDateTime.now(), command.dispatchDeadline(), command.preferredShippingDate());
     }
 
     private OrderProduct createOrderProduct(PlaceOrderCommand command) {

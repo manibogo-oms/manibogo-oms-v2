@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.shipping.command.domain;
+package kr.tatine.manibogo_oms_v2.common.model;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -16,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEmbeddableSerializer")
 public class QRecipient extends BeanPath<Recipient> {
 
-    private static final long serialVersionUID = -2004966793L;
+    private static final long serialVersionUID = -555173908L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
@@ -26,9 +26,9 @@ public class QRecipient extends BeanPath<Recipient> {
 
     public final StringPath name = createString("name");
 
-    public final kr.tatine.manibogo_oms_v2.common.model.QPhoneNumber phoneNumber1;
+    public final QPhoneNumber phoneNumber1;
 
-    public final kr.tatine.manibogo_oms_v2.common.model.QPhoneNumber phoneNumber2;
+    public final QPhoneNumber phoneNumber2;
 
     public QRecipient(String variable) {
         this(Recipient.class, forVariable(variable), INITS);
@@ -49,8 +49,8 @@ public class QRecipient extends BeanPath<Recipient> {
     public QRecipient(Class<? extends Recipient> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.address = inits.isInitialized("address") ? new kr.tatine.manibogo_oms_v2.region.command.domain.QAddress(forProperty("address")) : null;
-        this.phoneNumber1 = inits.isInitialized("phoneNumber1") ? new kr.tatine.manibogo_oms_v2.common.model.QPhoneNumber(forProperty("phoneNumber1")) : null;
-        this.phoneNumber2 = inits.isInitialized("phoneNumber2") ? new kr.tatine.manibogo_oms_v2.common.model.QPhoneNumber(forProperty("phoneNumber2")) : null;
+        this.phoneNumber1 = inits.isInitialized("phoneNumber1") ? new QPhoneNumber(forProperty("phoneNumber1")) : null;
+        this.phoneNumber2 = inits.isInitialized("phoneNumber2") ? new QPhoneNumber(forProperty("phoneNumber2")) : null;
     }
 
 }

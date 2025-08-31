@@ -60,7 +60,7 @@ public class LogisticsController {
     public String invoice(@PathVariable String shippingBundleNumber, Model model) {
 
         model.addAttribute("orders",
-                orderDao.findByShippingBundleNumber(shippingBundleNumber));
+                orderDao.findByShippingNumber(shippingBundleNumber));
 
         return "logisticsInvoice";
     }

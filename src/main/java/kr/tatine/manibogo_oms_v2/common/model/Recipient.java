@@ -1,10 +1,9 @@
-package kr.tatine.manibogo_oms_v2.shipping.command.domain;
+package kr.tatine.manibogo_oms_v2.common.model;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import kr.tatine.manibogo_oms_v2.common.model.PhoneNumber;
 import kr.tatine.manibogo_oms_v2.region.command.domain.Address;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;

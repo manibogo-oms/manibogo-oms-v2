@@ -2,7 +2,10 @@ package kr.tatine.manibogo_oms_v2.order.command.domain.model;
 
 import jakarta.persistence.*;
 import kr.tatine.manibogo_oms_v2.common.event.Events;
+import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
+import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderPlacedEvent;
+import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderShippingInfoChangedEvent;
 import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderStateChangedEvent;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.*;
 import lombok.AccessLevel;
@@ -34,7 +37,7 @@ public class Order {
     private OrderProduct product;
 
     @Embedded
-    private ShippingBundleNumber shippingBundleNumber;
+    private ShippingNumber shippingNumber;
 
     @Embedded
     private ShippingInfo shippingInfo;
@@ -49,23 +52,19 @@ public class Order {
 
     private LocalDate preferredShippingDate;
 
-    public Order(OrderNumber number, Customer customer, SalesChannel salesChannel, OrderProduct product, ShippingBundleNumber shippingBundleNumber, ShippingInfo shippingInfo, Memo memo, LocalDateTime placedAt, LocalDate dispatchDeadline, LocalDate preferredShippingDate) {
+    public Order(OrderNumber number, Customer customer, SalesChannel salesChannel, OrderProduct product, ShippingNumber shippingNumber, ShippingInfo shippingInfo, Memo memo, LocalDateTime placedAt, LocalDate dispatchDeadline, LocalDate preferredShippingDate) {
         this.number = number;
         this.state = OrderState.PLACED;
         this.customer = customer;
         this.salesChannel = salesChannel;
         this.product = product;
-        this.shippingBundleNumber = shippingBundleNumber;
-        this.shippingInfo = shippingInfo;
+        this.shippingNumber = shippingNumber;
+        setShippingInfo(shippingInfo);
         this.memo = memo;
         this.dispatchDeadline = dispatchDeadline;
         this.preferredShippingDate = preferredShippingDate;
 
         Events.raise(new OrderPlacedEvent(number, placedAt));
-    }
-
-    void changeShippingBundleNumber(ShippingBundleNumber shippingBundleNumber) {
-        this.shippingBundleNumber = shippingBundleNumber;
     }
 
     boolean canBundleShippingWith(Order order) {
@@ -117,5 +116,11 @@ public class Order {
     private void setState(OrderState state, LocalDateTime changedAt) {
         if (Objects.equals(this.state, state)) return;
         this.state = state;
+    }
+
+    private void setShippingInfo(ShippingInfo shippingInfo) {
+        if (Objects.equals(this.shippingInfo, shippingInfo)) return;
+        this.shippingInfo = shippingInfo;
+        Events.raise(new OrderShippingInfoChangedEvent(number, shippingNumber, shippingInfo.getMethod(), shippingInfo.getChargeType(), shippingInfo.getRecipient()));
     }
 }

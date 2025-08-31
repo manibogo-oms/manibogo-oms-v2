@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import kr.tatine.manibogo_oms_v2.common.validator.DescribableEnum;
 import kr.tatine.manibogo_oms_v2.common.validator.OptionInfo;
 import kr.tatine.manibogo_oms_v2.common.validator.PhoneNumber;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ShippingMethod;
+import kr.tatine.manibogo_oms_v2.common.model.ChargeType;
+import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel;
 
 import java.time.LocalDate;

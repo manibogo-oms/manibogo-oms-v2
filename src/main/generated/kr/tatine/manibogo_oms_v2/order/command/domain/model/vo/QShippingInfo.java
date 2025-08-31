@@ -22,17 +22,11 @@ public class QShippingInfo extends BeanPath<ShippingInfo> {
 
     public static final QShippingInfo shippingInfo = new QShippingInfo("shippingInfo");
 
-    public final kr.tatine.manibogo_oms_v2.region.command.domain.QAddress address;
+    public final EnumPath<kr.tatine.manibogo_oms_v2.common.model.ChargeType> chargeType = createEnum("chargeType", kr.tatine.manibogo_oms_v2.common.model.ChargeType.class);
 
-    public final EnumPath<ChargeType> chargeType = createEnum("chargeType", ChargeType.class);
+    public final EnumPath<kr.tatine.manibogo_oms_v2.common.model.ShippingMethod> method = createEnum("method", kr.tatine.manibogo_oms_v2.common.model.ShippingMethod.class);
 
-    public final EnumPath<ShippingMethod> method = createEnum("method", ShippingMethod.class);
-
-    public final StringPath recipientName = createString("recipientName");
-
-    public final kr.tatine.manibogo_oms_v2.common.model.QPhoneNumber recipientTel1;
-
-    public final kr.tatine.manibogo_oms_v2.common.model.QPhoneNumber recipientTel2;
+    public final kr.tatine.manibogo_oms_v2.common.model.QRecipient recipient;
 
     public QShippingInfo(String variable) {
         this(ShippingInfo.class, forVariable(variable), INITS);
@@ -52,9 +46,7 @@ public class QShippingInfo extends BeanPath<ShippingInfo> {
 
     public QShippingInfo(Class<? extends ShippingInfo> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.address = inits.isInitialized("address") ? new kr.tatine.manibogo_oms_v2.region.command.domain.QAddress(forProperty("address")) : null;
-        this.recipientTel1 = inits.isInitialized("recipientTel1") ? new kr.tatine.manibogo_oms_v2.common.model.QPhoneNumber(forProperty("recipientTel1")) : null;
-        this.recipientTel2 = inits.isInitialized("recipientTel2") ? new kr.tatine.manibogo_oms_v2.common.model.QPhoneNumber(forProperty("recipientTel2")) : null;
+        this.recipient = inits.isInitialized("recipient") ? new kr.tatine.manibogo_oms_v2.common.model.QRecipient(forProperty("recipient"), inits.get("recipient")) : null;
     }
 
 }

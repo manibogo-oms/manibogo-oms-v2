@@ -22,15 +22,11 @@ public class QShipping extends EntityPathBase<Shipping> {
 
     public static final QShipping shipping = new QShipping("shipping");
 
-    public final StringPath adminMemo = createString("adminMemo");
+    public final EnumPath<kr.tatine.manibogo_oms_v2.common.model.ChargeType> chargeType = createEnum("chargeType", kr.tatine.manibogo_oms_v2.common.model.ChargeType.class);
 
-    public final EnumPath<ChargeType> chargeType = createEnum("chargeType", ChargeType.class);
+    public final kr.tatine.manibogo_oms_v2.common.model.QShippingNumber number;
 
-    public final QShippingNumber number;
-
-    public final QRecipient recipient;
-
-    public final StringPath recipientMessage = createString("recipientMessage");
+    public final kr.tatine.manibogo_oms_v2.common.model.QRecipient recipient;
 
     public final EnumPath<ShippingState> state = createEnum("state", ShippingState.class);
 
@@ -52,8 +48,8 @@ public class QShipping extends EntityPathBase<Shipping> {
 
     public QShipping(Class<? extends Shipping> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.number = inits.isInitialized("number") ? new QShippingNumber(forProperty("number")) : null;
-        this.recipient = inits.isInitialized("recipient") ? new QRecipient(forProperty("recipient"), inits.get("recipient")) : null;
+        this.number = inits.isInitialized("number") ? new kr.tatine.manibogo_oms_v2.common.model.QShippingNumber(forProperty("number")) : null;
+        this.recipient = inits.isInitialized("recipient") ? new kr.tatine.manibogo_oms_v2.common.model.QRecipient(forProperty("recipient"), inits.get("recipient")) : null;
     }
 
 }
