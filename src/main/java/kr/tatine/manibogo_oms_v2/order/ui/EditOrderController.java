@@ -11,9 +11,9 @@ import kr.tatine.manibogo_oms_v2.order.command.application.exception.OrderNotFou
 import kr.tatine.manibogo_oms_v2.order.command.application.service.EditOrderService;
 import kr.tatine.manibogo_oms_v2.order.command.application.service.ProceedOrderStateService;
 import kr.tatine.manibogo_oms_v2.order.command.domain.exception.*;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType;
+import kr.tatine.manibogo_oms_v2.common.model.ChargeType;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ShippingMethod;
+import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
 import kr.tatine.manibogo_oms_v2.order.query.dao.OrderDao;
 import kr.tatine.manibogo_oms_v2.order.query.dto.OrderDto;
 import lombok.RequiredArgsConstructor;

@@ -2,9 +2,9 @@ package kr.tatine.manibogo_oms_v2.order.ui;
 
 import kr.tatine.manibogo_oms_v2.common.model.SelectableRow;
 import kr.tatine.manibogo_oms_v2.common.model.SelectableRowsForm;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType;
+import kr.tatine.manibogo_oms_v2.common.model.ChargeType;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ShippingMethod;
+import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 

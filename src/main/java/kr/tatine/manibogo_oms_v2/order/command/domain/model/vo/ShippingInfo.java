@@ -1,13 +1,14 @@
 package kr.tatine.manibogo_oms_v2.order.command.domain.model.vo;
 
 import jakarta.persistence.*;
+import kr.tatine.manibogo_oms_v2.common.model.ChargeType;
 import kr.tatine.manibogo_oms_v2.common.model.PhoneNumber;
+import kr.tatine.manibogo_oms_v2.common.model.Recipient;
+import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
 import kr.tatine.manibogo_oms_v2.region.command.domain.Address;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
+@Getter
 @ToString
 @Embeddable
 @EqualsAndHashCode
@@ -22,35 +23,12 @@ public class ShippingInfo {
     @Column(name = "shipping_charge_type")
     private ChargeType chargeType;
 
-    @Column(name = "recipient_name")
-    private String recipientName;
+    @Embedded
+    private Recipient recipient;
 
-    @AttributeOverride(
-            name = "phoneNumber",
-            column = @Column(name = "recipient_tel1"))
-    private PhoneNumber recipientTel1;
-
-    @AttributeOverride(
-            name = "phoneNumber",
-            column = @Column(name = "recipient_tel2"))
-    private PhoneNumber recipientTel2;
-
-    @AttributeOverrides({
-            @AttributeOverride(
-                    name = "address1", column = @Column(name = "shipping_addr1")),
-            @AttributeOverride(
-                    name = "address2", column = @Column(name = "shipping_addr2")),
-            @AttributeOverride(
-                    name = "zipCode", column = @Column(name = "shipping_zip_code"))
-    })
-    private Address address;
-
-    public ShippingInfo(ShippingMethod method, ChargeType chargeType, String recipientName, PhoneNumber recipientTel1, PhoneNumber recipientTel2, Address address) {
+    public ShippingInfo(ShippingMethod method, ChargeType chargeType, Recipient recipient) {
         this.method = method;
         this.chargeType = chargeType;
-        this.recipientName = recipientName;
-        this.recipientTel1 = recipientTel1;
-        this.recipientTel2 = recipientTel2;
-        this.address = address;
+        this.recipient = recipient;
     }
 }

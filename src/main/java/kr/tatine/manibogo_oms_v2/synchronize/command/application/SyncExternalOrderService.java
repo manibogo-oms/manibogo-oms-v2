@@ -3,12 +3,10 @@ package kr.tatine.manibogo_oms_v2.synchronize.command.application;
 import jakarta.validation.Valid;
 import kr.tatine.manibogo_oms_v2.common.converter.StringToDescribableEnumConverter;
 import kr.tatine.manibogo_oms_v2.common.converter.StringToOptionListConvertor;
+import kr.tatine.manibogo_oms_v2.common.model.*;
+import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
 import kr.tatine.manibogo_oms_v2.region.command.domain.Address;
-import kr.tatine.manibogo_oms_v2.common.model.Money;
-import kr.tatine.manibogo_oms_v2.common.model.Option;
-import kr.tatine.manibogo_oms_v2.common.model.PhoneNumber;
 import kr.tatine.manibogo_oms_v2.order.command.application.exception.OrderAlreadyPlacedException;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ShippingMethod;
 import kr.tatine.manibogo_oms_v2.synchronize.ui.ExternalItemOrderRequest;
 import kr.tatine.manibogo_oms_v2.variant.command.domain.Variant;
 import kr.tatine.manibogo_oms_v2.variant.command.domain.VariantId;
@@ -68,9 +66,9 @@ public class SyncExternalOrderService {
 
         ShippingInfo shippingInfo = new ShippingInfo(
                 StringToDescribableEnumConverter.convert(ShippingMethod.class, command.shippingMethod()),
-                StringToDescribableEnumConverter.convert(ChargeType.class, command.shippingChargeType()),  command.recipientName(), new PhoneNumber(command.recipientPhoneNumber1()), new PhoneNumber(command.recipientPhoneNumber2()), address);
+                StringToDescribableEnumConverter.convert(ChargeType.class, command.shippingChargeType()), new Recipient(command.recipientName(), new PhoneNumber(command.recipientPhoneNumber1()), new PhoneNumber(command.recipientPhoneNumber2()), address));
 
-        return new Order(new OrderNumber(command.orderNumber()), customer, SalesChannel.SMART_STORE, createOrderProduct(command), new ShippingBundleNumber(command.shippingBundleNumber()), shippingInfo, null, command.orderPlacedAt(), command.dispatchDeadline(), null);
+        return new Order(new OrderNumber(command.orderNumber()), customer, SalesChannel.SMART_STORE, createOrderProduct(command), new ShippingNumber(command.shippingBundleNumber()), shippingInfo, null, command.orderPlacedAt(), command.dispatchDeadline(), null);
     }
 
 

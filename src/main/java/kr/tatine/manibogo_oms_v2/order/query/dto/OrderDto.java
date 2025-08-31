@@ -2,10 +2,10 @@ package kr.tatine.manibogo_oms_v2.order.query.dto;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ChargeType;
+import kr.tatine.manibogo_oms_v2.common.model.ChargeType;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.ShippingMethod;
+import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
 import kr.tatine.manibogo_oms_v2.order.ui.EditOrderSummaryForm;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

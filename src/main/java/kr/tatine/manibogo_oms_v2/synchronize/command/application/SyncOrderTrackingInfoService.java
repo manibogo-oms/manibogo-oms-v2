@@ -3,7 +3,7 @@ package kr.tatine.manibogo_oms_v2.synchronize.command.application;
 import jakarta.validation.Valid;
 import kr.tatine.manibogo_oms_v2.order.command.application.exception.OrderNotFoundException;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.Order;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderNumber;
+import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.TrackingInfo;
 import kr.tatine.manibogo_oms_v2.order.command.domain.repository.OrderRepository;

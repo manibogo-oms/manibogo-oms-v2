@@ -2,6 +2,8 @@ package kr.tatine.manibogo_oms_v2.order.command.application.service;
 
 import kr.tatine.manibogo_oms_v2.ValidationErrorException;
 import kr.tatine.manibogo_oms_v2.common.ValidationError;
+import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
+import kr.tatine.manibogo_oms_v2.common.model.Recipient;
 import kr.tatine.manibogo_oms_v2.region.command.domain.Address;
 import kr.tatine.manibogo_oms_v2.common.model.PhoneNumber;
 import kr.tatine.manibogo_oms_v2.order.command.application.validator.EditOrderDetailCommandValidator;
@@ -9,7 +11,6 @@ import kr.tatine.manibogo_oms_v2.order.command.application.dto.EditOrderDetailCo
 import kr.tatine.manibogo_oms_v2.order.command.application.dto.EditOrderSummaryCommand;
 import kr.tatine.manibogo_oms_v2.order.command.application.dto.EditOrderSummaryCommandValidator;
 import kr.tatine.manibogo_oms_v2.order.command.application.exception.OrderNotFoundException;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.BundleOrderShippingService;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.Order;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.*;
 import kr.tatine.manibogo_oms_v2.order.command.domain.repository.OrderRepository;
@@ -26,7 +27,7 @@ public class EditOrderService {
 
     private final OrderRepository orderRepository;
 
-    private final BundleOrderShippingService bundleOrderShippingService;
+//    private final BundleOrderShippingService bundleOrderShippingService;
 
     @Transactional
     public void editSummary(EditOrderSummaryCommand command) {
@@ -68,7 +69,7 @@ public class EditOrderService {
 
         order.changeCustomer(customer);
 
-        bundleOrderShippingService.bundle(order, new ShippingBundleNumber(command.shippingBundleNumber()));
+//        bundleOrderShippingService.bundle(order, new ShippingBundleNumber(command.shippingBundleNumber()));
     }
 
     private static ShippingInfo createShippingInfo(EditOrderDetailCommand command) {
@@ -79,8 +80,7 @@ public class EditOrderService {
         return new ShippingInfo(
                 command.shippingMethod(),
                 command.shippingChargeType(),
-                command.recipientName(),
-                new PhoneNumber(command.recipientTel1()), new PhoneNumber(command.recipientTel2()), address);
+                new Recipient(command.recipientName(), new PhoneNumber(command.recipientTel1()), new PhoneNumber(command.recipientTel2()), address));
     }
 
     private Order findOrder(String orderNumber) {

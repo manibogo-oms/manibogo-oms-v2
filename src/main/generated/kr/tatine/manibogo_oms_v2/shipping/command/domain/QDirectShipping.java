@@ -25,19 +25,13 @@ public class QDirectShipping extends EntityPathBase<DirectShipping> {
     public final QShipping _super;
 
     //inherited
-    public final StringPath adminMemo;
-
-    //inherited
-    public final EnumPath<ChargeType> chargeType;
+    public final EnumPath<kr.tatine.manibogo_oms_v2.common.model.ChargeType> chargeType;
 
     // inherited
-    public final QShippingNumber number;
+    public final kr.tatine.manibogo_oms_v2.common.model.QShippingNumber number;
 
     // inherited
-    public final QRecipient recipient;
-
-    //inherited
-    public final StringPath recipientMessage;
+    public final kr.tatine.manibogo_oms_v2.common.model.QRecipient recipient;
 
     //inherited
     public final EnumPath<ShippingState> state;
@@ -61,11 +55,9 @@ public class QDirectShipping extends EntityPathBase<DirectShipping> {
     public QDirectShipping(Class<? extends DirectShipping> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this._super = new QShipping(type, metadata, inits);
-        this.adminMemo = _super.adminMemo;
         this.chargeType = _super.chargeType;
         this.number = _super.number;
         this.recipient = _super.recipient;
-        this.recipientMessage = _super.recipientMessage;
         this.state = _super.state;
     }
 

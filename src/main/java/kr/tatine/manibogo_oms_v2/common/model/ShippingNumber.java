@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.shipping.command.domain;
+package kr.tatine.manibogo_oms_v2.common.model;
 
 import io.hypersistence.tsid.TSID;
 import jakarta.persistence.Embeddable;
@@ -21,7 +21,7 @@ public class ShippingNumber implements Serializable {
         this.shippingNumber = shippingNumber;
     }
 
-    public static ShippingNumber createNewNumber() {
+    public static ShippingNumber random() {
         return new ShippingNumber(TSID.Factory.getTsid().toString());
     }
 
