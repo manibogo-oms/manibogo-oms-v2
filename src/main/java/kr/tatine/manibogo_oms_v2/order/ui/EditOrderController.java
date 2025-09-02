@@ -16,6 +16,7 @@ import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
 import kr.tatine.manibogo_oms_v2.order.query.dao.OrderDao;
 import kr.tatine.manibogo_oms_v2.order.query.dto.OrderDto;
+import kr.tatine.manibogo_oms_v2.shipping.command.domain.CannotBundleShippingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

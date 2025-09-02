@@ -34,11 +34,11 @@ public class QOrder extends EntityPathBase<Order> {
 
     public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QOrderProduct product;
 
+    public final kr.tatine.manibogo_oms_v2.common.model.QRecipient recipient;
+
     public final EnumPath<kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel> salesChannel = createEnum("salesChannel", kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel.class);
 
     public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QShippingInfo shippingInfo;
-
-    public final kr.tatine.manibogo_oms_v2.common.model.QShippingNumber shippingNumber;
 
     public final EnumPath<kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState> state = createEnum("state", kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState.class);
 
@@ -66,8 +66,8 @@ public class QOrder extends EntityPathBase<Order> {
         this.memo = inits.isInitialized("memo") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QMemo(forProperty("memo")) : null;
         this.number = inits.isInitialized("number") ? new kr.tatine.manibogo_oms_v2.common.model.QOrderNumber(forProperty("number")) : null;
         this.product = inits.isInitialized("product") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QOrderProduct(forProperty("product"), inits.get("product")) : null;
+        this.recipient = inits.isInitialized("recipient") ? new kr.tatine.manibogo_oms_v2.common.model.QRecipient(forProperty("recipient"), inits.get("recipient")) : null;
         this.shippingInfo = inits.isInitialized("shippingInfo") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QShippingInfo(forProperty("shippingInfo"), inits.get("shippingInfo")) : null;
-        this.shippingNumber = inits.isInitialized("shippingNumber") ? new kr.tatine.manibogo_oms_v2.common.model.QShippingNumber(forProperty("shippingNumber")) : null;
         this.trackingInfo = inits.isInitialized("trackingInfo") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QTrackingInfo(forProperty("trackingInfo")) : null;
     }
 

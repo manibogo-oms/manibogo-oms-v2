@@ -4,6 +4,7 @@ import kr.tatine.manibogo_oms_v2.ValidationErrorException;
 import kr.tatine.manibogo_oms_v2.common.ValidationError;
 import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
 import kr.tatine.manibogo_oms_v2.common.model.Recipient;
+import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import kr.tatine.manibogo_oms_v2.region.command.domain.Address;
 import kr.tatine.manibogo_oms_v2.common.model.PhoneNumber;
 import kr.tatine.manibogo_oms_v2.order.command.application.validator.EditOrderDetailCommandValidator;
@@ -64,8 +65,8 @@ public class EditOrderService {
 
         final Customer customer = new Customer(command.customerName(), new PhoneNumber(command.customerTel()), command.customerMessage());
 
-        final ShippingInfo shippingInfo = createShippingInfo(command);
-        order.changeShippingInfo(shippingInfo);
+        order.changeShippingInfo(createShippingInfo(command));
+        order.changeRecipient(createRecipient(command));
 
         order.changeCustomer(customer);
 
@@ -73,14 +74,16 @@ public class EditOrderService {
     }
 
     private static ShippingInfo createShippingInfo(EditOrderDetailCommand command) {
+        return new ShippingInfo(
+                new ShippingNumber(command.shippingBundleNumber()),
+                command.shippingMethod(),
+                command.shippingChargeType());
+    }
 
+    private Recipient createRecipient(EditOrderDetailCommand command) {
         final Address address = new Address(
                 command.recipientAddress1(), command.recipientAddress2(), command.recipientZipCode());
-
-        return new ShippingInfo(
-                command.shippingMethod(),
-                command.shippingChargeType(),
-                new Recipient(command.recipientName(), new PhoneNumber(command.recipientTel1()), new PhoneNumber(command.recipientTel2()), address));
+        return new Recipient(command.recipientName(), new PhoneNumber(command.recipientTel1()), new PhoneNumber(command.recipientTel2()), address);
     }
 
     private Order findOrder(String orderNumber) {

@@ -2,12 +2,8 @@ package kr.tatine.manibogo_oms_v2.shipping.command.application;
 
 import kr.tatine.manibogo_oms_v2.ValidationErrorException;
 import kr.tatine.manibogo_oms_v2.common.ValidationError;
-import kr.tatine.manibogo_oms_v2.common.Validator;
-import kr.tatine.manibogo_oms_v2.common.model.ChargeType;
-import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import kr.tatine.manibogo_oms_v2.shipping.command.domain.*;
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,11 +29,9 @@ public class CreateOrBundleShippingService {
 
         final Shipping newShipping = translator.translate(command);
 
-        repository.findById(command.shippingNumber())
-                .ifPresentOrElse(
-                        shipping -> shipping.bundle(newShipping),
-                        () -> repository.save(newShipping)
-                );
+        repository.findById(command.shippingNumber()).ifPresentOrElse(
+                shipping -> shipping.bundle(newShipping),
+                () -> repository.save(newShipping));
     }
 
 
