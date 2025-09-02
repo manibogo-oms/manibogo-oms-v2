@@ -26,7 +26,7 @@ public class QShippingInfo extends BeanPath<ShippingInfo> {
 
     public final EnumPath<kr.tatine.manibogo_oms_v2.common.model.ShippingMethod> method = createEnum("method", kr.tatine.manibogo_oms_v2.common.model.ShippingMethod.class);
 
-    public final kr.tatine.manibogo_oms_v2.common.model.QRecipient recipient;
+    public final kr.tatine.manibogo_oms_v2.common.model.QShippingNumber shippingBundleNumber;
 
     public QShippingInfo(String variable) {
         this(ShippingInfo.class, forVariable(variable), INITS);
@@ -46,7 +46,7 @@ public class QShippingInfo extends BeanPath<ShippingInfo> {
 
     public QShippingInfo(Class<? extends ShippingInfo> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.recipient = inits.isInitialized("recipient") ? new kr.tatine.manibogo_oms_v2.common.model.QRecipient(forProperty("recipient"), inits.get("recipient")) : null;
+        this.shippingBundleNumber = inits.isInitialized("shippingBundleNumber") ? new kr.tatine.manibogo_oms_v2.common.model.QShippingNumber(forProperty("shippingBundleNumber")) : null;
     }
 
 }

@@ -3,7 +3,7 @@ package kr.tatine.manibogo_oms_v2.order.command.domain.model;
 import jakarta.persistence.*;
 import kr.tatine.manibogo_oms_v2.common.event.Events;
 import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
-import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
+import kr.tatine.manibogo_oms_v2.common.model.Recipient;
 import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderPlacedEvent;
 import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderShippingInfoChangedEvent;
 import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderStateChangedEvent;
@@ -37,7 +37,7 @@ public class Order {
     private OrderProduct product;
 
     @Embedded
-    private ShippingNumber shippingNumber;
+    private Recipient recipient;
 
     @Embedded
     private ShippingInfo shippingInfo;
@@ -52,13 +52,13 @@ public class Order {
 
     private LocalDate preferredShippingDate;
 
-    public Order(OrderNumber number, Customer customer, SalesChannel salesChannel, OrderProduct product, ShippingNumber shippingNumber, ShippingInfo shippingInfo, Memo memo, LocalDateTime placedAt, LocalDate dispatchDeadline, LocalDate preferredShippingDate) {
+    public Order(OrderNumber number, Customer customer, Recipient recipient, SalesChannel salesChannel, OrderProduct product, ShippingInfo shippingInfo, Memo memo, LocalDateTime placedAt, LocalDate dispatchDeadline, LocalDate preferredShippingDate) {
         this.number = number;
         this.state = OrderState.PLACED;
         this.customer = customer;
+        this.recipient = recipient;
         this.salesChannel = salesChannel;
         this.product = product;
-        this.shippingNumber = shippingNumber;
         setShippingInfo(shippingInfo);
         this.memo = memo;
         this.dispatchDeadline = dispatchDeadline;
@@ -91,8 +91,13 @@ public class Order {
     }
 
     public void changeShippingInfo(ShippingInfo shippingInfo) {
-        if (Objects.equals(this.shippingInfo, shippingInfo)) return;
-        this.shippingInfo = shippingInfo;
+        setShippingInfo(shippingInfo);
+    }
+
+    public void changeRecipient(Recipient recipient) {
+        if (Objects.equals(this.recipient, recipient)) return;
+        this.recipient = recipient;
+        Events.raise(new OrderShippingInfoChangedEvent(number, shippingInfo.getShippingBundleNumber(), shippingInfo.getMethod(), shippingInfo.getChargeType(), recipient));
     }
 
     public void changeTrackingInfo(TrackingInfo trackingInfo) {
@@ -121,6 +126,6 @@ public class Order {
     private void setShippingInfo(ShippingInfo shippingInfo) {
         if (Objects.equals(this.shippingInfo, shippingInfo)) return;
         this.shippingInfo = shippingInfo;
-        Events.raise(new OrderShippingInfoChangedEvent(number, shippingNumber, shippingInfo.getMethod(), shippingInfo.getChargeType(), shippingInfo.getRecipient()));
+        Events.raise(new OrderShippingInfoChangedEvent(number, shippingInfo.getShippingBundleNumber(), shippingInfo.getMethod(), shippingInfo.getChargeType(), recipient));
     }
 }

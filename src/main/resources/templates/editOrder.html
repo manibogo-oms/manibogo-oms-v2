@@ -9,7 +9,7 @@
 
 <section class="container-xl p-4">
 
-<form th:method="POST" th:object="${form}" >
+<form th:method="POST" th:action="@{|/v2/orders/${form.getOrderNumber()}/edit|}" th:object="${form}" >
 <div class="d-flex align-items-end gap-2">
 
     <h3>주문 수정</h3>

@@ -8,9 +8,4 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface OrderRepository extends JpaRepository<Order, OrderNumber> {
-
-    @Query("SELECT o FROM Order o WHERE o.shippingBundleNumber = :shippingBundleNumber")
-    List<Order> findByShippingBundleNumber(ShippingBundleNumber shippingBundleNumber);
-
-}
+public interface OrderRepository extends JpaRepository<Order, OrderNumber> { }

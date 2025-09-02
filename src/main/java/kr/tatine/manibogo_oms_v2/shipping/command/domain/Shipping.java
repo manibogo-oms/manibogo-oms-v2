@@ -22,17 +22,16 @@ public abstract class Shipping {
     private ShippingNumber number;
 
     @Enumerated(EnumType.STRING)
-    private ShippingState state;
+    private ShippingState state = ShippingState.PREPARING;;
 
     @Enumerated(EnumType.STRING)
     private ChargeType chargeType;
-
+ 
     @Embedded
     private Recipient recipient;
 
     public Shipping(ShippingNumber number, ChargeType chargeType, Recipient recipient) {
         this.number = number;
-        this.state = ShippingState.PREPARING;
         this.chargeType = chargeType;
         this.recipient = recipient;
     }
@@ -45,16 +44,20 @@ public abstract class Shipping {
 
     public void bundle(final Shipping shipping) throws CannotBundleShippingException {
 
-        if (isSameMethod(shipping)) {
-            throw new CannotBundleShippingException("배송타입이 서로 다릅니다.");
+        if (state != ShippingState.PREPARING) {
+            throw new CannotBundleShippingException("notAllowed.shipping.state");
+        }
+
+        if (!isSameMethod(shipping)) {
+            throw new CannotBundleShippingException("mismatch.shipping.method");
         }
 
         if (!Objects.equals(getChargeType(), shipping.getChargeType())) {
-            throw new CannotBundleShippingException("배송비 운임 타입이 다릅니다.");
+            throw new CannotBundleShippingException("mismatch.shipping.chargeType");
         }
 
         if (!Objects.equals(getRecipient(), shipping.getRecipient())) {
-            throw new CannotBundleShippingException("수취인 정보가 다릅니다.");
+            throw new CannotBundleShippingException("mismatch.shipping.recipient");
         }
     }
 
