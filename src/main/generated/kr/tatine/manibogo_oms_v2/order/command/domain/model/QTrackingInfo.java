@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.order.command.domain.model.vo;
+package kr.tatine.manibogo_oms_v2.order.command.domain.model;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -15,7 +15,7 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEmbeddableSerializer")
 public class QTrackingInfo extends BeanPath<TrackingInfo> {
 
-    private static final long serialVersionUID = -1149286871L;
+    private static final long serialVersionUID = -1209714282L;
 
     public static final QTrackingInfo trackingInfo = new QTrackingInfo("trackingInfo");
 

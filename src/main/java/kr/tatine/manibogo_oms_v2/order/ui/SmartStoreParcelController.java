@@ -1,7 +1,7 @@
 package kr.tatine.manibogo_oms_v2.order.ui;
 
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel;
+import kr.tatine.manibogo_oms_v2.common.model.OrderState;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.SalesChannel;
 import kr.tatine.manibogo_oms_v2.order.query.dao.OrderDao;
 import kr.tatine.manibogo_oms_v2.order.query.dto.OrderQueryParams;
 import kr.tatine.manibogo_oms_v2.order.query.dto.SmartStoreParcelDto;

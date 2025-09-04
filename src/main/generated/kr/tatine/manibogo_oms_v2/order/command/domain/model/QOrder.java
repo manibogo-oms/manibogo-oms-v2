@@ -22,27 +22,27 @@ public class QOrder extends EntityPathBase<Order> {
 
     public static final QOrder order = new QOrder("order1");
 
-    public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QCustomer customer;
+    public final QCustomer customer;
 
     public final DatePath<java.time.LocalDate> dispatchDeadline = createDate("dispatchDeadline", java.time.LocalDate.class);
 
-    public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QMemo memo;
+    public final QMemo memo;
 
     public final kr.tatine.manibogo_oms_v2.common.model.QOrderNumber number;
 
     public final DatePath<java.time.LocalDate> preferredShippingDate = createDate("preferredShippingDate", java.time.LocalDate.class);
 
-    public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QOrderProduct product;
+    public final QOrderProduct product;
 
     public final kr.tatine.manibogo_oms_v2.common.model.QRecipient recipient;
 
-    public final EnumPath<kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel> salesChannel = createEnum("salesChannel", kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel.class);
+    public final EnumPath<SalesChannel> salesChannel = createEnum("salesChannel", SalesChannel.class);
 
-    public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QShippingInfo shippingInfo;
+    public final QShippingInfo shippingInfo;
 
-    public final EnumPath<kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState> state = createEnum("state", kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState.class);
+    public final EnumPath<kr.tatine.manibogo_oms_v2.common.model.OrderState> state = createEnum("state", kr.tatine.manibogo_oms_v2.common.model.OrderState.class);
 
-    public final kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QTrackingInfo trackingInfo;
+    public final QTrackingInfo trackingInfo;
 
     public QOrder(String variable) {
         this(Order.class, forVariable(variable), INITS);
@@ -62,13 +62,13 @@ public class QOrder extends EntityPathBase<Order> {
 
     public QOrder(Class<? extends Order> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.customer = inits.isInitialized("customer") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QCustomer(forProperty("customer"), inits.get("customer")) : null;
-        this.memo = inits.isInitialized("memo") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QMemo(forProperty("memo")) : null;
+        this.customer = inits.isInitialized("customer") ? new QCustomer(forProperty("customer"), inits.get("customer")) : null;
+        this.memo = inits.isInitialized("memo") ? new QMemo(forProperty("memo")) : null;
         this.number = inits.isInitialized("number") ? new kr.tatine.manibogo_oms_v2.common.model.QOrderNumber(forProperty("number")) : null;
-        this.product = inits.isInitialized("product") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QOrderProduct(forProperty("product"), inits.get("product")) : null;
+        this.product = inits.isInitialized("product") ? new QOrderProduct(forProperty("product"), inits.get("product")) : null;
         this.recipient = inits.isInitialized("recipient") ? new kr.tatine.manibogo_oms_v2.common.model.QRecipient(forProperty("recipient"), inits.get("recipient")) : null;
-        this.shippingInfo = inits.isInitialized("shippingInfo") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QShippingInfo(forProperty("shippingInfo"), inits.get("shippingInfo")) : null;
-        this.trackingInfo = inits.isInitialized("trackingInfo") ? new kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.QTrackingInfo(forProperty("trackingInfo")) : null;
+        this.shippingInfo = inits.isInitialized("shippingInfo") ? new QShippingInfo(forProperty("shippingInfo"), inits.get("shippingInfo")) : null;
+        this.trackingInfo = inits.isInitialized("trackingInfo") ? new QTrackingInfo(forProperty("trackingInfo")) : null;
     }
 
 }

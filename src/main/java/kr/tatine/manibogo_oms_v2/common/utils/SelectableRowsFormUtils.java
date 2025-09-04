@@ -1,9 +1,9 @@
 package kr.tatine.manibogo_oms_v2.common.utils;
 
-import kr.tatine.manibogo_oms_v2.common.model.ErrorLevel;
-import kr.tatine.manibogo_oms_v2.common.model.ErrorResult;
-import kr.tatine.manibogo_oms_v2.common.model.SelectableRow;
-import kr.tatine.manibogo_oms_v2.common.model.SelectableRowsForm;
+import kr.tatine.manibogo_oms_v2.common.ui.ErrorLevel;
+import kr.tatine.manibogo_oms_v2.common.ui.ErrorResult;
+import kr.tatine.manibogo_oms_v2.common.ui.SelectableRow;
+import kr.tatine.manibogo_oms_v2.common.ui.SelectableRowsForm;
 
 import java.util.function.BiConsumer;
 

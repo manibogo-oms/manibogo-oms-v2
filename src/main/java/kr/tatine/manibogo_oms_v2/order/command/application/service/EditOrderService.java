@@ -5,6 +5,9 @@ import kr.tatine.manibogo_oms_v2.common.ValidationError;
 import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
 import kr.tatine.manibogo_oms_v2.common.model.Recipient;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.Customer;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.Memo;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.ShippingInfo;
 import kr.tatine.manibogo_oms_v2.region.command.domain.Address;
 import kr.tatine.manibogo_oms_v2.common.model.PhoneNumber;
 import kr.tatine.manibogo_oms_v2.order.command.application.validator.EditOrderDetailCommandValidator;
@@ -13,7 +16,6 @@ import kr.tatine.manibogo_oms_v2.order.command.application.dto.EditOrderSummaryC
 import kr.tatine.manibogo_oms_v2.order.command.application.dto.EditOrderSummaryCommandValidator;
 import kr.tatine.manibogo_oms_v2.order.command.application.exception.OrderNotFoundException;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.Order;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.*;
 import kr.tatine.manibogo_oms_v2.order.command.domain.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

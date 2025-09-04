@@ -8,7 +8,7 @@ import kr.tatine.manibogo_oms_v2.common.validator.OptionInfo;
 import kr.tatine.manibogo_oms_v2.common.validator.PhoneNumber;
 import kr.tatine.manibogo_oms_v2.common.model.ChargeType;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.SalesChannel;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

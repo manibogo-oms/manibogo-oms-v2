@@ -5,14 +5,13 @@ import kr.tatine.manibogo_oms_v2.common.converter.StringToDescribableEnumConvert
 import kr.tatine.manibogo_oms_v2.common.converter.StringToOptionListConvertor;
 import kr.tatine.manibogo_oms_v2.common.model.*;
 import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.*;
 import kr.tatine.manibogo_oms_v2.region.command.domain.Address;
 import kr.tatine.manibogo_oms_v2.order.command.application.exception.OrderAlreadyPlacedException;
 import kr.tatine.manibogo_oms_v2.synchronize.ui.ExternalItemOrderRequest;
 import kr.tatine.manibogo_oms_v2.variant.command.domain.Variant;
 import kr.tatine.manibogo_oms_v2.variant.command.domain.VariantId;
 import kr.tatine.manibogo_oms_v2.variant.command.domain.VariantRepository;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.Order;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.*;
 import kr.tatine.manibogo_oms_v2.order.command.domain.repository.OrderRepository;
 import kr.tatine.manibogo_oms_v2.product.command.domain.Priority;
 import kr.tatine.manibogo_oms_v2.product.command.domain.Product;

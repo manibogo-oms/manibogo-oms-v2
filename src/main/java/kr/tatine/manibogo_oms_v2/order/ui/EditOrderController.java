@@ -1,9 +1,10 @@
 package kr.tatine.manibogo_oms_v2.order.ui;
 
 import kr.tatine.manibogo_oms_v2.ValidationErrorException;
-import kr.tatine.manibogo_oms_v2.common.model.CommonResponse;
-import kr.tatine.manibogo_oms_v2.common.model.ErrorLevel;
-import kr.tatine.manibogo_oms_v2.common.model.ErrorResult;
+import kr.tatine.manibogo_oms_v2.common.model.OrderState;
+import kr.tatine.manibogo_oms_v2.common.ui.CommonResponse;
+import kr.tatine.manibogo_oms_v2.common.ui.ErrorLevel;
+import kr.tatine.manibogo_oms_v2.common.ui.ErrorResult;
 import kr.tatine.manibogo_oms_v2.common.utils.SelectableRowsFormUtils;
 import kr.tatine.manibogo_oms_v2.order.command.application.dto.EditOrderSummaryCommand;
 import kr.tatine.manibogo_oms_v2.order.command.application.dto.ProceedOrderStateCommand;
@@ -12,7 +13,6 @@ import kr.tatine.manibogo_oms_v2.order.command.application.service.EditOrderServ
 import kr.tatine.manibogo_oms_v2.order.command.application.service.ProceedOrderStateService;
 import kr.tatine.manibogo_oms_v2.order.command.domain.exception.*;
 import kr.tatine.manibogo_oms_v2.common.model.ChargeType;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
 import kr.tatine.manibogo_oms_v2.order.query.dao.OrderDao;
 import kr.tatine.manibogo_oms_v2.order.query.dto.OrderDto;

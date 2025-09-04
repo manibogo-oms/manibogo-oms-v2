@@ -1,7 +1,7 @@
 package kr.tatine.manibogo_oms_v2.member.ui;
 
-import kr.tatine.manibogo_oms_v2.common.model.SelectableRow;
-import kr.tatine.manibogo_oms_v2.common.model.SelectableRowsForm;
+import kr.tatine.manibogo_oms_v2.common.ui.SelectableRow;
+import kr.tatine.manibogo_oms_v2.common.ui.SelectableRowsForm;
 import kr.tatine.manibogo_oms_v2.member.command.application.EditMemberCommand;
 import kr.tatine.manibogo_oms_v2.member.query.MemberDto;
 import lombok.Getter;
