@@ -15,7 +15,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class CreateOrBundleShippingService {
 
-    private final ShippingRepository repository;
+    private final ShippingRepository shippingRepository;
 
     private final ShippingTranslator translator;
 
@@ -29,9 +29,12 @@ public class CreateOrBundleShippingService {
 
         final Shipping newShipping = translator.translate(command);
 
-        repository.findById(command.shippingNumber()).ifPresentOrElse(
+        shippingRepository.findByShippingOrderNumber(command.orderNumber())
+                        .ifPresent(shipping -> shipping.removeOrder(command.orderNumber()));
+
+        shippingRepository.findById(command.shippingNumber()).ifPresentOrElse(
                 shipping -> shipping.bundle(newShipping),
-                () -> repository.save(newShipping));
+                () -> shippingRepository.save(newShipping));
     }
 
 

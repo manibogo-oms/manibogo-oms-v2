@@ -13,6 +13,8 @@ public class OrderShippingInfoChangedEvent extends Event {
 
     private final OrderNumber orderNumber;
 
+    private final OrderState orderState;
+
     private final ShippingNumber shippingNumber;
 
     private final ShippingMethod method;
@@ -21,8 +23,9 @@ public class OrderShippingInfoChangedEvent extends Event {
 
     private final Recipient recipient;
 
-    public OrderShippingInfoChangedEvent(OrderNumber orderNumber, ShippingNumber shippingNumber, ShippingMethod method, ChargeType chargeType, Recipient recipient) {
+    public OrderShippingInfoChangedEvent(OrderNumber orderNumber, OrderState orderState, ShippingNumber shippingNumber, ShippingMethod method, ChargeType chargeType, Recipient recipient) {
         this.orderNumber = orderNumber;
+        this.orderState = orderState;
         this.shippingNumber = shippingNumber;
         this.method = method;
         this.chargeType = chargeType;

@@ -7,12 +7,14 @@ import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DirectShipping extends Shipping {
 
-    public DirectShipping(ShippingNumber number, ChargeType chargeType, Recipient recipient) {
-        super(number, chargeType, recipient);
+    public DirectShipping(ShippingNumber number, ChargeType chargeType, Recipient recipient, List<ShippingOrder> orders) {
+        super(number, chargeType, recipient, orders);
     }
 
     @Override

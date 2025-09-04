@@ -97,7 +97,7 @@ public class Order {
     public void changeRecipient(Recipient recipient) {
         if (Objects.equals(this.recipient, recipient)) return;
         this.recipient = recipient;
-        Events.raise(new OrderShippingInfoChangedEvent(number, shippingInfo.getShippingBundleNumber(), shippingInfo.getMethod(), shippingInfo.getChargeType(), recipient));
+        Events.raise(new OrderShippingInfoChangedEvent(number, state, shippingInfo.getShippingBundleNumber(), shippingInfo.getMethod(), shippingInfo.getChargeType(), recipient));
     }
 
     public void changeTrackingInfo(TrackingInfo trackingInfo) {
@@ -126,6 +126,6 @@ public class Order {
     private void setShippingInfo(ShippingInfo shippingInfo) {
         if (Objects.equals(this.shippingInfo, shippingInfo)) return;
         this.shippingInfo = shippingInfo;
-        Events.raise(new OrderShippingInfoChangedEvent(number, shippingInfo.getShippingBundleNumber(), shippingInfo.getMethod(), shippingInfo.getChargeType(), recipient));
+        Events.raise(new OrderShippingInfoChangedEvent(number, state, shippingInfo.getShippingBundleNumber(), shippingInfo.getMethod(), shippingInfo.getChargeType(), recipient));
     }
 }

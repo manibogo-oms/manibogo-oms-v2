@@ -30,6 +30,9 @@ public class QDirectShipping extends EntityPathBase<DirectShipping> {
     // inherited
     public final kr.tatine.manibogo_oms_v2.common.model.QShippingNumber number;
 
+    //inherited
+    public final ListPath<ShippingOrder, QShippingOrder> orders;
+
     // inherited
     public final kr.tatine.manibogo_oms_v2.common.model.QRecipient recipient;
 
@@ -57,6 +60,7 @@ public class QDirectShipping extends EntityPathBase<DirectShipping> {
         this._super = new QShipping(type, metadata, inits);
         this.chargeType = _super.chargeType;
         this.number = _super.number;
+        this.orders = _super.orders;
         this.recipient = _super.recipient;
         this.state = _super.state;
     }
