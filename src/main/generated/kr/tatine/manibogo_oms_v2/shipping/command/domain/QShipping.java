@@ -26,6 +26,8 @@ public class QShipping extends EntityPathBase<Shipping> {
 
     public final kr.tatine.manibogo_oms_v2.common.model.QShippingNumber number;
 
+    public final ListPath<ShippingOrder, QShippingOrder> orders = this.<ShippingOrder, QShippingOrder>createList("orders", ShippingOrder.class, QShippingOrder.class, PathInits.DIRECT2);
+
     public final kr.tatine.manibogo_oms_v2.common.model.QRecipient recipient;
 
     public final EnumPath<ShippingState> state = createEnum("state", ShippingState.class);

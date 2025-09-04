@@ -23,7 +23,8 @@ public class OrderShippingInfoChangedHandler {
 
         SecurityContextHolder.getContext().getAuthentication();
 
-        final CreateOrBundleShippingCommand command = new CreateOrBundleShippingCommand(event.getShippingNumber(), event.getMethod(), event.getChargeType(), event.getRecipient());
+        final CreateOrBundleShippingCommand command = new CreateOrBundleShippingCommand(
+                event.getOrderNumber(), event.getOrderState(), event.getShippingNumber(), event.getMethod(), event.getChargeType(), event.getRecipient());
 
         createOrBundleShippingService.createOrBundle(command);
     }
