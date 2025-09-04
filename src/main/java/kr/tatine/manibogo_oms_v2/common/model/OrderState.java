@@ -1,6 +1,5 @@
-package kr.tatine.manibogo_oms_v2.order.command.domain.model.vo;
+package kr.tatine.manibogo_oms_v2.common.model;
 
-import kr.tatine.manibogo_oms_v2.common.model.Describable;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

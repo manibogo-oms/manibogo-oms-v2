@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.order.command.domain.model.vo;
+package kr.tatine.manibogo_oms_v2.order.command.domain.model;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -15,7 +15,7 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEmbeddableSerializer")
 public class QMemo extends BeanPath<Memo> {
 
-    private static final long serialVersionUID = -1968702626L;
+    private static final long serialVersionUID = 1805298635L;
 
     public static final QMemo memo = new QMemo("memo");
 

@@ -1,9 +1,9 @@
 package kr.tatine.manibogo_oms_v2.order.ui;
 
+import kr.tatine.manibogo_oms_v2.common.model.OrderState;
 import kr.tatine.manibogo_oms_v2.order.command.application.dto.EditOrderDetailCommand;
 import kr.tatine.manibogo_oms_v2.common.model.ChargeType;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.OrderState;
-import kr.tatine.manibogo_oms_v2.order.command.domain.model.vo.SalesChannel;
+import kr.tatine.manibogo_oms_v2.order.command.domain.model.SalesChannel;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
 import kr.tatine.manibogo_oms_v2.order.query.dto.OrderDto;
 import lombok.Getter;

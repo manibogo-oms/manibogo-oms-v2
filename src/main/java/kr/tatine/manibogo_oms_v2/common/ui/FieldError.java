@@ -1,4 +1,6 @@
-package kr.tatine.manibogo_oms_v2.common.model;
+package kr.tatine.manibogo_oms_v2.common.ui;
+
+import kr.tatine.manibogo_oms_v2.common.model.Message;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.order.command.domain.model.vo;
+package kr.tatine.manibogo_oms_v2.order.command.domain.model;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -15,7 +15,7 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEmbeddableSerializer")
 public class QShippingBundleNumber extends BeanPath<ShippingBundleNumber> {
 
-    private static final long serialVersionUID = 1407207773L;
+    private static final long serialVersionUID = 835092426L;
 
     public static final QShippingBundleNumber shippingBundleNumber1 = new QShippingBundleNumber("shippingBundleNumber1");
 

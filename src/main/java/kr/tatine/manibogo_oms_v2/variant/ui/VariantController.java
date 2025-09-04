@@ -1,8 +1,8 @@
 package kr.tatine.manibogo_oms_v2.variant.ui;
 
 import kr.tatine.manibogo_oms_v2.ValidationErrorException;
-import kr.tatine.manibogo_oms_v2.common.model.CommonResponse;
-import kr.tatine.manibogo_oms_v2.common.model.ErrorResult;
+import kr.tatine.manibogo_oms_v2.common.ui.CommonResponse;
+import kr.tatine.manibogo_oms_v2.common.ui.ErrorResult;
 import kr.tatine.manibogo_oms_v2.common.utils.RedirectionUtils;
 import kr.tatine.manibogo_oms_v2.common.utils.SelectableRowsFormUtils;
 import kr.tatine.manibogo_oms_v2.product.command.application.*;

@@ -1,15 +1,14 @@
 package kr.tatine.manibogo_oms_v2.member.ui;
 
 import kr.tatine.manibogo_oms_v2.ValidationErrorException;
-import kr.tatine.manibogo_oms_v2.common.model.CommonResponse;
-import kr.tatine.manibogo_oms_v2.common.model.ErrorResult;
+import kr.tatine.manibogo_oms_v2.common.ui.CommonResponse;
+import kr.tatine.manibogo_oms_v2.common.ui.ErrorResult;
 import kr.tatine.manibogo_oms_v2.common.utils.SelectableRowsFormUtils;
 import kr.tatine.manibogo_oms_v2.member.command.application.EditMemberService;
 import kr.tatine.manibogo_oms_v2.member.command.application.MemberNotFoundException;
 import kr.tatine.manibogo_oms_v2.member.command.domain.Role;
 import kr.tatine.manibogo_oms_v2.member.query.MemberDao;
 import kr.tatine.manibogo_oms_v2.member.query.MemberDto;
-import kr.tatine.manibogo_oms_v2.variant.command.application.VariantNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

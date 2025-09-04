@@ -1,8 +1,7 @@
-package kr.tatine.manibogo_oms_v2.order.command.domain.model.vo;
+package kr.tatine.manibogo_oms_v2.order.command.domain.model;
 
 import jakarta.persistence.*;
 import kr.tatine.manibogo_oms_v2.common.model.*;
-import kr.tatine.manibogo_oms_v2.region.command.domain.Address;
 import lombok.*;
 
 @Getter
