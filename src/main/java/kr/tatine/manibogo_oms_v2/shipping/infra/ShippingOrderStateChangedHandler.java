@@ -1,7 +1,6 @@
 package kr.tatine.manibogo_oms_v2.shipping.infra;
 
 import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
-import kr.tatine.manibogo_oms_v2.common.model.OrderState;
 import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderStateChangedEvent;
 import kr.tatine.manibogo_oms_v2.shipping.command.application.UpdateShippingOrderCommand;
 import kr.tatine.manibogo_oms_v2.shipping.command.application.UpdateShippingOrderService;
@@ -21,7 +20,7 @@ public class ShippingOrderStateChangedHandler {
             phase = TransactionPhase.BEFORE_COMMIT
     )
     public void handleOrderStateChanged(OrderStateChangedEvent event) {
-        updateShippingOrderService.update(new UpdateShippingOrderCommand(new OrderNumber(event.getOrderNumber()), OrderState.valueOf(event.getOrderState())));
+        updateShippingOrderService.update(new UpdateShippingOrderCommand(new OrderNumber(event.getOrderNumber())));
 
     }
 }

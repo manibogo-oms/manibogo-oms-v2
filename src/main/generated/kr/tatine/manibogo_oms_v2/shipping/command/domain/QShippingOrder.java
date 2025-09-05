@@ -22,9 +22,13 @@ public class QShippingOrder extends BeanPath<ShippingOrder> {
 
     public static final QShippingOrder shippingOrder = new QShippingOrder("shippingOrder");
 
+    public final NumberPath<Integer> amount = createNumber("amount", Integer.class);
+
     public final kr.tatine.manibogo_oms_v2.common.model.QOrderNumber orderNumber;
 
     public final EnumPath<kr.tatine.manibogo_oms_v2.common.model.OrderState> orderState = createEnum("orderState", kr.tatine.manibogo_oms_v2.common.model.OrderState.class);
+
+    public final kr.tatine.manibogo_oms_v2.product.command.domain.QProductNumber productNumber;
 
     public QShippingOrder(String variable) {
         this(ShippingOrder.class, forVariable(variable), INITS);
@@ -45,6 +49,7 @@ public class QShippingOrder extends BeanPath<ShippingOrder> {
     public QShippingOrder(Class<? extends ShippingOrder> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.orderNumber = inits.isInitialized("orderNumber") ? new kr.tatine.manibogo_oms_v2.common.model.QOrderNumber(forProperty("orderNumber")) : null;
+        this.productNumber = inits.isInitialized("productNumber") ? new kr.tatine.manibogo_oms_v2.product.command.domain.QProductNumber(forProperty("productNumber")) : null;
     }
 
 }

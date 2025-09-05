@@ -6,6 +6,8 @@ import kr.tatine.manibogo_oms_v2.shipping.command.domain.Shipping;
 import kr.tatine.manibogo_oms_v2.shipping.command.domain.ShippingNotFoundException;
 import kr.tatine.manibogo_oms_v2.shipping.command.domain.ShippingOrder;
 import kr.tatine.manibogo_oms_v2.shipping.command.domain.ShippingRepository;
+import kr.tatine.manibogo_oms_v2.shipping.query.OrderShippingView;
+import kr.tatine.manibogo_oms_v2.shipping.query.OrderShippingViewDao;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ public class UpdateShippingOrderService {
 
     private final ShippingRepository shippingRepository;
 
+    private final OrderShippingViewDao orderShippingViewDao;
+
     @Transactional
     public void update(UpdateShippingOrderCommand command) {
 
@@ -29,9 +33,10 @@ public class UpdateShippingOrderService {
         if (Objects.isNull(command.orderNumber())) {
             errors.add(ValidationError.of("orderNumber", "required.orderNumber"));
         }
-        if (Objects.isNull(command.orderState())) {
-            errors.add(ValidationError.of("orderState", "required.orderState"));
-        }
+
+        final OrderShippingView orderShippingView = orderShippingViewDao
+                .findByOrderNumber(command.orderNumber())
+                .orElseThrow(ShippingNotFoundException::new);
 
         if (!errors.isEmpty()) {
             throw new ValidationErrorException(errors);
@@ -41,7 +46,7 @@ public class UpdateShippingOrderService {
                 .findByShippingOrderNumber(command.orderNumber())
                 .orElseThrow(ShippingNotFoundException::new);
 
-        shipping.addOrders(List.of(new ShippingOrder(command.orderNumber(), command.orderState())));
+        shipping.addOrders(List.of(new ShippingOrder(command.orderNumber(), orderShippingView.orderState(), orderShippingView.productNumber(), orderShippingView.amount())));
     }
 
 }
