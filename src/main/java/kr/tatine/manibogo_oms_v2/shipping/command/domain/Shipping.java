@@ -33,11 +33,10 @@ public abstract class Shipping {
     @CollectionTable(name = "shipping_orders", joinColumns = @JoinColumn(name = "shipping_number"))
     private List<ShippingOrder> orders = new ArrayList<>();
 
-    public Shipping(ShippingNumber number, ChargeType chargeType, Recipient recipient, List<ShippingOrder> orders) {
+    public Shipping(ShippingNumber number, ChargeType chargeType, Recipient recipient) {
         this.number = number;
         this.chargeType = chargeType;
         this.recipient = recipient;
-        addOrders(orders);
     }
 
     public void dispatch() {}
@@ -60,26 +59,24 @@ public abstract class Shipping {
             throw new CannotBundleShippingException("mismatch.shipping.recipient");
         }
 
-        addOrders(shipping.getOrders());
+        for (ShippingOrder order : orders) {
+            addOrder(order);
+        }
     }
 
-    public void addOrders(final List<ShippingOrder> orders) {
-
-        final Set<OrderNumber> orderNumbers = orders.stream()
-                .map(ShippingOrder::getOrderNumber)
-                .collect(Collectors.toSet());
+    public void addOrder(final ShippingOrder newOrder) {
 
         final Iterator<ShippingOrder> iterator = this.orders.iterator();
 
         while (iterator.hasNext()) {
             final ShippingOrder order = iterator.next();
 
-            if (!orderNumbers.contains(order.getOrderNumber())) continue;
+            if (!order.getOrderNumber().equals(newOrder.getOrderNumber())) continue;
 
             iterator.remove();
         }
 
-        this.orders.addAll(orders);
+        this.orders.add(newOrder);
         updateState();
     }
 

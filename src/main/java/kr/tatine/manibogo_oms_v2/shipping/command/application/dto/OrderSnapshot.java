@@ -1,9 +1,9 @@
-package kr.tatine.manibogo_oms_v2.shipping.query;
+package kr.tatine.manibogo_oms_v2.shipping.command.application.dto;
 
 import kr.tatine.manibogo_oms_v2.common.model.*;
 import kr.tatine.manibogo_oms_v2.product.command.domain.ProductNumber;
 
-public record OrderShippingView(
+public record OrderSnapshot(
         OrderNumber orderNumber,
         OrderState orderState,
         ShippingNumber shippingNumber,

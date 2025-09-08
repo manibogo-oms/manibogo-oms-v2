@@ -2,14 +2,13 @@ package kr.tatine.manibogo_oms_v2.shipping.command.application;
 
 import kr.tatine.manibogo_oms_v2.ValidationErrorException;
 import kr.tatine.manibogo_oms_v2.common.ValidationError;
+import kr.tatine.manibogo_oms_v2.shipping.command.application.dto.OrderSnapshot;
+import kr.tatine.manibogo_oms_v2.shipping.command.application.port.out.OrderSnapshotQueryPort;
 import kr.tatine.manibogo_oms_v2.shipping.command.domain.Shipping;
 import kr.tatine.manibogo_oms_v2.shipping.command.domain.ShippingNotFoundException;
 import kr.tatine.manibogo_oms_v2.shipping.command.domain.ShippingOrder;
 import kr.tatine.manibogo_oms_v2.shipping.command.domain.ShippingRepository;
-import kr.tatine.manibogo_oms_v2.shipping.query.OrderShippingView;
-import kr.tatine.manibogo_oms_v2.shipping.query.OrderShippingViewDao;
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +22,7 @@ public class UpdateShippingOrderService {
 
     private final ShippingRepository shippingRepository;
 
-    private final OrderShippingViewDao orderShippingViewDao;
+    private final OrderSnapshotQueryPort orderSnapshotQueryPort;
 
     @Transactional
     public void update(UpdateShippingOrderCommand command) {
@@ -34,8 +33,8 @@ public class UpdateShippingOrderService {
             errors.add(ValidationError.of("orderNumber", "required.orderNumber"));
         }
 
-        final OrderShippingView orderShippingView = orderShippingViewDao
-                .findByOrderNumber(command.orderNumber())
+        final OrderSnapshot orderSnapshot = orderSnapshotQueryPort
+                .findByNumber(command.orderNumber())
                 .orElseThrow(ShippingNotFoundException::new);
 
         if (!errors.isEmpty()) {
@@ -46,7 +45,7 @@ public class UpdateShippingOrderService {
                 .findByShippingOrderNumber(command.orderNumber())
                 .orElseThrow(ShippingNotFoundException::new);
 
-        shipping.addOrders(List.of(new ShippingOrder(command.orderNumber(), orderShippingView.orderState(), orderShippingView.productNumber(), orderShippingView.amount())));
+        shipping.addOrder(new ShippingOrder(command.orderNumber(), orderSnapshot.orderState(), orderSnapshot.productNumber(), orderSnapshot.amount()));
     }
 
 }
