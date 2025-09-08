@@ -2,8 +2,8 @@ package kr.tatine.manibogo_oms_v2.shipping.infra;
 
 import jakarta.persistence.EntityManager;
 import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
-import kr.tatine.manibogo_oms_v2.shipping.query.OrderShippingView;
-import kr.tatine.manibogo_oms_v2.shipping.query.OrderShippingViewDao;
+import kr.tatine.manibogo_oms_v2.shipping.command.application.dto.OrderSnapshot;
+import kr.tatine.manibogo_oms_v2.shipping.command.application.port.out.OrderSnapshotQueryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,15 +11,15 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class JpaOrderShippingViewDao implements OrderShippingViewDao {
+public class JpaOrderSnapshotQueryPort implements OrderSnapshotQueryPort {
 
     private final EntityManager em;
 
     @Override
-    public Optional<OrderShippingView> findByOrderNumber(OrderNumber orderNumber) {
+    public Optional<OrderSnapshot> findByNumber(OrderNumber orderNumber) {
 
         return Optional.ofNullable(em.createQuery("""
-            SELECT new kr.tatine.manibogo_oms_v2.shipping.query.OrderShippingView(
+            SELECT new kr.tatine.manibogo_oms_v2.shipping.query.OrderSnapshot(
                     o.number,
                     o.state,
                     o.shippingInfo.shippingBundleNumber,
@@ -29,6 +29,6 @@ public class JpaOrderShippingViewDao implements OrderShippingViewDao {
                     o.product.productNumber,
                     o.product.amount
                 ) FROM Order o WHERE o.number = :orderNumber
-        """, OrderShippingView.class).setParameter("orderNumber", orderNumber).getSingleResult());
+        """, OrderSnapshot.class).setParameter("orderNumber", orderNumber).getSingleResult());
     }
 }

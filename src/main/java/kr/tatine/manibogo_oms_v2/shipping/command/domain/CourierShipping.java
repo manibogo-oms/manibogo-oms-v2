@@ -19,8 +19,8 @@ public class CourierShipping extends Shipping {
 
     private String trackingNumber;
 
-    public CourierShipping(ShippingNumber number, ChargeType chargeType, Recipient recipient, List<ShippingOrder> orders) {
-        super(number, chargeType, recipient, orders);
+    public CourierShipping(ShippingNumber number, ChargeType chargeType, Recipient recipient) {
+        super(number, chargeType, recipient);
     }
 
     @Override
