@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @ToString
 @Subselect("""
 SELECT
-	o.shipping_bundle_number,
+	o.shipping_number as 'shipping_bundle_number',
 	SUM(CASE WHEN o.`order_state` = 'PURCHASED' THEN 1 ELSE 0 END) AS 'purchased_count',
 	SUM(CASE WHEN o.`order_state` = 'DISPATCHED' THEN 1 ELSE 0 END) AS 'dispatched_count',
 	SUM(CASE WHEN o.`order_state` = 'SHIPPED' THEN 1 ELSE 0 END) AS 'shipped_count',
