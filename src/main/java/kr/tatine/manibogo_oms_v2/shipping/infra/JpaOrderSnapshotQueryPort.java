@@ -19,7 +19,7 @@ public class JpaOrderSnapshotQueryPort implements OrderSnapshotQueryPort {
     public Optional<OrderSnapshot> findByNumber(OrderNumber orderNumber) {
 
         return Optional.ofNullable(em.createQuery("""
-            SELECT new kr.tatine.manibogo_oms_v2.shipping.query.OrderSnapshot(
+            SELECT new kr.tatine.manibogo_oms_v2.shipping.command.application.dto.OrderSnapshot(
                     o.number,
                     o.state,
                     o.shippingInfo.shippingBundleNumber,
