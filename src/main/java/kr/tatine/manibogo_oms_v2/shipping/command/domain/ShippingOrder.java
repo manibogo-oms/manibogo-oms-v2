@@ -8,7 +8,7 @@ import kr.tatine.manibogo_oms_v2.common.model.OrderState;
 import kr.tatine.manibogo_oms_v2.product.command.domain.ProductNumber;
 import lombok.*;
 
-@Getter(AccessLevel.PACKAGE)
+@Getter
 @ToString
 @Embeddable
 @EqualsAndHashCode

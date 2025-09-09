@@ -27,6 +27,9 @@ public class CreateOrBundleShippingService {
         final Shipping newShipping = shippingFactory.create(
                 snapshot.shippingMethod(), snapshot.shippingNumber(), snapshot.chargeType(), snapshot.recipient());
 
+        final ShippingOrder shippingOrder =
+                new ShippingOrder(snapshot.orderNumber(), snapshot.orderState(), snapshot.productNumber(), snapshot.amount());
+
         shippingRepository
                 .findByShippingOrderNumber(command.orderNumber())
                 .ifPresent(shipping -> shipping.removeOrder(command.orderNumber()));
@@ -34,9 +37,16 @@ public class CreateOrBundleShippingService {
         shippingRepository
                 .findById(snapshot.shippingNumber())
                 .ifPresentOrElse(
-                        shipping -> shipping.bundle(newShipping),
-                        () -> shippingRepository.save(newShipping)
+                        shipping -> {
+                            shipping.bundle(newShipping);
+                            shipping.addOrder(shippingOrder);
+                        },
+                        () -> {
+                            shippingRepository.save(newShipping);
+                            newShipping.addOrder(shippingOrder);
+                        }
                 );
+
     }
 
 

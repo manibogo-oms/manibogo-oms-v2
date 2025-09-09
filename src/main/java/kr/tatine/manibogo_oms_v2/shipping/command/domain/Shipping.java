@@ -1,6 +1,7 @@
 package kr.tatine.manibogo_oms_v2.shipping.command.domain;
 
 import jakarta.persistence.*;
+import kr.tatine.manibogo_oms_v2.common.event.Events;
 import kr.tatine.manibogo_oms_v2.common.model.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -8,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Entity
 @ToString
@@ -58,40 +58,35 @@ public abstract class Shipping {
         if (!Objects.equals(getRecipient(), shipping.getRecipient())) {
             throw new CannotBundleShippingException("mismatch.shipping.recipient");
         }
-
-        for (ShippingOrder order : orders) {
-            addOrder(order);
-        }
     }
 
     public void addOrder(final ShippingOrder newOrder) {
-
-        final Iterator<ShippingOrder> iterator = this.orders.iterator();
-
-        while (iterator.hasNext()) {
-            final ShippingOrder order = iterator.next();
-
-            if (!order.getOrderNumber().equals(newOrder.getOrderNumber())) continue;
-
-            iterator.remove();
-        }
-
+        deleteExistOrder(newOrder.getOrderNumber());
         this.orders.add(newOrder);
         updateState();
+
+        Events.raise(new ShippingOrderChangedEvent(number));
     }
 
     public void removeOrder(OrderNumber orderNumber) {
+        deleteExistOrder(orderNumber);
+        updateState();
 
+        Events.raise(new ShippingOrderChangedEvent(number));
+    }
+
+    private void deleteExistOrder(OrderNumber orderNumber) {
         final Iterator<ShippingOrder> iterator = this.orders.iterator();
 
         while (iterator.hasNext()) {
             final ShippingOrder order = iterator.next();
 
-            if (!orderNumber.equals(order.getOrderNumber())) continue;
+            if (!order.getOrderNumber().equals(orderNumber)) {
+                continue;
+            }
 
             iterator.remove();
         }
-
     }
 
     private void updateState() {
