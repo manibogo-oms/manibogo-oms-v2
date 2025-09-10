@@ -2,13 +2,12 @@ package kr.tatine.manibogo_oms_v2.shipping.infra;
 
 import jakarta.persistence.EntityManager;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
-import kr.tatine.manibogo_oms_v2.shipping.query.ShippingOrderView;
-import kr.tatine.manibogo_oms_v2.shipping.query.ShippingOrderViewDao;
+import kr.tatine.manibogo_oms_v2.shipping.query.dto.ShippingOrderView;
+import kr.tatine.manibogo_oms_v2.shipping.query.out.port.ShippingOrderViewDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor

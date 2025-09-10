@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.shipping.query;
+package kr.tatine.manibogo_oms_v2.shipping.query.dto;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -16,11 +16,13 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QShippingOrderAggView extends EntityPathBase<ShippingOrderAggView> {
 
-    private static final long serialVersionUID = 290718225L;
+    private static final long serialVersionUID = -1712730816L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
     public static final QShippingOrderAggView shippingOrderAggView = new QShippingOrderAggView("shippingOrderAggView");
+
+    public final kr.tatine.manibogo_oms_v2.common.model.QOrderNumber primaryOrderNumber;
 
     public final EnumPath<kr.tatine.manibogo_oms_v2.common.model.OrderState> primaryOrderState = createEnum("primaryOrderState", kr.tatine.manibogo_oms_v2.common.model.OrderState.class);
 
@@ -52,6 +54,7 @@ public class QShippingOrderAggView extends EntityPathBase<ShippingOrderAggView> 
 
     public QShippingOrderAggView(Class<? extends ShippingOrderAggView> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.primaryOrderNumber = inits.isInitialized("primaryOrderNumber") ? new kr.tatine.manibogo_oms_v2.common.model.QOrderNumber(forProperty("primaryOrderNumber")) : null;
         this.shippingNumber = inits.isInitialized("shippingNumber") ? new kr.tatine.manibogo_oms_v2.common.model.QShippingNumber(forProperty("shippingNumber")) : null;
     }
 

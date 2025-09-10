@@ -1,9 +1,10 @@
-package kr.tatine.manibogo_oms_v2.shipping.query;
+package kr.tatine.manibogo_oms_v2.shipping.query.dto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
 import kr.tatine.manibogo_oms_v2.common.model.OrderState;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import lombok.*;
@@ -17,6 +18,8 @@ public class ShippingOrderAggView {
 
     @Id
     private ShippingNumber shippingNumber;
+
+    private OrderNumber primaryOrderNumber;
 
     private String primaryProductName;
 

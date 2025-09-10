@@ -24,7 +24,7 @@ public class EditProductService {
         final List<ValidationError> errors = new ArrayList<>();
 
         if (command.productNumber() == null || command.productNumber().isBlank()) {
-            errors.add(ValidationError.of("number", "required.product.number"));
+            errors.add(ValidationError.of("shippingNumber", "required.product.number"));
         }
 
         if (command.productName() == null || command.productName().isBlank()) {
