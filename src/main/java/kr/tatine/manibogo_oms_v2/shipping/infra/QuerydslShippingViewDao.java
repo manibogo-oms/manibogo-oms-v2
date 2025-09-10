@@ -27,8 +27,8 @@ public class QuerydslShippingViewDao implements ShippingViewDao {
         final List<ShippingView> content = queryFactory.select(
                 Projections.constructor(
                     ShippingView.class,
-                    shipping.number.shippingNumber.as("shippingNumber"),
-                    shipping.state.stringValue().as("shippingState"),
+                    shipping.number.as("shippingNumber"),
+                    shipping.state.as("shippingState"),
                     shipping.recipient.address.address1.as("address1"),
                     shipping.recipient.address.address2.as("address2"),
                     shipping.recipient.address.zipCode.as("zipCode"),

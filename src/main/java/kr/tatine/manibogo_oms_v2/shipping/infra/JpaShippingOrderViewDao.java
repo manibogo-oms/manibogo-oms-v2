@@ -16,7 +16,7 @@ public class JpaShippingOrderViewDao implements ShippingOrderViewDao {
     private final EntityManager em;
 
     private static final String FIND_ALL_BY_SHIPPING_NUMBER_QUERY = """
-        SELECT new kr.tatine.manibogo_oms_v2.shipping.query.ShippingOrderView(
+        SELECT new kr.tatine.manibogo_oms_v2.shipping.query.dto.ShippingOrderView(
         s.number, so.orderNumber, so.orderState, p.name, so.amount
         )
         FROM Shipping s
