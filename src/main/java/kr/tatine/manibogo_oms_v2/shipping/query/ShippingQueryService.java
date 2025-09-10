@@ -1,7 +1,8 @@
 package kr.tatine.manibogo_oms_v2.shipping.query;
 
+import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.ShippingOrderAggView;
-import kr.tatine.manibogo_oms_v2.shipping.query.dto.ShippingOrderView;
+import kr.tatine.manibogo_oms_v2.shipping.query.dto.ShippingPageView;
 import kr.tatine.manibogo_oms_v2.shipping.query.out.port.ShippingOrderAggViewDao;
 import kr.tatine.manibogo_oms_v2.shipping.query.out.port.ShippingViewDao;
 import lombok.RequiredArgsConstructor;
@@ -26,14 +27,14 @@ public class ShippingQueryService {
 
         final Page<ShippingView> viewPage = viewDao.findAll(pageable);
 
-        final List<String> shippingNumbers = viewPage.getContent()
+        final List<ShippingNumber> shippingNumbers = viewPage.getContent()
                 .stream().map(ShippingView::shippingNumber)
                 .toList();
 
-        final Map<String, ShippingOrderAggView> orderAggViewMap = new HashMap<>();
+        final Map<ShippingNumber, ShippingOrderAggView> orderAggViewMap = new HashMap<>();
 
         for (final ShippingOrderAggView orderAggView : orderAggViewDao.findByShippingNumbers(shippingNumbers)) {
-            orderAggViewMap.put(orderAggView.getShippingNumber().getShippingNumber(), orderAggView);
+            orderAggViewMap.put(orderAggView.getShippingNumber(), orderAggView);
         }
 
         return viewPage.map(view -> composite(view, orderAggViewMap.get(view.shippingNumber())));
@@ -45,8 +46,8 @@ public class ShippingQueryService {
         return new ShippingPageView(
                 view.shippingNumber(),
                 view.shippingState(),
-                orderAggView != null && orderAggView.getPrimaryOrderNumber() != null ? orderAggView.getPrimaryOrderNumber().getOrderNumber() : null,
-                orderAggView != null && orderAggView.getPrimaryOrderState() != null ? orderAggView.getPrimaryOrderState().name() : null,
+                orderAggView != null ? orderAggView.getPrimaryOrderNumber() : null,
+                orderAggView != null ? orderAggView.getPrimaryOrderState() : null,
                 orderAggView != null ? orderAggView.getPrimaryProductName() : null,
                 orderAggView != null ? orderAggView.getPrimaryProductQuantity() : null,
                 orderAggView != null ? orderAggView.getTotalOrderCount() : null,

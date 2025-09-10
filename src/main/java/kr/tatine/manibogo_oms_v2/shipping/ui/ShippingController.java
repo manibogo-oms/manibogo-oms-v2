@@ -1,6 +1,6 @@
 package kr.tatine.manibogo_oms_v2.shipping.ui;
 
-import kr.tatine.manibogo_oms_v2.shipping.query.ShippingPageView;
+import kr.tatine.manibogo_oms_v2.shipping.query.dto.ShippingPageView;
 import kr.tatine.manibogo_oms_v2.shipping.query.ShippingQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
