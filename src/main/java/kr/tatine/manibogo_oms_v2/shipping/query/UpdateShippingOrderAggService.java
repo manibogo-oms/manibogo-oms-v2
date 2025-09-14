@@ -1,10 +1,10 @@
 package kr.tatine.manibogo_oms_v2.shipping.query;
 
 import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
-import kr.tatine.manibogo_oms_v2.shipping.query.dto.ShippingOrderAggView;
-import kr.tatine.manibogo_oms_v2.shipping.query.dto.ShippingOrderView;
-import kr.tatine.manibogo_oms_v2.shipping.query.out.port.ShippingOrderAggViewDao;
-import kr.tatine.manibogo_oms_v2.shipping.query.out.port.ShippingOrderViewDao;
+import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingOrderAggView;
+import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingOrderView;
+import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingOrderAggViewDao;
+import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingOrderViewDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

@@ -1,6 +1,7 @@
 package kr.tatine.manibogo_oms_v2.shipping.ui;
 
-import kr.tatine.manibogo_oms_v2.shipping.query.dto.ShippingPageView;
+import kr.tatine.manibogo_oms_v2.shipping.query.dto.in.ShippingFilter;
+import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingPageView;
 import kr.tatine.manibogo_oms_v2.shipping.query.ShippingQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +24,12 @@ public class ShippingController {
 
     @GetMapping
     @ResponseBody
-    public void page(@PageableDefault Pageable pageable) {
-        Page<ShippingPageView> all = queryService.findAll(pageable);
+    public void page(ShippingFilter filter, @PageableDefault Pageable pageable) {
+        Page<ShippingPageView> all = queryService.findAll(filter, pageable);
 
-        log.debug(all.toString());
+        for (ShippingPageView shippingPageView : all.getContent()) {
+            log.info(shippingPageView.toString());
+        }
     }
 
 }

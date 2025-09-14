@@ -1,15 +1,17 @@
 package kr.tatine.manibogo_oms_v2.shipping.query;
 
 import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
-import kr.tatine.manibogo_oms_v2.shipping.query.dto.ShippingOrderAggView;
-import kr.tatine.manibogo_oms_v2.shipping.query.dto.ShippingPageView;
-import kr.tatine.manibogo_oms_v2.shipping.query.dto.ShippingView;
-import kr.tatine.manibogo_oms_v2.shipping.query.out.port.ShippingOrderAggViewDao;
-import kr.tatine.manibogo_oms_v2.shipping.query.out.port.ShippingViewDao;
+import kr.tatine.manibogo_oms_v2.shipping.query.dto.in.ShippingFilter;
+import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingOrderAggView;
+import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingPageView;
+import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingView;
+import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingOrderAggViewDao;
+import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingViewDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,10 +25,10 @@ public class ShippingQueryService {
 
     private final ShippingOrderAggViewDao orderAggViewDao;
 
+    @Transactional(readOnly = true)
+    public Page<ShippingPageView> findAll(ShippingFilter filter, Pageable pageable) {
 
-    public Page<ShippingPageView> findAll(Pageable pageable) {
-
-        final Page<ShippingView> viewPage = viewDao.findAll(pageable);
+        final Page<ShippingView> viewPage = viewDao.findAll(filter, pageable);
 
         final List<ShippingNumber> shippingNumbers = viewPage.getContent()
                 .stream().map(ShippingView::shippingNumber)
