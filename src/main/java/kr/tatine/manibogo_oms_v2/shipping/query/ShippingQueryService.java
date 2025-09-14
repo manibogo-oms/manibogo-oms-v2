@@ -3,6 +3,7 @@ package kr.tatine.manibogo_oms_v2.shipping.query;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.ShippingOrderAggView;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.ShippingPageView;
+import kr.tatine.manibogo_oms_v2.shipping.query.dto.ShippingView;
 import kr.tatine.manibogo_oms_v2.shipping.query.out.port.ShippingOrderAggViewDao;
 import kr.tatine.manibogo_oms_v2.shipping.query.out.port.ShippingViewDao;
 import lombok.RequiredArgsConstructor;
@@ -52,8 +53,8 @@ public class ShippingQueryService {
                 orderAggView != null ? orderAggView.getPrimaryProductQuantity() : null,
                 orderAggView != null ? orderAggView.getTotalOrderCount() : null,
                 orderAggView != null ? orderAggView.getTotalQuantity() : null,
-                "",
-                "",
+                view.sido(),
+                view.sigungu(),
                 view.address1(),
                 view.address2(),
                 view.zipCode(),
