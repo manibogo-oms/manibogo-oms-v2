@@ -47,9 +47,11 @@ public class QuerydslShippingViewDao implements ShippingViewDao {
                 ))
                 .from(shipping)
                 .where(predicates)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .leftJoin(zipCodeRegion).on(zipCodeRegion.zipCode.eq(shipping.recipient.address.zipCode)).fetch();
 
-        final JPAQuery<Long> countQuery = queryFactory.select(shipping.count()).where(predicates).from(shipping);
+        final JPAQuery<Long> countQuery = queryFactory.select(shipping.count()).from(shipping).where(predicates);
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchFirst);
     }
