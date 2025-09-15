@@ -12,7 +12,8 @@ public record PageView<T>(
         int totalPages,
         boolean hasNext,
         boolean hasPrevious,
-        List<NavItem> navItems
+        List<NavItem> navItems,
+        List<PageSize> pageSizes
 ) {
 
     public static <T> PageView<T> of(Page<T> page) {
@@ -25,7 +26,8 @@ public record PageView<T>(
                 page.getTotalPages(),
                 page.hasNext(),
                 page.hasPrevious(),
-                buildNavItems(page)
+                buildNavItems(page),
+                PageSize.listOf(page)
         );
     }
 
