@@ -1,7 +1,7 @@
 package kr.tatine.manibogo_oms_v2.common.ui;
 
+import kr.tatine.manibogo_oms_v2.common.utils.UriUtils;
 import org.springframework.data.domain.Page;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 public record NavItem(
     String label, String url, boolean clickable, boolean isCurtPage) {
@@ -9,7 +9,7 @@ public record NavItem(
     public static NavItem number(Page<?> page, int number) {
         return new NavItem(
                 String.valueOf(number),
-                buildUrl(number, page.getSize()),
+                UriUtils.replacePage(number, page.getSize()),
                 true,
                 (page.getNumber() == number)
         );
@@ -19,11 +19,5 @@ public record NavItem(
         return new NavItem("...", null, false, false);
     }
 
-    private static String buildUrl(int page, int size) {
-        return ServletUriComponentsBuilder.fromCurrentRequest()
-                .replaceQueryParam("page", page)
-                .replaceQueryParam("size", size)
-                .build().toUriString();
-    }
 
 }
