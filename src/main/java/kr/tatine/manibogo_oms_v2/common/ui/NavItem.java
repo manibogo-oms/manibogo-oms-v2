@@ -11,7 +11,7 @@ public record NavItem(
                 String.valueOf(number),
                 UriUtils.replacePage(number, page.getSize()),
                 true,
-                (page.getNumber() == number)
+                (page.getNumber() + 1 == number)
         );
     }
 

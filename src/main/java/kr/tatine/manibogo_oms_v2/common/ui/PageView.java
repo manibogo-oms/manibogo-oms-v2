@@ -35,10 +35,10 @@ public record PageView<T>(
 
         final List<NavItem> navItems = new ArrayList<>();
 
-        final int pageNumber = page.getNumber();
+        final int pageNumber = page.getNumber() + 1;
 
         if (pageNumber > 3) {
-            navItems.add(NavItem.number(page, 0));
+            navItems.add(NavItem.number(page, 1));
         }
 
         if (pageNumber > 4) {
@@ -47,18 +47,18 @@ public record PageView<T>(
 
         final int totalPages = page.getTotalPages();
 
-        final int startPage = pageNumber < 2 ? 0 : Math.min(pageNumber - 2, totalPages - 5);
+        final int startPage = Math.max(1, Math.min(pageNumber - 2, totalPages - 4));
 
-        for (int i = startPage; i < Math.min(startPage + 5, totalPages); i ++) {
+        for (int i = startPage; i <= Math.min(startPage + 4, totalPages); i ++) {
             navItems.add(NavItem.number(page, i));
         }
 
-        if (pageNumber < (totalPages - 4)) {
+        if (pageNumber < (totalPages - 3)) {
             navItems.add(NavItem.dots());
         }
 
-        if (pageNumber < (totalPages - 3)) {
-            navItems.add(NavItem.number(page, totalPages - 1));
+        if (pageNumber < (totalPages - 2)) {
+            navItems.add(NavItem.number(page, totalPages));
         }
 
         return navItems;
