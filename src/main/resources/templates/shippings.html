@@ -13,17 +13,17 @@
     <div>총 <span th:text="${page.totalElements}" class="text-primary fw-bold">0</span>건</div>
     <div class="flex-grow-1"></div>
 
-    <select id="selectPageSize" class="form-select">
-        <th:block th:each="pageSize : ${page.pageSizes()}">
-            <option th:value="${pageSize.url()}"
-                    th:text="|${pageSize.size()}개|"
-                    th:selected="${pageSize.isCurtSize()}"></option>
-        </th:block>
-    </select>
-
+    <div class="col-auto">
+        <select id="selectPageSize" class="form-select">
+            <th:block th:each="pageSize : ${page.pageSizes()}">
+                <option th:value="${pageSize.url()}"
+                        th:text="|${pageSize.size()}개|"
+                        th:selected="${pageSize.isCurtSize()}"></option>
+            </th:block>
+        </select>
+    </div>
     <a id="btnChangePageSize" class="btn btn-secondary">변경</a>
 </nav>
-
 
 
 <ul>
