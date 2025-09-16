@@ -37,27 +37,29 @@ public record PageView<T>(
 
         final int pageNumber = page.getNumber() + 1;
 
-        if (pageNumber > 3) {
-            navItems.add(NavItem.number(page, 1));
-        }
-
-        if (pageNumber > 4) {
-            navItems.add(NavItem.dots());
-        }
-
         final int totalPages = page.getTotalPages();
 
         final int startPage = Math.max(1, Math.min(pageNumber - 2, totalPages - 4));
+        final int endPage = Math.min(startPage + 4, totalPages);
 
-        for (int i = startPage; i <= Math.min(startPage + 4, totalPages); i ++) {
-            navItems.add(NavItem.number(page, i));
+
+        if (startPage > 1) {
+            navItems.add(NavItem.number(page, 1));
         }
 
-        if (pageNumber < (totalPages - 3)) {
+        if (startPage > 2) {
             navItems.add(NavItem.dots());
         }
 
-        if (pageNumber < (totalPages - 2)) {
+        for (int i = startPage; i <= endPage; i ++) {
+            navItems.add(NavItem.number(page, i));
+        }
+
+        if (endPage < (totalPages - 1)) {
+            navItems.add(NavItem.dots());
+        }
+
+        if (endPage < totalPages) {
             navItems.add(NavItem.number(page, totalPages));
         }
 
