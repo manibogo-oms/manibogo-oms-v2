@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html th:replace="~{fragments/layout::layoutFragment (~{::title}, ~{::section}, ~{}, ~{})}"
+      xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>마니보고 주문관리 서비스 V2 - 배송조회</title>
+</head>
+<body>
+
+<section class="p-4">
+
+<nav class="d-flex align-items-end gap-2">
+    <div>총 <span th:text="${page.totalElements}" class="text-primary fw-bold">0</span>건</div>
+    <div class="flex-grow-1"></div>
+
+    <select id="selectPageSize" class="form-select">
+        <th:block th:each="pageSize : ${page.pageSizes()}">
+            <option th:value="${pageSize.url()}"
+                    th:text="|${pageSize.size()}개|"
+                    th:selected="${pageSize.isCurtSize()}"></option>
+        </th:block>
+    </select>
+
+    <a id="btnChangePageSize" class="btn btn-secondary">변경</a>
+</nav>
+
+
+
+<ul>
+    <th:block th:each="shipping : ${page.content()}">
+        <li th:text="${shipping.shippingNumber()}"></li>
+    </th:block>
+</ul>
+
+<ul class="pagination justify-content-center">
+    <th:block th:each="navItem : ${page.navItems()}">
+        <li class="page-item"
+            th:classappend="(${!navItem.clickable()} ? 'disabled' : '') + (${navItem.isCurtPage()} ? 'active' : '')">
+            <a class="page-link" th:href="${navItem.url()}" th:text="${navItem.label()}"></a>
+        </li>
+    </th:block>
+</ul>
+
+</section>
+</body>
+
+</html>
