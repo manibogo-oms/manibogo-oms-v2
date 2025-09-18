@@ -25,13 +25,14 @@
     <a id="btnChangePageSize" class="btn btn-secondary">변경</a>
 </nav>
 
+<div style="height: 16px;"></div>
 
 <div class="table-responsive">
     <table class="table table-striped text-center small align-middle w-100 text-nowrap" style="display: block; margin-bottom: 0 !important;">
         <thead class="table-light">
         <tr>
+            <th scope="col">상태</th>
             <th scope="col" style="min-width: 160px;">배송번호</th>
-            <th scope="col">배송상태</th>
             <th scope="col" class="w-100">대표물품</th>
             <th scope="col">주문수</th>
             <th scope="col">총수량</th>
@@ -46,16 +47,20 @@
         <th:block th:each="shipping : ${page.content()}">
             <tr>
                 <td>
+                    <div class="d-inline-flex px-2 py-1 border bg-white rounded-2" th:text="#{${T(kr.tatine.manibogo_oms_v2.common.utils.EnumI18n).key(shipping.shippingState()) + '.short'}}"></div>
+                </td>
+                <td>
                     <div class="d-flex justify-content-center align-items-center gap-2">
-                        <small th:if="${shipping.shippingMethod() == T(kr.tatine.manibogo_oms_v2.common.model.ShippingMethod).DIRECT}" class="d-inline-flex px-2 py-1 fw-semibold text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-2">직접</small>
-                        <small th:if="${shipping.shippingMethod() == T(kr.tatine.manibogo_oms_v2.common.model.ShippingMethod).PARCEL}" class="d-inline-flex px-2 py-1 fw-semibold text-success-emphasis bg-success-subtle border border-success-subtle rounded-2">택배</small>
+<!--                        <small th:if="${shipping.shippingMethod() == T(kr.tatine.manibogo_oms_v2.common.model.ShippingMethod).DIRECT}" class="d-inline-flex px-2 py-1 fw-semibold text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-2">직접</small>-->
+<!--                        <small th:if="${shipping.shippingMethod() == T(kr.tatine.manibogo_oms_v2.common.model.ShippingMethod).PARCEL}" class="d-inline-flex px-2 py-1 fw-semibold text-success-emphasis bg-success-subtle border border-success-subtle rounded-2">택배</small>-->
 
                         <a class="align-middle" href="#" th:text="${shipping.shippingNumber().getShippingNumber()}"></a>
                     </div>
                 </td>
-                <td class="text-start" th:text="${shipping.shippingState().name()}"></td>
                 <td class="text-start" th:text="${shipping.primaryProductName() ?: '없음'} + ' (수량: ' + ${shipping.primaryOrderQuantity() ?: '0'} + '개)'"></td>
-                <td th:text="|${shipping.totalOrderCount() ?: '0'}건|"></td>
+                <td>
+                    <a href="#" th:text="|${shipping.totalOrderCount() ?: '0'}건|"></a>
+                </td>
                 <td th:text="|${shipping.totalQuantity() ?: '0'}개|"></td>
                 <td th:text="${shipping.sido()}"></td>
                 <td th:text="${shipping.sigungu()}"></td>
@@ -67,6 +72,8 @@
         </tbody>
     </table>
 </div>
+
+<div style="height: 24px;"></div>
 
 <ul class="pagination justify-content-center">
     <th:block th:each="navItem : ${page.navItems()}">
