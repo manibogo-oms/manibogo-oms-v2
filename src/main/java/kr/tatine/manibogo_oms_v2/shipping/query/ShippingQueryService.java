@@ -48,6 +48,7 @@ public class ShippingQueryService {
 
         return new ShippingPageView(
                 view.shippingNumber(),
+                view.shippingMethod(),
                 view.shippingState(),
                 orderAggView != null ? orderAggView.getPrimaryOrderNumber() : null,
                 orderAggView != null ? orderAggView.getPrimaryOrderState() : null,

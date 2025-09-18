@@ -13,6 +13,7 @@ import java.util.*;
 @Entity
 @ToString
 @Getter(AccessLevel.PROTECTED)
+@DiscriminatorColumn(name = "dtype")
 @Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class Shipping {
