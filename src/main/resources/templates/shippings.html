@@ -45,13 +45,18 @@
         <tbody>
         <th:block th:each="shipping : ${page.content()}">
             <tr>
-                <td><a th:text="${shipping.shippingNumber().getShippingNumber()}"></a></td>
-                <td th:text="${shipping.shippingState().name()}"></td>
                 <td>
-                    <span th:text="${#strings.defaultString(shipping.primaryProductName(), '없음')} + ' (수량: ' + ${#strings.defaultString(shipping.primaryOrderQuantity(), '0')} + '개)'"></span>
+                    <div class="d-flex justify-content-center align-items-center gap-2">
+                        <small th:if="${shipping.shippingMethod() == T(kr.tatine.manibogo_oms_v2.common.model.ShippingMethod).DIRECT}" class="d-inline-flex px-2 py-1 fw-semibold text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-2">직접</small>
+                        <small th:if="${shipping.shippingMethod() == T(kr.tatine.manibogo_oms_v2.common.model.ShippingMethod).PARCEL}" class="d-inline-flex px-2 py-1 fw-semibold text-success-emphasis bg-success-subtle border border-success-subtle rounded-2">택배</small>
+
+                        <a class="align-middle" href="#" th:text="${shipping.shippingNumber().getShippingNumber()}"></a>
+                    </div>
                 </td>
-                <td th:text="${shipping.totalOrderCount()}"></td>
-                <td th:text="${shipping.totalQuantity()}"></td>
+                <td class="text-start" th:text="${shipping.shippingState().name()}"></td>
+                <td class="text-start" th:text="${shipping.primaryProductName() ?: '없음'} + ' (수량: ' + ${shipping.primaryOrderQuantity() ?: '0'} + '개)'"></td>
+                <td th:text="|${shipping.totalOrderCount() ?: '0'}건|"></td>
+                <td th:text="|${shipping.totalQuantity() ?: '0'}개|"></td>
                 <td th:text="${shipping.sido()}"></td>
                 <td th:text="${shipping.sigungu()}"></td>
                 <td th:text="${shipping.recipientName()}"></td>
