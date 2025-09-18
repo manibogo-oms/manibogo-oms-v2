@@ -2,9 +2,14 @@ package kr.tatine.manibogo_oms_v2.shipping.infra;
 
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.*;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
+import kr.tatine.manibogo_oms_v2.shipping.command.domain.CourierShipping;
+import kr.tatine.manibogo_oms_v2.shipping.command.domain.DirectShipping;
+import kr.tatine.manibogo_oms_v2.shipping.command.domain.QDirectShipping;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.in.ShippingFilter;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingView;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingViewDao;
@@ -26,6 +31,13 @@ public class QuerydslShippingViewDao implements ShippingViewDao {
 
     private final JPAQueryFactory queryFactory;
 
+    private static final String SHIPPING_METHOD_EXPR = """
+        CASE WHEN type(shipping) = 'DIRECT'
+             THEN kr.tatine.manibogo_oms_v2.common.model.ShippingMethod.DIRECT
+             ELSE kr.tatine.manibogo_oms_v2.common.model.ShippingMethod.PARCEL
+         END
+    """;
+
     @Override
     public Page<ShippingView> findAll(ShippingFilter filter, Pageable pageable) {
 
@@ -35,6 +47,7 @@ public class QuerydslShippingViewDao implements ShippingViewDao {
                 Projections.constructor(
                     ShippingView.class,
                     shipping.number.as("shippingNumber"),
+                    Expressions.template(ShippingMethod.class, SHIPPING_METHOD_EXPR),
                     shipping.state.as("shippingState"),
                     shipping.recipient.address.address1.as("address1"),
                     shipping.recipient.address.address2.as("address2"),
@@ -49,7 +62,8 @@ public class QuerydslShippingViewDao implements ShippingViewDao {
                 .where(predicates)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .leftJoin(zipCodeRegion).on(zipCodeRegion.zipCode.eq(shipping.recipient.address.zipCode)).fetch();
+                .leftJoin(zipCodeRegion).on(zipCodeRegion.zipCode.eq(shipping.recipient.address.zipCode))
+                .fetch();
 
         final JPAQuery<Long> countQuery = queryFactory.select(shipping.count()).from(shipping).where(predicates);
 

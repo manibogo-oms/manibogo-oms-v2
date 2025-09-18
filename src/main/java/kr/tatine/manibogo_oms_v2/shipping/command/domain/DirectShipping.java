@@ -1,5 +1,6 @@
 package kr.tatine.manibogo_oms_v2.shipping.command.domain;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import kr.tatine.manibogo_oms_v2.common.model.ChargeType;
 import kr.tatine.manibogo_oms_v2.common.model.Recipient;
@@ -7,9 +8,8 @@ import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Entity
+@DiscriminatorValue("DIRECT")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DirectShipping extends Shipping {
 
