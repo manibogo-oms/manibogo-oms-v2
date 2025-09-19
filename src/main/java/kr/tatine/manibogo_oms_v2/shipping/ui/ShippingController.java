@@ -1,9 +1,9 @@
 package kr.tatine.manibogo_oms_v2.shipping.ui;
 
 import kr.tatine.manibogo_oms_v2.common.ui.PageView;
-import kr.tatine.manibogo_oms_v2.shipping.query.dto.in.ShippingFilter;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingPageView;
 import kr.tatine.manibogo_oms_v2.shipping.query.ShippingQueryService;
+import kr.tatine.manibogo_oms_v2.shipping.ui.dto.in.ShippingQueryForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -24,10 +24,12 @@ public class ShippingController {
     private final ShippingQueryService queryService;
 
     @GetMapping
-    public String page(Model model,
-            @ModelAttribute(name = "filter") ShippingFilter filter,
-            @PageableDefault Pageable pageable) {
-        final Page<ShippingPageView> page = queryService.findAll(filter, pageable);
+    public String shipping(
+            Model model,
+            @ModelAttribute(name = "query") ShippingQueryForm query,
+            @PageableDefault Pageable pageable
+    ) {
+        final Page<ShippingPageView> page = queryService.findAll(query.toQuery(), pageable);
 
         model.addAttribute("page", PageView.of(page));
         return "shippings";
