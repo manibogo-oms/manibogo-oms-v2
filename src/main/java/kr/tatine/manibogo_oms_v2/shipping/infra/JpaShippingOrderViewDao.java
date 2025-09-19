@@ -3,7 +3,7 @@ package kr.tatine.manibogo_oms_v2.shipping.infra;
 import jakarta.persistence.EntityManager;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingOrderView;
-import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingOrderViewDao;
+import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingOrderQueryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class JpaShippingOrderViewDao implements ShippingOrderViewDao {
+public class JpaShippingOrderViewDao implements ShippingOrderQueryPort {
 
     private final EntityManager em;
 

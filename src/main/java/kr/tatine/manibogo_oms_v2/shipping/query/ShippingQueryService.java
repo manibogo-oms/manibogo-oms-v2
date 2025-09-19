@@ -1,12 +1,12 @@
 package kr.tatine.manibogo_oms_v2.shipping.query;
 
 import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
-import kr.tatine.manibogo_oms_v2.shipping.query.dto.in.ShippingFilter;
+import kr.tatine.manibogo_oms_v2.shipping.query.dto.in.ShippingQuery;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingOrderAggView;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingPageView;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingView;
-import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingOrderAggViewDao;
-import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingViewDao;
+import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingOrderAggQueryPort;
+import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingViewQueryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,14 +21,14 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ShippingQueryService {
 
-    private final ShippingViewDao viewDao;
+    private final ShippingViewQueryPort viewQueryPort;
 
-    private final ShippingOrderAggViewDao orderAggViewDao;
+    private final ShippingOrderAggQueryPort orderAggQueryPort;
 
     @Transactional(readOnly = true)
-    public Page<ShippingPageView> findAll(ShippingFilter filter, Pageable pageable) {
+    public Page<ShippingPageView> findAll(ShippingQuery filter, Pageable pageable) {
 
-        final Page<ShippingView> viewPage = viewDao.findAll(filter, pageable);
+        final Page<ShippingView> viewPage = viewQueryPort.findAll(filter, pageable);
 
         final List<ShippingNumber> shippingNumbers = viewPage.getContent()
                 .stream().map(ShippingView::shippingNumber)
@@ -36,7 +36,7 @@ public class ShippingQueryService {
 
         final Map<ShippingNumber, ShippingOrderAggView> orderAggViewMap = new HashMap<>();
 
-        for (final ShippingOrderAggView orderAggView : orderAggViewDao.findByShippingNumbers(shippingNumbers)) {
+        for (final ShippingOrderAggView orderAggView : orderAggQueryPort.findByShippingNumbers(shippingNumbers)) {
             orderAggViewMap.put(orderAggView.getShippingNumber(), orderAggView);
         }
 
