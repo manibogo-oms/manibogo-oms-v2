@@ -3,16 +3,12 @@ package kr.tatine.manibogo_oms_v2.shipping.infra;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.*;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
-import kr.tatine.manibogo_oms_v2.shipping.command.domain.CourierShipping;
-import kr.tatine.manibogo_oms_v2.shipping.command.domain.DirectShipping;
-import kr.tatine.manibogo_oms_v2.shipping.command.domain.QDirectShipping;
-import kr.tatine.manibogo_oms_v2.shipping.query.dto.in.ShippingFilter;
+import kr.tatine.manibogo_oms_v2.shipping.query.dto.in.ShippingQuery;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingView;
-import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingViewDao;
+import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingViewQueryPort;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.domain.Page;
@@ -27,7 +23,7 @@ import static kr.tatine.manibogo_oms_v2.shipping.command.domain.QShipping.shippi
 
 @Repository
 @RequiredArgsConstructor
-public class QuerydslShippingViewDao implements ShippingViewDao {
+public class QuerydslShippingViewDao implements ShippingViewQueryPort {
 
     private final JPAQueryFactory queryFactory;
 
@@ -39,7 +35,7 @@ public class QuerydslShippingViewDao implements ShippingViewDao {
     """;
 
     @Override
-    public Page<ShippingView> findAll(ShippingFilter filter, Pageable pageable) {
+    public Page<ShippingView> findAll(ShippingQuery filter, Pageable pageable) {
 
         final Predicate[] predicates = parseFilter(filter);
 
@@ -70,7 +66,7 @@ public class QuerydslShippingViewDao implements ShippingViewDao {
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchFirst);
     }
 
-    private static Predicate[] parseFilter(ShippingFilter filter) {
+    private static Predicate[] parseFilter(ShippingQuery filter) {
         if (filter == null) return new Predicate[0];
 
         return new Predicate[]{
@@ -80,12 +76,12 @@ public class QuerydslShippingViewDao implements ShippingViewDao {
         };
     }
 
-    private static BooleanExpression eqState(ShippingFilter filter) {
+    private static BooleanExpression eqState(ShippingQuery filter) {
         if (filter.state() == null) return null;
         return shipping.state.eq(filter.state());
     }
 
-    private static BooleanExpression parseSidoAndSigungu(ShippingFilter filter) {
+    private static BooleanExpression parseSidoAndSigungu(ShippingQuery filter) {
         if (Strings.isBlank(filter.sido())) return null;
 
         final BooleanExpression query = zipCodeRegion.sido.eq(filter.sido());
@@ -94,7 +90,7 @@ public class QuerydslShippingViewDao implements ShippingViewDao {
         return query.and(zipCodeRegion.sigungu.eq(filter.sigungu()));
     }
 
-    private static BooleanExpression parseDetailSearch(ShippingFilter filter) {
+    private static BooleanExpression parseDetailSearch(ShippingQuery filter) {
         if (filter.detailSearchType() == null || Strings.isBlank(filter.keyword())) {
             return null;
         }

@@ -3,8 +3,8 @@ package kr.tatine.manibogo_oms_v2.shipping.query;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingOrderAggView;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingOrderView;
-import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingOrderAggViewDao;
-import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingOrderViewDao;
+import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingOrderAggQueryPort;
+import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingOrderQueryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -17,9 +17,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UpdateShippingOrderAggService {
 
-    private final ShippingOrderAggViewDao shippingOrderAggViewDao;
+    private final ShippingOrderAggQueryPort shippingOrderAggQueryPort;
 
-    private final ShippingOrderViewDao shippingOrderViewDao;
+    private final ShippingOrderQueryPort shippingOrderViewDao;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void update(ShippingNumber shippingNumber) {
@@ -39,7 +39,7 @@ public class UpdateShippingOrderAggService {
             orderAgg.setPrimaryProductQuantity(primaryOrder.quantity());
         });
 
-        shippingOrderAggViewDao.save(orderAgg);
+        shippingOrderAggQueryPort.save(orderAgg);
     }
 
     private static Optional<ShippingOrderView> findPrimaryOrder(List<ShippingOrderView> viewList) {
