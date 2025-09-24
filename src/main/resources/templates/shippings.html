@@ -18,13 +18,13 @@
             </div>
 
             <div class="input-group mb-3">
-                <select th:field="*{detailSearchType}" class="form-select" style="max-width: 160px;">
+                <select th:field="*{detailSearchType}" class="form-select" style="width: 30%">
                     <option selected="selected" th:value="null">대상 선택</option>
                     <th:block th:each="detailSearchType : ${T(kr.tatine.manibogo_oms_v2.shipping.query.dto.in.DetailSearchType).values()}">
                         <option th:value="${detailSearchType}" th:text="#{${T(kr.tatine.manibogo_oms_v2.common.utils.EnumI18n).key(detailSearchType)}}"></option>
                     </th:block>
                 </select>
-                <input th:field="*{keyword}" class="form-control" type="text" placeholder="검색내용">
+                <input th:field="*{keyword}" class="form-control" type="text" placeholder="검색내용" style="width: 70%">
             </div>
         </div>
 
@@ -34,17 +34,13 @@
                 <label class="col-form-label text-nowrap">지역검색</label>
             </div>
 
-            <div class="row flex-grow-1">
-                <div class="col-6 col-sm-auto">
-                    <select id="sido" name="sido" th:value="*{sido}" style="min-width: 160px;" class="form-select mb-3" aria-label="시/도 선택">
-                        <option selected="selected" th:value="null">시/도 선택</option>
-                    </select>
-                </div>
-                <div class="col-6 col-sm-auto">
-                    <select id="sigungu" name="sigungu" th:value="*{sigungu}" style="min-width: 160px;" class="form-select mb-3" aria-label="시/군/구 선택">
-                        <option selected="selected" th:value="null">시/군/구 선택</option>
-                    </select>
-                </div>
+            <div class="input-group mb-3">
+                <select id="sido" name="sido" th:value="*{sido}" style="min-width: 160px;" class="form-select mb-3" aria-label="시/도 선택">
+                    <option selected="selected" th:value="null">시/도 선택</option>
+                </select>
+                <select id="sigungu" name="sigungu" th:value="*{sigungu}" style="min-width: 160px;" class="form-select mb-3" aria-label="시/군/구 선택">
+                    <option selected="selected" th:value="null">시/군/구 선택</option>
+                </select>
             </div>
         </div>
 
