@@ -36,19 +36,14 @@
 
             <div class="row flex-grow-1">
                 <div class="col-6 col-sm-auto">
-<!--                    <select th:field="*{sido}" style="min-width: 160px;" class="form-select mb-3" aria-label="시/도 선택">-->
-<!--                        <option selected="selected" th:value="null">시/도 선택</option>-->
-<!--                        <option th:each="sido : ${regions.keySet().toArray()}" th:value="${sido}" th:text="${sido}"></option>-->
-<!--                    </select>-->
+                    <select id="sido" name="sido" th:value="*{sido}" style="min-width: 160px;" class="form-select mb-3" aria-label="시/도 선택">
+                        <option selected="selected" th:value="null">시/도 선택</option>
+                    </select>
                 </div>
                 <div class="col-6 col-sm-auto">
-<!--                    <select th:field="*{sigungu}" style="min-width: 160px;" class="form-select mb-3" aria-label="시/군/구 선택">-->
-<!--                        <option selected="selected" th:value="null">시/군/구 선택</option>-->
-
-<!--                        <th:block th:if="*{!#strings.isEmpty(sido)}">-->
-<!--                            <option th:each="sigungu : ${regions.get(queryParams.sido)}" th:value="${sigungu}" th:text="${sigungu}"></option>-->
-<!--                        </th:block>-->
-<!--                    </select>-->
+                    <select id="sigungu" name="sigungu" th:value="*{sigungu}" style="min-width: 160px;" class="form-select mb-3" aria-label="시/군/구 선택">
+                        <option selected="selected" th:value="null">시/군/구 선택</option>
+                    </select>
                 </div>
             </div>
         </div>

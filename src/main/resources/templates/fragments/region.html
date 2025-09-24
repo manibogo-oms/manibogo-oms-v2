@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="options">
+  <th:block th:each="region : ${regions}">
+    <option th:selected="${region.getCode().getCode() == selected}" th:value="${region.getCode().getCode()}" th:text="${region.getFullName()}"></option>
+  </th:block>
+</th:block>
+
+</html>
