@@ -6,6 +6,8 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
+import kr.tatine.manibogo_oms_v2.region.query.dto.QRegionView;
+import kr.tatine.manibogo_oms_v2.region.query.dto.QZipRegionMapView;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.in.ShippingQuery;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingView;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingViewQueryPort;
@@ -19,6 +21,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static kr.tatine.manibogo_oms_v2.region.command.domain.QZipCodeRegion.zipCodeRegion;
+import static kr.tatine.manibogo_oms_v2.region.query.dto.QRegionView.regionView;
+import static kr.tatine.manibogo_oms_v2.region.query.dto.QZipRegionMapView.zipRegionMapView;
 import static kr.tatine.manibogo_oms_v2.shipping.command.domain.QShipping.shipping;
 
 @Repository
@@ -59,6 +63,7 @@ public class QuerydslShippingViewDao implements ShippingViewQueryPort {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .leftJoin(zipCodeRegion).on(zipCodeRegion.zipCode.eq(shipping.recipient.address.zipCode))
+                .leftJoin(zipRegionMapView).on(zipRegionMapView.code.zipCode.eq(shipping.recipient.address.zipCode))
                 .fetch();
 
         final JPAQuery<Long> countQuery = queryFactory.select(shipping.count()).from(shipping).where(predicates);
@@ -84,10 +89,10 @@ public class QuerydslShippingViewDao implements ShippingViewQueryPort {
     private static BooleanExpression parseSidoAndSigungu(ShippingQuery filter) {
         if (Strings.isBlank(filter.sido())) return null;
 
-        final BooleanExpression query = zipCodeRegion.sido.eq(filter.sido());
+        final BooleanExpression query = zipRegionMapView.code.regionCode.startsWith(filter.sido().substring(0, 2));
         if (Strings.isBlank(filter.sigungu())) return query;
 
-        return query.and(zipCodeRegion.sigungu.eq(filter.sigungu()));
+        return zipRegionMapView.code.regionCode.startsWith(filter.sigungu().substring(0, 5));
     }
 
     private static BooleanExpression parseDetailSearch(ShippingQuery filter) {
