@@ -6,7 +6,7 @@ import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingOrderAggView;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingPageView;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingView;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingOrderAggQueryPort;
-import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingViewQueryPort;
+import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingQueryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +21,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ShippingQueryService {
 
-    private final ShippingViewQueryPort viewQueryPort;
+    private final ShippingQueryPort viewQueryPort;
 
     private final ShippingOrderAggQueryPort orderAggQueryPort;
 
