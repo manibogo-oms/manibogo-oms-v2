@@ -12,6 +12,4 @@ public interface ShippingOrderAggQueryPort extends Repository<ShippingOrderAggVi
     @Query("SELECT sao FROM ShippingOrderAggView sao WHERE sao.shippingNumber in :shippingNumbers")
     List<ShippingOrderAggView> findByShippingNumbers(List<ShippingNumber> shippingNumbers);
 
-    ShippingOrderAggView save(ShippingOrderAggView shippingOrderAggView);
-
 }
