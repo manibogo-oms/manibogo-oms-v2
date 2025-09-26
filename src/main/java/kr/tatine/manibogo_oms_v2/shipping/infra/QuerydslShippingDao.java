@@ -1,16 +1,16 @@
 package kr.tatine.manibogo_oms_v2.shipping.infra;
 
+import com.querydsl.core.types.ConstructorExpression;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
-import kr.tatine.manibogo_oms_v2.region.query.dto.QRegionView;
-import kr.tatine.manibogo_oms_v2.region.query.dto.QZipRegionMapView;
+import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.in.ShippingQuery;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingView;
-import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingViewQueryPort;
+import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingQueryPort;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.domain.Page;
@@ -19,15 +19,15 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static kr.tatine.manibogo_oms_v2.region.command.domain.QZipCodeRegion.zipCodeRegion;
-import static kr.tatine.manibogo_oms_v2.region.query.dto.QRegionView.regionView;
 import static kr.tatine.manibogo_oms_v2.region.query.dto.QZipRegionMapView.zipRegionMapView;
 import static kr.tatine.manibogo_oms_v2.shipping.command.domain.QShipping.shipping;
 
 @Repository
 @RequiredArgsConstructor
-public class QuerydslShippingViewDao implements ShippingViewQueryPort {
+public class QuerydslShippingDao implements ShippingQueryPort {
 
     private final JPAQueryFactory queryFactory;
 
@@ -43,21 +43,7 @@ public class QuerydslShippingViewDao implements ShippingViewQueryPort {
 
         final Predicate[] predicates = parseFilter(filter);
 
-        final List<ShippingView> content = queryFactory.select(
-                Projections.constructor(
-                    ShippingView.class,
-                    shipping.number.as("shippingNumber"),
-                    Expressions.template(ShippingMethod.class, SHIPPING_METHOD_EXPR),
-                    shipping.state.as("shippingState"),
-                    shipping.recipient.address.address1.as("address1"),
-                    shipping.recipient.address.address2.as("address2"),
-                    shipping.recipient.address.zipCode.as("zipCode"),
-                    zipCodeRegion.sido.as("sido"),
-                    zipCodeRegion.sigungu.as("sigungu"),
-                    shipping.recipient.name.as("recipientName"),
-                    shipping.recipient.phoneNumber1.phoneNumber.as("recipientTel1"),
-                    shipping.recipient.phoneNumber2.phoneNumber.as("recipientTel2")
-                ))
+        final List<ShippingView> content = queryFactory.select(serialize())
                 .from(shipping)
                 .where(predicates)
                 .offset(pageable.getOffset())
@@ -69,6 +55,28 @@ public class QuerydslShippingViewDao implements ShippingViewQueryPort {
         final JPAQuery<Long> countQuery = queryFactory.select(shipping.count()).from(shipping).where(predicates);
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchFirst);
+    }
+
+    @Override
+    public Optional<ShippingView> findByNumber(ShippingNumber shippingNumber) {
+        return queryFactory.select(serialize()).from(shipping).where(shipping.number.eq(shippingNumber)).fetch().stream().findAny();
+    }
+
+    private static ConstructorExpression<ShippingView> serialize() {
+        return Projections.constructor(
+                ShippingView.class,
+                shipping.number.as("shippingNumber"),
+                Expressions.template(ShippingMethod.class, SHIPPING_METHOD_EXPR),
+                shipping.state.as("shippingState"),
+                shipping.recipient.address.address1.as("address1"),
+                shipping.recipient.address.address2.as("address2"),
+                shipping.recipient.address.zipCode.as("zipCode"),
+                zipCodeRegion.sido.as("sido"),
+                zipCodeRegion.sigungu.as("sigungu"),
+                shipping.recipient.name.as("recipientName"),
+                shipping.recipient.phoneNumber1.phoneNumber.as("recipientTel1"),
+                shipping.recipient.phoneNumber2.phoneNumber.as("recipientTel2")
+        );
     }
 
     private static Predicate[] parseFilter(ShippingQuery filter) {
