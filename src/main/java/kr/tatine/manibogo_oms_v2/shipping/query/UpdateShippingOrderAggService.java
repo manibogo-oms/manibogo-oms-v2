@@ -18,8 +18,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UpdateShippingOrderAggService {
 
-    private final ShippingOrderAggQueryPort aggQueryPort;
-
     private final ShippingOrderAggStorePort aggStorePort;
 
     private final ShippingOrderQueryPort shippingOrderViewDao;
