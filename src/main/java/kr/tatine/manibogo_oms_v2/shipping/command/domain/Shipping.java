@@ -38,6 +38,7 @@ public abstract class Shipping {
         this.number = number;
         this.chargeType = chargeType;
         this.recipient = recipient;
+        Events.raise(new ShippingCreatedEvent(number));
     }
 
     public void dispatch() {}
