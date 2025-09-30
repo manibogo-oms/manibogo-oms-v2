@@ -9,6 +9,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.in.ShippingQuery;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingView;
+import kr.tatine.manibogo_oms_v2.shipping.query.entity.QJuso;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingQueryPort;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static kr.tatine.manibogo_oms_v2.shipping.command.domain.QShipping.shipping;
+import static kr.tatine.manibogo_oms_v2.shipping.query.entity.QJuso.juso;
 import static kr.tatine.manibogo_oms_v2.shipping.query.entity.QShippingJuso.shippingJuso;
 import static kr.tatine.manibogo_oms_v2.shipping.query.entity.QShippingOrderAgg.shippingOrderAgg;
 
@@ -44,6 +46,7 @@ public class QuerydslShippingDao implements ShippingQueryPort {
         final List<ShippingView> content = queryFactory.select(serialize())
                 .from(shipping)
                 .join(shippingJuso).on(shippingJuso.shippingNumber.eq(shipping.number))
+                .join(juso).on(juso.jusoCode.eq(shippingJuso.jusoCode))
                 .join(shippingOrderAgg).on(shippingOrderAgg.shippingNumber.eq(shipping.number))
                 .where(predicates)
                 .offset(pageable.getOffset())
@@ -67,8 +70,8 @@ public class QuerydslShippingDao implements ShippingQueryPort {
                 shippingOrderAgg.primaryOrderQuantity,
                 shippingOrderAgg.totalOrderCount,
                 shippingOrderAgg.totalOrderQuantity,
-                shippingJuso.sidoName.as("sido"),
-                shippingJuso.sigunguName.as("sigungu"),
+                juso.sido,
+                juso.sigungu,
                 shipping.recipient.address.address1.as("address1"),
                 shipping.recipient.address.address2.as("address2"),
                 shipping.recipient.address.zipCode.as("zipCode"),
@@ -95,9 +98,9 @@ public class QuerydslShippingDao implements ShippingQueryPort {
 
     private static BooleanExpression parseSidoAndSigungu(ShippingQuery filter) {
         if (Strings.isBlank(filter.sido())) return null;
-        if (Strings.isBlank(filter.sigungu())) return shippingJuso.admCode.startsWith(filter.sido().substring(0, 2));
+        if (Strings.isBlank(filter.sigungu())) return juso.admCode.startsWith(filter.sido().substring(0, 2));
 
-        return shippingJuso.admCode.startsWith(filter.sigungu().substring(0, 5));
+        return juso.admCode.startsWith(filter.sigungu().substring(0, 5));
     }
 
     private static BooleanExpression parseDetailSearch(ShippingQuery filter) {

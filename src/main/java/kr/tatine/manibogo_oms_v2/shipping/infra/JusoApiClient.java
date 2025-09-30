@@ -1,9 +1,10 @@
 package kr.tatine.manibogo_oms_v2.shipping.infra;
 
 import kr.tatine.manibogo_oms_v2.shipping.infra.dto.JusoApiSearchResponse;
-import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.Juso;
+import kr.tatine.manibogo_oms_v2.shipping.query.entity.Juso;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.out.JusoQueryPort;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestClient;
@@ -13,6 +14,7 @@ import java.net.URI;
 import java.util.Objects;
 import java.util.Optional;
 
+@Order(2)
 @Repository
 public class JusoApiClient implements JusoQueryPort {
 
@@ -26,6 +28,10 @@ public class JusoApiClient implements JusoQueryPort {
 
     @Override
     public Optional<Juso> findByAddress(String address) {
+        return fetchJusoByAddress(address);
+    }
+
+    private Optional<Juso> fetchJusoByAddress(String address) {
         final URI uri = UriComponentsBuilder
                 .fromUriString("https://business.juso.go.kr/addrlink/addrLinkApi.do")
                 .queryParam("currentPage", "1")

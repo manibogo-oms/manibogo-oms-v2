@@ -1,6 +1,6 @@
 package kr.tatine.manibogo_oms_v2.shipping.query.port.out;
 
-import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.Juso;
+import kr.tatine.manibogo_oms_v2.shipping.query.entity.Juso;
 
 import java.util.Optional;
 
