@@ -1,9 +1,6 @@
-package kr.tatine.manibogo_oms_v2.shipping.query.dto.out;
+package kr.tatine.manibogo_oms_v2.shipping.query.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
 import kr.tatine.manibogo_oms_v2.common.model.OrderState;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
@@ -14,25 +11,25 @@ import lombok.*;
 @Setter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ShippingOrderAggView {
+public class ShippingOrderAgg {
 
-    @Id
+    @EmbeddedId
     private ShippingNumber shippingNumber;
 
     private OrderNumber primaryOrderNumber;
 
-    private String primaryProductName;
-
-    private Integer primaryProductQuantity;
-
     @Enumerated(EnumType.STRING)
     private OrderState primaryOrderState;
 
-    private Integer totalQuantity;
+    private String primaryOrderProduct;
+
+    private Integer primaryOrderQuantity;
+
+    private Integer totalOrderQuantity;
 
     private Integer totalOrderCount;
 
-    public ShippingOrderAggView(ShippingNumber shippingNumber) {
+    public ShippingOrderAgg(ShippingNumber shippingNumber) {
         this.shippingNumber = shippingNumber;
     }
 

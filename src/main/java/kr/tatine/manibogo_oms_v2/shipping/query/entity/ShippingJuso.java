@@ -1,9 +1,6 @@
-package kr.tatine.manibogo_oms_v2.shipping.query.dto.out;
+package kr.tatine.manibogo_oms_v2.shipping.query.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,9 +17,9 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class ShippingJusoView {
+public class ShippingJuso {
 
-    @Id
+    @EmbeddedId
     private ShippingNumber shippingNumber;
 
     private String jusoCode;
@@ -43,7 +40,7 @@ public class ShippingJusoView {
     @Column(nullable = false)
     private LocalDateTime lastModifiedAt;
 
-    public ShippingJusoView(ShippingNumber shippingNumber, String jusoCode, String admCode, String address, String sidoName, String sigunguName) {
+    public ShippingJuso(ShippingNumber shippingNumber, String jusoCode, String admCode, String address, String sidoName, String sigunguName) {
         this.shippingNumber = shippingNumber;
         this.jusoCode = jusoCode;
         this.admCode = admCode;

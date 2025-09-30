@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
-import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.in.ShippingQuery;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingView;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingQueryPort;
@@ -19,11 +18,10 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
-import static kr.tatine.manibogo_oms_v2.region.command.domain.QZipCodeRegion.zipCodeRegion;
-import static kr.tatine.manibogo_oms_v2.region.query.dto.QZipRegionMapView.zipRegionMapView;
 import static kr.tatine.manibogo_oms_v2.shipping.command.domain.QShipping.shipping;
+import static kr.tatine.manibogo_oms_v2.shipping.query.entity.QShippingJuso.shippingJuso;
+import static kr.tatine.manibogo_oms_v2.shipping.query.entity.QShippingOrderAgg.shippingOrderAgg;
 
 @Repository
 @RequiredArgsConstructor
@@ -45,11 +43,11 @@ public class QuerydslShippingDao implements ShippingQueryPort {
 
         final List<ShippingView> content = queryFactory.select(serialize())
                 .from(shipping)
+                .join(shippingJuso).on(shippingJuso.shippingNumber.eq(shipping.number))
+                .join(shippingOrderAgg).on(shippingOrderAgg.shippingNumber.eq(shipping.number))
                 .where(predicates)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .leftJoin(zipCodeRegion).on(zipCodeRegion.zipCode.eq(shipping.recipient.address.zipCode))
-                .leftJoin(zipRegionMapView).on(zipRegionMapView.code.zipCode.eq(shipping.recipient.address.zipCode))
                 .fetch();
 
         final JPAQuery<Long> countQuery = queryFactory.select(shipping.count()).from(shipping).where(predicates);
@@ -57,22 +55,23 @@ public class QuerydslShippingDao implements ShippingQueryPort {
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchFirst);
     }
 
-    @Override
-    public Optional<ShippingView> findByNumber(ShippingNumber shippingNumber) {
-        return queryFactory.select(serialize()).from(shipping).where(shipping.number.eq(shippingNumber)).fetch().stream().findAny();
-    }
-
     private static ConstructorExpression<ShippingView> serialize() {
         return Projections.constructor(
                 ShippingView.class,
                 shipping.number.as("shippingNumber"),
-                Expressions.template(ShippingMethod.class, SHIPPING_METHOD_EXPR),
+                Expressions.template(ShippingMethod.class, SHIPPING_METHOD_EXPR).as("shippingMethod"),
                 shipping.state.as("shippingState"),
+                shippingOrderAgg.primaryOrderNumber,
+                shippingOrderAgg.primaryOrderState,
+                shippingOrderAgg.primaryOrderProduct,
+                shippingOrderAgg.primaryOrderQuantity,
+                shippingOrderAgg.totalOrderCount,
+                shippingOrderAgg.totalOrderQuantity,
+                shippingJuso.sidoName.as("sido"),
+                shippingJuso.sigunguName.as("sigungu"),
                 shipping.recipient.address.address1.as("address1"),
                 shipping.recipient.address.address2.as("address2"),
                 shipping.recipient.address.zipCode.as("zipCode"),
-                zipCodeRegion.sido.as("sido"),
-                zipCodeRegion.sigungu.as("sigungu"),
                 shipping.recipient.name.as("recipientName"),
                 shipping.recipient.phoneNumber1.phoneNumber.as("recipientTel1"),
                 shipping.recipient.phoneNumber2.phoneNumber.as("recipientTel2")
@@ -96,11 +95,9 @@ public class QuerydslShippingDao implements ShippingQueryPort {
 
     private static BooleanExpression parseSidoAndSigungu(ShippingQuery filter) {
         if (Strings.isBlank(filter.sido())) return null;
+        if (Strings.isBlank(filter.sigungu())) return shippingJuso.admCode.startsWith(filter.sido().substring(0, 2));
 
-        final BooleanExpression query = zipRegionMapView.code.regionCode.startsWith(filter.sido().substring(0, 2));
-        if (Strings.isBlank(filter.sigungu())) return query;
-
-        return zipRegionMapView.code.regionCode.startsWith(filter.sigungu().substring(0, 5));
+        return shippingJuso.admCode.startsWith(filter.sigungu().substring(0, 5));
     }
 
     private static BooleanExpression parseDetailSearch(ShippingQuery filter) {

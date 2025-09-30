@@ -1,10 +1,10 @@
 package kr.tatine.manibogo_oms_v2.shipping.query.port.out;
 
-import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingOrderAggView;
+import kr.tatine.manibogo_oms_v2.shipping.query.entity.ShippingOrderAgg;
 import org.springframework.data.repository.Repository;
 
-public interface ShippingOrderAggStorePort extends Repository<ShippingOrderAggView, String> {
+public interface ShippingOrderAggStorePort extends Repository<ShippingOrderAgg, String> {
 
-    ShippingOrderAggView save(ShippingOrderAggView shippingOrderAggView);
+    ShippingOrderAgg save(ShippingOrderAgg shippingOrderAgg);
 
 }

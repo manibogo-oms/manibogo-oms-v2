@@ -1,9 +1,8 @@
 package kr.tatine.manibogo_oms_v2.shipping.query;
 
 import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
-import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingOrderAggView;
+import kr.tatine.manibogo_oms_v2.shipping.query.entity.ShippingOrderAgg;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingOrderView;
-import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingOrderAggQueryPort;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingOrderAggStorePort;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingOrderQueryPort;
 import lombok.RequiredArgsConstructor;
@@ -28,16 +27,16 @@ public class UpdateShippingOrderAggService {
         final List<ShippingOrderView> viewList =
                 shippingOrderViewDao.findAllByShippingNumber(shippingNumber);
 
-        final ShippingOrderAggView orderAgg = new ShippingOrderAggView(shippingNumber);
+        final ShippingOrderAgg orderAgg = new ShippingOrderAgg(shippingNumber);
 
         orderAgg.setTotalOrderCount(viewList.size());
-        orderAgg.setTotalQuantity(viewList.stream().map(ShippingOrderView::quantity).reduce(0, Integer::sum));
+        orderAgg.setTotalOrderQuantity(viewList.stream().map(ShippingOrderView::quantity).reduce(0, Integer::sum));
 
         findPrimaryOrder(viewList).ifPresent(primaryOrder -> {
             orderAgg.setPrimaryOrderNumber(primaryOrder.orderNumber());
-            orderAgg.setPrimaryProductName(primaryOrder.productName());
+            orderAgg.setPrimaryOrderProduct(primaryOrder.productName());
             orderAgg.setPrimaryOrderState(primaryOrder.orderState());
-            orderAgg.setPrimaryProductQuantity(primaryOrder.quantity());
+            orderAgg.setPrimaryOrderQuantity(primaryOrder.quantity());
         });
 
         aggStorePort.save(orderAgg);
