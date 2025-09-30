@@ -108,11 +108,11 @@
                         <a style="width: 140px;" class="align-middle text-center" href="#" th:text="${shipping.shippingNumber().getShippingNumber()}"></a>
                     </div>
                 </td>
-                <td class="text-start" th:text="${shipping.primaryProductName() ?: '없음'} + ' (수량: ' + ${shipping.primaryOrderQuantity() ?: '0'} + '개)'"></td>
+                <td class="text-start" th:text="${shipping.primaryOrderProduct() ?: '없음'} + ' (수량: ' + ${shipping.primaryOrderQuantity() ?: '0'} + '개)'"></td>
                 <td>
                     <a href="#" th:text="|${shipping.totalOrderCount() ?: '0'}건|"></a>
                 </td>
-                <td th:text="|${shipping.totalQuantity() ?: '0'}개|"></td>
+                <td th:text="|${shipping.totalOrderQuantity() ?: '0'}개|"></td>
                 <td th:text="${shipping.sido()}"></td>
                 <td th:text="${shipping.sigungu()}"></td>
                 <td th:text="${shipping.recipientName()}"></td>

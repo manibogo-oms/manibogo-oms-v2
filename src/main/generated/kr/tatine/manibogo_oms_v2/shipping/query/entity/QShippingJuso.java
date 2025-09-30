@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.shipping.query.dto.out;
+package kr.tatine.manibogo_oms_v2.shipping.query.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -11,16 +11,16 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QShippingJusoView is a Querydsl query type for ShippingJusoView
+ * QShippingJuso is a Querydsl query type for ShippingJuso
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QShippingJusoView extends EntityPathBase<ShippingJusoView> {
+public class QShippingJuso extends EntityPathBase<ShippingJuso> {
 
-    private static final long serialVersionUID = 660974324L;
+    private static final long serialVersionUID = 475898261L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QShippingJusoView shippingJusoView = new QShippingJusoView("shippingJusoView");
+    public static final QShippingJuso shippingJuso = new QShippingJuso("shippingJuso");
 
     public final StringPath address = createString("address");
 
@@ -38,23 +38,23 @@ public class QShippingJusoView extends EntityPathBase<ShippingJusoView> {
 
     public final StringPath sigunguName = createString("sigunguName");
 
-    public QShippingJusoView(String variable) {
-        this(ShippingJusoView.class, forVariable(variable), INITS);
+    public QShippingJuso(String variable) {
+        this(ShippingJuso.class, forVariable(variable), INITS);
     }
 
-    public QShippingJusoView(Path<? extends ShippingJusoView> path) {
+    public QShippingJuso(Path<? extends ShippingJuso> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QShippingJusoView(PathMetadata metadata) {
+    public QShippingJuso(PathMetadata metadata) {
         this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QShippingJusoView(PathMetadata metadata, PathInits inits) {
-        this(ShippingJusoView.class, metadata, inits);
+    public QShippingJuso(PathMetadata metadata, PathInits inits) {
+        this(ShippingJuso.class, metadata, inits);
     }
 
-    public QShippingJusoView(Class<? extends ShippingJusoView> type, PathMetadata metadata, PathInits inits) {
+    public QShippingJuso(Class<? extends ShippingJuso> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.shippingNumber = inits.isInitialized("shippingNumber") ? new kr.tatine.manibogo_oms_v2.common.model.QShippingNumber(forProperty("shippingNumber")) : null;
     }
