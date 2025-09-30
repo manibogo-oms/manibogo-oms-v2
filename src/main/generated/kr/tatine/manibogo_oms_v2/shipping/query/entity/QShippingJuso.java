@@ -22,9 +22,19 @@ public class QShippingJuso extends EntityPathBase<ShippingJuso> {
 
     public static final QShippingJuso shippingJuso = new QShippingJuso("shippingJuso");
 
+    public final StringPath admCode = createString("admCode");
+
+    public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
+
     public final StringPath jusoCode = createString("jusoCode");
 
+    public final DateTimePath<java.time.LocalDateTime> lastModifiedAt = createDateTime("lastModifiedAt", java.time.LocalDateTime.class);
+
     public final kr.tatine.manibogo_oms_v2.common.model.QShippingNumber shippingNumber;
+
+    public final StringPath sido = createString("sido");
+
+    public final StringPath sigungu = createString("sigungu");
 
     public QShippingJuso(String variable) {
         this(ShippingJuso.class, forVariable(variable), INITS);

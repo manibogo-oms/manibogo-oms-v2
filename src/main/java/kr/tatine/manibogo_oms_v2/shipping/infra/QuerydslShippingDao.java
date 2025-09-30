@@ -10,6 +10,7 @@ import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
 import kr.tatine.manibogo_oms_v2.region.query.entity.QJuso;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.in.ShippingQuery;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingView;
+import kr.tatine.manibogo_oms_v2.shipping.query.entity.QShippingJuso;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.in.ShippingQueryUseCase;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
@@ -20,7 +21,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static kr.tatine.manibogo_oms_v2.region.query.entity.QJuso.*;
 import static kr.tatine.manibogo_oms_v2.shipping.command.domain.QShipping.shipping;
 import static kr.tatine.manibogo_oms_v2.shipping.query.entity.QShippingJuso.shippingJuso;
 import static kr.tatine.manibogo_oms_v2.shipping.query.entity.QShippingOrderAgg.shippingOrderAgg;
@@ -46,7 +46,6 @@ public class QuerydslShippingDao implements ShippingQueryUseCase {
         final List<ShippingView> content = queryFactory.select(serialize())
                 .from(shipping)
                 .join(shippingJuso).on(shippingJuso.shippingNumber.eq(shipping.number))
-                .join(juso).on(juso.jusoCode.eq(shippingJuso.jusoCode))
                 .join(shippingOrderAgg).on(shippingOrderAgg.shippingNumber.eq(shipping.number))
                 .where(predicates)
                 .offset(pageable.getOffset())
@@ -70,8 +69,8 @@ public class QuerydslShippingDao implements ShippingQueryUseCase {
                 shippingOrderAgg.primaryOrderQuantity,
                 shippingOrderAgg.totalOrderCount,
                 shippingOrderAgg.totalOrderQuantity,
-                juso.sido,
-                juso.sigungu,
+                shippingJuso.sido,
+                shippingJuso.sigungu,
                 shipping.recipient.address.address1.as("address1"),
                 shipping.recipient.address.address2.as("address2"),
                 shipping.recipient.address.zipCode.as("zipCode"),
@@ -98,9 +97,9 @@ public class QuerydslShippingDao implements ShippingQueryUseCase {
 
     private static BooleanExpression parseSidoAndSigungu(ShippingQuery filter) {
         if (Strings.isBlank(filter.sido())) return null;
-        if (Strings.isBlank(filter.sigungu())) return juso.admCode.startsWith(filter.sido().substring(0, 2));
+        if (Strings.isBlank(filter.sigungu())) return shippingJuso.admCode.startsWith(filter.sido().substring(0, 2));
 
-        return juso.admCode.startsWith(filter.sigungu().substring(0, 5));
+        return shippingJuso.admCode.startsWith(filter.sigungu().substring(0, 5));
     }
 
     private static BooleanExpression parseDetailSearch(ShippingQuery filter) {

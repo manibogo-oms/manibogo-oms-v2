@@ -4,6 +4,7 @@ import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import kr.tatine.manibogo_oms_v2.order.query.entity.QOrderJuso;
 import kr.tatine.manibogo_oms_v2.order.query.port.in.OrderQueryUseCase;
 import kr.tatine.manibogo_oms_v2.order.query.dto.OrderDto;
 import kr.tatine.manibogo_oms_v2.order.query.dto.in.OrderQueryParams;
@@ -21,12 +22,13 @@ import java.util.List;
 import java.util.Optional;
 
 import static kr.tatine.manibogo_oms_v2.order.command.domain.model.QOrder.order;
+import static kr.tatine.manibogo_oms_v2.order.query.entity.QOrderJuso.orderJuso;
 import static kr.tatine.manibogo_oms_v2.order.query.entity.QOrderStateHistory.*;
 import static kr.tatine.manibogo_oms_v2.product.command.domain.QProduct.product;
 
 @Repository
 @RequiredArgsConstructor
-public class QueryDslOrderQueryUseCase implements OrderQueryUseCase {
+public class QueryDslOrderDao implements OrderQueryUseCase {
 
     private final JPAQueryFactory queryFactory;
 
@@ -46,7 +48,7 @@ public class QueryDslOrderQueryUseCase implements OrderQueryUseCase {
                 .select(order.count())
                 .from(order)
                 .leftJoin(product).on(order.product.productNumber.eq(product.number))
-                .leftJoin(orderStateHistory).on(order.number.orderNumber.eq(orderStateHistory.orderNumber))
+                .leftJoin(orderStateHistory).on(order.number.eq(orderStateHistory.orderNumber))
                 .where(predicates);
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
@@ -89,6 +91,7 @@ public class QueryDslOrderQueryUseCase implements OrderQueryUseCase {
                         order.product.option3.key.as("optionKey3"),
                         order.product.option3.value.as("optionValue3"),
                         order.product.amount,
+                        orderJuso.sido,
                         order.customer.name.as("customerName"),
                         order.customer.phoneNumber.phoneNumber.as("customerTel"),
                         order.recipient.name.as("recipientName"),
@@ -119,7 +122,8 @@ public class QueryDslOrderQueryUseCase implements OrderQueryUseCase {
                 ))
                 .from(order)
                 .leftJoin(product).on(order.product.productNumber.eq(product.number))
-                .leftJoin(orderStateHistory).on(order.number.orderNumber.eq(orderStateHistory.orderNumber));
+                .leftJoin(orderStateHistory).on(order.number.eq(orderStateHistory.orderNumber))
+                .leftJoin(orderJuso).on(orderJuso.orderNumber.eq(order.number));
     }
 
     private Predicate[] getPredicates(OrderQueryParams queryParams) {

@@ -1,7 +1,10 @@
-package kr.tatine.manibogo_oms_v2.shipping.query.entity;
+package kr.tatine.manibogo_oms_v2.order.query.entity;
 
-import jakarta.persistence.*;
-import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,24 +15,19 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-
 @Entity
 @Getter
 @ToString
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class ShippingJuso {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class OrderJuso {
 
     @EmbeddedId
-    private ShippingNumber shippingNumber;
+    private OrderNumber orderNumber;
 
     private String jusoCode;
 
-    private String admCode;
-
     private String sido;
-
-    private String sigungu;
 
     @CreatedDate
     @Column(updatable = false, nullable = false)
@@ -39,10 +37,10 @@ public class ShippingJuso {
     @Column(nullable = false)
     private LocalDateTime lastModifiedAt;
 
-    public ShippingJuso(ShippingNumber shippingNumber, String jusoCode, String sido, String sigungu) {
-        this.shippingNumber = shippingNumber;
+    public OrderJuso(OrderNumber orderNumber, String jusoCode, String sido) {
+        this.orderNumber = orderNumber;
         this.jusoCode = jusoCode;
         this.sido = sido;
-        this.sigungu = sigungu;
     }
 }
+
