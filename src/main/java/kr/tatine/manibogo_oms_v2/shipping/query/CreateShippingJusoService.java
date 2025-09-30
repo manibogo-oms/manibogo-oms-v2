@@ -33,7 +33,7 @@ public class CreateShippingJusoService {
                 .orElseThrow(() -> new RuntimeException(getBaseMessage(shippingNumber) + "주소 정보 조회 실패!"));
 
         final ShippingJuso shippingJuso =
-                new ShippingJuso(shippingNumber, juso.getJusoCode());
+                new ShippingJuso(shippingNumber, juso.getJusoCode(), juso.getSido(), juso.getSigungu());
 
         shippingJusoStorePort.save(shippingJuso);
     }

@@ -1,7 +1,9 @@
 package kr.tatine.manibogo_oms_v2.order.query.entity;
 
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,8 +17,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderStateHistory {
 
-    @Id
-    private String orderNumber;
+    @EmbeddedId
+    private OrderNumber orderNumber;
 
     private LocalDateTime placedAt;
 
@@ -32,7 +34,7 @@ public class OrderStateHistory {
 
     private LocalDateTime refundedAt;
 
-    public OrderStateHistory(String orderNumber, LocalDateTime placedAt) {
+    public OrderStateHistory(OrderNumber orderNumber, LocalDateTime placedAt) {
         this.orderNumber = orderNumber;
         this.placedAt = placedAt;
     }

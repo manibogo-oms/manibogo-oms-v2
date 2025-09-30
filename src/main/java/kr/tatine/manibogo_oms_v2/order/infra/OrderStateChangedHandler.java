@@ -1,7 +1,9 @@
 package kr.tatine.manibogo_oms_v2.order.infra;
 
+import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
 import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderStateChangedEvent;
-import kr.tatine.manibogo_oms_v2.order.query.port.in.OrderStateHistoryDao;
+import kr.tatine.manibogo_oms_v2.order.query.port.out.OrderStateHistoryQueryPort;
+import kr.tatine.manibogo_oms_v2.order.query.port.out.OrderStateHistoryStorePort;
 import kr.tatine.manibogo_oms_v2.order.query.entity.OrderStateHistory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,9 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @RequiredArgsConstructor
 public class OrderStateChangedHandler {
 
-    private final OrderStateHistoryDao orderStateHistoryDao;
+    private final OrderStateHistoryQueryPort queryPort;
+
+    private final OrderStateHistoryStorePort storePort;
 
     @TransactionalEventListener(
             classes = OrderStateChangedEvent.class,
@@ -22,8 +26,10 @@ public class OrderStateChangedHandler {
     )
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void handleItemOrderStateChanged(OrderStateChangedEvent event) {
-        final OrderStateHistory orderStateHistory = orderStateHistoryDao.findById(event.getOrderNumber())
-                .orElseGet(() -> orderStateHistoryDao.save(new OrderStateHistory(event.getOrderNumber(), event.getChangedAt())));
+        final OrderNumber orderNumber = new OrderNumber(event.getOrderNumber());
+
+        final OrderStateHistory orderStateHistory = queryPort.findByOrderNumber(orderNumber)
+                .orElseGet(() -> storePort.save(new OrderStateHistory(orderNumber, event.getChangedAt())));
 
         orderStateHistory.changeHistory(event.getOrderState(), event.getChangedAt());
     }

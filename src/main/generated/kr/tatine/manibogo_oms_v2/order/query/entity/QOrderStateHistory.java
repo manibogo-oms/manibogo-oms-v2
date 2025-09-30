@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -17,6 +18,8 @@ public class QOrderStateHistory extends EntityPathBase<OrderStateHistory> {
 
     private static final long serialVersionUID = -2062313977L;
 
+    private static final PathInits INITS = PathInits.DIRECT2;
+
     public static final QOrderStateHistory orderStateHistory = new QOrderStateHistory("orderStateHistory");
 
     public final DateTimePath<java.time.LocalDateTime> cancelledAt = createDateTime("cancelledAt", java.time.LocalDateTime.class);
@@ -25,7 +28,7 @@ public class QOrderStateHistory extends EntityPathBase<OrderStateHistory> {
 
     public final DateTimePath<java.time.LocalDateTime> dispatchedAt = createDateTime("dispatchedAt", java.time.LocalDateTime.class);
 
-    public final StringPath orderNumber = createString("orderNumber");
+    public final kr.tatine.manibogo_oms_v2.common.model.QOrderNumber orderNumber;
 
     public final DateTimePath<java.time.LocalDateTime> placedAt = createDateTime("placedAt", java.time.LocalDateTime.class);
 
@@ -36,15 +39,24 @@ public class QOrderStateHistory extends EntityPathBase<OrderStateHistory> {
     public final DateTimePath<java.time.LocalDateTime> shippedAt = createDateTime("shippedAt", java.time.LocalDateTime.class);
 
     public QOrderStateHistory(String variable) {
-        super(OrderStateHistory.class, forVariable(variable));
+        this(OrderStateHistory.class, forVariable(variable), INITS);
     }
 
     public QOrderStateHistory(Path<? extends OrderStateHistory> path) {
-        super(path.getType(), path.getMetadata());
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
     public QOrderStateHistory(PathMetadata metadata) {
-        super(OrderStateHistory.class, metadata);
+        this(metadata, PathInits.getFor(metadata, INITS));
+    }
+
+    public QOrderStateHistory(PathMetadata metadata, PathInits inits) {
+        this(OrderStateHistory.class, metadata, inits);
+    }
+
+    public QOrderStateHistory(Class<? extends OrderStateHistory> type, PathMetadata metadata, PathInits inits) {
+        super(type, metadata, inits);
+        this.orderNumber = inits.isInitialized("orderNumber") ? new kr.tatine.manibogo_oms_v2.common.model.QOrderNumber(forProperty("orderNumber")) : null;
     }
 
 }
