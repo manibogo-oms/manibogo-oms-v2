@@ -1,8 +1,8 @@
 package kr.tatine.manibogo_oms_v2.order.ui;
 
 import kr.tatine.manibogo_oms_v2.common.model.OrderState;
-import kr.tatine.manibogo_oms_v2.order.query.dao.OrderDao;
-import kr.tatine.manibogo_oms_v2.order.query.dto.OrderQueryParams;
+import kr.tatine.manibogo_oms_v2.order.query.port.in.OrderQueryUseCase;
+import kr.tatine.manibogo_oms_v2.order.query.dto.in.OrderQueryParams;
 import kr.tatine.manibogo_oms_v2.order.query.dto.PurchaseOrderDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PurchaseOrderController {
 
-    private final OrderDao orderDao;
+    private final OrderQueryUseCase orderQueryUseCase;
 
     @GetMapping
     public List<PurchaseOrderDto> getPurchaseOrder(
@@ -25,7 +25,7 @@ public class PurchaseOrderController {
 
         queryParams.setItemOrderState(OrderState.PURCHASED);
 
-        return PurchaseOrderDto.FromFulfillmentDtoList(orderDao.findAll(queryParams));
+        return PurchaseOrderDto.FromFulfillmentDtoList(orderQueryUseCase.findAll(queryParams));
 
     }
 

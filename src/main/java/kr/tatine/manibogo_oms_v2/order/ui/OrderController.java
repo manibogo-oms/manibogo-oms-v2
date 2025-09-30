@@ -3,11 +3,14 @@ package kr.tatine.manibogo_oms_v2.order.ui;
 import kr.tatine.manibogo_oms_v2.common.model.OrderState;
 import kr.tatine.manibogo_oms_v2.common.ui.CommonResponse;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.SalesChannel;
-import kr.tatine.manibogo_oms_v2.order.query.dao.OrderDao;
+import kr.tatine.manibogo_oms_v2.order.query.dto.in.DateSearchParam;
+import kr.tatine.manibogo_oms_v2.order.query.dto.in.DetailSearchParam;
+import kr.tatine.manibogo_oms_v2.order.query.dto.in.OrderQueryParams;
+import kr.tatine.manibogo_oms_v2.order.query.dto.in.OrderSortParam;
+import kr.tatine.manibogo_oms_v2.order.query.port.in.OrderQueryUseCase;
 import kr.tatine.manibogo_oms_v2.order.query.dto.*;
 import kr.tatine.manibogo_oms_v2.product.query.ProductDao;
 import kr.tatine.manibogo_oms_v2.product.query.ProductDto;
-import kr.tatine.manibogo_oms_v2.region.query.dao.GroupRegionsService;
 import kr.tatine.manibogo_oms_v2.synchronize.ui.SynchronizeResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,11 +36,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OrderController {
 
-    private final OrderDao orderDao;
+    private final OrderQueryUseCase orderQueryUseCase;
 
     private final ProductDao productDao;
-
-    private final GroupRegionsService groupRegionsService;
 
     @ModelAttribute("itemOrderStates")
     public OrderState[] orderStates() {
@@ -64,11 +65,6 @@ public class OrderController {
         return productDao.findEnabled();
     }
 
-    @ModelAttribute("regions")
-    public Map<String, List<String>> regions() {
-        return groupRegionsService.group();
-    }
-
     @GetMapping
     @Transactional(readOnly = true)
     public String orders(
@@ -92,7 +88,7 @@ public class OrderController {
         model.addAttribute("synchronizeResponse", synchronizeResponse);
         model.addAttribute("response", response);
 
-        final Page<OrderDto> page = orderDao.findAll(pageable, queryParams);
+        final Page<OrderDto> page = orderQueryUseCase.findAll(pageable, queryParams);
         final List<OrderDto> fulfillmentList = page.getContent();
 
         model.addAttribute("fulfillmentList", fulfillmentList);

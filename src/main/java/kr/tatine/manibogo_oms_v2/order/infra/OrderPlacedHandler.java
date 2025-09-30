@@ -1,8 +1,8 @@
 package kr.tatine.manibogo_oms_v2.order.infra;
 
 import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderPlacedEvent;
-import kr.tatine.manibogo_oms_v2.order.query.dao.OrderStateHistoryDao;
-import kr.tatine.manibogo_oms_v2.order.query.dto.OrderStateHistory;
+import kr.tatine.manibogo_oms_v2.order.query.port.in.OrderStateHistoryDao;
+import kr.tatine.manibogo_oms_v2.order.query.entity.OrderStateHistory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
