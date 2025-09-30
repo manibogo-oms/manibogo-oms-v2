@@ -6,11 +6,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -24,28 +21,8 @@ public class ShippingJuso {
 
     private String jusoCode;
 
-    private String admCode;
-
-    private String address;
-
-    private String sidoName;
-
-    private String sigunguName;
-
-    @CreatedDate
-    @Column(updatable = false, nullable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(nullable = false)
-    private LocalDateTime lastModifiedAt;
-
-    public ShippingJuso(ShippingNumber shippingNumber, String jusoCode, String admCode, String address, String sidoName, String sigunguName) {
+    public ShippingJuso(ShippingNumber shippingNumber, String jusoCode) {
         this.shippingNumber = shippingNumber;
         this.jusoCode = jusoCode;
-        this.admCode = admCode;
-        this.address = address;
-        this.sidoName = sidoName;
-        this.sigunguName = sigunguName;
     }
 }
