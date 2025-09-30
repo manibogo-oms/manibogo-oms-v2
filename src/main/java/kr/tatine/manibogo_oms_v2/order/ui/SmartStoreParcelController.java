@@ -2,8 +2,8 @@ package kr.tatine.manibogo_oms_v2.order.ui;
 
 import kr.tatine.manibogo_oms_v2.common.model.OrderState;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.SalesChannel;
-import kr.tatine.manibogo_oms_v2.order.query.dao.OrderDao;
-import kr.tatine.manibogo_oms_v2.order.query.dto.OrderQueryParams;
+import kr.tatine.manibogo_oms_v2.order.query.port.in.OrderQueryUseCase;
+import kr.tatine.manibogo_oms_v2.order.query.dto.in.OrderQueryParams;
 import kr.tatine.manibogo_oms_v2.order.query.dto.SmartStoreParcelDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SmartStoreParcelController {
 
-    private final OrderDao orderDao;
+    private final OrderQueryUseCase orderQueryUseCase;
 
 
     @GetMapping
@@ -28,7 +28,7 @@ public class SmartStoreParcelController {
         queryParams.setItemOrderState(OrderState.SHIPPED);
         queryParams.setSalesChannel(SalesChannel.SMART_STORE);
 
-        return orderDao.findAll(queryParams).stream()
+        return orderQueryUseCase.findAll(queryParams).stream()
                 .map(SmartStoreParcelDto::fromFulfillmentDto)
                 .toList();
     }

@@ -48,10 +48,6 @@ public class OrderDto {
 
     private int amount;
 
-    private String sido;
-
-    private String sigungu;
-
     private String customerName;
 
     private String customerTel;

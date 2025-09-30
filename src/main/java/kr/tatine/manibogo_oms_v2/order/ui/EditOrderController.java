@@ -14,7 +14,7 @@ import kr.tatine.manibogo_oms_v2.order.command.application.service.ProceedOrderS
 import kr.tatine.manibogo_oms_v2.order.command.domain.exception.*;
 import kr.tatine.manibogo_oms_v2.common.model.ChargeType;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
-import kr.tatine.manibogo_oms_v2.order.query.dao.OrderDao;
+import kr.tatine.manibogo_oms_v2.order.query.port.in.OrderQueryUseCase;
 import kr.tatine.manibogo_oms_v2.order.query.dto.OrderDto;
 import kr.tatine.manibogo_oms_v2.shipping.command.domain.CannotBundleShippingException;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequiredArgsConstructor
 public class EditOrderController {
 
-    private final OrderDao orderDao;
+    private final OrderQueryUseCase orderQueryUseCase;
 
     private final EditOrderService editOrderService;
 
@@ -56,7 +56,7 @@ public class EditOrderController {
     @GetMapping("/{orderNumber}/edit")
     @Transactional(readOnly = true)
     public String getEdit(@PathVariable String orderNumber, Model model) {
-        final OrderDto orderDto = orderDao.findById(orderNumber)
+        final OrderDto orderDto = orderQueryUseCase.findById(orderNumber)
                 .orElseThrow(OrderNotFoundException::new);
 
         model.addAttribute("form", EditOrderForm.of(orderDto));

@@ -7,10 +7,10 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
+import kr.tatine.manibogo_oms_v2.region.query.entity.QJuso;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.in.ShippingQuery;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingView;
-import kr.tatine.manibogo_oms_v2.shipping.query.entity.QJuso;
-import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingQueryPort;
+import kr.tatine.manibogo_oms_v2.shipping.query.port.in.ShippingQueryUseCase;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.domain.Page;
@@ -20,14 +20,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static kr.tatine.manibogo_oms_v2.region.query.entity.QJuso.*;
 import static kr.tatine.manibogo_oms_v2.shipping.command.domain.QShipping.shipping;
-import static kr.tatine.manibogo_oms_v2.shipping.query.entity.QJuso.juso;
 import static kr.tatine.manibogo_oms_v2.shipping.query.entity.QShippingJuso.shippingJuso;
 import static kr.tatine.manibogo_oms_v2.shipping.query.entity.QShippingOrderAgg.shippingOrderAgg;
 
 @Repository
 @RequiredArgsConstructor
-public class QuerydslShippingDao implements ShippingQueryPort {
+public class QuerydslShippingDao implements ShippingQueryUseCase {
 
     private final JPAQueryFactory queryFactory;
 
