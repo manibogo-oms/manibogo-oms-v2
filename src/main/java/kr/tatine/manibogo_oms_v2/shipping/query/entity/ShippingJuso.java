@@ -39,9 +39,10 @@ public class ShippingJuso {
     @Column(nullable = false)
     private LocalDateTime lastModifiedAt;
 
-    public ShippingJuso(ShippingNumber shippingNumber, String jusoCode, String sido, String sigungu) {
+    public ShippingJuso(ShippingNumber shippingNumber, String jusoCode, String admCode, String sido, String sigungu) {
         this.shippingNumber = shippingNumber;
         this.jusoCode = jusoCode;
+        this.admCode = admCode;
         this.sido = sido;
         this.sigungu = sigungu;
     }
