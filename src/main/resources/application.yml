@@ -1,0 +1,111 @@
+spring:
+  profiles:
+    active: local
+
+  session:
+    redis:
+      namespace: manibogo
+
+  messages:
+    basename: messages,ValidationMessages
+    encoding: UTF-8
+
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+        max-page-size: 50
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        create_empty_composites:
+          enabled: true
+
+management:
+  info:
+    build:
+      enabled: true
+
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
+
+  endpoint:
+    health:
+      show-details: always
+  health:
+    diskspace:
+      enabled: false
+
+juso:
+  key: ENC(fLPC680F9tvALlLO8aItrzq9isa8pQiFgyg+ycgMCnvmRzPHGI23dn3wpkfGjG3YrApnCkozJUjTp5v86lYplPaE8SHQeeARKgB2MHWPpIw=)
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/manibogo_oms_v2
+    username: root
+    password: 3520
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+
+  flyway:
+    enabled: false
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    kr.tatine.manibogo_oms_v2: debug
+
+security:
+  remember-me:
+    key: uGfR1cWlEUy&Qi
+    ttl: 1209600 # 14d\
+#    ttl: 30
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  flyway:
+    enabled: true
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ENC(kUhdidxAjJuzeR4A+68fb1HhEz8nQDo8M2LHTrGqPhEI+B6zZS9ZByFbCWYHk4ZESTPzqbXIe5RRpi992RiR9ATs4+aD/7M6H3nI36NbZHI=)
+    username: ENC(wz6jODmMCum4utAn43ThYuv/0rur3eYCxxggzf8GwEnAmF8JSeoKXBhpz5tMtmjkp6gTz1Z2eMRIpDPdKkXsHA==)
+    password: ENC(RGsbi5/4Iqmly9DoUeMdgXNGNQzdScQciFWaMuIa7aEtUravs/TRP2wZhwg+Sl8z)
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+  data:
+    redis:
+      sentinel:
+        master: mymaster
+        nodes:
+          - ENC(2lnKOqTfYTDCABgLwtMpv3sY+3egyLxHgo+IRKiM2sxiB0F66JcMFRMWP7nOuFCk7oN2ll24b2QkPlUSkiqfZA==)
+          - ENC(m+kW7mq7iC/Q/m6HlmmSMJTrFf4v4ossxoWaD/e7JxeD3oXa5qnH2ED/InVf3qDLUu9qS5QQuLl3Xp8qAwnFHg==)
+          - ENC(b31u29KeUqsGctQsmn5vcgf3KrFa8EI0Fn64RT6Y+lhpWyUXH0Bb7sj8HJ2KnPYGngaNR/phbcoTcfXvGqjnEA==)
+      password: ENC(JAlEhIXHea21IvZKMBcmoiFVmGklm45H7ZmzFaOb58bn1zAOlEDfAg8TdjogMQ4F)
+
+security:
+  remember-me:
+    key: ENC(1iM0Jgz9hzhPqSpqhDXaJe2Wk9bvHjHFajFkaeJ8qOQwFsUpV2u8GJMSaUoOYsoj)
+    ttl: 1209600 # 14d
