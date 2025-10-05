@@ -10,7 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static kr.tatine.manibogo_oms_v2.location.query.dto.out.QRegionView.*;
+import static kr.tatine.manibogo_oms_v2.location.domain.region.QRegion.region;
+
 
 @Repository
 @RequiredArgsConstructor
@@ -20,14 +21,14 @@ public class QueryDslRegionDao implements RegionQueryUseCase {
 
     @Override
     public List<Region> findAll(int level, String parentCode) {
-        return queryFactory.selectFrom(regionView)
-                .where(regionView.level.eq(level), eqParentCode(parentCode))
+        return queryFactory.selectFrom(region)
+                .where(region.level.eq(level), eqParentCode(parentCode))
                 .fetch();
     }
 
     private BooleanExpression eqParentCode(String parentCode) {
         if (Strings.isEmpty(parentCode)) return null;
-        return regionView.parentCode.code.eq(parentCode);
+        return region.parentCode.code.eq(parentCode);
     }
 
 }
