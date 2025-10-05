@@ -5,6 +5,7 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
+import kr.tatine.manibogo_oms_v2.location.domain.juso.JusoCode;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,7 @@ public class OrderJuso {
     @EmbeddedId
     private OrderNumber orderNumber;
 
-    private String jusoCode;
+    private JusoCode jusoCode;
 
     private String sido;
 
@@ -37,7 +38,7 @@ public class OrderJuso {
     @Column(nullable = false)
     private LocalDateTime lastModifiedAt;
 
-    public OrderJuso(OrderNumber orderNumber, String jusoCode, String sido) {
+    public OrderJuso(OrderNumber orderNumber, JusoCode jusoCode, String sido) {
         this.orderNumber = orderNumber;
         this.jusoCode = jusoCode;
         this.sido = sido;

@@ -1,8 +1,6 @@
-package kr.tatine.manibogo_oms_v2.shipping.query.entity;
+package kr.tatine.manibogo_oms_v2.location.domain.juso;
 
 import jakarta.persistence.*;
-import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
-import kr.tatine.manibogo_oms_v2.location.domain.juso.JusoCode;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,22 +11,19 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-
-@Entity
 @Getter
+@Entity
 @ToString
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class ShippingJuso {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Juso {
 
     @EmbeddedId
-    private ShippingNumber shippingNumber;
-
-    private JusoCode jusoCode;
-
-    private String address;
+    private JusoCode code;
 
     private String admCode;
+
+    private String address;
 
     private String sido;
 
@@ -42,11 +37,12 @@ public class ShippingJuso {
     @Column(nullable = false)
     private LocalDateTime lastModifiedAt;
 
-    public ShippingJuso(ShippingNumber shippingNumber, JusoCode jusoCode, String admCode, String sido, String sigungu) {
-        this.shippingNumber = shippingNumber;
-        this.jusoCode = jusoCode;
+    public Juso(JusoCode code, String admCode, String address, String sido, String sigungu) {
+        this.code = code;
         this.admCode = admCode;
+        this.address = address;
         this.sido = sido;
         this.sigungu = sigungu;
     }
+
 }

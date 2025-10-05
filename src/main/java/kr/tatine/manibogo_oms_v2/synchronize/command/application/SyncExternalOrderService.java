@@ -6,7 +6,7 @@ import kr.tatine.manibogo_oms_v2.common.converter.StringToOptionListConvertor;
 import kr.tatine.manibogo_oms_v2.common.model.*;
 import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.*;
-import kr.tatine.manibogo_oms_v2.region.command.domain.Address;
+import kr.tatine.manibogo_oms_v2.location.domain.address.Address;
 import kr.tatine.manibogo_oms_v2.order.command.application.exception.OrderAlreadyPlacedException;
 import kr.tatine.manibogo_oms_v2.synchronize.ui.ExternalItemOrderRequest;
 import kr.tatine.manibogo_oms_v2.variant.command.domain.Variant;
