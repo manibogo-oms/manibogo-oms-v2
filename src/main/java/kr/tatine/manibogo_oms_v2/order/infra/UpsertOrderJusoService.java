@@ -1,13 +1,14 @@
 package kr.tatine.manibogo_oms_v2.order.infra;
 
 import kr.tatine.manibogo_oms_v2.common.contract.out.JusoLookupPort;
+import kr.tatine.manibogo_oms_v2.common.contract.out.JusoView;
 import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
 import kr.tatine.manibogo_oms_v2.order.query.entity.OrderJuso;
 import kr.tatine.manibogo_oms_v2.order.query.port.in.OrderJusoUpsertUseCase;
 import kr.tatine.manibogo_oms_v2.order.query.port.out.OrderAddressQueryPort;
 import kr.tatine.manibogo_oms_v2.order.query.port.out.OrderJusoStorePort;
-import kr.tatine.manibogo_oms_v2.region.command.domain.Address;
-import kr.tatine.manibogo_oms_v2.region.query.entity.Juso;
+import kr.tatine.manibogo_oms_v2.location.domain.address.Address;
+import kr.tatine.manibogo_oms_v2.location.domain.juso.Juso;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -31,9 +32,9 @@ public class UpsertOrderJusoService implements OrderJusoUpsertUseCase {
                 .findByNumber(orderNumber)
                 .orElseThrow(RuntimeException::new);
 
-        final Juso juso = jusoLookupPort.lookup(address)
+        final JusoView juso = jusoLookupPort.lookup(address)
                 .orElseThrow(RuntimeException::new);
 
-        storePort.save(new OrderJuso(orderNumber, juso.getJusoCode(), juso.getSido()));
+        storePort.save(new OrderJuso(orderNumber, juso.jusoCode(), juso.sido()));
     }
 }

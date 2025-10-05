@@ -1,0 +1,9 @@
+package kr.tatine.manibogo_oms_v2.location.domain.juso;
+
+import java.util.Optional;
+
+public interface JusoQueryPort {
+
+    Optional<Juso> findByAddress(String address);
+
+}
