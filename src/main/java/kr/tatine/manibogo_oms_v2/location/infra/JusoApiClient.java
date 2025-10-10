@@ -3,7 +3,7 @@ package kr.tatine.manibogo_oms_v2.location.infra;
 import kr.tatine.manibogo_oms_v2.location.domain.juso.JusoCode;
 import kr.tatine.manibogo_oms_v2.shipping.infra.dto.JusoApiSearchResponse;
 import kr.tatine.manibogo_oms_v2.location.domain.juso.Juso;
-import kr.tatine.manibogo_oms_v2.location.domain.juso.JusoQueryPort;
+import kr.tatine.manibogo_oms_v2.location.domain.juso.port.out.JusoQueryPort;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
@@ -23,7 +23,7 @@ public class JusoApiClient implements JusoQueryPort {
 
     private final String apiKey;
 
-    public JusoApiClient(@Value("${juso.key}") String apiKey) {
+    public JusoApiClient(@Value("${juso.search.key}") String apiKey) {
         this.apiKey = apiKey;
     }
 

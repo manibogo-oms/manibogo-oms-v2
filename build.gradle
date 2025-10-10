@@ -51,6 +51,8 @@ dependencies {
 
 	implementation 'io.hypersistence:hypersistence-tsid:2.1.4'
 
+	implementation files('libs/ADSClient-1.1.jar')
+
 	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
 
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"

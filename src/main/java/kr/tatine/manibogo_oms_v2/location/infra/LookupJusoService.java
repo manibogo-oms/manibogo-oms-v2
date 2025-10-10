@@ -4,8 +4,8 @@ import kr.tatine.manibogo_oms_v2.common.contract.out.JusoLookupPort;
 import kr.tatine.manibogo_oms_v2.common.contract.out.JusoView;
 import kr.tatine.manibogo_oms_v2.location.domain.address.Address;
 import kr.tatine.manibogo_oms_v2.location.domain.juso.Juso;
-import kr.tatine.manibogo_oms_v2.location.domain.juso.JusoQueryPort;
-import kr.tatine.manibogo_oms_v2.location.domain.juso.JusoStorePort;
+import kr.tatine.manibogo_oms_v2.location.domain.juso.port.out.JusoQueryPort;
+import kr.tatine.manibogo_oms_v2.location.domain.juso.port.out.JusoStorePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

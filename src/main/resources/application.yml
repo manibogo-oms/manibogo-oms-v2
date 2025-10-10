@@ -39,7 +39,8 @@ management:
       enabled: false
 
 juso:
-  key: ENC(fLPC680F9tvALlLO8aItrzq9isa8pQiFgyg+ycgMCnvmRzPHGI23dn3wpkfGjG3YrApnCkozJUjTp5v86lYplPaE8SHQeeARKgB2MHWPpIw=)
+  search.key: ENC(fLPC680F9tvALlLO8aItrzq9isa8pQiFgyg+ycgMCnvmRzPHGI23dn3wpkfGjG3YrApnCkozJUjTp5v86lYplPaE8SHQeeARKgB2MHWPpIw=)
+  migration.key: ENC(VajwaI6W/OH61sqI7xLn1f6K9uoUCqP0wCrkU2aqUddsQ+GUlHwHDnk9Nz78eagAICpf93G3pXh3KBX+5nHHC6+IBfNV5RmfER9kIVEivZk=)
 
 ---
 spring:
