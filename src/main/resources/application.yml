@@ -37,6 +37,10 @@ management:
   health:
     diskspace:
       enabled: false
+
+juso:
+  key: ENC(fLPC680F9tvALlLO8aItrzq9isa8pQiFgyg+ycgMCnvmRzPHGI23dn3wpkfGjG3YrApnCkozJUjTp5v86lYplPaE8SHQeeARKgB2MHWPpIw=)
+
 ---
 spring:
   config:
