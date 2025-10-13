@@ -74,7 +74,7 @@ public class AdsClientDeltaClient implements JusoDeltaPort, ApplicationRunner {
 
                             bufferedReader.lines()
                                     .map(AdsClientDeltaClient::deserialize)
-                                    .forEach(deltaData::add);
+                                    .forEach(juso -> juso.ifPresent(deltaData::add));
 
                         } catch (IOException ioException) {
                             return new JusoDelta("E1999", "데이터 파일 파싱 중 오료가 발생했습니다: " + ioException.getMessage(), deltaData);
@@ -99,9 +99,9 @@ public class AdsClientDeltaClient implements JusoDeltaPort, ApplicationRunner {
                 migrationKey, "D", "100001", "Y", formatDate(lastIntegratedOn), null);
     }
 
-    private static Juso deserialize(@Nullable String line) {
+    private static Optional<Juso> deserialize(@Nullable String line) {
 
-        if (Strings.isBlank(line)) return null;
+        if (Strings.isBlank(line) || line.equalsIgnoreCase("No Data")) return Optional.empty();
 
         final String[] tokens = line.split("\\|", -1);
 
@@ -111,7 +111,8 @@ public class AdsClientDeltaClient implements JusoDeltaPort, ApplicationRunner {
             address += "-%s".formatted(tokens[13]);
         }
 
-        return new Juso(new JusoCode(tokens[0]), tokens[1], address, tokens[2], tokens[3]);
+        return Optional.of(
+                new Juso(new JusoCode(tokens[0]), tokens[1], address, tokens[2], tokens[3]));
     }
 
     @Nullable
@@ -125,7 +126,7 @@ public class AdsClientDeltaClient implements JusoDeltaPort, ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        JusoDelta delta = fetch(LocalDate.now());
+        JusoDelta delta = fetch(LocalDate.of(2025, 10, 10));
 
         System.out.println("delta = " + delta);
     }
