@@ -7,4 +7,6 @@ public interface JusoStorePort extends Repository<Juso, String> {
 
     Juso save(Juso juso);
 
+    void saveAll(Iterable<Juso> jusoes);
+
 }

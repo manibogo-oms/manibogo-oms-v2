@@ -1,6 +1,5 @@
 package kr.tatine.manibogo_oms_v2.location.infra;
 
-import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import kr.go.ads.client.ADSReceiver;
 import kr.go.ads.client.ADSUtils;
@@ -13,12 +12,9 @@ import kr.tatine.manibogo_oms_v2.location.domain.juso.port.out.JusoDeltaPort;
 import org.apache.logging.log4j.util.Strings;
 import org.hibernate.validator.internal.xml.CloseIgnoringInputStream;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -29,7 +25,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 @Component
-public class AdsClientDeltaClient implements JusoDeltaPort, ApplicationRunner {
+public class AdsClientDeltaClient implements JusoDeltaPort {
 
     private static final ADSReceiver RECEIVER = new ADSReceiver();
 
@@ -120,14 +116,5 @@ public class AdsClientDeltaClient implements JusoDeltaPort, ApplicationRunner {
         return Optional.ofNullable(localDate)
                 .map(e -> e.format(DateTimeFormatter.ofPattern("yyyyMMdd")))
                 .orElse(null);
-    }
-
-
-
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
-        JusoDelta delta = fetch(LocalDate.of(2025, 10, 10));
-
-        System.out.println("delta = " + delta);
     }
 }
