@@ -5,6 +5,7 @@ import kr.go.ads.client.ADSReceiver;
 import kr.go.ads.client.ADSUtils;
 import kr.go.ads.client.ReceiveData;
 import kr.go.ads.client.ReceiveDatas;
+import kr.tatine.manibogo_oms_v2.common.contract.out.JusoView;
 import kr.tatine.manibogo_oms_v2.location.domain.juso.JusoCode;
 import kr.tatine.manibogo_oms_v2.location.domain.juso.dto.JusoDelta;
 import kr.tatine.manibogo_oms_v2.location.domain.juso.port.out.JusoDeltaPort;

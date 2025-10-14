@@ -1,9 +1,18 @@
 package kr.tatine.manibogo_oms_v2.location.infra;
 
+import kr.tatine.manibogo_oms_v2.common.contract.out.JusoView;
 import kr.tatine.manibogo_oms_v2.location.domain.juso.Juso;
 import kr.tatine.manibogo_oms_v2.location.domain.juso.port.out.JusoQueryPort;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 
+import java.util.Optional;
+
 @Order(1)
-public interface JusoDao extends JusoQueryPort, Repository<Juso, String> {}
+public interface JusoDao extends JusoQueryPort, Repository<JusoView, String> {
+
+    @Query("SELECT new kr.tatine.manibogo_oms_v2.common.contract.out.JusoView(j.code, j.admCode, j.address, j.sido, j.sigungu) FROM Juso j WHERE address = :address")
+    Optional<JusoView> findByAddress(String address);
+
+}

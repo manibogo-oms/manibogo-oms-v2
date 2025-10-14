@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.location.domain.address;
+package kr.tatine.manibogo_oms_v2.common.model;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import kr.tatine.manibogo_oms_v2.common.model.Address;
 
 
 /**
@@ -16,7 +15,7 @@ import kr.tatine.manibogo_oms_v2.common.model.Address;
 @Generated("com.querydsl.codegen.DefaultEmbeddableSerializer")
 public class QAddress extends BeanPath<Address> {
 
-    private static final long serialVersionUID = 1850022638L;
+    private static final long serialVersionUID = -1001637241L;
 
     public static final QAddress address = new QAddress("address");
 

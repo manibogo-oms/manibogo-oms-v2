@@ -1,8 +1,8 @@
 package kr.tatine.manibogo_oms_v2.location.infra;
 
+import kr.tatine.manibogo_oms_v2.common.contract.out.JusoView;
 import kr.tatine.manibogo_oms_v2.location.domain.juso.JusoCode;
 import kr.tatine.manibogo_oms_v2.shipping.infra.dto.JusoApiSearchResponse;
-import kr.tatine.manibogo_oms_v2.location.domain.juso.Juso;
 import kr.tatine.manibogo_oms_v2.location.domain.juso.port.out.JusoQueryPort;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
@@ -28,11 +28,11 @@ public class JusoApiClient implements JusoQueryPort {
     }
 
     @Override
-    public Optional<Juso> findByAddress(String address) {
+    public Optional<JusoView> findByAddress(String address) {
         return fetchJusoByAddress(address);
     }
 
-    private Optional<Juso> fetchJusoByAddress(String address) {
+    private Optional<JusoView> fetchJusoByAddress(String address) {
         final URI uri = UriComponentsBuilder
                 .fromUriString("https://business.juso.go.kr/addrlink/addrLinkApi.do")
                 .queryParam("currentPage", "1")
@@ -57,8 +57,8 @@ public class JusoApiClient implements JusoQueryPort {
                 .map(JusoApiClient::createJuso);
     }
 
-    private static Juso createJuso(JusoApiSearchResponse.Results.Juso juso) {
-        return new Juso(createJusoCode(juso), juso.admCd(), juso.roadAddr(), juso.siNm(), juso.sggNm());
+    private static JusoView createJuso(JusoApiSearchResponse.Results.Juso juso) {
+        return new JusoView(createJusoCode(juso), juso.admCd(), juso.roadAddr(), juso.siNm(), juso.sggNm());
     }
 
     private static JusoCode createJusoCode(JusoApiSearchResponse.Results.Juso juso) {

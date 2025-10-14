@@ -23,16 +23,17 @@ public class LookupJusoService implements JusoLookupPort {
     @Override
     public Optional<JusoView> lookup(Address address) {
         for (final JusoQueryPort queryPort : queryPorts) {
-            final Optional<Juso> result = queryPort.findByAddress(address.getAddress1());
+            final Optional<JusoView> result = queryPort.findByAddress(address.getAddress1());
             if (result.isPresent()) {
-                storePort.save(result.get());
-                return result.map(LookupJusoService::toView);
+                storePort.save(deserialize(result.get()));
+                return result;
             }
         }
         return Optional.empty();
     }
 
-    private static JusoView toView(Juso juso) {
-        return new JusoView(juso.getCode(), juso.getAdmCode(), juso.getAddress(), juso.getSido(), juso.getSigungu());
+    private static Juso deserialize(JusoView juso) {
+        return new Juso(juso.jusoCode(), juso.admCode(), juso.address(), juso.sido(), juso.sigungu());
     }
+
 }

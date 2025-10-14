@@ -29,6 +29,9 @@ public class Juso {
 
     private String sigungu;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private JusoIntegration integration;
+
     @CreatedDate
     @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;
