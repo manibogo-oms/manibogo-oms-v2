@@ -30,6 +30,7 @@ public class Juso {
     private String sigungu;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(updatable = false)
     private JusoIntegration integration;
 
     @CreatedDate
@@ -46,6 +47,11 @@ public class Juso {
         this.address = address;
         this.sido = sido;
         this.sigungu = sigungu;
+    }
+
+    public Juso(JusoCode code, String admCode, String address, String sido, String sigungu, JusoIntegration integration) {
+        this(code, admCode, address, sido, sigungu);
+        this.integration = integration;
     }
 
 }

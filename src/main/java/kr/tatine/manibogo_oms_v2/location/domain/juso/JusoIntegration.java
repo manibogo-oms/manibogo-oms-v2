@@ -2,6 +2,7 @@ package kr.tatine.manibogo_oms_v2.location.domain.juso;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.Immutable;
@@ -10,7 +11,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
+@Getter
 @Entity
 @ToString
 @Immutable
@@ -27,6 +30,9 @@ public class JusoIntegration {
     private String resultCode;
 
     private String resultMessage;
+
+    @OneToMany(mappedBy = "integration")
+    private List<Juso> jusos;
 
     @CreatedDate
     private LocalDateTime createdAt;

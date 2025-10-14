@@ -42,15 +42,15 @@ public class IntegrateJusoService implements IntegrateJusoUseCase {
                 new JusoIntegration(lastIntegratedOn, delta.code(), delta.message());
 
         final List<Juso> jusos = delta.result().stream()
-                .map(IntegrateJusoService::convert)
+                .map(jusoView -> convert(jusoView, integration))
                 .toList();
 
         integrationStorePort.save(integration);
         storePort.saveAll(jusos);
     }
 
-    private static Juso convert(JusoView view) {
-        return new Juso(view.jusoCode(), view.admCode(), view.address(), view.sido(), view.sigungu());
+    private static Juso convert(JusoView view, JusoIntegration integration) {
+        return new Juso(view.jusoCode(), view.admCode(), view.address(), view.sido(), view.sigungu(), integration);
     }
 
 }
