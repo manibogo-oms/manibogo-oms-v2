@@ -2,7 +2,7 @@ package kr.tatine.manibogo_oms_v2.shipping.ui;
 
 import kr.tatine.manibogo_oms_v2.common.ui.PageView;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingView;
-import kr.tatine.manibogo_oms_v2.location.domain.region.RegionQueryUseCase;
+import kr.tatine.manibogo_oms_v2.region.application.port.in.RegionQueryUseCase;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.in.ShippingQueryUseCase;
 import kr.tatine.manibogo_oms_v2.shipping.ui.dto.in.ShippingQueryForm;
 import lombok.RequiredArgsConstructor;

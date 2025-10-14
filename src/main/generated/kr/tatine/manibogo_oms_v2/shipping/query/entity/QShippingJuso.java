@@ -28,7 +28,7 @@ public class QShippingJuso extends EntityPathBase<ShippingJuso> {
 
     public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
-    public final kr.tatine.manibogo_oms_v2.location.domain.juso.QJusoCode jusoCode;
+    public final kr.tatine.manibogo_oms_v2.juso.domain.QJusoCode jusoCode;
 
     public final DateTimePath<java.time.LocalDateTime> lastModifiedAt = createDateTime("lastModifiedAt", java.time.LocalDateTime.class);
 
@@ -56,7 +56,7 @@ public class QShippingJuso extends EntityPathBase<ShippingJuso> {
 
     public QShippingJuso(Class<? extends ShippingJuso> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.jusoCode = inits.isInitialized("jusoCode") ? new kr.tatine.manibogo_oms_v2.location.domain.juso.QJusoCode(forProperty("jusoCode")) : null;
+        this.jusoCode = inits.isInitialized("jusoCode") ? new kr.tatine.manibogo_oms_v2.juso.domain.QJusoCode(forProperty("jusoCode")) : null;
         this.shippingNumber = inits.isInitialized("shippingNumber") ? new kr.tatine.manibogo_oms_v2.common.model.QShippingNumber(forProperty("shippingNumber")) : null;
     }
 

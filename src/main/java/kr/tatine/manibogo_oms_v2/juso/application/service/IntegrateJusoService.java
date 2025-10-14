@@ -1,0 +1,56 @@
+package kr.tatine.manibogo_oms_v2.juso.application.service;
+
+import kr.tatine.manibogo_oms_v2.common.contract.out.JusoView;
+import kr.tatine.manibogo_oms_v2.juso.domain.Juso;
+import kr.tatine.manibogo_oms_v2.juso.domain.JusoIntegration;
+import kr.tatine.manibogo_oms_v2.juso.application.dto.out.JusoDelta;
+import kr.tatine.manibogo_oms_v2.juso.application.port.in.IntegrateJusoUseCase;
+import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoDeltaPort;
+import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoIntegrationQueryPort;
+import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoIntegrationStorePort;
+import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoStorePort;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class IntegrateJusoService implements IntegrateJusoUseCase {
+
+    private final JusoIntegrationQueryPort integrationQueryPort;
+
+    private final JusoIntegrationStorePort integrationStorePort;
+
+    private final JusoDeltaPort deltaPort;
+
+    private final JusoStorePort storePort;
+
+    @Override
+    @Transactional
+    public void integrate() {
+
+        final LocalDate lastIntegratedOn = integrationQueryPort
+                .getLastIntegratedOn()
+                .orElseThrow(LayerInstantiationException::new);
+
+        final JusoDelta delta = deltaPort.fetch(lastIntegratedOn);
+
+        final JusoIntegration integration =
+                new JusoIntegration(lastIntegratedOn, delta.code(), delta.message());
+
+        final List<Juso> jusos = delta.result().stream()
+                .map(jusoView -> convert(jusoView, integration))
+                .toList();
+
+        integrationStorePort.save(integration);
+        storePort.saveAll(jusos);
+    }
+
+    private static Juso convert(JusoView view, JusoIntegration integration) {
+        return new Juso(view.jusoCode(), view.admCode(), view.address(), view.sido(), view.sigungu(), integration);
+    }
+
+}

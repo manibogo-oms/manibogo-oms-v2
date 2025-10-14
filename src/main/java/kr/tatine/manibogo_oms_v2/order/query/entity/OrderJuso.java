@@ -5,7 +5,7 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
-import kr.tatine.manibogo_oms_v2.location.domain.juso.JusoCode;
+import kr.tatine.manibogo_oms_v2.juso.domain.JusoCode;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
