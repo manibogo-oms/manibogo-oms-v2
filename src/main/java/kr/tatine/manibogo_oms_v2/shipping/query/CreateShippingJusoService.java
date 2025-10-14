@@ -3,7 +3,7 @@ package kr.tatine.manibogo_oms_v2.shipping.query;
 import kr.tatine.manibogo_oms_v2.common.contract.out.JusoLookupPort;
 import kr.tatine.manibogo_oms_v2.common.contract.out.JusoView;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
-import kr.tatine.manibogo_oms_v2.location.domain.address.Address;
+import kr.tatine.manibogo_oms_v2.common.model.Address;
 import kr.tatine.manibogo_oms_v2.shipping.query.entity.ShippingJuso;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingAddressQueryPort;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingJusoStorePort;

@@ -4,7 +4,6 @@ import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import kr.tatine.manibogo_oms_v2.location.domain.address.Address;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

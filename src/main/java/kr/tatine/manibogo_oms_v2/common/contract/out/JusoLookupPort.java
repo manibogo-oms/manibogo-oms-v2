@@ -1,7 +1,6 @@
 package kr.tatine.manibogo_oms_v2.common.contract.out;
 
-import kr.tatine.manibogo_oms_v2.location.domain.address.Address;
-import kr.tatine.manibogo_oms_v2.location.domain.juso.Juso;
+import kr.tatine.manibogo_oms_v2.common.model.Address;
 
 import java.util.Optional;
 

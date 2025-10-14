@@ -8,7 +8,7 @@ import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.Customer;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.Memo;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.ShippingInfo;
-import kr.tatine.manibogo_oms_v2.location.domain.address.Address;
+import kr.tatine.manibogo_oms_v2.common.model.Address;
 import kr.tatine.manibogo_oms_v2.common.model.PhoneNumber;
 import kr.tatine.manibogo_oms_v2.order.command.application.validator.EditOrderDetailCommandValidator;
 import kr.tatine.manibogo_oms_v2.order.command.application.dto.EditOrderDetailCommand;

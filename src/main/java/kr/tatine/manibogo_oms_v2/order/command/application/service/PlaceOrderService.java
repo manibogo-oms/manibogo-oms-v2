@@ -4,7 +4,7 @@ import kr.tatine.manibogo_oms_v2.ValidationErrorException;
 import kr.tatine.manibogo_oms_v2.common.ValidationError;
 import kr.tatine.manibogo_oms_v2.common.model.*;
 import kr.tatine.manibogo_oms_v2.order.command.domain.model.*;
-import kr.tatine.manibogo_oms_v2.location.domain.address.Address;
+import kr.tatine.manibogo_oms_v2.common.model.Address;
 import kr.tatine.manibogo_oms_v2.order.command.application.dto.PlaceOrderCommand;
 import kr.tatine.manibogo_oms_v2.order.command.application.validator.PlaceOrderCommandValidator;
 import kr.tatine.manibogo_oms_v2.order.command.domain.repository.OrderRepository;

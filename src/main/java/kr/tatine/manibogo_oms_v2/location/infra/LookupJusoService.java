@@ -2,7 +2,7 @@ package kr.tatine.manibogo_oms_v2.location.infra;
 
 import kr.tatine.manibogo_oms_v2.common.contract.out.JusoLookupPort;
 import kr.tatine.manibogo_oms_v2.common.contract.out.JusoView;
-import kr.tatine.manibogo_oms_v2.location.domain.address.Address;
+import kr.tatine.manibogo_oms_v2.common.model.Address;
 import kr.tatine.manibogo_oms_v2.location.domain.juso.Juso;
 import kr.tatine.manibogo_oms_v2.location.domain.juso.port.out.JusoQueryPort;
 import kr.tatine.manibogo_oms_v2.location.domain.juso.port.out.JusoStorePort;

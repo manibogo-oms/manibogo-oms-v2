@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.location.domain.address;
+package kr.tatine.manibogo_oms_v2.common.model;
 
 import jakarta.persistence.Embeddable;
 import lombok.*;

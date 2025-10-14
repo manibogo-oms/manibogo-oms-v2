@@ -5,7 +5,6 @@ import kr.go.ads.client.ADSReceiver;
 import kr.go.ads.client.ADSUtils;
 import kr.go.ads.client.ReceiveData;
 import kr.go.ads.client.ReceiveDatas;
-import kr.tatine.manibogo_oms_v2.location.domain.juso.Juso;
 import kr.tatine.manibogo_oms_v2.location.domain.juso.JusoCode;
 import kr.tatine.manibogo_oms_v2.location.domain.juso.dto.JusoDelta;
 import kr.tatine.manibogo_oms_v2.location.domain.juso.port.out.JusoDeltaPort;
@@ -50,7 +49,7 @@ public class AdsClientDeltaClient implements JusoDeltaPort {
             }
 
 
-            final List<Juso> deltaData = new ArrayList<>();
+            final List<JusoView> deltaData = new ArrayList<>();
 
             for (final ReceiveData receiveData :
                     receiveDatas.getReceiveDatas(ADSUtils.UPDATE_ASC)) {
@@ -95,7 +94,7 @@ public class AdsClientDeltaClient implements JusoDeltaPort {
                 migrationKey, "D", "100001", "Y", formatDate(lastIntegratedOn), null);
     }
 
-    private static Optional<Juso> deserialize(@Nullable String line) {
+    private static Optional<JusoView> deserialize(@Nullable String line) {
 
         if (Strings.isBlank(line) || line.equalsIgnoreCase("No Data")) return Optional.empty();
 
@@ -108,7 +107,7 @@ public class AdsClientDeltaClient implements JusoDeltaPort {
         }
 
         return Optional.of(
-                new Juso(new JusoCode(tokens[0]), tokens[1], address, tokens[2], tokens[3]));
+                new JusoView(new JusoCode(tokens[0]), tokens[1], address, tokens[2], tokens[3]));
     }
 
     @Nullable
