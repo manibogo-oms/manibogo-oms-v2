@@ -1,7 +1,7 @@
 package kr.tatine.manibogo_oms_v2.juso.infra;
 
 import kr.tatine.manibogo_oms_v2.common.contract.out.JusoView;
-import kr.tatine.manibogo_oms_v2.common.contract.out.IntegratedJusoQueryPort;
+import kr.tatine.manibogo_oms_v2.common.contract.out.DeltaJusoQueryPort;
 import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoQueryPort;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.jpa.repository.Query;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Order(1)
-public interface JusoDao extends JusoQueryPort, IntegratedJusoQueryPort, Repository<JusoView, String> {
+public interface JusoDao extends JusoQueryPort, DeltaJusoQueryPort, Repository<JusoView, String> {
 
     @Query("""
         SELECT new kr.tatine.manibogo_oms_v2.common.contract.out.JusoView(

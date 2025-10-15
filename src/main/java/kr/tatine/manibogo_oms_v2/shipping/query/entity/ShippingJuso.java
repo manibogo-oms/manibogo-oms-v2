@@ -24,6 +24,7 @@ public class ShippingJuso {
     @EmbeddedId
     private ShippingNumber shippingNumber;
 
+    @Column(updatable = false)
     private JusoCode jusoCode;
 
     private String address;
@@ -45,6 +46,13 @@ public class ShippingJuso {
     public ShippingJuso(ShippingNumber shippingNumber, JusoCode jusoCode, String admCode, String sido, String sigungu) {
         this.shippingNumber = shippingNumber;
         this.jusoCode = jusoCode;
+        this.admCode = admCode;
+        this.sido = sido;
+        this.sigungu = sigungu;
+    }
+
+    public void synchronize(String address, String admCode, String sido, String sigungu) {
+        this.address = address;
         this.admCode = admCode;
         this.sido = sido;
         this.sigungu = sigungu;

@@ -3,8 +3,8 @@ package kr.tatine.manibogo_oms_v2.common.contract.out;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface IntegratedJusoQueryPort {
+public interface DeltaJusoQueryPort {
 
-    List<JusoView> findSyncAll(LocalDate integratedFrom);
+    List<JusoView> findSyncAll(LocalDate referenceDate);
 
 }
