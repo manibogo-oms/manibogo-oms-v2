@@ -14,7 +14,7 @@ import com.querydsl.core.types.dsl.PathInits;
  * QJusoIntegration is a Querydsl query type for JusoIntegration
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QJusoIntegration extends EntityPathBase<JusoIntegration> {
+public class QJusoIntegration extends EntityPathBase<JusoSync> {
 
     private static final long serialVersionUID = 650098287L;
 
@@ -33,15 +33,15 @@ public class QJusoIntegration extends EntityPathBase<JusoIntegration> {
     public final StringPath resultMessage = createString("resultMessage");
 
     public QJusoIntegration(String variable) {
-        super(JusoIntegration.class, forVariable(variable));
+        super(JusoSync.class, forVariable(variable));
     }
 
-    public QJusoIntegration(Path<? extends JusoIntegration> path) {
+    public QJusoIntegration(Path<? extends JusoSync> path) {
         super(path.getType(), path.getMetadata());
     }
 
     public QJusoIntegration(PathMetadata metadata) {
-        super(JusoIntegration.class, metadata);
+        super(JusoSync.class, metadata);
     }
 
 }

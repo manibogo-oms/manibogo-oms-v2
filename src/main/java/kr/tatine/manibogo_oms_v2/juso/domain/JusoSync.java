@@ -19,13 +19,13 @@ import java.util.List;
 @Immutable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class JusoIntegration {
+public class JusoSync {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate integratedOn;
+    private LocalDate referenceDate;
 
     private String resultCode;
 
@@ -37,12 +37,12 @@ public class JusoIntegration {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    public JusoIntegration(LocalDate integratedOn) {
-        this.integratedOn = integratedOn;
+    public JusoSync(LocalDate referenceDate) {
+        this.referenceDate = referenceDate;
     }
 
-    public JusoIntegration(LocalDate integratedOn, String resultCode, String resultMessage) {
-        this.integratedOn = integratedOn;
+    public JusoSync(LocalDate referenceDate, String resultCode, String resultMessage) {
+        this.referenceDate = referenceDate;
         this.resultCode = resultCode;
         this.resultMessage = resultMessage;
     }

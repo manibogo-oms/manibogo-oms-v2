@@ -31,7 +31,7 @@ public class Juso {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(updatable = false)
-    private JusoIntegration integration;
+    private JusoSync integration;
 
     @CreatedDate
     @Column(updatable = false, nullable = false)
@@ -49,7 +49,7 @@ public class Juso {
         this.sigungu = sigungu;
     }
 
-    public Juso(JusoCode code, String admCode, String address, String sido, String sigungu, JusoIntegration integration) {
+    public Juso(JusoCode code, String admCode, String address, String sido, String sigungu, JusoSync integration) {
         this(code, admCode, address, sido, sigungu);
         this.integration = integration;
     }

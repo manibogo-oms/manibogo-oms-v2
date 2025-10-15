@@ -1,7 +1,7 @@
 package kr.tatine.manibogo_oms_v2.juso.application.port.in;
 
-public interface IntegrateJusoUseCase {
+public interface SyncJusoUseCase {
 
-    void integrate();
+    void synchronize();
 
 }
