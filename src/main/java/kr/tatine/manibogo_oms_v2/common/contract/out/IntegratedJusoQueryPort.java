@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface IntegratedJusoQueryPort {
 
-    List<JusoView> findAllByIntegratedFrom(LocalDate integratedFrom);
+    List<JusoView> findSyncAll(LocalDate integratedFrom);
 
 }

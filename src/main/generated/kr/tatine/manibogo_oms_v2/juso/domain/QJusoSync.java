@@ -7,40 +7,37 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QJusoIntegration is a Querydsl query type for JusoIntegration
+ * QJusoSync is a Querydsl query type for JusoSync
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QJusoIntegration extends EntityPathBase<JusoSync> {
+public class QJusoSync extends EntityPathBase<JusoSync> {
 
-    private static final long serialVersionUID = 650098287L;
+    private static final long serialVersionUID = 427328096L;
 
-    public static final QJusoIntegration jusoIntegration = new QJusoIntegration("jusoIntegration");
+    public static final QJusoSync jusoSync = new QJusoSync("jusoSync");
 
     public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final DatePath<java.time.LocalDate> integratedOn = createDate("integratedOn", java.time.LocalDate.class);
-
-    public final ListPath<Juso, QJuso> jusos = this.<Juso, QJuso>createList("jusos", Juso.class, QJuso.class, PathInits.DIRECT2);
+    public final DatePath<java.time.LocalDate> referenceDate = createDate("referenceDate", java.time.LocalDate.class);
 
     public final StringPath resultCode = createString("resultCode");
 
     public final StringPath resultMessage = createString("resultMessage");
 
-    public QJusoIntegration(String variable) {
+    public QJusoSync(String variable) {
         super(JusoSync.class, forVariable(variable));
     }
 
-    public QJusoIntegration(Path<? extends JusoSync> path) {
+    public QJusoSync(Path<? extends JusoSync> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QJusoIntegration(PathMetadata metadata) {
+    public QJusoSync(PathMetadata metadata) {
         super(JusoSync.class, metadata);
     }
 

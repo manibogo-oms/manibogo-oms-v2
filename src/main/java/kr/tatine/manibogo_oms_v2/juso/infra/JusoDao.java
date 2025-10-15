@@ -26,9 +26,9 @@ public interface JusoDao extends JusoQueryPort, IntegratedJusoQueryPort, Reposit
     @Query("""
         SELECT new kr.tatine.manibogo_oms_v2.common.contract.out.JusoView(
            j.code, j.admCode, j.address, j.sido, j.sigungu
-        ) FROM Juso j JOIN j.integration ji
-        WHERE ji.integratedOn > :integratedFrom
+        ) FROM Juso j
+        WHERE j.lastModifiedAt > :referenceDate
     """)
-    List<JusoView> findAllByIntegratedFrom(LocalDate integratedFrom);
+    List<JusoView> findSyncAll(LocalDate referenceDate);
 
 }

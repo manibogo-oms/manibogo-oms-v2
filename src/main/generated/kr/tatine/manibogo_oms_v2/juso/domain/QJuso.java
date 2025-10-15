@@ -30,8 +30,6 @@ public class QJuso extends EntityPathBase<Juso> {
 
     public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
-    public final QJusoIntegration integration;
-
     public final DateTimePath<java.time.LocalDateTime> lastModifiedAt = createDateTime("lastModifiedAt", java.time.LocalDateTime.class);
 
     public final StringPath sido = createString("sido");
@@ -57,7 +55,6 @@ public class QJuso extends EntityPathBase<Juso> {
     public QJuso(Class<? extends Juso> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.code = inits.isInitialized("code") ? new QJusoCode(forProperty("code")) : null;
-        this.integration = inits.isInitialized("integration") ? new QJusoIntegration(forProperty("integration")) : null;
     }
 
 }

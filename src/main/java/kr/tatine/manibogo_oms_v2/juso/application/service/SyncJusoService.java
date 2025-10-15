@@ -42,15 +42,15 @@ public class SyncJusoService implements SyncJusoUseCase {
                 new JusoSync(lastSyncDate, delta.code(), delta.message());
 
         final List<Juso> jusos = delta.result().stream()
-                .map(jusoView -> convert(jusoView, sync))
+                .map(SyncJusoService::convert)
                 .toList();
 
         syncStorePort.save(sync);
         storePort.saveAll(jusos);
     }
 
-    private static Juso convert(JusoView view, JusoSync integration) {
-        return new Juso(view.jusoCode(), view.admCode(), view.address(), view.sido(), view.sigungu(), integration);
+    private static Juso convert(JusoView view) {
+        return new Juso(view.jusoCode(), view.admCode(), view.address(), view.sido(), view.sigungu());
     }
 
 }
