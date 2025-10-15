@@ -1,6 +1,4 @@
-package kr.tatine.manibogo_oms_v2.juso.application.port.out;
-
-import kr.tatine.manibogo_oms_v2.common.contract.out.JusoView;
+package kr.tatine.manibogo_oms_v2.common.contract.out;
 
 import java.time.LocalDate;
 import java.util.List;
