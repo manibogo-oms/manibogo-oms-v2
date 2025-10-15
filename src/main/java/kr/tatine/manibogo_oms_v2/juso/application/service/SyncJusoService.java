@@ -1,6 +1,7 @@
 package kr.tatine.manibogo_oms_v2.juso.application.service;
 
 import kr.tatine.manibogo_oms_v2.common.contract.out.JusoView;
+import kr.tatine.manibogo_oms_v2.common.event.Events;
 import kr.tatine.manibogo_oms_v2.juso.domain.Juso;
 import kr.tatine.manibogo_oms_v2.juso.domain.JusoSync;
 import kr.tatine.manibogo_oms_v2.juso.application.dto.out.JusoDelta;
@@ -9,11 +10,13 @@ import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoDeltaPort;
 import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoSyncQueryPort;
 import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoSyncStorePort;
 import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoStorePort;
+import kr.tatine.manibogo_oms_v2.juso.application.dto.out.JusoSyncedEvent;
+import kr.tatine.manibogo_oms_v2.juso.domain.LastSyncNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -32,14 +35,13 @@ public class SyncJusoService implements SyncJusoUseCase {
     @Transactional
     public void synchronize() {
 
-        final LocalDate lastSyncDate = syncQueryPort
+        final LocalDateTime lastSyncTime = syncQueryPort
                 .getLastSyncDate()
-                .orElseThrow(LayerInstantiationException::new);
+                .orElseThrow(LastSyncNotFoundException::new);
 
-        final JusoDelta delta = deltaPort.fetch(lastSyncDate);
+        final JusoDelta delta = deltaPort.fetch(lastSyncTime.toLocalDate());
 
-        final JusoSync sync =
-                new JusoSync(lastSyncDate, delta.code(), delta.message());
+        final JusoSync sync = new JusoSync(lastSyncTime, delta.code(), delta.message());
 
         final List<Juso> jusos = delta.result().stream()
                 .map(SyncJusoService::convert)
@@ -47,6 +49,8 @@ public class SyncJusoService implements SyncJusoUseCase {
 
         syncStorePort.save(sync);
         storePort.saveAll(jusos);
+
+        jusos.forEach(juso -> Events.raise(new JusoSyncedEvent(juso.getCode(), lastSyncTime)));
     }
 
     private static Juso convert(JusoView view) {

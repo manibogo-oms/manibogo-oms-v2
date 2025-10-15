@@ -22,7 +22,7 @@ public class JusoSync {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate referenceDate;
+    private LocalDateTime referenceTime;
 
     private String resultCode;
 
@@ -31,8 +31,8 @@ public class JusoSync {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    public JusoSync(LocalDate referenceDate, String resultCode, String resultMessage) {
-        this.referenceDate = referenceDate;
+    public JusoSync(LocalDateTime referenceTime, String resultCode, String resultMessage) {
+        this.referenceTime = referenceTime;
         this.resultCode = resultCode;
         this.resultMessage = resultMessage;
     }
