@@ -51,7 +51,7 @@ public class ShippingJuso {
         this.sigungu = sigungu;
     }
 
-    public void synchronize(String address, String admCode, String sido, String sigungu) {
+    public void updateJuso(String address, String admCode, String sido, String sigungu) {
         this.address = address;
         this.admCode = admCode;
         this.sido = sido;

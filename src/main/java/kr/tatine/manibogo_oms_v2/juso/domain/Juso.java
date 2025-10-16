@@ -1,6 +1,7 @@
 package kr.tatine.manibogo_oms_v2.juso.domain;
 
 import jakarta.persistence.*;
+import kr.tatine.manibogo_oms_v2.common.event.Events;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,6 +44,8 @@ public class Juso {
         this.address = address;
         this.sido = sido;
         this.sigungu = sigungu;
+
+        Events.raise(new JusoCreatedEvent(this));
     }
 
 

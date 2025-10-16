@@ -1,7 +1,6 @@
 package kr.tatine.manibogo_oms_v2.juso.application.service;
 
 import kr.tatine.manibogo_oms_v2.common.contract.out.JusoView;
-import kr.tatine.manibogo_oms_v2.common.event.Events;
 import kr.tatine.manibogo_oms_v2.juso.domain.Juso;
 import kr.tatine.manibogo_oms_v2.juso.domain.JusoSync;
 import kr.tatine.manibogo_oms_v2.juso.application.dto.out.JusoDelta;
@@ -10,7 +9,6 @@ import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoDeltaPort;
 import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoSyncQueryPort;
 import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoSyncStorePort;
 import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoStorePort;
-import kr.tatine.manibogo_oms_v2.juso.application.dto.out.JusoSyncedEvent;
 import kr.tatine.manibogo_oms_v2.juso.domain.LastSyncNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -49,8 +47,6 @@ public class SyncJusoService implements SyncJusoUseCase {
 
         syncStorePort.save(sync);
         storePort.saveAll(jusos);
-
-        jusos.forEach(juso -> Events.raise(new JusoSyncedEvent(juso.getCode(), lastSyncTime)));
     }
 
     private static Juso convert(JusoView view) {

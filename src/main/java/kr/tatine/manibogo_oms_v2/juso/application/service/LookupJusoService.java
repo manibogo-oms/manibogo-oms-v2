@@ -6,6 +6,7 @@ import kr.tatine.manibogo_oms_v2.common.model.Address;
 import kr.tatine.manibogo_oms_v2.juso.domain.Juso;
 import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoQueryPort;
 import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoStorePort;
+import kr.tatine.manibogo_oms_v2.juso.domain.JusoCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
