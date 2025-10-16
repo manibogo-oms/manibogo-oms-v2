@@ -23,7 +23,7 @@ public class QJusoSync extends EntityPathBase<JusoSync> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final DatePath<java.time.LocalDate> referenceDate = createDate("referenceDate", java.time.LocalDate.class);
+    public final DateTimePath<java.time.LocalDateTime> referenceTime = createDateTime("referenceTime", java.time.LocalDateTime.class);
 
     public final StringPath resultCode = createString("resultCode");
 

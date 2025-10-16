@@ -1,13 +1,14 @@
 package kr.tatine.manibogo_oms_v2.order.query.port.out;
 
 import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
+import kr.tatine.manibogo_oms_v2.juso.domain.JusoCode;
 import kr.tatine.manibogo_oms_v2.order.query.entity.OrderJuso;
 import org.springframework.data.repository.Repository;
 
-public interface OrderJusoStorePort extends Repository<OrderJuso, OrderNumber> {
+import java.util.List;
 
-    OrderJuso save(OrderJuso juso);
+public interface OrderJusoQueryPort extends Repository<OrderJuso, OrderNumber> {
 
-    void saveAll(Iterable<OrderJuso> jusos);
+    List<OrderJuso> findAllByJusoCode(JusoCode jusoCode);
 
 }

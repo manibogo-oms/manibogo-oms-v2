@@ -43,5 +43,10 @@ public class OrderJuso {
         this.jusoCode = jusoCode;
         this.sido = sido;
     }
+
+    public void updateJuso(String sido) {
+        this.sido = sido;
+    }
+
 }
 

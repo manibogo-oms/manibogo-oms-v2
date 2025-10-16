@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-@Component
+@Component("ShippingJusoCreatedHandler")
 @RequiredArgsConstructor
-public class JusoCreatedEventHandler {
+public class JusoCreatedHandler {
 
     private final SyncShippingJusoUseCase syncShippingJusoUseCase;
 

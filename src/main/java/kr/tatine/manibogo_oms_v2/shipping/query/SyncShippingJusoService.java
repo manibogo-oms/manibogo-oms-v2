@@ -23,16 +23,16 @@ public class SyncShippingJusoService implements SyncShippingJusoUseCase {
     @Transactional
     public void synchronize(SyncShippingJusoCommand command) {
 
-        final List<ShippingJuso> jusos = shippingJusoQueryPort
+        final List<ShippingJuso> shippingJusos = shippingJusoQueryPort
                 .findAllByJusoCode(command.jusoCode());
 
-        if (jusos.isEmpty()) return;
+        if (shippingJusos.isEmpty()) return;
 
-        jusos.forEach(shippingJuso -> shippingJuso.updateJuso(
+        shippingJusos.forEach(shippingJuso -> shippingJuso.updateJuso(
                 command.address(), command.admCode(), command.sido(), command.sigungu()
         ));
 
-        shippingJusoStorePort.saveAll(jusos);
+        shippingJusoStorePort.saveAll(shippingJusos);
     }
 
 }
