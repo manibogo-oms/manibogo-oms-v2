@@ -2,7 +2,6 @@ package kr.tatine.manibogo_oms_v2.common.validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import kr.tatine.manibogo_oms_v2.common.model.Describable;
 
 import java.lang.annotation.*;
 

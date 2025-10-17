@@ -1,9 +1,9 @@
 package kr.tatine.manibogo_oms_v2.juso.infra;
 
 import kr.tatine.manibogo_oms_v2.common.contract.out.JusoView;
+import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoQueryPort;
 import kr.tatine.manibogo_oms_v2.juso.domain.JusoCode;
 import kr.tatine.manibogo_oms_v2.shipping.infra.adapter.dto.JusoApiSearchResponse;
-import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoQueryPort;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;

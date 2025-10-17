@@ -6,7 +6,6 @@ import kr.tatine.manibogo_oms_v2.member.command.domain.Member;
 import kr.tatine.manibogo_oms_v2.member.command.domain.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -2,8 +2,7 @@ package kr.tatine.manibogo_oms_v2.shipping.ui;
 
 import kr.tatine.manibogo_oms_v2.common.ui.PageView;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingView;
-import kr.tatine.manibogo_oms_v2.region.application.port.in.RegionQueryUseCase;
-import kr.tatine.manibogo_oms_v2.shipping.query.port.in.ShippingQueryUseCase;
+import kr.tatine.manibogo_oms_v2.shipping.query.port.in.QueryShippingUseCase;
 import kr.tatine.manibogo_oms_v2.shipping.ui.dto.in.ShippingQueryForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,11 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/v2/shipping")
 @RequiredArgsConstructor
-public class ShippingController {
+public class ShippingPageController {
 
-    private final ShippingQueryUseCase shippingQueryUseCase;
-
-    private final RegionQueryUseCase regionQueryUseCase;
+    private final QueryShippingUseCase queryShippingUseCase;
 
     @GetMapping
     public String shipping(
@@ -32,7 +29,9 @@ public class ShippingController {
             @ModelAttribute(name = "query") ShippingQueryForm query,
             @PageableDefault Pageable pageable
     ) {
-        final Page<ShippingView> page = shippingQueryUseCase.findAll(query.toQuery(), pageable);
+
+        final Page<ShippingView> page =
+                queryShippingUseCase.findAll(query.toQuery(), pageable);
 
         model.addAttribute("page", PageView.of(page));
         return "shippings";

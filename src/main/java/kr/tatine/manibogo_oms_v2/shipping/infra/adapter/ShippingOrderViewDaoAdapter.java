@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class JpaShippingOrderViewDao implements ShippingOrderQueryPort {
+public class ShippingOrderViewDaoAdapter implements ShippingOrderQueryPort {
 
     private final EntityManager em;
 

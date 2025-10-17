@@ -1,6 +1,9 @@
 package kr.tatine.manibogo_oms_v2.shipping.query.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import kr.tatine.manibogo_oms_v2.juso.domain.JusoCode;
 import lombok.AccessLevel;

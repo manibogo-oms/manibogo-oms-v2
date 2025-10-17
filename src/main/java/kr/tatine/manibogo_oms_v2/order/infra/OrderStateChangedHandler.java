@@ -2,9 +2,9 @@ package kr.tatine.manibogo_oms_v2.order.infra;
 
 import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
 import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderStateChangedEvent;
+import kr.tatine.manibogo_oms_v2.order.query.entity.OrderStateHistory;
 import kr.tatine.manibogo_oms_v2.order.query.port.out.OrderStateHistoryQueryPort;
 import kr.tatine.manibogo_oms_v2.order.query.port.out.OrderStateHistoryStorePort;
-import kr.tatine.manibogo_oms_v2.order.query.entity.OrderStateHistory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

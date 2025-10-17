@@ -6,8 +6,6 @@ import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class ShippingFactory {
 

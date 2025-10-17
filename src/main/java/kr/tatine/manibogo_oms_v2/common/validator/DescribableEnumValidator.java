@@ -2,8 +2,8 @@ package kr.tatine.manibogo_oms_v2.common.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import kr.tatine.manibogo_oms_v2.common.converter.StringToDescribableEnumConverter;
 import kr.tatine.manibogo_oms_v2.common.converter.EnumDescriptionNotFoundException;
+import kr.tatine.manibogo_oms_v2.common.converter.StringToDescribableEnumConverter;
 import kr.tatine.manibogo_oms_v2.common.converter.TargetIsNotEnumClassException;
 
 public class DescribableEnumValidator implements ConstraintValidator<DescribableEnum, String> {

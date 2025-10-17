@@ -2,7 +2,6 @@ package kr.tatine.manibogo_oms_v2.order.query.entity;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
 import lombok.AccessLevel;
 import lombok.Getter;

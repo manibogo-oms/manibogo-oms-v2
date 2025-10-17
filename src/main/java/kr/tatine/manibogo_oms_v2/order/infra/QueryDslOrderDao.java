@@ -4,11 +4,10 @@ import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import kr.tatine.manibogo_oms_v2.order.query.entity.QOrderJuso;
-import kr.tatine.manibogo_oms_v2.order.query.port.in.OrderQueryUseCase;
 import kr.tatine.manibogo_oms_v2.order.query.dto.OrderDto;
 import kr.tatine.manibogo_oms_v2.order.query.dto.in.OrderQueryParams;
 import kr.tatine.manibogo_oms_v2.order.query.dto.in.OrderSortParam;
+import kr.tatine.manibogo_oms_v2.order.query.port.in.OrderQueryUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +22,7 @@ import java.util.Optional;
 
 import static kr.tatine.manibogo_oms_v2.order.command.domain.model.QOrder.order;
 import static kr.tatine.manibogo_oms_v2.order.query.entity.QOrderJuso.orderJuso;
-import static kr.tatine.manibogo_oms_v2.order.query.entity.QOrderStateHistory.*;
+import static kr.tatine.manibogo_oms_v2.order.query.entity.QOrderStateHistory.orderStateHistory;
 import static kr.tatine.manibogo_oms_v2.product.command.domain.QProduct.product;
 
 @Repository

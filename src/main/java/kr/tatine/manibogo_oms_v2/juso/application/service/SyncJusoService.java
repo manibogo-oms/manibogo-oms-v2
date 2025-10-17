@@ -1,14 +1,14 @@
 package kr.tatine.manibogo_oms_v2.juso.application.service;
 
 import kr.tatine.manibogo_oms_v2.common.contract.out.JusoView;
-import kr.tatine.manibogo_oms_v2.juso.domain.Juso;
-import kr.tatine.manibogo_oms_v2.juso.domain.JusoSync;
 import kr.tatine.manibogo_oms_v2.juso.application.dto.out.JusoDelta;
 import kr.tatine.manibogo_oms_v2.juso.application.port.in.SyncJusoUseCase;
 import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoDeltaPort;
+import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoStorePort;
 import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoSyncQueryPort;
 import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoSyncStorePort;
-import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoStorePort;
+import kr.tatine.manibogo_oms_v2.juso.domain.Juso;
+import kr.tatine.manibogo_oms_v2.juso.domain.JusoSync;
 import kr.tatine.manibogo_oms_v2.juso.domain.LastSyncNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

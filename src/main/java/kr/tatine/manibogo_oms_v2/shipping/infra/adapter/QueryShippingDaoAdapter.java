@@ -3,13 +3,14 @@ package kr.tatine.manibogo_oms_v2.shipping.infra.adapter;
 import com.querydsl.core.types.ConstructorExpression;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.*;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.in.ShippingQuery;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingView;
-import kr.tatine.manibogo_oms_v2.shipping.query.port.in.ShippingQueryUseCase;
+import kr.tatine.manibogo_oms_v2.shipping.query.port.in.QueryShippingUseCase;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.domain.Page;
@@ -25,7 +26,7 @@ import static kr.tatine.manibogo_oms_v2.shipping.query.entity.QShippingOrderAgg.
 
 @Repository
 @RequiredArgsConstructor
-public class QuerydslShippingDao implements ShippingQueryUseCase {
+public class QueryShippingDaoAdapter implements QueryShippingUseCase {
 
     private final JPAQueryFactory queryFactory;
 

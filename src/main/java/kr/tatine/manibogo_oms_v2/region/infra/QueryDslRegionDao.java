@@ -2,8 +2,8 @@ package kr.tatine.manibogo_oms_v2.region.infra;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import kr.tatine.manibogo_oms_v2.region.domain.Region;
 import kr.tatine.manibogo_oms_v2.region.application.port.in.RegionQueryUseCase;
+import kr.tatine.manibogo_oms_v2.region.domain.Region;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Repository;

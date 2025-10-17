@@ -2,12 +2,12 @@ package kr.tatine.manibogo_oms_v2.order.infra;
 
 import kr.tatine.manibogo_oms_v2.common.contract.out.JusoLookupPort;
 import kr.tatine.manibogo_oms_v2.common.contract.out.JusoView;
+import kr.tatine.manibogo_oms_v2.common.model.Address;
 import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
 import kr.tatine.manibogo_oms_v2.order.query.entity.OrderJuso;
 import kr.tatine.manibogo_oms_v2.order.query.port.in.OrderJusoUpsertUseCase;
 import kr.tatine.manibogo_oms_v2.order.query.port.out.OrderAddressQueryPort;
 import kr.tatine.manibogo_oms_v2.order.query.port.out.OrderJusoStorePort;
-import kr.tatine.manibogo_oms_v2.common.model.Address;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

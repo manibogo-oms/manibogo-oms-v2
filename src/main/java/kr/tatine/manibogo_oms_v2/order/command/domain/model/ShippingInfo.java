@@ -1,7 +1,12 @@
 package kr.tatine.manibogo_oms_v2.order.command.domain.model;
 
-import jakarta.persistence.*;
-import kr.tatine.manibogo_oms_v2.common.model.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import kr.tatine.manibogo_oms_v2.common.model.ChargeType;
+import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
+import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import lombok.*;
 
 @Getter

@@ -3,8 +3,6 @@ package kr.tatine.manibogo_oms_v2.common.model;
 import jakarta.persistence.Embeddable;
 import lombok.*;
 
-import java.math.BigDecimal;
-
 @Getter
 @ToString
 @Embeddable

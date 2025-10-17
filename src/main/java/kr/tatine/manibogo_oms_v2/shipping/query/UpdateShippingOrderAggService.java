@@ -1,8 +1,8 @@
 package kr.tatine.manibogo_oms_v2.shipping.query;
 
 import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
-import kr.tatine.manibogo_oms_v2.shipping.query.entity.ShippingOrderAgg;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingOrderView;
+import kr.tatine.manibogo_oms_v2.shipping.query.entity.ShippingOrderAgg;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingOrderAggStorePort;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingOrderQueryPort;
 import lombok.RequiredArgsConstructor;

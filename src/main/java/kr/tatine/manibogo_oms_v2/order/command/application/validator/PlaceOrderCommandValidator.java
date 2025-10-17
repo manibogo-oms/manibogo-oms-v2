@@ -46,7 +46,7 @@ public class PlaceOrderCommandValidator {
         }
 
         if (command.productNumber() == null || command.productNumber().isBlank()) {
-            errors.add(ValidationError.of("productNumber", "required.order.productNumber"));
+            errors.add(ValidationError.of("number", "required.order.productNumber"));
         }
 
         if (command.amount() == null) {

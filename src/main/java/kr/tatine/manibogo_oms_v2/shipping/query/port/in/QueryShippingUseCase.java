@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 
-public interface ShippingQueryUseCase {
+public interface QueryShippingUseCase {
 
     Page<ShippingView> findAll(ShippingQuery filter, Pageable pageable);
 

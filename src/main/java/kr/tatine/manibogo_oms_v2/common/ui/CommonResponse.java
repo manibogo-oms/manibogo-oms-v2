@@ -1,7 +1,10 @@
 package kr.tatine.manibogo_oms_v2.common.ui;
 
 import kr.tatine.manibogo_oms_v2.common.model.Message;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 

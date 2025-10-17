@@ -1,9 +1,12 @@
 package kr.tatine.manibogo_oms_v2.order.ui;
 
-import kr.tatine.manibogo_oms_v2.order.command.application.dto.PlaceOrderCommand;
 import kr.tatine.manibogo_oms_v2.common.model.ChargeType;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
-import lombok.*;
+import kr.tatine.manibogo_oms_v2.order.command.application.dto.PlaceOrderCommand;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;

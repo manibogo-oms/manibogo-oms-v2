@@ -2,8 +2,8 @@ package kr.tatine.manibogo_oms_v2.order.command.domain.model;
 
 import jakarta.persistence.*;
 import kr.tatine.manibogo_oms_v2.common.event.Events;
-import kr.tatine.manibogo_oms_v2.common.model.OrderState;
 import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
+import kr.tatine.manibogo_oms_v2.common.model.OrderState;
 import kr.tatine.manibogo_oms_v2.common.model.Recipient;
 import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderPlacedEvent;
 import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderShippingInfoChangedEvent;

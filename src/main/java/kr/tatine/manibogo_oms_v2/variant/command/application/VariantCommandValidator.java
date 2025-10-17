@@ -14,7 +14,7 @@ public class VariantCommandValidator {
         final List<ValidationError> errors = new ArrayList<>();
 
         if (command.productNumber() == null || command.productNumber().isBlank()) {
-            errors.add(ValidationError.of("productNumber", "notBlank.variant.productNumber"));
+            errors.add(ValidationError.of("number", "notBlank.variant.productNumber"));
         }
 
         if (command.key() == null || command.key().isBlank()) {
