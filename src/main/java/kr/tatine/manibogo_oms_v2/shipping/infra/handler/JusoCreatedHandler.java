@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.shipping.infra;
+package kr.tatine.manibogo_oms_v2.shipping.infra.handler;
 
 import kr.tatine.manibogo_oms_v2.juso.domain.JusoCreatedEvent;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.in.SyncShippingJusoCommand;

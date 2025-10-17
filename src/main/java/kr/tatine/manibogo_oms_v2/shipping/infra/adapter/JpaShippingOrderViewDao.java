@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.shipping.infra;
+package kr.tatine.manibogo_oms_v2.shipping.infra.adapter;
 
 import jakarta.persistence.EntityManager;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;

@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.shipping.infra;
+package kr.tatine.manibogo_oms_v2.shipping.infra.handler;
 
 import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
 import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderStateChangedEvent;
@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-@Component
 @RequiredArgsConstructor
-public class ShippingOrderStateChangedHandler {
+@Component("ShippingOrderStateChangedHandler")
+public class OrderStateChangedHandler {
 
     private final UpdateShippingOrderService updateShippingOrderService;
 

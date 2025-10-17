@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.shipping.infra.dto;
+package kr.tatine.manibogo_oms_v2.shipping.infra.adapter.dto;
 
 import java.util.List;
 

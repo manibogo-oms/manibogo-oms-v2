@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.shipping.infra;
+package kr.tatine.manibogo_oms_v2.shipping.infra.handler;
 
 import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderShippingInfoChangedEvent;
 import kr.tatine.manibogo_oms_v2.shipping.command.application.CreateOrBundleShippingCommand;

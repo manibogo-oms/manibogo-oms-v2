@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.shipping.infra;
+package kr.tatine.manibogo_oms_v2.shipping.infra.handler;
 
 import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
 import kr.tatine.manibogo_oms_v2.order.command.domain.event.OrderPlacedEvent;
@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-@Component
+@Component("ShippingOrderPlacedHandler")
 @RequiredArgsConstructor
-public class ShippingOrderPlacedHandler {
+public class OrderPlacedHandler {
 
     private final CreateOrBundleShippingService createOrBundleShippingService;
 

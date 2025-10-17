@@ -1,4 +1,4 @@
-package kr.tatine.manibogo_oms_v2.shipping.infra;
+package kr.tatine.manibogo_oms_v2.shipping.infra.adapter;
 
 import jakarta.persistence.EntityManager;
 import kr.tatine.manibogo_oms_v2.common.model.OrderNumber;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class JpaOrderSnapshotQueryPort implements OrderSnapshotQueryPort {
+public class JpaOrderSnapshotAdapter implements OrderSnapshotQueryPort {
 
     private final EntityManager em;
 
