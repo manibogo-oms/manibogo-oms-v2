@@ -1,5 +1,6 @@
 package kr.tatine.manibogo_oms_v2.shipping.ui.dto.in;
 
+import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
 import kr.tatine.manibogo_oms_v2.shipping.command.domain.ShippingState;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.in.DetailSearchType;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.in.ShippingQuery;
@@ -13,7 +14,9 @@ import lombok.ToString;
 @NoArgsConstructor
 public class ShippingQueryForm {
 
-    private ShippingState state;
+    private ShippingState shippingState;
+
+    private ShippingMethod shippingMethod;
 
     private DetailSearchType detailSearchType;
 
@@ -25,7 +28,7 @@ public class ShippingQueryForm {
 
     public ShippingQuery toQuery() {
         return new ShippingQuery(
-                detailSearchType, keyword, state, sido, sigungu);
+                detailSearchType, keyword, shippingState, shippingMethod, sido, sigungu);
     }
 
 }

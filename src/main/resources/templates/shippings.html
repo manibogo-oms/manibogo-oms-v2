@@ -44,6 +44,30 @@
             </div>
         </div>
 
+        <div class="d-flex gap-3 gap-lg-4 mb-3 mb-sm-0">
+            <div class="col-12 col-sm-5 col-md-auto">
+                <label th:for="shippingState" class="form-label">배송상태</label>
+                <select class="form-select mb-3 mb-lg-0" th:field="*{shippingState}">
+                    <option selected="selected" th:value="null">선택</option>
+
+                    <option th:each="shippingState : ${T(kr.tatine.manibogo_oms_v2.shipping.command.domain.ShippingState).values()}"
+                            th:value="${shippingState}"
+                            th:text="#{${T(kr.tatine.manibogo_oms_v2.common.utils.EnumI18n).key(shippingState) + '.short'}}">/option>
+                </select>
+            </div>
+
+            <div class="col-12 col-sm-5 col-md-auto">
+                <label th:for="shippingMethod" class="form-label">배송타입</label>
+                <select class="form-select mb-3 mb-lg-0" th:field="*{shippingMethod}">
+                    <option selected="selected" th:value="null">선택</option>
+
+                    <option th:each="shippingMethod : ${T(kr.tatine.manibogo_oms_v2.common.model.ShippingMethod).values()}"
+                            th:value="${shippingMethod}"
+                            th:text="${shippingMethod.getDescription()}"></option>
+                </select>
+            </div>
+        </div>
+
         <div class="d-flex">
             <div class="flex-md-grow-1"></div>
 

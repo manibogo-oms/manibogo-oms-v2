@@ -38,9 +38,9 @@ public class QueryShippingDaoAdapter implements QueryShippingUseCase {
     """;
 
     @Override
-    public Page<ShippingView> findAll(ShippingQuery filter, Pageable pageable) {
+    public Page<ShippingView> findAll(ShippingQuery query, Pageable pageable) {
 
-        final Predicate[] predicates = parseFilter(filter);
+        final Predicate[] predicates = parsequery(query);
 
         final List<ShippingView> content = queryFactory.select(serialize())
                 .from(shipping)
@@ -79,40 +79,50 @@ public class QueryShippingDaoAdapter implements QueryShippingUseCase {
         );
     }
 
-    private static Predicate[] parseFilter(ShippingQuery filter) {
-        if (filter == null) return new Predicate[0];
+    private static Predicate[] parsequery(ShippingQuery query) {
+        if (query == null) return new Predicate[0];
 
         return new Predicate[]{
-                eqState(filter),
-                parseSidoAndSigungu(filter),
-                parseDetailSearch(filter)
+                eqState(query),
+                eqMethod(query),
+                parseSidoAndSigungu(query),
+                parseDetailSearch(query)
         };
     }
 
-    private static BooleanExpression eqState(ShippingQuery filter) {
-        if (filter.state() == null) return null;
-        return shipping.state.eq(filter.state());
+    private static BooleanExpression eqState(ShippingQuery query) {
+        if (query.state() == null) return null;
+        return shipping.state.eq(query.state());
     }
 
-    private static BooleanExpression parseSidoAndSigungu(ShippingQuery filter) {
-        if (Strings.isBlank(filter.sido())) return null;
-        if (Strings.isBlank(filter.sigungu())) return shippingJuso.admCode.startsWith(filter.sido().substring(0, 2));
+    private static BooleanExpression eqMethod(ShippingQuery query) {
+        if (query.method() == null) return null;
 
-        return shippingJuso.admCode.startsWith(filter.sigungu().substring(0, 5));
+        return switch (query.method()) {
+            case DIRECT -> Expressions.booleanTemplate("type(shipping) = 'DIRECT'");
+            case PARCEL -> Expressions.booleanTemplate("type(shipping) = 'COURIER'");
+        };
     }
 
-    private static BooleanExpression parseDetailSearch(ShippingQuery filter) {
-        if (filter.detailSearchType() == null || Strings.isBlank(filter.keyword())) {
+    private static BooleanExpression parseSidoAndSigungu(ShippingQuery query) {
+        if (Strings.isBlank(query.sido())) return null;
+        if (Strings.isBlank(query.sigungu())) return shippingJuso.admCode.startsWith(query.sido().substring(0, 2));
+
+        return shippingJuso.admCode.startsWith(query.sigungu().substring(0, 5));
+    }
+
+    private static BooleanExpression parseDetailSearch(ShippingQuery query) {
+        if (query.detailSearchType() == null || Strings.isBlank(query.keyword())) {
             return null;
         }
 
-        return switch (filter.detailSearchType()) {
-            case SHIPPING_NUMBER -> shipping.number.shippingNumber.eq(filter.keyword());
-            case RECIPIENT_NAME -> shipping.recipient.name.eq(filter.keyword());
-            case RECIPIENT_TEL1 -> shipping.recipient.phoneNumber1.phoneNumber.eq(filter.keyword());
-            case RECIPIENT_TEL2 -> shipping.recipient.phoneNumber2.phoneNumber.eq(filter.keyword());
-            case ADDRESS1 -> shipping.recipient.address.address1.eq(filter.keyword());
-            case ADDRESS2 -> shipping.recipient.address.address2.eq(filter.keyword());
+        return switch (query.detailSearchType()) {
+            case SHIPPING_NUMBER -> shipping.number.shippingNumber.eq(query.keyword());
+            case RECIPIENT_NAME -> shipping.recipient.name.eq(query.keyword());
+            case RECIPIENT_TEL1 -> shipping.recipient.phoneNumber1.phoneNumber.eq(query.keyword());
+            case RECIPIENT_TEL2 -> shipping.recipient.phoneNumber2.phoneNumber.eq(query.keyword());
+            case ADDRESS1 -> shipping.recipient.address.address1.eq(query.keyword());
+            case ADDRESS2 -> shipping.recipient.address.address2.eq(query.keyword());
         };
     }
 }
