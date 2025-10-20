@@ -18,11 +18,6 @@ public class DirectShipping extends Shipping {
     }
 
     @Override
-    public void complete() {
-
-    }
-
-    @Override
     protected boolean isSameMethod(Shipping shipping) {
         return shipping instanceof DirectShipping;
     }

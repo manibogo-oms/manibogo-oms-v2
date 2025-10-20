@@ -8,7 +8,9 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
+import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.in.ShippingQuery;
+import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingOrderView;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingView;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.in.QueryShippingUseCase;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +21,10 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static kr.tatine.manibogo_oms_v2.shipping.command.domain.QShipping.shipping;
+import static kr.tatine.manibogo_oms_v2.shipping.command.domain.QShippingOrder.shippingOrder;
 import static kr.tatine.manibogo_oms_v2.shipping.query.entity.QShippingJuso.shippingJuso;
 import static kr.tatine.manibogo_oms_v2.shipping.query.entity.QShippingOrderAgg.shippingOrderAgg;
 
@@ -54,6 +58,18 @@ public class QueryShippingDaoAdapter implements QueryShippingUseCase {
         final JPAQuery<Long> countQuery = queryFactory.select(shipping.count()).from(shipping).where(predicates);
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchFirst);
+    }
+
+    @Override
+    public Optional<ShippingView> findById(ShippingNumber shippingNumber) {
+        return Optional.ofNullable(
+                queryFactory.select(serialize())
+                        .from(shipping)
+                        .join(shippingJuso).on(shippingJuso.shippingNumber.eq(shipping.number))
+                        .join(shippingOrderAgg).on(shippingOrderAgg.shippingNumber.eq(shipping.number))
+                        .where(shipping.number.eq(shippingNumber))
+                        .fetchFirst()
+        );
     }
 
     private static ConstructorExpression<ShippingView> serialize() {

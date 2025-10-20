@@ -44,12 +44,6 @@ public abstract class Shipping {
         Events.raise(new ShippingCreatedEvent(number));
     }
 
-    public void dispatch() {}
-
-    public abstract void complete();
-
-    public void revert() {}
-
     public void bundle(final Shipping shipping) throws CannotBundleShippingException {
 
         if (!isSameMethod(shipping)) {

@@ -128,7 +128,10 @@
                             <img style="width: 16px; height: 16px; filter: invert(56%) sepia(89%) saturate(2212%) hue-rotate(17deg) brightness(97%) contrast(98%);" th:case="${T(kr.tatine.manibogo_oms_v2.common.model.ShippingMethod).DIRECT}" src="/image/shipping-fast.svg" />
                             <img style="width: 16px; height: 16px; filter: invert(51%) sepia(88%) saturate(1232%) hue-rotate(105deg) brightness(95%) contrast(98%);" th:case="${T(kr.tatine.manibogo_oms_v2.common.model.ShippingMethod).PARCEL}" src="/image/box-alt.svg" />
                         </th:block>
-                        <a style="width: 140px;" class="align-middle text-center" href="#" th:text="${shipping.shippingNumber().getShippingNumber()}"></a>
+                        <a style="width: 140px;" class="align-middle text-center"
+                           th:href="|/v2/shipping/${shipping.shippingNumber().getShippingNumber()}/invoice|"
+                           onclick="window.open(this.href, 'shippingInvoice', 'width=800, height=960'); return false;"
+                           th:text="${shipping.shippingNumber().getShippingNumber()}"></a>
                     </div>
                 </td>
                 <td class="text-start" th:text="${shipping.primaryOrderProduct() ?: '없음'} + ' (수량: ' + ${shipping.primaryOrderQuantity() ?: '0'} + '개)'"></td>

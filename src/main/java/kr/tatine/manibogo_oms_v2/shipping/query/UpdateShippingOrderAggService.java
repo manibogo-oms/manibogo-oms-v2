@@ -4,7 +4,7 @@ import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingOrderView;
 import kr.tatine.manibogo_oms_v2.shipping.query.entity.ShippingOrderAgg;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingOrderAggStorePort;
-import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingOrderQueryPort;
+import kr.tatine.manibogo_oms_v2.shipping.query.port.in.QueryShippingOrderUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -19,13 +19,13 @@ public class UpdateShippingOrderAggService {
 
     private final ShippingOrderAggStorePort aggStorePort;
 
-    private final ShippingOrderQueryPort shippingOrderViewDao;
+    private final QueryShippingOrderUseCase queryShippingOrderUseCase;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void update(ShippingNumber shippingNumber) {
 
         final List<ShippingOrderView> viewList =
-                shippingOrderViewDao.findAllByShippingNumber(shippingNumber);
+                queryShippingOrderUseCase.findAllByShippingNumber(shippingNumber);
 
         final ShippingOrderAgg orderAgg = new ShippingOrderAgg(shippingNumber);
 

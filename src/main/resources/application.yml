@@ -14,6 +14,8 @@ spring:
     web:
       pageable:
         max-page-size: 50
+        one-indexed-parameters: true
+
   jpa:
     open-in-view: false
     properties:
