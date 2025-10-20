@@ -27,8 +27,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, RememberMeServices rememberMeServices) throws Exception {
         http.authorizeHttpRequests(request -> request
-                .requestMatchers("/v2/orders", "/v2/orders/**", "/v2/products", "/v2/products/**", "/v2/synchronize/**", "/v2/members", "/v2/members/**", "/v2/shipping/**", "/v2/regions/**").hasRole("ADMIN")
-                .requestMatchers("/v2/logistics", "/v2/logistics/**").hasAnyRole("ADMIN", "LOGISTICS")
+                .requestMatchers("/v2/orders", "/v2/orders/**", "/v2/products", "/v2/products/**", "/v2/synchronize/**", "/v2/members", "/v2/members/**", "/v2/regions/**").hasRole("ADMIN")
+                .requestMatchers("/v2/shipping", "/v2/shipping/**").hasAnyRole("ADMIN", "LOGISTICS")
                 .requestMatchers("/error", "/image/**", "/js/**", "/css/**", "/actuator/**").permitAll())
                 .formLogin(Customizer.withDefaults())
                 .rememberMe(rmc -> rmc.rememberMeServices(rememberMeServices));

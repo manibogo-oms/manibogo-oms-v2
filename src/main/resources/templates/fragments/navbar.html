@@ -41,8 +41,8 @@
                 </li>
                 <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'LOGISTICS')">
                     <a class="nav-link"
-                       href="/v2/logistics"
-                       th:classappend="${path.startsWith('/v2/logistics') ? 'active' : ''}">
+                       href="/v2/shipping"
+                       th:classappend="${path.startsWith('/v2/shipping') ? 'active' : ''}">
                        배송조회
                     </a>
                 </li>
