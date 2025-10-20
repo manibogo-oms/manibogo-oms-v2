@@ -4,6 +4,7 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import kr.tatine.manibogo_oms_v2.common.model.ChargeType;
 import kr.tatine.manibogo_oms_v2.common.model.Recipient;
+import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -19,13 +20,13 @@ public class CourierShipping extends Shipping {
 
     private String trackingNumber;
 
-    public CourierShipping(ShippingNumber number, ChargeType chargeType, Recipient recipient) {
-        super(number, chargeType, recipient);
+    public CourierShipping(ShippingNumber number, ChargeType chargeType, Recipient recipient, String customerMessage) {
+        super(number, chargeType, recipient, customerMessage);
     }
 
     @Override
-    protected boolean isSameMethod(Shipping shipping) {
-        return shipping instanceof CourierShipping;
+    protected boolean isSameMethod(final ShippingMethod method) {
+        return method.equals(ShippingMethod.PARCEL);
     }
 
     public void registerTrackingInfo(final String courierName, final String trackingNumber) {

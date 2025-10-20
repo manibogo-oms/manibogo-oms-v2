@@ -11,5 +11,6 @@ public record OrderSnapshot(
         ChargeType chargeType,
         Recipient recipient,
         ProductNumber productNumber,
-        Integer amount
+        Integer amount,
+        String customerMessage
 ) { }

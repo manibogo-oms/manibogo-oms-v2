@@ -13,11 +13,12 @@ public class ShippingFactory {
             ShippingMethod method,
             ShippingNumber shippingNumber,
             ChargeType chargeType,
-            Recipient recipient
+            Recipient recipient,
+            String customerMessage
     ) {
         return switch (method) {
-            case DIRECT -> new DirectShipping(shippingNumber, chargeType, recipient);
-            case PARCEL -> new CourierShipping(shippingNumber, chargeType, recipient);
+            case DIRECT -> new DirectShipping(shippingNumber, chargeType, recipient, customerMessage);
+            case PARCEL -> new CourierShipping(shippingNumber, chargeType, recipient, customerMessage);
         };
     }
 

@@ -27,7 +27,8 @@ public class JpaOrderSnapshotAdapter implements OrderSnapshotQueryPort {
                     o.shippingInfo.chargeType,
                     o.recipient,
                     o.product.productNumber,
-                    o.product.amount
+                    o.product.amount,
+                    o.customer.message
                 ) FROM Order o WHERE o.number = :orderNumber
         """, OrderSnapshot.class).setParameter("orderNumber", orderNumber).getSingleResult());
     }

@@ -25,9 +25,15 @@ public class QCourierShipping extends EntityPathBase<CourierShipping> {
     public final QShipping _super;
 
     //inherited
+    public final StringPath adminMemo;
+
+    //inherited
     public final EnumPath<kr.tatine.manibogo_oms_v2.common.model.ChargeType> chargeType;
 
     public final StringPath courierName = createString("courierName");
+
+    //inherited
+    public final StringPath customerMessage;
 
     // inherited
     public final kr.tatine.manibogo_oms_v2.common.model.QShippingNumber number;
@@ -62,7 +68,9 @@ public class QCourierShipping extends EntityPathBase<CourierShipping> {
     public QCourierShipping(Class<? extends CourierShipping> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this._super = new QShipping(type, metadata, inits);
+        this.adminMemo = _super.adminMemo;
         this.chargeType = _super.chargeType;
+        this.customerMessage = _super.customerMessage;
         this.number = _super.number;
         this.orders = _super.orders;
         this.recipient = _super.recipient;

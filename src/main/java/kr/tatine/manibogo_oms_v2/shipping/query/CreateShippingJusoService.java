@@ -6,6 +6,7 @@ import kr.tatine.manibogo_oms_v2.common.model.Address;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import kr.tatine.manibogo_oms_v2.shipping.query.entity.ShippingJuso;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingAddressQueryPort;
+import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingJusoQueryPort;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.out.ShippingJusoStorePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,10 +21,16 @@ public class CreateShippingJusoService {
 
     private final JusoLookupPort jusoLookupPort;
 
+    private final ShippingJusoQueryPort shippingJusoQueryPort;
+
     private final ShippingJusoStorePort shippingJusoStorePort;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void create(ShippingNumber shippingNumber) {
+
+        if (shippingJusoQueryPort.findByShippingNumber(shippingNumber).isPresent()) {
+            return;
+        }
 
         final Address address = addressQueryPort
                 .findByNumber(shippingNumber)
@@ -33,7 +40,7 @@ public class CreateShippingJusoService {
                 .orElseThrow(() -> new RuntimeException(getBaseMessage(shippingNumber) + "주소 정보 조회 실패!"));
 
         final ShippingJuso shippingJuso =
-                new ShippingJuso(shippingNumber, juso.jusoCode(), juso.admCode(), juso.sido(), juso.sigungu());
+                new ShippingJuso(shippingNumber, juso.address(), juso.jusoCode(), juso.admCode(), juso.sido(), juso.sigungu());
 
         shippingJusoStorePort.save(shippingJuso);
     }

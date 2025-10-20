@@ -18,22 +18,13 @@ public class LookupJusoService implements JusoLookupPort {
 
     private final List<JusoQueryPort> queryPorts;
 
-    private final JusoStorePort storePort;
-
     @Override
     public Optional<JusoView> lookup(Address address) {
         for (final JusoQueryPort queryPort : queryPorts) {
             final Optional<JusoView> result = queryPort.findByAddress(address.getAddress1());
-            if (result.isPresent()) {
-                storePort.save(deserialize(result.get()));
-                return result;
-            }
+            if (result.isPresent()) return result;
         }
         return Optional.empty();
-    }
-
-    private static Juso deserialize(JusoView juso) {
-        return new Juso(juso.jusoCode(), juso.admCode(), juso.address(), juso.sido(), juso.sigungu());
     }
 
 }

@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>마니보고 주문관리 서비스 V2 - 배송 상세조회</title>
+  <title>마니보고 주문관리 서비스 V2 - 배송 인보이스</title>
 </head>
 <body><section>
   <table id="tableInvoice" class="table small text-center table-bordered w-100 h-100">
@@ -64,7 +64,7 @@
       <td th:text="#{${T(kr.tatine.manibogo_oms_v2.common.utils.EnumI18n).key(shipping.shippingMethod())}}"></td>
 
       <th colspan="1" class="table-light">운임타입</th>
-      <td colspan="1">착불</td>
+      <td th:text="#{${T(kr.tatine.manibogo_oms_v2.common.utils.EnumI18n).key(shipping.chargeType())}}"></td>
     </tr>
 
     <tr>

@@ -24,29 +24,31 @@ public class CreateOrBundleShippingService {
                 .findByNumber(command.orderNumber())
                 .orElseThrow(ShippingNotFoundException::new);
 
-        final Shipping newShipping = shippingFactory.create(
-                snapshot.shippingMethod(), snapshot.shippingNumber(), snapshot.chargeType(), snapshot.recipient());
-
-        final ShippingOrder shippingOrder =
-                new ShippingOrder(snapshot.orderNumber(), snapshot.orderState(), snapshot.productNumber(), snapshot.amount());
+        final ShippingOrder shippingOrder = new ShippingOrder(
+                snapshot.orderNumber(), snapshot.orderState(), snapshot.productNumber(), snapshot.amount());
 
         shippingRepository
                 .findByShippingOrderNumber(command.orderNumber())
                 .ifPresent(shipping -> shipping.removeOrder(command.orderNumber()));
 
-        shippingRepository
+        final Shipping shipping = shippingRepository
                 .findById(snapshot.shippingNumber())
-                .ifPresentOrElse(
-                        shipping -> {
-                            shipping.bundle(newShipping);
-                            shipping.addOrder(shippingOrder);
-                        },
-                        () -> {
-                            shippingRepository.save(newShipping);
-                            newShipping.addOrder(shippingOrder);
-                        }
-                );
+                .orElseGet(() -> shippingRepository.save(createShipping(snapshot)));
 
+        shipping.bundle(snapshot.shippingMethod(), snapshot.chargeType(), snapshot.recipient());
+        shipping.addOrder(shippingOrder);
+
+        shippingRepository.save(shipping);
+    }
+
+    private Shipping createShipping(OrderSnapshot snapshot) {
+        return shippingFactory.create(
+                snapshot.shippingMethod(),
+                snapshot.shippingNumber(),
+                snapshot.chargeType(),
+                snapshot.recipient(),
+                snapshot.customerMessage()
+        );
     }
 
 

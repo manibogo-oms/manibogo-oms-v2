@@ -5,6 +5,8 @@ import kr.tatine.manibogo_oms_v2.juso.application.port.out.JusoQueryPort;
 import kr.tatine.manibogo_oms_v2.juso.domain.JusoCode;
 import kr.tatine.manibogo_oms_v2.shipping.infra.adapter.dto.JusoApiSearchResponse;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Repository;
@@ -29,10 +31,6 @@ public class JusoApiClient implements JusoQueryPort {
 
     @Override
     public Optional<JusoView> findByAddress(String address) {
-        return fetchJusoByAddress(address);
-    }
-
-    private Optional<JusoView> fetchJusoByAddress(String address) {
         final URI uri = UriComponentsBuilder
                 .fromUriString("https://business.juso.go.kr/addrlink/addrLinkApi.do")
                 .queryParam("currentPage", "1")
@@ -62,8 +60,10 @@ public class JusoApiClient implements JusoQueryPort {
     }
 
     private static JusoCode createJusoCode(JusoApiSearchResponse.Results.Juso juso) {
-        return JusoCode.of(juso.sggNm(), juso.emdNo(), juso.rnMgtSn(), juso.udrtYn(), juso.buldMnnm(), juso.buldSlno());
-    }
+        final String sggCode = juso.rnMgtSn().substring(0, 4);
+        final String roadNo = juso.rnMgtSn().substring(5);
 
+        return JusoCode.of(sggCode, juso.emdNo(), roadNo, juso.udrtYn(), juso.buldMnnm(), juso.buldSlno());
+    }
 
 }

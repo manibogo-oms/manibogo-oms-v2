@@ -22,7 +22,11 @@ public class QShipping extends EntityPathBase<Shipping> {
 
     public static final QShipping shipping = new QShipping("shipping");
 
+    public final StringPath adminMemo = createString("adminMemo");
+
     public final EnumPath<kr.tatine.manibogo_oms_v2.common.model.ChargeType> chargeType = createEnum("chargeType", kr.tatine.manibogo_oms_v2.common.model.ChargeType.class);
+
+    public final StringPath customerMessage = createString("customerMessage");
 
     public final kr.tatine.manibogo_oms_v2.common.model.QShippingNumber number;
 

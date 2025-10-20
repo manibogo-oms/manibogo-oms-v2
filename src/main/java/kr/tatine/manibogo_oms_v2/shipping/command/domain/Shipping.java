@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -33,28 +34,34 @@ public abstract class Shipping {
     @Embedded
     private Recipient recipient;
 
+    private String customerMessage;
+
+    private String adminMemo;
+
     @ElementCollection
     @CollectionTable(name = "shipping_orders", joinColumns = @JoinColumn(name = "shipping_number"))
     private List<ShippingOrder> orders = new ArrayList<>();
 
-    public Shipping(ShippingNumber number, ChargeType chargeType, Recipient recipient) {
+    public Shipping(ShippingNumber number, ChargeType chargeType, Recipient recipient, String customerMessage) {
         this.number = number;
         this.chargeType = chargeType;
         this.recipient = recipient;
+        this.customerMessage = customerMessage;
+
         Events.raise(new ShippingCreatedEvent(number));
     }
 
-    public void bundle(final Shipping shipping) throws CannotBundleShippingException {
+    public void bundle(ShippingMethod method, ChargeType chargeType, Recipient recipient) throws CannotBundleShippingException {
 
-        if (!isSameMethod(shipping)) {
+        if (!isSameMethod(method)) {
             throw new CannotBundleShippingException("mismatch.shipping.method");
         }
 
-        if (!Objects.equals(getChargeType(), shipping.getChargeType())) {
+        if (!Objects.equals(getChargeType(), chargeType)) {
             throw new CannotBundleShippingException("mismatch.shipping.chargeType");
         }
 
-        if (!Objects.equals(getRecipient(), shipping.getRecipient())) {
+        if (!Objects.equals(getRecipient(), recipient)) {
             throw new CannotBundleShippingException("mismatch.shipping.recipient");
         }
     }
@@ -146,7 +153,7 @@ public abstract class Shipping {
 
     }
 
-    protected abstract boolean isSameMethod(final Shipping shipping);
+    protected abstract boolean isSameMethod(final ShippingMethod method);
 
 
 }

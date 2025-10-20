@@ -10,7 +10,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingMethod;
 import kr.tatine.manibogo_oms_v2.common.model.ShippingNumber;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.in.ShippingQuery;
-import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingOrderView;
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingView;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.in.QueryShippingUseCase;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static kr.tatine.manibogo_oms_v2.shipping.command.domain.QShipping.shipping;
-import static kr.tatine.manibogo_oms_v2.shipping.command.domain.QShippingOrder.shippingOrder;
 import static kr.tatine.manibogo_oms_v2.shipping.query.entity.QShippingJuso.shippingJuso;
 import static kr.tatine.manibogo_oms_v2.shipping.query.entity.QShippingOrderAgg.shippingOrderAgg;
 
@@ -77,6 +75,7 @@ public class QueryShippingDaoAdapter implements QueryShippingUseCase {
                 ShippingView.class,
                 shipping.number.as("shippingNumber"),
                 Expressions.template(ShippingMethod.class, SHIPPING_METHOD_EXPR).as("shippingMethod"),
+                shipping.chargeType,
                 shipping.state.as("shippingState"),
                 shippingOrderAgg.primaryOrderNumber,
                 shippingOrderAgg.primaryOrderState,
