@@ -21,5 +21,6 @@ public record ShippingView(
         String zipCode,
         String recipientName,
         String recipientTel1,
-        String recipientTel2
+        String recipientTel2,
+        String customerMessage
 ) { }

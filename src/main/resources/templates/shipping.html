@@ -103,18 +103,19 @@
 <div class="table-responsive">
     <table class="table table-striped text-center small align-middle w-100 text-nowrap" style="display: block; margin-bottom: 0 !important;">
         <thead class="table-light">
-        <tr>
-            <th scope="col">상태</th>
-            <th scope="col" style="min-width: 160px;">배송번호</th>
-            <th scope="col" class="w-100">대표물품</th>
-            <th scope="col">주문수</th>
-            <th scope="col">총수량</th>
-            <th scope="col">시/도</th>
-            <th scope="col">시/군/구</th>
-            <th scope="col">수취인</th>
-            <th scope="col">고객메세지</th>
-            <th scope="col">배송메모</th>
-        </tr>
+            <tr>
+                <th scope="col">상태</th>
+                <th scope="col" style="min-width: 160px;">배송번호</th>
+                <th scope="col" class="w-100">대표물품</th>
+                <th scope="col">주문수</th>
+                <th scope="col">총수량</th>
+                <th scope="col">희망배송일</th>
+                <th scope="col">시/도</th>
+                <th scope="col">시/군/구</th>
+                <th scope="col">수취인</th>
+                <th scope="col">고객메세지</th>
+                <th scope="col">배송메모</th>
+            </tr>
         </thead>
         <tbody>
         <th:block th:each="shipping : ${page.content()}">
@@ -139,11 +140,12 @@
                     <a href="#" th:text="|${shipping.totalOrderCount() ?: '0'}건|"></a>
                 </td>
                 <td th:text="|${shipping.totalOrderQuantity() ?: '0'}개|"></td>
+                <td>2025-10-21</td>
                 <td th:text="${shipping.sido()}"></td>
                 <td th:text="${shipping.sigungu()}"></td>
                 <td th:text="${shipping.recipientName()}"></td>
-                <td></td>
-                <td></td>
+                <td class="text-start" th:text="${shipping.customerMessage()}"></td>
+                <td class="text-start"></td>
             </tr>
         </th:block>
         </tbody>

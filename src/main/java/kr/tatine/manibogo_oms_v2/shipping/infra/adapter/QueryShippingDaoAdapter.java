@@ -90,7 +90,8 @@ public class QueryShippingDaoAdapter implements QueryShippingUseCase {
                 shipping.recipient.address.zipCode.as("zipCode"),
                 shipping.recipient.name.as("recipientName"),
                 shipping.recipient.phoneNumber1.phoneNumber.as("recipientTel1"),
-                shipping.recipient.phoneNumber2.phoneNumber.as("recipientTel2")
+                shipping.recipient.phoneNumber2.phoneNumber.as("recipientTel2"),
+                shipping.customerMessage
         );
     }
 
