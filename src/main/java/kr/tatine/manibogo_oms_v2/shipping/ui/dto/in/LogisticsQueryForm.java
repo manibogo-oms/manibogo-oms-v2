@@ -12,11 +12,9 @@ import lombok.ToString;
 @ToString
 @Getter @Setter
 @NoArgsConstructor
-public class ShippingQueryForm {
+public class LogisticsQueryForm {
 
     private ShippingState shippingState;
-
-    private ShippingMethod shippingMethod;
 
     private DetailSearchType detailSearchType;
 
@@ -28,7 +26,7 @@ public class ShippingQueryForm {
 
     public ShippingQuery toQuery() {
         return new ShippingQuery(
-                detailSearchType, keyword, shippingState, shippingMethod, sido, sigungu);
+                detailSearchType, keyword, shippingState, ShippingMethod.DIRECT, sido, sigungu);
     }
 
 }

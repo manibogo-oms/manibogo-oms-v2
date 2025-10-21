@@ -52,18 +52,7 @@
 
                     <option th:each="shippingState : ${T(kr.tatine.manibogo_oms_v2.shipping.command.domain.ShippingState).values()}"
                             th:value="${shippingState}"
-                            th:text="#{${T(kr.tatine.manibogo_oms_v2.common.utils.EnumI18n).key(shippingState) + '.short'}}">/option>
-                </select>
-            </div>
-
-            <div class="col-12 col-sm-6 col-md-auto">
-                <label th:for="shippingMethod" class="form-label">배송타입</label>
-                <select class="form-select mb-3 mb-md-0" th:field="*{shippingMethod}">
-                    <option selected="selected" th:value="null">선택</option>
-
-                    <option th:each="shippingMethod : ${T(kr.tatine.manibogo_oms_v2.common.model.ShippingMethod).values()}"
-                            th:value="${shippingMethod}"
-                            th:text="${shippingMethod.getDescription()}"></option>
+                            th:text="#{${T(kr.tatine.manibogo_oms_v2.common.utils.EnumI18n).key(shippingState)}}">/option>
                 </select>
             </div>
 
@@ -105,9 +94,8 @@
         <thead class="table-light">
             <tr>
                 <th scope="col">상태</th>
-                <th scope="col" style="min-width: 160px;">배송번호</th>
+                <th scope="col">배송번호</th>
                 <th scope="col" class="w-100">대표물품</th>
-                <th scope="col">주문수</th>
                 <th scope="col">총수량</th>
                 <th scope="col">희망배송일</th>
                 <th scope="col">시/도</th>
@@ -121,24 +109,18 @@
         <th:block th:each="shipping : ${page.content()}">
             <tr>
                 <td>
-                    <div class="d-inline-flex px-2 py-1 border bg-white rounded-2" th:text="#{${T(kr.tatine.manibogo_oms_v2.common.utils.EnumI18n).key(shipping.shippingState()) + '.short'}}"></div>
-                </td>
-                <td>
-                    <div class="d-flex justify-content-center align-items-center gap-2">
-                        <th:block th:switch="${shipping.shippingMethod()}">
-                            <img style="width: 16px; height: 16px; filter: invert(56%) sepia(89%) saturate(2212%) hue-rotate(17deg) brightness(97%) contrast(98%);" th:case="${T(kr.tatine.manibogo_oms_v2.common.model.ShippingMethod).DIRECT}" src="/image/shipping-fast.svg" />
-                            <img style="width: 16px; height: 16px; filter: invert(51%) sepia(88%) saturate(1232%) hue-rotate(105deg) brightness(95%) contrast(98%);" th:case="${T(kr.tatine.manibogo_oms_v2.common.model.ShippingMethod).PARCEL}" src="/image/box-alt.svg" />
-                        </th:block>
-                        <a style="width: 140px;" class="align-middle text-center"
-                           th:href="|/v2/shipping/${shipping.shippingNumber().getShippingNumber()}/invoice|"
-                           onclick="window.open(this.href, 'shippingInvoice', 'width=800, height=960'); return false;"
-                           th:text="${shipping.shippingNumber().getShippingNumber()}"></a>
+                    <div class="d-inline-flex px-2 py-1 border bg-white rounded-2"
+                         th:text="#{${T(kr.tatine.manibogo_oms_v2.common.utils.EnumI18n).key(shipping.shippingState()) + '.short'}}">
                     </div>
                 </td>
-                <td class="text-start" th:text="${shipping.primaryOrderProduct() ?: '없음'} + ' (수량: ' + ${shipping.primaryOrderQuantity() ?: '0'} + '개)'"></td>
                 <td>
-                    <a href="#" th:text="|${shipping.totalOrderCount() ?: '0'}건|"></a>
+                    <a style="width: 140px;" class="align-middle text-center"
+                       th:href="|/v2/logistics/${shipping.shippingNumber().getShippingNumber()}/invoice|"
+                       onclick="window.open(this.href, 'shippingInvoice', 'width=800, height=960'); return false;"
+                       th:text="${shipping.shippingNumber().getShippingNumber()}">
+                    </a>
                 </td>
+                <td class="text-start" th:text="${shipping.primaryOrderProduct() ?: '없음'} + ' (수량: ' + ${shipping.primaryOrderQuantity() ?: '0'} + '개)'"></td>
                 <td th:text="|${shipping.totalOrderQuantity() ?: '0'}개|"></td>
                 <td>2025-10-21</td>
                 <td th:text="${shipping.sido()}"></td>

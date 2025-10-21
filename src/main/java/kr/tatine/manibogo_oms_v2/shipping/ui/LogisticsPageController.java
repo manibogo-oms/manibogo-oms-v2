@@ -6,7 +6,7 @@ import kr.tatine.manibogo_oms_v2.shipping.command.domain.ShippingNotFoundExcepti
 import kr.tatine.manibogo_oms_v2.shipping.query.dto.out.ShippingView;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.in.QueryShippingOrderUseCase;
 import kr.tatine.manibogo_oms_v2.shipping.query.port.in.QueryShippingUseCase;
-import kr.tatine.manibogo_oms_v2.shipping.ui.dto.in.ShippingQueryForm;
+import kr.tatine.manibogo_oms_v2.shipping.ui.dto.in.LogisticsQueryForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -21,32 +21,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @Controller
-@RequestMapping("/v2/shipping")
+@RequestMapping("/v2/logistics")
 @RequiredArgsConstructor
-public class ShippingPageController {
+public class LogisticsPageController {
 
     private final QueryShippingUseCase queryShippingUseCase;
 
     private final QueryShippingOrderUseCase queryShippingOrderUseCase;
 
     @GetMapping
-    public String shipping(
-            Model model,
-            @ModelAttribute(name = "query") ShippingQueryForm query,
-            @PageableDefault Pageable pageable
-    ) {
+    public String logistics(Model model,
+            @ModelAttribute(name = "query") LogisticsQueryForm form,
+            @PageableDefault Pageable pageable) {
+
         final Page<ShippingView> page =
-                queryShippingUseCase.findAll(query.toQuery(), pageable);
+                queryShippingUseCase.findAll(form.toQuery(), pageable);
 
         model.addAttribute("page", PageView.of(page));
-        return "shipping";
+        return "logistics";
     }
 
     @GetMapping("/{shippingNumber}/invoice")
-    public String shippingInvoice(
+    public String invoice(
             Model model,
-            @PathVariable String shippingNumber
-    ) {
+            @PathVariable String shippingNumber) {
+
         final ShippingNumber number = new ShippingNumber(shippingNumber);
 
         model.addAttribute("shippingOrders",
@@ -56,7 +55,7 @@ public class ShippingPageController {
                 queryShippingUseCase.findById(number)
                         .orElseThrow(ShippingNotFoundException::new));
 
-        return "shipping_invoice";
+        return "logistics_invoice";
     }
 
 
