@@ -25,6 +25,13 @@
                         주문관리
                     </a>
                 </li>
+                <li class="nav-item"  sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link"
+                       href="/v2/shipping"
+                       th:classappend="${path.startsWith('/v2/shipping') ? 'active' : ''}">
+                        배송관리
+                    </a>
+                </li>
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link"
                        href="/v2/products"

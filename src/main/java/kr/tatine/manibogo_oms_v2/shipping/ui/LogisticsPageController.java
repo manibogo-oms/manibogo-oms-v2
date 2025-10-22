@@ -38,7 +38,7 @@ public class LogisticsPageController {
                 queryShippingUseCase.findAll(form.toQuery(), pageable);
 
         model.addAttribute("page", PageView.of(page));
-        return "logistics";
+        return "shipping/logistics";
     }
 
     @GetMapping("/{shippingNumber}/invoice")
@@ -55,7 +55,7 @@ public class LogisticsPageController {
                 queryShippingUseCase.findById(number)
                         .orElseThrow(ShippingNotFoundException::new));
 
-        return "logistics_invoice";
+        return "shipping/logistics_invoice";
     }
 
 
